@@ -11,7 +11,7 @@ import java.util.Stack;
 /**
  * Manage a board, including swapping tiles, checking for a win, and managing taps.
  */
-class BoardManager extends Game implements Serializable, GameFeature {
+class BoardManager implements Serializable, GameFeature {
 
     /**
      * The board being managed.
@@ -52,7 +52,10 @@ class BoardManager extends Game implements Serializable, GameFeature {
      * Manage a new shuffled board.
      */
     BoardManager(int num) {
-        super();
+        countMove = 0;
+        elapsedTime = 0;
+        saveMove = new Stack<>();
+
         List<Tile> tiles = new ArrayList<>();
         final int numTiles = num * num;
         for (int tileNum = 0; tileNum != numTiles - 1; tileNum++) {
