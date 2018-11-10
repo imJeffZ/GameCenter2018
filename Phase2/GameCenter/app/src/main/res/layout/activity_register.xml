@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bgm3"
+    tools:context=".RegisterActivity">
+
+    <EditText
+        android:id="@+id/Usernameregister"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/passwordregister"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginBottom="393dp"
+        android:ems="10"
+        android:hint="Your UserName here"
+        android:inputType="none" />
+
+    <EditText
+        android:id="@+id/passwordregister"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="104dp"
+        android:layout_marginTop="321dp"
+        android:ems="10"
+        android:hint="Your PassWord here"
+        android:inputType="none"
+        tools:layout_editor_absoluteX="110dp"
+        tools:layout_editor_absoluteY="73dp" />
+
+    <Button
+        android:id="@+id/confirmRegister"
+        android:layout_width="105dp"
+        android:layout_height="58dp"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="150dp"
+        android:text="Sign up"
+        android:background="@drawable/button_style3"
+        tools:layout_editor_absoluteX="139dp"
+        tools:layout_editor_absoluteY="384dp" />
+</RelativeLayout>

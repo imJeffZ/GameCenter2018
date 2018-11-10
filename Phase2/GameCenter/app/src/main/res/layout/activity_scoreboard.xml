@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bgm_for_score"
+    android:orientation="vertical"
+    tools:context="fall18_207project.GameCenter.ScoreBoardActivity">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="?android:attr/windowTitleSize"
+        android:background="#41807c7c"
+        android:fontFamily="sans-serif"
+        android:text="ScoreBoard"
+        android:textAlignment="center"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="40sp"
+        android:textStyle="bold"
+        android:typeface="normal" />
+
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#c0ce42"
+        android:padding="5dip"/>
+
+    <ListView
+        android:id="@+id/scoreBoardView"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:dividerHeight="1dp"
+        android:scrollbars="vertical" />
+</LinearLayout>

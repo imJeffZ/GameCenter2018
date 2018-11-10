@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/back_image"
+    tools:context="fall18_207project.GameCenter.GameCenterActivity">
+
+    <TextView
+        android:id="@+id/Hiuser"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="11dp"
+        android:layout_marginRight="9dp"
+        android:layout_marginBottom="-50dp"
+        android:layout_toLeftOf="@+id/logOutBtn"
+        android:textSize="17dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/GameText"
+        android:layout_width="322dp"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/ButtonGame"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="44dp"
+        android:layout_marginBottom="90dp"
+        android:gravity="center"
+        android:text="Welcome to Game Center !"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:textSize="50dp"
+        android:textColor="#c4f8b808"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/ButtonScore"
+        android:layout_width="140dp"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="205dp"
+        android:background="@drawable/button_style"
+        android:gravity="center"
+        android:text="ScoreBoard" />
+
+    <Button
+        android:id="@+id/ButtonGame"
+        android:layout_width="140dp"
+        android:layout_height="50dp"
+        android:layout_above="@+id/ButtonScore"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="30dp"
+        android:background="@drawable/button_style"
+        android:gravity="center"
+        android:text="SlidingTile Game" />
+    <Button
+        android:id="@+id/logOutBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:gravity="center"
+        android:background="#00ffffff"
+        android:text="log out"
+        android:textColor="@android:color/holo_blue_dark" />
+
+
+
+</RelativeLayout>
