@@ -180,7 +180,7 @@ public class GameActivity extends AppCompatActivity implements Observer {
         mChrono.stop();
 
         saveToFile(StartingActivity.TEMP_SAVE_FILENAME);
-        boardManager.elapsedTime = 0;
+        boardManager.resetElapsedTime();
     }
 
     @Override
@@ -190,7 +190,7 @@ public class GameActivity extends AppCompatActivity implements Observer {
         mChrono.stop();
 
         saveToFile(StartingActivity.CURRENT_ACCOUNT + StartingActivity.AUTO_SAVE_FILENAME);
-        boardManager.elapsedTime = 0;
+        boardManager.resetElapsedTime();
     }
 
     /**
@@ -205,9 +205,9 @@ public class GameActivity extends AppCompatActivity implements Observer {
             if (inputStream != null) {
                 ObjectInputStream input = new ObjectInputStream(inputStream);
                 boardManager = (BoardManager) input.readObject();
-                if (boardManager.elapsedTime != 0) {
+                if (boardManager.getElapsedTime() != 0) {
                     mContext = this;
-                    mChrono = new GameChronometer(mContext, System.currentTimeMillis() - boardManager.elapsedTime);
+                    mChrono = new GameChronometer(mContext, System.currentTimeMillis() - boardManager.getElapsedTime());
                     mThreadChrono = new Thread(mChrono);
                     mThreadChrono.start();
                     mChrono.start();

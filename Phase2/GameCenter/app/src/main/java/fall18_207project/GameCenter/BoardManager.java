@@ -11,7 +11,7 @@ import java.util.Stack;
 /**
  * Manage a board, including swapping tiles, checking for a win, and managing taps.
  */
-class BoardManager implements Serializable, GameFeature {
+class BoardManager extends Game implements Serializable, GameFeature {
 
     /**
      * The board being managed.
@@ -52,6 +52,7 @@ class BoardManager implements Serializable, GameFeature {
      * Manage a new shuffled board.
      */
     BoardManager(int num) {
+        super();
         List<Tile> tiles = new ArrayList<>();
         final int numTiles = num * num;
         for (int tileNum = 0; tileNum != numTiles - 1; tileNum++) {
@@ -61,11 +62,6 @@ class BoardManager implements Serializable, GameFeature {
 
         shuffleBoard(tiles, num);
         this.board = new Board(tiles, num);
-        this.countMove = 0;
-
-        this.elapsedTime = 0;
-
-        this.saveMove = new Stack<>();
     }
 
     private void shuffleBoard(List<Tile> winBoard, int num) {
@@ -108,6 +104,13 @@ class BoardManager implements Serializable, GameFeature {
         return solved;
     }
 
+    void resetElapsedTime() {
+        this.elapsedTime = 0;
+    }
+
+    long getElapsedTime() {
+        return this.elapsedTime;
+    }
     /**
      * Return whether any of the four surrounding tiles is the blank tile.
      *
@@ -192,4 +195,8 @@ class BoardManager implements Serializable, GameFeature {
         return (tile != null && tile.getId() == blankId);
     }
 
+    @Override
+    public String toString() {
+        return board.getNUM_COLS() + " X " + board.getNUM_ROWS() + " SlidingTiles";
+    }
 }
