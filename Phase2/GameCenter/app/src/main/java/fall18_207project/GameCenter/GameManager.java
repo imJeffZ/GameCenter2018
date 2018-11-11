@@ -25,8 +25,14 @@ public class GameManager implements Serializable {
         this.gameList.add(newGame);
     }
 
-    boolean deleteGame(Game targetGame) {
-        return this.gameList.remove(targetGame);
+    boolean deleteGame(int saveId) {
+        for (Game game : this.gameList) {
+            if (game.getSaveId() == saveId) {
+                this.gameList.remove(game);
+                return true;
+            }
+        }
+        return false;
     }
 
     Game getGame(int saveId) {
@@ -45,5 +51,9 @@ public class GameManager implements Serializable {
             }
         }
         return false;
+    }
+
+    void clear() {
+        this.gameList.clear();
     }
 }
