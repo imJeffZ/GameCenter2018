@@ -27,7 +27,7 @@ public class GameActivity extends AppCompatActivity implements Observer {
     /**
      * The board manager.
      */
-    private BoardManager boardManager;
+    private SlidingTiles slidingTiles;
 
     /**
      * The buttons to display.
@@ -65,7 +65,7 @@ public class GameActivity extends AppCompatActivity implements Observer {
         updateTileButtons();
         gridView.setAdapter(new CustomAdapter(tileButtons, columnWidth, columnHeight));
 
-        int counter = boardManager.getCountMove();
+        int counter = slidingTiles.getCountMove();
         TextView count = findViewById(R.id.steps_id);
         count.setText("Step: " + counter);
     }
@@ -84,9 +84,9 @@ public class GameActivity extends AppCompatActivity implements Observer {
 
         // Add View to activity
         gridView = findViewById(R.id.grid);
-        gridView.setNumColumns(boardManager.getBoard().getNUM_COLS());
-        gridView.setBoardManager(boardManager);
-        boardManager.getBoard().addObserver(this);
+        gridView.setNumColumns(slidingTiles.getBoard().getNUM_COLS());
+        gridView.setSlidingTiles(slidingTiles);
+        slidingTiles.getBoard().addObserver(this);
         // Observer sets up desired dimensions as well as calls our display function
         gridView.getViewTreeObserver().addOnGlobalLayoutListener(
                 new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -98,8 +98,8 @@ public class GameActivity extends AppCompatActivity implements Observer {
                         int displayHeight = gridView.getMeasuredHeight();
 
 
-                        columnWidth = displayWidth / boardManager.getBoard().getNUM_COLS();
-                        columnHeight = displayHeight / boardManager.getBoard().getNUM_ROWS();
+                        columnWidth = displayWidth / slidingTiles.getBoard().getNUM_COLS();
+                        columnHeight = displayHeight / slidingTiles.getBoard().getNUM_ROWS();
 
                         display();
                     }
@@ -133,7 +133,7 @@ public class GameActivity extends AppCompatActivity implements Observer {
         undoButton.setOnClickListener((new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                boardManager.undo();
+                slidingTiles.undo();
             }
         }));
 
@@ -145,10 +145,10 @@ public class GameActivity extends AppCompatActivity implements Observer {
      * @param context the context
      */
     private void createTileButtons(Context context) {
-        Board board = boardManager.getBoard();
+        Board board = slidingTiles.getBoard();
         tileButtons = new ArrayList<>();
-        for (int row = 0; row != boardManager.getBoard().getNUM_ROWS(); row++) {
-            for (int col = 0; col != boardManager.getBoard().getNUM_COLS(); col++) {
+        for (int row = 0; row != slidingTiles.getBoard().getNUM_ROWS(); row++) {
+            for (int col = 0; col != slidingTiles.getBoard().getNUM_COLS(); col++) {
                 Button tmp = new Button(context);
                 tmp.setBackgroundResource(board.getTile(row, col).getBackground());
                 this.tileButtons.add(tmp);
@@ -160,11 +160,11 @@ public class GameActivity extends AppCompatActivity implements Observer {
      * Update the backgrounds on the buttons to match the tiles.
      */
     private void updateTileButtons() {
-        Board board = boardManager.getBoard();
+        Board board = slidingTiles.getBoard();
         int nextPos = 0;
         for (Button b : tileButtons) {
-            int row = nextPos / boardManager.getBoard().getNUM_ROWS();
-            int col = nextPos % boardManager.getBoard().getNUM_COLS();
+            int row = nextPos / slidingTiles.getBoard().getNUM_ROWS();
+            int col = nextPos % slidingTiles.getBoard().getNUM_COLS();
             b.setBackgroundResource(board.getTile(row, col).getBackground());
             nextPos++;
         }
@@ -176,21 +176,21 @@ public class GameActivity extends AppCompatActivity implements Observer {
     @Override
     protected void onPause() {
         super.onPause();
-        boardManager.updateElapsedTime(mChrono.getElapsedTime());
+        slidingTiles.updateElapsedTime(mChrono.getElapsedTime());
         mChrono.stop();
 
         saveToFile(StartingActivity.TEMP_SAVE_FILENAME);
-        boardManager.resetElapsedTime();
+        slidingTiles.resetElapsedTime();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        boardManager.updateElapsedTime(mChrono.getElapsedTime());
+        slidingTiles.updateElapsedTime(mChrono.getElapsedTime());
         mChrono.stop();
 
         saveToFile(StartingActivity.CURRENT_ACCOUNT + StartingActivity.AUTO_SAVE_FILENAME);
-        boardManager.resetElapsedTime();
+        slidingTiles.resetElapsedTime();
     }
 
     /**
@@ -204,10 +204,10 @@ public class GameActivity extends AppCompatActivity implements Observer {
             InputStream inputStream = this.openFileInput(fileName);
             if (inputStream != null) {
                 ObjectInputStream input = new ObjectInputStream(inputStream);
-                boardManager = (BoardManager) input.readObject();
-                if (boardManager.getElapsedTime() != 0) {
+                slidingTiles = (SlidingTiles) input.readObject();
+                if (slidingTiles.getElapsedTime() != 0) {
                     mContext = this;
-                    mChrono = new GameChronometer(mContext, System.currentTimeMillis() - boardManager.getElapsedTime());
+                    mChrono = new GameChronometer(mContext, System.currentTimeMillis() - slidingTiles.getElapsedTime());
                     mThreadChrono = new Thread(mChrono);
                     mThreadChrono.start();
                     mChrono.start();
@@ -232,7 +232,7 @@ public class GameActivity extends AppCompatActivity implements Observer {
         try {
             ObjectOutputStream outputStream = new ObjectOutputStream(
                     this.openFileOutput(fileName, MODE_PRIVATE));
-            outputStream.writeObject(boardManager);
+            outputStream.writeObject(slidingTiles);
             outputStream.close();
         } catch (IOException e) {
             Log.e("Exception", "File write failed: " + e.toString());

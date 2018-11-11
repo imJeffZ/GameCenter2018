@@ -9,22 +9,22 @@ import android.widget.Toast;
 
 class MovementController {
 
-    private BoardManager boardManager;
+    private SlidingTiles slidingTiles;
 
     MovementController() {
     }
 
-    void setBoardManager(BoardManager boardManager) {
-        this.boardManager = boardManager;
+    void setSlidingTiles(SlidingTiles slidingTiles) {
+        this.slidingTiles = slidingTiles;
     }
 
     void processTapMovement(final Context context, int position, boolean display) {
-        if (boardManager.puzzleSolved()) {
+        if (slidingTiles.puzzleSolved()) {
             addScoreOnFinish();
             createDialog(context);
-        } else if (boardManager.isValidTap(position)) {
-            boardManager.touchMove(position);
-            if (boardManager.puzzleSolved()) {
+        } else if (slidingTiles.isValidTap(position)) {
+            slidingTiles.touchMove(position);
+            if (slidingTiles.puzzleSolved()) {
                 addScoreOnFinish();
                 createDialog(context);
             }
@@ -47,8 +47,8 @@ class MovementController {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Intent gotoFinishScreen = new Intent(context, SlidingTileFinishActivity.class);
-                gotoFinishScreen.putExtra("score", boardManager.calculateScore());
-                gotoFinishScreen.putExtra("size", boardManager.getBoard().getNUM_COLS());
+                gotoFinishScreen.putExtra("score", slidingTiles.calculateScore());
+                gotoFinishScreen.putExtra("size", slidingTiles.getBoard().getNUM_COLS());
                 context.startActivity(gotoFinishScreen);
             }
         });
@@ -59,8 +59,8 @@ class MovementController {
      * add the score to the account when the game is over
      */
     private void addScoreOnFinish() {
-        String score = Integer.toString(boardManager.calculateScore());
-        int size = boardManager.getBoard().getNUM_COLS();
+        String score = Integer.toString(slidingTiles.calculateScore());
+        int size = slidingTiles.getBoard().getNUM_COLS();
         int index;
         if (size == 3) {
             index = 0;

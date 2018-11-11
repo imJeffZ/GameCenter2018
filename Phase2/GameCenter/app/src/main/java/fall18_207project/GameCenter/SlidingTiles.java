@@ -10,8 +10,8 @@ import java.util.Stack;
 /**
  * Manage a board, including swapping tiles, checking for a win, and managing taps.
  */
-class BoardManager extends Game implements GameFeature {
-// If parent class is serializable, subclass is automatically serializable, thus we don't need to implement serializable for BoardManager
+class SlidingTiles extends Game implements GameFeature {
+// If parent class is serializable, subclass is automatically serializable, thus we don't need to implement serializable for SlidingTiles
 
     // Record how long the game takes to finish
     private long endTime;
@@ -41,7 +41,7 @@ class BoardManager extends Game implements GameFeature {
     /**
      * Manage a new shuffled board.
      */
-    BoardManager(int num) {
+    SlidingTiles(int num) {
         super(); // Explicitly put here
         List<Tile> tiles = new ArrayList<>();
         final int numTiles = num * num;

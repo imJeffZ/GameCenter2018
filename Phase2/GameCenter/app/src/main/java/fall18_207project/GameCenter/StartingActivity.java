@@ -15,8 +15,6 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-import fall18_207project.GameCenter.R;
-
 /**
  * The initial activity for the sliding puzzle tile game.
  */
@@ -37,7 +35,7 @@ public class StartingActivity extends AppCompatActivity {
     /**
      * The board manager.
      */
-    private BoardManager boardManager;
+    private SlidingTiles slidingTiles;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +64,7 @@ public class StartingActivity extends AppCompatActivity {
             public void onClick(View v) {
                 loadFromFile(CURRENT_ACCOUNT + AUTO_SAVE_FILENAME);
                 saveToFile(TEMP_SAVE_FILENAME);
-                if (boardManager == null) {
+                if (slidingTiles == null) {
                     makeAnotherToatCurrentMessage();
                     return;
                 }
@@ -86,7 +84,7 @@ public class StartingActivity extends AppCompatActivity {
             public void onClick(View v) {
                 loadFromFile(CURRENT_ACCOUNT + SAVE_FILENAME);
                 saveToFile(TEMP_SAVE_FILENAME);
-                if (boardManager == null) {
+                if (slidingTiles == null) {
                     makeToastForLoadGame();
                     return;
                 }
@@ -136,7 +134,7 @@ public class StartingActivity extends AppCompatActivity {
         Button3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boardManager = new BoardManager(3);
+                slidingTiles = new SlidingTiles(3);
                 switchToGame();
             }
         });
@@ -150,7 +148,7 @@ public class StartingActivity extends AppCompatActivity {
         Button4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boardManager = new BoardManager(4);
+                slidingTiles = new SlidingTiles(4);
                 switchToGame();
             }
         });
@@ -164,7 +162,7 @@ public class StartingActivity extends AppCompatActivity {
         Button5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boardManager = new BoardManager(5);
+                slidingTiles = new SlidingTiles(5);
                 switchToGame();
             }
         });
@@ -237,7 +235,7 @@ public class StartingActivity extends AppCompatActivity {
             InputStream inputStream = this.openFileInput(fileName);
             if (inputStream != null) {
                 ObjectInputStream input = new ObjectInputStream(inputStream);
-                boardManager = (BoardManager) input.readObject();
+                slidingTiles = (SlidingTiles) input.readObject();
                 inputStream.close();
             }
         } catch (FileNotFoundException e) {
@@ -258,7 +256,7 @@ public class StartingActivity extends AppCompatActivity {
         try {
             ObjectOutputStream outputStream = new ObjectOutputStream(
                     this.openFileOutput(fileName, MODE_PRIVATE));
-            outputStream.writeObject(boardManager);
+            outputStream.writeObject(slidingTiles);
             outputStream.close();
         } catch (IOException e) {
             Log.e("Exception", "File write failed: " + e.toString());
