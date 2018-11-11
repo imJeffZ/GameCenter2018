@@ -11,18 +11,17 @@ import java.util.Stack;
 /**
  * Manage a board, including swapping tiles, checking for a win, and managing taps.
  */
-class BoardManager implements Serializable, GameFeature {
-
+class BoardManager extends Game implements GameFeature {
+// If parent class is serializable, subclass is automatically serializable, thus we don't need to implement serializable for BoardManager
     /**
      * The board being managed.
      */
     private Board board;
-    private int countMove;
+//    private int countMove;
 
-    long elapsedTime;
+//    long elapsedTime;
     private long endTime;
-
-    private Stack<Integer> saveMove;
+//    private Stack<Integer> saveMove;
 
 
     /**
@@ -52,19 +51,16 @@ class BoardManager implements Serializable, GameFeature {
      * Manage a new shuffled board.
      */
     BoardManager(int num) {
-        countMove = 0;
-        elapsedTime = 0;
-        saveMove = new Stack<>();
-
+        super(); // Explicitly put here
         List<Tile> tiles = new ArrayList<>();
         final int numTiles = num * num;
         for (int tileNum = 0; tileNum != numTiles - 1; tileNum++) {
             tiles.add(new Tile(tileNum));
         }
         tiles.add(new Tile(24));
-
         shuffleBoard(tiles, num);
         this.board = new Board(tiles, num);
+        this.endTime = 0;
     }
 
     private void shuffleBoard(List<Tile> winBoard, int num) {
@@ -108,11 +104,11 @@ class BoardManager implements Serializable, GameFeature {
     }
 
     void resetElapsedTime() {
-        this.elapsedTime = 0;
+        elapsedTime = 0;
     }
 
     long getElapsedTime() {
-        return this.elapsedTime;
+        return elapsedTime;
     }
     /**
      * Return whether any of the four surrounding tiles is the blank tile.
