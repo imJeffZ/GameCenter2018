@@ -9,8 +9,10 @@ public abstract class Game implements Serializable {
      */
 
     // Represents different game. 3x3 slidingTiles has different gameId than 4x4 slidingTile.
-//    protected int gameId;
-//    protected int saveId;
+    protected int gameId;
+    // This saveId is an unique identifier for a game. Two 3x3 slidingTiles does not have the same saveId.
+    // Intending to use hashCode
+    protected int saveId;
     /**
      * The board being managed.
      */
@@ -29,4 +31,10 @@ public abstract class Game implements Serializable {
     public String toString() {
         return "Generic Game";
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof Game && ((Game) obj).saveId == this.saveId;
+    }
+
 }
