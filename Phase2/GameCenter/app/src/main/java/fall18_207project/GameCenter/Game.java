@@ -27,6 +27,10 @@ public abstract class Game implements Serializable {
         this.saveMove = new Stack<>();
     }
 
+    int getSaveId() {
+        return this.saveId;
+    }
+
     @Override
     public String toString() {
         return "Generic Game";
