@@ -1,6 +1,5 @@
 package fall18_207project.GameCenter;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -13,17 +12,9 @@ import java.util.Stack;
  */
 class BoardManager extends Game implements GameFeature {
 // If parent class is serializable, subclass is automatically serializable, thus we don't need to implement serializable for BoardManager
-    /**
-     * The board being managed.
-     */
-    private Board board;
-//    private int countMove;
 
-//    long elapsedTime;
+    // Record how long the game takes to finish
     private long endTime;
-//    private Stack<Integer> saveMove;
-
-
     /**
      * Manage a board that has been pre-populated.
      *
@@ -59,7 +50,7 @@ class BoardManager extends Game implements GameFeature {
         }
         tiles.add(new Tile(24));
         shuffleBoard(tiles, num);
-        this.board = new Board(tiles, num);
+        board = new Board(tiles, num);
         this.endTime = 0;
     }
 
@@ -197,5 +188,10 @@ class BoardManager extends Game implements GameFeature {
     @Override
     public String toString() {
         return board.getNUM_COLS() + " X " + board.getNUM_ROWS() + " SlidingTiles";
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
     }
 }

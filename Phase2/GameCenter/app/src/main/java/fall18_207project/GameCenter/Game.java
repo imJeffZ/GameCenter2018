@@ -11,7 +11,10 @@ public abstract class Game implements Serializable {
     // Represents different game. 3x3 slidingTiles has different gameId than 4x4 slidingTile.
 //    protected int gameId;
 //    protected int saveId;
-//    protected Board board;
+    /**
+     * The board being managed.
+     */
+    protected Board board;
     protected int countMove;
     protected Stack<Integer> saveMove;
     protected long elapsedTime;
