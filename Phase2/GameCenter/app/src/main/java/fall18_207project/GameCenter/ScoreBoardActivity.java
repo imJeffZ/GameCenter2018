@@ -28,8 +28,8 @@ public class ScoreBoardActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scoreboard);
-        String accountName = getIntent().getExtras().getString("accountName");
-        currentAccount = accountName;
+        String accountEmail = getIntent().getExtras().getString("accountEmail");
+        currentAccount = accountEmail;
         ListView scoreBoardView;
         scoreBoardView = findViewById(R.id.scoreBoardView);
         final List<Map<String, Object>> list = new ArrayList<>();
@@ -40,7 +40,7 @@ public class ScoreBoardActivity extends Activity {
         scoreBoardView.setAdapter(adapter);
 
         Spinner spinner = findViewById(R.id.spinner);
-        String[] mItems = {"User Name: " + accountName, "3 X 3", "4 x 4", "5 X 5"};
+        String[] mItems = {"User Email: " + accountEmail, "3 X 3", "4 x 4", "5 X 5"};
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, mItems);
         spinner.setAdapter(spinnerAdapter);

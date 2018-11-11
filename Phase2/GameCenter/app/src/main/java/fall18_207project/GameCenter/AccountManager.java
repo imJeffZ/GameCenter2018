@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+/***
+ * Manages all accounts. Emails are unique, but userNames are not.
+ */
 public class AccountManager implements Serializable {
 
     static Map<String, Account> accountMap = new HashMap<>();
@@ -17,19 +20,27 @@ public class AccountManager implements Serializable {
         return new ArrayList<Account>(AccountManager.accountMap.values());
     }
 
-    boolean addAccount(String userName, String password) {
-        if (AccountManager.accountMap.containsKey(userName)) {
+    boolean addAccount(String email, String userName, String password) {
+        if (AccountManager.accountMap.containsKey(email)) {
             return false;
         }
-        AccountManager.accountMap.put(userName, new Account(userName, password));
+        AccountManager.accountMap.put(email, new Account(email, userName, password));
         return true;
     }
 
-    Account getAccount(String userName) {
-        return AccountManager.accountMap.get(userName);
+    Account getAccount(String email) {
+        return AccountManager.accountMap.get(email);
     }
 
-    boolean removeAccount(String userName) {
-        return AccountManager.accountMap.remove(userName) != null;
+    boolean removeAccount(String email) {
+        return AccountManager.accountMap.remove(email) != null;
+    }
+
+    boolean validate(String email, String password) {
+        Account targetAccount = getAccount(email);
+        if (targetAccount != null) {
+            return targetAccount.getPassword().equals(password);
+        }
+        return false;
     }
 }

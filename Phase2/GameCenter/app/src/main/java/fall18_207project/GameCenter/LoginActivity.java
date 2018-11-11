@@ -51,19 +51,19 @@ public class LoginActivity extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditText userName = findViewById(R.id.userNametext);
-                EditText passWord = findViewById(R.id.passwordtext);
-                String userNameValue = userName.getText().toString();
-                String passWordValue = passWord.getText().toString();
-                if (!AccountManager.accountMap.containsKey(userNameValue)) {
-                    Toast.makeText(getApplicationContext(), "You are not a user yet!", Toast.LENGTH_SHORT).show();
-                } else if (!(passWordValue.equals(AccountManager.accountMap.get(userNameValue).getPassword()))) {
-                    Toast.makeText(getApplicationContext(), "Wrong password or userName", Toast.LENGTH_SHORT).show();
+                EditText email = findViewById(R.id.EmailLogin);
+                EditText password = findViewById(R.id.passwordtext);
+                String emailValue = email.getText().toString();
+                String passwordValue = password.getText().toString();
+                if (!AccountManager.accountMap.containsKey(emailValue)) {
+                    Toast.makeText(getApplicationContext(), "You are not an user yet!", Toast.LENGTH_SHORT).show();
+                } else if (!(passwordValue.equals(AccountManager.accountMap.get(emailValue).getPassword()))) {
+                    Toast.makeText(getApplicationContext(), "Wrong Password or Email", Toast.LENGTH_SHORT).show();
                 } else {
-                    StartingActivity.CURRENT_ACCOUNT = userNameValue;
-                    GameCenterActivity.CURRENT_ACCOUNT = userNameValue;
+                    StartingActivity.CURRENT_ACCOUNT = emailValue;
+                    GameCenterActivity.CURRENT_ACCOUNT = emailValue;
                     Intent goToCenter = new Intent(getApplicationContext(), GameCenterActivity.class);
-                    goToCenter.putExtra("accountName", userNameValue);
+                    goToCenter.putExtra("accountName", AccountManager.accountMap.get(emailValue).getUserName());
                     startActivity(goToCenter);
                 }
 

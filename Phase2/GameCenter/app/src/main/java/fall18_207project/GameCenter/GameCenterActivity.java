@@ -21,7 +21,7 @@ public class GameCenterActivity extends AppCompatActivity {
         addScoreBoardButtonListener();
         addLogOutButtonListener();
         TextView userName = findViewById(R.id.Hiuser);
-        userName.setText("Hi, " + CURRENT_ACCOUNT);
+        userName.setText("Hi, " + AccountManager.accountMap.get(CURRENT_ACCOUNT).getUserName());
     }
 
     /**
@@ -70,7 +70,7 @@ public class GameCenterActivity extends AppCompatActivity {
     }
     private void switchToScoreBoard() {
         Intent tmp = new Intent(this, ScoreBoardActivity.class);
-        tmp.putExtra("accountName", CURRENT_ACCOUNT);
+        tmp.putExtra("accountEmail", CURRENT_ACCOUNT);
         startActivity(tmp);
     }
     private  void switchToLogin(){

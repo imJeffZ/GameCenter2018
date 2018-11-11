@@ -8,13 +8,24 @@
     tools:context=".RegisterActivity">
 
     <EditText
+        android:id="@+id/EmailRegister"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/passwordregister"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="107dp"
+        android:ems="10"
+        android:hint="Your Email Address Here"
+        android:inputType="textEmailAddress" />
+
+    <EditText
         android:id="@+id/Usernameregister"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/passwordregister"
         android:layout_alignParentBottom="true"
         android:layout_marginStart="0dp"
-        android:layout_marginBottom="393dp"
+        android:layout_marginBottom="402dp"
         android:ems="10"
         android:hint="Your UserName here"
         android:inputType="none" />
@@ -44,4 +55,7 @@
         android:background="@drawable/button_style3"
         tools:layout_editor_absoluteX="139dp"
         tools:layout_editor_absoluteY="384dp" />
+
+
+
 </RelativeLayout>

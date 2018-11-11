@@ -5,7 +5,8 @@ import java.util.Stack;
 
 public abstract class Game implements Serializable {
     /**
-     * The board being managed.
+     * A Generic BoardGame class.
+     * TODO: Initialize saveId.
      */
 
     // Represents different game. 3x3 slidingTiles has different gameId than 4x4 slidingTile.

@@ -51,7 +51,7 @@ public class StartingActivity extends AppCompatActivity {
         addLogOutButtonListener();
         addReturnToGameCenterListener();
         TextView account = findViewById(R.id.Hiuser);
-        account.setText("Hi, " + CURRENT_ACCOUNT);
+        account.setText("Hi, " + AccountManager.accountMap.get(CURRENT_ACCOUNT).getUserName());
     }
 
     /**

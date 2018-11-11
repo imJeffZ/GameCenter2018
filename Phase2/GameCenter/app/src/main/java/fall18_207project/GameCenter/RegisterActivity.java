@@ -37,31 +37,37 @@ public class RegisterActivity extends AppCompatActivity {
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                EditText editEmail = findViewById(R.id.EmailRegister);
                 EditText editPassword = findViewById(R.id.passwordregister);
                 EditText editUserName = findViewById(R.id.Usernameregister);
+                String email = editEmail.getText().toString();
                 String password = editPassword.getText().toString();
                 String userName = editUserName.getText().toString();
-                if (!isValidUserName(userName)) {
+                if (!isValidEmail(email)) {
+                    Toast.makeText(getApplicationContext(), "Invalid Email: No Empty Email", Toast.LENGTH_SHORT).show();
+                } else if (!isValidUserName(userName)) {
                     Toast.makeText(getApplicationContext(), "Invalid Username: No Empty Username", Toast.LENGTH_SHORT).show();
                 } else if (!isValidPassWord(password)) {
                     Toast.makeText(getApplicationContext(), "Invalid Password: No Empty Password", Toast.LENGTH_SHORT).show();
                 } else {
-                    if (accountManager.addAccount(userName, password)) {
+                    if (accountManager.addAccount(email, userName, password)) {
                         saveToFile(LoginActivity.SAVE_ACCOUNT_DETAILS);
                         Intent gotoLogin = new Intent(getApplicationContext(), LoginActivity.class);
                         startActivity(gotoLogin);
                     } else {
-                        Toast.makeText(getApplicationContext(), "UserName Already exists", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Email Already exists", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
         });
     }
 
+    private boolean isValidEmail(String email) {
+        return !email.equals("");
+    }
     private boolean isValidUserName(String userName) {
         return !userName.equals("");
     }
-
     private boolean isValidPassWord(String passWord) {
         return !passWord.equals("");
     }

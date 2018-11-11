@@ -8,14 +8,14 @@
     tools:context=".LoginActivity">
 
     <EditText
-        android:id="@+id/userNametext"
+        android:id="@+id/EmailLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="113sp"
         android:ems="10"
-        android:hint="userName"
-        android:layout_centerHorizontal="true"
+        android:hint="Email"
         android:inputType="none"
         tools:layout_editor_absoluteX="68sp"
         tools:layout_editor_absoluteY="110sp" />
@@ -24,7 +24,7 @@
         android:id="@+id/passwordtext"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/userNametext"
+        android:layout_alignTop="@+id/EmailLogin"
         android:layout_marginTop="100sp"
         android:ems="10"
         android:hint="Password"

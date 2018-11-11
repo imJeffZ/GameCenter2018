@@ -1,18 +1,53 @@
 package fall18_207project.GameCenter;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 
+/***
+ * Account class that stores a user.
+ *
+ * TODO: Add Profile Class
+ *
+ * TODO: Connect to DataBase
+ */
 public class Account implements Serializable {
-    AccountManager accountManager;
+    private String email;
     private String userName;
     private String password;
     private String[] scoreRecord;
 
-    public Account(String userName, String password) {
+    public Account(String email, String userName, String password) {
+        this.email = email;
         this.userName = userName;
         this.password = password;
         this.scoreRecord = new String[3];
+    }
+
+    String[] getScoreRecord() {
+        return this.scoreRecord;
+    }
+
+    void addScore(int index, String score) {
+        if (this.getScoreRecord()[index] == null) {
+            this.getScoreRecord()[index] = score;
+        } else if (Integer.parseInt(score) > Integer.parseInt(this.getScoreRecord()[index])) {
+            this.getScoreRecord()[index] = score;
+        }
+    }
+
+    String getEmail() {
+        return this.email;
+    }
+
+    void setEmail(String email) {
+        this.email = email;
+    }
+
+    String getUserName() {
+        return this.userName;
+    }
+
+    void setUserName(String userName) {
+        this.userName = userName;
     }
 
     String getPassword() {
@@ -23,15 +58,4 @@ public class Account implements Serializable {
         this.password = newPass;
     }
 
-    String[] getScoreRecord() {
-        return this.scoreRecord;
-    }
-
-    void addScore(int index, String score) {
-        if (this.scoreRecord[index] == null) {
-            this.scoreRecord[index] = score;
-        } else if (Integer.parseInt(score) > Integer.parseInt(this.scoreRecord[index])) {
-            this.scoreRecord[index] = score;
-        }
-    }
 }
