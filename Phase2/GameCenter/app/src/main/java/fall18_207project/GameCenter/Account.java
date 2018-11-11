@@ -5,8 +5,6 @@ import java.io.Serializable;
 /***
  * Account class that stores a user.
  *
- * TODO: Add Profile Class
- *
  * TODO: Connect to DataBase
  */
 public class Account implements Serializable {

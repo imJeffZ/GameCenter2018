@@ -30,9 +30,14 @@ public abstract class Game implements Serializable {
         this.saveId = UUID.randomUUID().toString();
     }
 
+    int getGameId() {
+        return this.gameId;
+    }
+
     String getSaveId() {
         return this.saveId;
     }
+    abstract int calculateScore();
 
     @Override
     public String toString() {
@@ -43,5 +48,4 @@ public abstract class Game implements Serializable {
     public boolean equals(Object obj) {
         return obj instanceof Game && ((Game) obj).saveId.equals(this.saveId);
     }
-
 }

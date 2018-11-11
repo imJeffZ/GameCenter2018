@@ -1,6 +1,8 @@
 package fall18_207project.GameCenter;
 
-class Profile {
+import java.io.Serializable;
+
+class Profile implements Serializable {
     /***
      * A profile class for account.
      */

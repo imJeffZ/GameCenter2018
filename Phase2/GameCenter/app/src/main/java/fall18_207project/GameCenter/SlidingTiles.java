@@ -9,8 +9,10 @@ import java.util.Stack;
 
 /**
  * Manage a board, including swapping tiles, checking for a win, and managing taps.
+ *
+ * TODO: Make SlidingTiles Cloneable.
  */
-class SlidingTiles extends Game implements GameFeature {
+class SlidingTiles extends Game implements GameFeature, Cloneable {
 // If parent class is serializable, subclass is automatically serializable, thus we don't need to implement serializable for SlidingTiles
 
     // Record how long the game takes to finish
@@ -191,4 +193,5 @@ class SlidingTiles extends Game implements GameFeature {
     public String toString() {
         return board.getNUM_COLS() + " X " + board.getNUM_ROWS() + " SlidingTiles";
     }
+
 }
