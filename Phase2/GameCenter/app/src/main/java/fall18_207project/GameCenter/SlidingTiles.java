@@ -14,6 +14,7 @@ class SlidingTiles extends Game implements GameFeature {
 // If parent class is serializable, subclass is automatically serializable, thus we don't need to implement serializable for SlidingTiles
 
     // Record how long the game takes to finish
+    // This endTime is not generalized into abstract Game class because the Timer awaits further modification.
     private long endTime;
     /**
      * Manage a board that has been pre-populated.
@@ -78,7 +79,7 @@ class SlidingTiles extends Game implements GameFeature {
      *
      * @return whether the tiles are in row-major order
      */
-    public boolean puzzleSolved() {
+    public boolean isSolved() {
         boolean solved = true;
         Iterator<Tile> it = board.iterator();
         int correctId = 1; /* the correct id of tile in the position of winning condition*/
@@ -98,9 +99,10 @@ class SlidingTiles extends Game implements GameFeature {
         elapsedTime = 0;
     }
 
-    long getElapsedTime() {
+    public long getElapsedTime() {
         return elapsedTime;
     }
+
     /**
      * Return whether any of the four surrounding tiles is the blank tile.
      *
@@ -188,10 +190,5 @@ class SlidingTiles extends Game implements GameFeature {
     @Override
     public String toString() {
         return board.getNUM_COLS() + " X " + board.getNUM_ROWS() + " SlidingTiles";
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        return super.equals(obj);
     }
 }

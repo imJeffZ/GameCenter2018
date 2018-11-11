@@ -19,12 +19,12 @@ class MovementController {
     }
 
     void processTapMovement(final Context context, int position, boolean display) {
-        if (slidingTiles.puzzleSolved()) {
+        if (slidingTiles.isSolved()) {
             addScoreOnFinish();
             createDialog(context);
         } else if (slidingTiles.isValidTap(position)) {
             slidingTiles.touchMove(position);
-            if (slidingTiles.puzzleSolved()) {
+            if (slidingTiles.isSolved()) {
                 addScoreOnFinish();
                 createDialog(context);
             }
