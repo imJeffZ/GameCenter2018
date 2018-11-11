@@ -25,9 +25,9 @@ public class GameManager implements Serializable {
         this.gameList.add(newGame);
     }
 
-    boolean deleteGame(int saveId) {
+    boolean deleteGame(String saveId) {
         for (Game game : this.gameList) {
-            if (game.getSaveId() == saveId) {
+            if (game.getSaveId().equals(saveId)) {
                 this.gameList.remove(game);
                 return true;
             }
@@ -35,18 +35,18 @@ public class GameManager implements Serializable {
         return false;
     }
 
-    Game getGame(int saveId) {
+    Game getGame(String saveId) {
         for (Game game : this.gameList) {
-            if (game.getSaveId() == saveId) {
+            if (game.getSaveId().equals(saveId)) {
                 return game;
             }
         }
         return null;
     }
 
-    boolean hasGame(int saveId) {
+    boolean hasGame(String saveId) {
         for (Game game : this.gameList) {
-            if (game.getSaveId() == saveId) {
+            if (game.getSaveId().equals(saveId)) {
                 return true;
             }
         }

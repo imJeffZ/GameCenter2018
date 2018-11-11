@@ -63,7 +63,7 @@ public class Account implements Serializable {
         this.password = newPass;
     }
 
-    boolean deleteSavedGame(int saveId) {
+    boolean deleteSavedGame(String saveId) {
         return this.savedGames.deleteGame(saveId);
     }
 
