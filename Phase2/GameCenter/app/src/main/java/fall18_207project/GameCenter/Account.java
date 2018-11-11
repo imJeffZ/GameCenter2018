@@ -14,6 +14,7 @@ public class Account implements Serializable {
     private String userName;
     private String password;
     private GameManager savedGames;
+    private Profile prof;
     private String[] scoreRecord;
 
     public Account(String email, String userName, String password) {
