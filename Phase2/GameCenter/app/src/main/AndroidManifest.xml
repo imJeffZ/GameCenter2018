@@ -16,12 +16,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="fall18_207project.GameCenter.RegisterActivity"></activity>
-        <activity android:name="fall18_207project.GameCenter.GameCenterActivity"></activity>
-        <activity android:name="fall18_207project.GameCenter.ScoreBoardActivity" ></activity>
-        <activity android:name="fall18_207project.GameCenter.StartingActivity"></activity>
-        <activity android:name="fall18_207project.GameCenter.GameActivity"></activity>
-        <activity android:name="fall18_207project.GameCenter.SlidingTileFinishActivity"></activity>
+        <activity android:name=".RegisterActivity" />
+        <activity android:name=".GameCentreActivity" />
+        <activity android:name=".ScoreBoardActivity" />
+        <activity android:name=".UserHistoryActivity"/>
+        <activity android:name=".StartingActivity" />
+        <activity android:name=".GameActivity" />
+        <activity android:name=".SlidingTileFinishActivity" />
     </application>
 
 </manifest>
