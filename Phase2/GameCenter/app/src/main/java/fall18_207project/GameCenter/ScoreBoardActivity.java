@@ -1,8 +1,13 @@
 package fall18_207project.GameCenter;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -18,29 +23,56 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 
 public class ScoreBoardActivity extends Activity {
     public String currentAccount;
     public static String SCOREBOARD = "scoreBoard.ser";
     private ScoreBoard scoreBoard;
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+            = new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.navigation_game_center:
+                    Intent tmp1 = new Intent(ScoreBoardActivity.this, GameCentreActivity.class);
+                    startActivity(tmp1);
+                    break;
+                case R.id.navigation_user_history:
+                    Intent tmp2 = new Intent(ScoreBoardActivity.this, UserHistoryActivity.class);
+                    startActivity(tmp2);
+                    break;
+                case R.id.navigation_global_scoreboard:
+                   break;
+            }
+            return false;
+        }
+    };
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scoreboard);
-        String accountEmail = getIntent().getExtras().getString("accountEmail");
-        currentAccount = accountEmail;
+        //String accountEmail = Objects.requireNonNull(getIntent().getExtras()).getString("accountEmail");
+        //currentAccount = accountEmail;
+        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        Menu menu = navigation.getMenu();
+        MenuItem menuItem = menu.getItem(2);
+        menuItem.setChecked(true);
         ListView scoreBoardView;
         scoreBoardView = findViewById(R.id.scoreBoardView);
         final List<Map<String, Object>> list = new ArrayList<>();
-        getData(list, 0);
+        getData(list, 1);
         final SimpleAdapter adapter = new SimpleAdapter(this, list,
                 R.layout.scoreboard_item, new String[]{"user", "score"},
                 new int[]{R.id.user, R.id.score});
         scoreBoardView.setAdapter(adapter);
 
         Spinner spinner = findViewById(R.id.spinner);
-        String[] mItems = {"User Email: " + accountEmail, "3 X 3", "4 x 4", "5 X 5"};
+        //String[] mItems = {"User Email: " + accountEmail, "3 X 3", "4 x 4", "5 X 5"};
+        String[] mItems = {"3 X 3", "4 x 4", "5 X 5"};
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, mItems);
         spinner.setAdapter(spinnerAdapter);
@@ -50,9 +82,9 @@ public class ScoreBoardActivity extends Activity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view,
                                        int pos, long id) {
-                list.clear();
-                getData(list, pos);
-                adapter.notifyDataSetChanged();
+                    list.clear();
+                    getData(list, pos+1);
+                    adapter.notifyDataSetChanged();
 
 
             }
@@ -73,16 +105,17 @@ public class ScoreBoardActivity extends Activity {
         ArrayList<Integer> score = scoreBoard.getRankScorePerGame(gameId);
         ArrayList<String> user = scoreBoard.getRankUserNamePerGame(gameId);
 
-        if (gameId == 0) {
-            accountScore = AccountManager.accountMap.get(currentAccount).getScoreRecord();
-            for (int i = 0; i < accountScore.length; i++) {
-                Map<String, Object> map = new HashMap<>();
-                map.put("user", accountGame[i]);
-                map.put("score", accountScore[i]);
-                list.add(map);
-            }
+//        if (gameId == 0) {
+//            accountScore = AccountManager.accountMap.get(currentAccount).getScoreRecord();
+//            for (int i = 0; i < accountScore.length; i++) {
+//                Map<String, Object> map = new HashMap<>();
+//                map.put("user", accountGame[i]);
+//                map.put("score", accountScore[i]);
+//                list.add(map);
 
-        } else {
+//            }
+//
+//        } else {
 
             for (int i = 0; i < user.size(); i++) {
                 Map<String, Object> map = new HashMap<>();
@@ -90,7 +123,7 @@ public class ScoreBoardActivity extends Activity {
                 map.put("score", score.get(i));
                 list.add(map);
             }
-        }
+//        }
     }
 
     private void loadFromScoreBoard(String fileName) {
@@ -110,6 +143,7 @@ public class ScoreBoardActivity extends Activity {
             Log.e("ScoreBoard activity", "File contained unexpected data type: " + e.toString());
         }
     }
+
 
 
 }
