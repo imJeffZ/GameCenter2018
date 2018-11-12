@@ -1,36 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/bgm_for_score"
-    android:orientation="vertical"
-    tools:context="fall18_207project.GameCenter.ScoreBoardActivity">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="match_parent"
-        android:layout_height="?android:attr/windowTitleSize"
-        android:background="#41807c7c"
-        android:fontFamily="sans-serif"
-        android:text="ScoreBoard"
-        android:textAlignment="center"
-        android:textColor="@color/colorPrimaryDark"
-        android:textSize="40sp"
-        android:textStyle="bold"
-        android:typeface="normal" />
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:id="@+id/container"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+tools:context=".ScoreBoardActivity">
 
-    <Spinner
-        android:id="@+id/spinner"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="#c0ce42"
-        android:padding="5dip"/>
+        android:layout_above = "@id/navigation"
+        android:background="@drawable/bgm_for_score"
+        android:orientation="vertical"
+        tools:context="fall18_207project.GameCenter.ScoreBoardActivity">
 
-    <ListView
-        android:id="@+id/scoreBoardView"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:dividerHeight="1dp"
-        android:scrollbars="vertical" />
-</LinearLayout>
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="?android:attr/windowTitleSize"
+            android:background="#8928a6b4"
+            android:fontFamily="sans-serif"
+            android:text="ScoreBoard"
+            android:textAlignment="center"
+            android:textColor="#bbf7f7f7"
+            android:textSize="40sp"
+            android:textStyle="bold"
+            android:typeface="normal" />
+
+        <Spinner
+            android:id="@+id/spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dip"
+            android:textColor="#c0ce42" />
+
+        <ListView
+            android:id="@+id/scoreBoardView"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:dividerHeight="1dp"
+            android:scrollbars="vertical" />
+    </LinearLayout>
+
+
+<android.support.design.widget.BottomNavigationView
+    android:id="@+id/navigation"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="0dp"
+    android:layout_marginEnd="0dp"
+    android:background="#b22893b4"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintLeft_toLeftOf="parent"
+    app:layout_constraintRight_toRightOf="parent"
+    app:menu="@menu/navigation"
+    />
+
+</android.support.constraint.ConstraintLayout>
