@@ -187,7 +187,7 @@ public class StartingActivity extends AppCompatActivity {
         returnToGameCenter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent backToGameCenter = new Intent(getApplicationContext(), GameCenterActivity.class);
+                Intent backToGameCenter = new Intent(getApplicationContext(), GameCentreActivity.class);
                 startActivity(backToGameCenter);
             }
         });
