@@ -16,9 +16,8 @@ class Profile implements Serializable {
     private long totalPlayTime;
 
     Profile() {
-        // Should have a default avatar image here.
+        // TODO: Should have a default avatar image here.
         this.avatarImage = null;
-        this.context = null;
         this.intro = "A New user who hasn't set his intro.";
         this.totalPlayTime = 0;
     }
@@ -30,14 +29,6 @@ class Profile implements Serializable {
 
     void setAvatarImage(String avatarImage) {
         this.avatarImage = avatarImage;
-    }
-
-    String getContext() {
-        return context;
-    }
-
-    void setContext(String context) {
-        this.context = context;
     }
 
     String getIntro() {
