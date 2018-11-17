@@ -20,6 +20,7 @@ public class Account implements Serializable {
         this.userName = userName;
         this.password = password;
         this.scoreRecord = new String[3];
+        this.prof = new Profile();
     }
 
     String[] getScoreRecord() {
@@ -62,8 +63,13 @@ public class Account implements Serializable {
         this.password = newPass;
     }
 
+    public Profile getProf() {
+        return prof;
+    }
+
     boolean deleteSavedGame(String saveId) {
         return this.savedGames.deleteGame(saveId);
     }
+
 
 }
