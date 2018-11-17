@@ -15,14 +15,14 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 //test comment here
-public class SlidingTileFinishActivity extends AppCompatActivity {
+public class GameFinishActivity extends AppCompatActivity {
     public final static String SCOREBOARD = "scoreBoard.ser";
     public ScoreBoard scoreBoard;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_slidingtile_finish);
+        setContentView(R.layout.activity_game_finish);
         addReturnButtonListener();
         scoreBoard = new ScoreBoard();
         loadFromScoreBoard(SCOREBOARD);
@@ -78,11 +78,11 @@ public class SlidingTileFinishActivity extends AppCompatActivity {
                 inputStream.close();
             }
         } catch (FileNotFoundException e) {
-            Log.e("SlidingTileFinish activity", "File not found: " + e.toString());
+            Log.e("GameFinish activity", "File not found: " + e.toString());
         } catch (IOException e) {
-            Log.e("SlidingTileFinish activity", "Can not read file: " + e.toString());
+            Log.e("GameFinish activity", "Can not read file: " + e.toString());
         } catch (ClassNotFoundException e) {
-            Log.e("SlidingTileFinish activity", "File contained unexpected data type: " + e.toString());
+            Log.e("GameFinish activity", "File contained unexpected data type: " + e.toString());
         }
     }
 

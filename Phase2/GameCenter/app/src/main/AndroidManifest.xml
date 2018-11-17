@@ -22,7 +22,7 @@
         <activity android:name=".UserHistoryActivity"/>
         <activity android:name=".StartingActivity" />
         <activity android:name=".GameActivity" />
-        <activity android:name=".SlidingTileFinishActivity" />
+        <activity android:name=".GameFinishActivity" />
     </application>
 
 </manifest>

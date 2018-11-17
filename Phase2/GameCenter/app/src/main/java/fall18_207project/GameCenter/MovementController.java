@@ -46,7 +46,7 @@ class MovementController {
         builder.setPositiveButton("Continue", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Intent gotoFinishScreen = new Intent(context, SlidingTileFinishActivity.class);
+                Intent gotoFinishScreen = new Intent(context, GameFinishActivity.class);
                 gotoFinishScreen.putExtra("score", game.calculateScore());
                 gotoFinishScreen.putExtra("size", game.getBoard().getNUM_COLS());
                 context.startActivity(gotoFinishScreen);
