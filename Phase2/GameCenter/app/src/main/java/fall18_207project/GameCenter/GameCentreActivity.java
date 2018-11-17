@@ -59,21 +59,22 @@ public class GameCentreActivity extends AppCompatActivity implements  Navigation
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        //TextView textUser = findViewById(R.id.profileUser);
-        //textUser.setText(AccountManager.accountMap.get(CURRENT_ACCOUNT).getUserName());
-
-//
-//        TextView textIntro = findViewById(R.id.profileIntro);
-//        textIntro.setText(AccountManager.accountMap.get(CURRENT_ACCOUNT).getProf().getIntro());
-
-        //ImageView userImg = findViewById(R.id.profileImg);
-        //userImg.setImageAlpha(0);
-
-//        TextView textPlayTime = findViewById(R.id.profileTime);
-//        textPlayTime.setText("" + AccountManager.accountMap.get(CURRENT_ACCOUNT).getProf().getTotalPlayTime());
-
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        View navHeader = navigationView.getHeaderView(0);
+
+        TextView textUser = navHeader.findViewById(R.id.profileUser);
+        textUser.setText(AccountManager.accountMap.get(CURRENT_ACCOUNT).getUserName());
+
+        TextView textIntro = navHeader.findViewById(R.id.profileIntro);
+        textIntro.setText(AccountManager.accountMap.get(CURRENT_ACCOUNT).getProf().getIntro());
+
+        ImageView userImg = navHeader.findViewById(R.id.profileImg);
+        userImg.setImageBitmap(AccountManager.accountMap.get(CURRENT_ACCOUNT).getProf().getAvatarImage());
+
+        TextView textPlayTime = navHeader.findViewById(R.id.profileTime);
+        textPlayTime.setText("Play Time in Total: " +
+                AccountManager.accountMap.get(CURRENT_ACCOUNT).getProf().getTotalPlayTime());
 
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
