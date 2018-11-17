@@ -61,6 +61,9 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Wrong Password or Email", Toast.LENGTH_SHORT).show();
                 } else {
                     StartingActivity.CURRENT_ACCOUNT = emailValue;
+                    ScoreBoardActivity.currentAccount = emailValue;
+                    UserHistoryActivity.currentAccount = emailValue;
+                    GameCentreActivity.CURRENT_ACCOUNT = emailValue;
                     Intent goToCenter = new Intent(getApplicationContext(), GameCentreActivity.class);
                     goToCenter.putExtra("accountName", AccountManager.accountMap.get(emailValue).getUserName());
                     startActivity(goToCenter);
