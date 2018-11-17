@@ -1,5 +1,9 @@
 package fall18_207project.GameCenter;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.Image;
+
 import java.io.Serializable;
 
 class Profile implements Serializable {
@@ -8,26 +12,25 @@ class Profile implements Serializable {
      */
 
     // Avatar image location.
-    private String avatarImage;
-    private String context;
+    private Bitmap avatarImage;
     // Self description.
     private String intro;
     // Does not count unfinished game.
     private long totalPlayTime;
 
     Profile() {
-        // TODO: Should have a default avatar image here.
-        this.avatarImage = null;
+        this.avatarImage = BitmapFactory.decodeStream(getClass().getResourceAsStream(
+                "/res/drawable/paulorange1.jpg"));
         this.intro = "A New user who hasn't set his intro.";
         this.totalPlayTime = 0;
     }
 
 
-    String getAvatarImage() {
-        return avatarImage;
+    Bitmap getAvatarImage() {
+        return this.avatarImage;
     }
 
-    void setAvatarImage(String avatarImage) {
+    void setAvatarImage(Bitmap avatarImage) {
         this.avatarImage = avatarImage;
     }
 
@@ -46,4 +49,6 @@ class Profile implements Serializable {
     void updateTotalPlayTime(long newPlayTime) {
         this.totalPlayTime += totalPlayTime;
     }
+
+
 }
