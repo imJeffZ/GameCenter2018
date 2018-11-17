@@ -16,9 +16,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class GameCentreActivity extends AppCompatActivity implements  NavigationView.OnNavigationItemSelectedListener{
+
+    public static String CURRENT_ACCOUNT = "";
 
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -55,6 +58,19 @@ public class GameCentreActivity extends AppCompatActivity implements  Navigation
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
+
+        //TextView textUser = findViewById(R.id.profileUser);
+        //textUser.setText(AccountManager.accountMap.get(CURRENT_ACCOUNT).getUserName());
+
+//
+//        TextView textIntro = findViewById(R.id.profileIntro);
+//        textIntro.setText(AccountManager.accountMap.get(CURRENT_ACCOUNT).getProf().getIntro());
+
+        //ImageView userImg = findViewById(R.id.profileImg);
+        //userImg.setImageAlpha(0);
+
+//        TextView textPlayTime = findViewById(R.id.profileTime);
+//        textPlayTime.setText("" + AccountManager.accountMap.get(CURRENT_ACCOUNT).getProf().getTotalPlayTime());
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
