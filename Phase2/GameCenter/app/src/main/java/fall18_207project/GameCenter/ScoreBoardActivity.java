@@ -27,7 +27,7 @@ import java.util.Objects;
 
 
 public class ScoreBoardActivity extends Activity {
-    public String currentAccount;
+    public static String currentAccount;
     public static String SCOREBOARD = "scoreBoard.ser";
     private ScoreBoard scoreBoard;
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -71,7 +71,6 @@ public class ScoreBoardActivity extends Activity {
         scoreBoardView.setAdapter(adapter);
 
         Spinner spinner = findViewById(R.id.spinner);
-        //String[] mItems = {"User Email: " + accountEmail, "3 X 3", "4 x 4", "5 X 5"};
         String[] mItems = {"3 X 3", "4 x 4", "5 X 5"};
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, mItems);
@@ -98,24 +97,10 @@ public class ScoreBoardActivity extends Activity {
 
     private void getData(List<Map<String, Object>> list, int gameId) {
 
-        String[] accountScore;
-        String[] accountGame = {"3X3", "4X4", "5X5"};
         scoreBoard = new ScoreBoard();
         loadFromScoreBoard(SCOREBOARD);
         ArrayList<Integer> score = scoreBoard.getRankScorePerGame(gameId);
         ArrayList<String> user = scoreBoard.getRankUserNamePerGame(gameId);
-
-//        if (gameId == 0) {
-//            accountScore = AccountManager.accountMap.get(currentAccount).getScoreRecord();
-//            for (int i = 0; i < accountScore.length; i++) {
-//                Map<String, Object> map = new HashMap<>();
-//                map.put("user", accountGame[i]);
-//                map.put("score", accountScore[i]);
-//                list.add(map);
-
-//            }
-//
-//        } else {
 
             for (int i = 0; i < user.size(); i++) {
                 Map<String, Object> map = new HashMap<>();
