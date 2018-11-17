@@ -13,7 +13,7 @@
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/profileImg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@string/nav_header_desc"
@@ -23,15 +23,23 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/profileUser"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
         android:text="Paul Gries"
         android:textColor="#f1ecec" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/profileIntro"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="#f1ecec"
         android:text="123@123.com" />
+
+    <TextView
+        android:id="@+id/profileTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#f1ecec"
+        android:text="Total play time: 0" />
 
 </LinearLayout>
