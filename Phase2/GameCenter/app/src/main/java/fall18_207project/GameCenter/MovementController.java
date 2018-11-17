@@ -9,22 +9,22 @@ import android.widget.Toast;
 
 class MovementController {
 
-    private SlidingTiles slidingTiles;
+    private Game game;
 
     MovementController() {
     }
 
-    void setSlidingTiles(SlidingTiles slidingTiles) {
-        this.slidingTiles = slidingTiles;
+    void setGame(Game slidingTiles) {
+        this.game = slidingTiles;
     }
 
     void processTapMovement(final Context context, int position, boolean display) {
-        if (slidingTiles.isSolved()) {
+        if (this.game.isSolved()) {
             addScoreOnFinish();
             createDialog(context);
-        } else if (slidingTiles.isValidTap(position)) {
-            slidingTiles.touchMove(position);
-            if (slidingTiles.isSolved()) {
+        } else if (this.game.isValidTap(position)) {
+            this.game.touchMove(position);
+            if (this.game.isSolved()) {
                 addScoreOnFinish();
                 createDialog(context);
             }
@@ -47,8 +47,8 @@ class MovementController {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Intent gotoFinishScreen = new Intent(context, SlidingTileFinishActivity.class);
-                gotoFinishScreen.putExtra("score", slidingTiles.calculateScore());
-                gotoFinishScreen.putExtra("size", slidingTiles.getBoard().getNUM_COLS());
+                gotoFinishScreen.putExtra("score", game.calculateScore());
+                gotoFinishScreen.putExtra("size", game.getBoard().getNUM_COLS());
                 context.startActivity(gotoFinishScreen);
             }
         });
@@ -59,8 +59,8 @@ class MovementController {
      * add the score to the account when the game is over
      */
     private void addScoreOnFinish() {
-        String score = Integer.toString(slidingTiles.calculateScore());
-        int size = slidingTiles.getBoard().getNUM_COLS();
+        String score = Integer.toString(this.game.calculateScore());
+        int size = this.game.getBoard().getNUM_COLS();
         int index;
         if (size == 3) {
             index = 0;
