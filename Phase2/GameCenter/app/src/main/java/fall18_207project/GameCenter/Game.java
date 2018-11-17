@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Stack;
 import java.util.UUID;
 
-public abstract class Game implements Serializable {
+public abstract class Game implements Serializable, GameFeature {
     /**
      * A Generic BoardGame class.
      */
@@ -21,6 +21,9 @@ public abstract class Game implements Serializable {
     protected int countMove;
     protected Stack<Integer> saveMove;
     protected long elapsedTime;
+    // Record how long the game takes to finish
+    // This endTime is not generalized into abstract Game class because the Timer awaits further modification.
+    protected long endTime;
 
     Game() {
         this.countMove = 0;
@@ -28,6 +31,9 @@ public abstract class Game implements Serializable {
         this.saveMove = new Stack<>();
         // Creates a universal unique id
         this.saveId = UUID.randomUUID().toString();
+    }
+    int getCountMove() {
+        return countMove;
     }
 
     int getGameId() {
@@ -38,6 +44,26 @@ public abstract class Game implements Serializable {
         return this.saveId;
     }
     abstract int calculateScore();
+
+    void updateElapsedTime(long newElapsedTime) {
+        elapsedTime = newElapsedTime;
+        endTime = newElapsedTime;
+    }
+
+    void resetElapsedTime() {
+        elapsedTime = 0;
+    }
+
+    public long getElapsedTime() {
+        return elapsedTime;
+    }
+
+    /**
+     * Return the current board.
+     */
+    Board getBoard() {
+        return this.board;
+    }
 
     @Override
     public String toString() {
