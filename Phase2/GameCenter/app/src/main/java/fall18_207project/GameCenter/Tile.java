@@ -129,11 +129,29 @@ public class Tile implements Comparable<Tile>, Serializable {
             case 24:
                 background = R.drawable.tile_24;
                 break;
-            case 25:
-                background = R.drawable.tile_25;
+            case 32:
+                background = R.drawable.tile_32;
+                break;
+            case 64:
+                background = R.drawable.tile_64;
+                break;
+            case 128:
+                background = R.drawable.tile_128;
+                break;
+            case 256:
+                background = R.drawable.tile_256;
+                break;
+            case 512:
+                background = R.drawable.tile_512;
+                break;
+            case 1024:
+                background = R.drawable.tile_1024;
+                break;
+            case 2048:
+                background = R.drawable.tile_2048;
                 break;
             default:
-                background = R.drawable.tile_25;
+                background = R.drawable.tile_blank;
         }
     }
 
