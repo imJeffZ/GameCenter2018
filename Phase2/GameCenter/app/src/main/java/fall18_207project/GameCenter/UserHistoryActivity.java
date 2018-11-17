@@ -23,9 +23,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class UserHistoryActivity extends Activity {
-    public String currentAccount;
+    public static String currentAccount = "";
     public static String SCOREBOARD = "scoreBoard.ser";
     private ScoreBoard scoreBoard;
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -52,8 +53,6 @@ public class UserHistoryActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_history);
-        //String accountEmail = Objects.requireNonNull(getIntent().getExtras()).getString("accountEmail");
-        //currentAccount = accountEmail;
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         Menu menu = navigation.getMenu();
@@ -62,14 +61,13 @@ public class UserHistoryActivity extends Activity {
         ListView scoreBoardView;
         scoreBoardView = findViewById(R.id.historyView);
         final List<Map<String, Object>> list = new ArrayList<>();
-        getData(list, 1);
+        getData(list, 0);
         final SimpleAdapter adapter = new SimpleAdapter(this, list,
                 R.layout.user_history_item, new String[]{"user", "score"},
                 new int[]{R.id.user, R.id.score});
         scoreBoardView.setAdapter(adapter);
 
         Spinner spinner = findViewById(R.id.spinner);
-        //String[] mItems = {"User Email: " + accountEmail, "3 X 3", "4 x 4", "5 X 5"};
         String[] mItems = {"3 X 3", "4 x 4", "5 X 5"};
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, mItems);
@@ -81,7 +79,7 @@ public class UserHistoryActivity extends Activity {
             public void onItemSelected(AdapterView<?> parent, View view,
                                        int pos, long id) {
                 list.clear();
-                getData(list, pos+1);
+                getData(list, pos);
                 adapter.notifyDataSetChanged();
 
 
@@ -100,28 +98,14 @@ public class UserHistoryActivity extends Activity {
         String[] accountGame = {"3X3", "4X4", "5X5"};
         scoreBoard = new ScoreBoard();
         loadFromScoreBoard(SCOREBOARD);
-        ArrayList<Integer> score = scoreBoard.getRankScorePerGame(gameId);
-        ArrayList<String> user = scoreBoard.getRankUserNamePerGame(gameId);
+            accountScore = AccountManager.accountMap.get(currentAccount).getScoreRecord();
+           // for (int i = 0; i < accountScore.length; i++) {
+                Map<String, Object> map = new HashMap<>();
+                map.put("user", accountGame[gameId]);
+                map.put("score", accountScore[gameId]);
+                list.add(map);
+         //       }
 
-//        if (gameId == 0) {
-//            accountScore = AccountManager.accountMap.get(currentAccount).getScoreRecord();
-//            for (int i = 0; i < accountScore.length; i++) {
-//                Map<String, Object> map = new HashMap<>();
-//                map.put("user", accountGame[i]);
-//                map.put("score", accountScore[i]);
-//                list.add(map);
-
-//            }
-//
-//        } else {
-
-        for (int i = 0; i < user.size(); i++) {
-            Map<String, Object> map = new HashMap<>();
-            map.put("user", user.get(i));
-            map.put("score", score.get(i));
-            list.add(map);
-        }
-//        }
     }
 
     private void loadFromScoreBoard(String fileName) {
