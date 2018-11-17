@@ -19,7 +19,7 @@ class Profile implements Serializable {
         // Should have a default avatar image here.
         this.avatarImage = null;
         this.context = null;
-        this.intro = "";
+        this.intro = "A New user who hasn't set his intro.";
         this.totalPlayTime = 0;
     }
 
