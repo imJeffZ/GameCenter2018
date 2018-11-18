@@ -202,8 +202,8 @@ public class GameCentreActivity extends AppCompatActivity implements  Navigation
 
         TextView textIntro = navHeader.findViewById(R.id.profileIntro);
         textIntro.setText(AccountManager.accountMap.get(CURRENT_ACCOUNT).getProf().getIntro());
-        ImageView userImg = navHeader.findViewById(R.id.profileImg);
-        userImg.setImageBitmap(AccountManager.accountMap.get(CURRENT_ACCOUNT).getProf().getAvatarImage());
+        //ImageView userImg = navHeader.findViewById(R.id.profileImg);
+        //userImg.setImageBitmap(AccountManager.accountMap.get(CURRENT_ACCOUNT).getProf().getAvatarImage());
 
         TextView textPlayTime = navHeader.findViewById(R.id.profileTime);
         textPlayTime.setText("Play Time in Total: " +
