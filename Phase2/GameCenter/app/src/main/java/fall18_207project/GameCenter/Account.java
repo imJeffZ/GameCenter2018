@@ -15,7 +15,7 @@ public class Account implements Serializable {
     private Profile prof;
 
     @Deprecated private String[] scoreRecord;
-    private GameScoreBoard userScoreBoard;
+    private UserScordBoard userScoreBoard;
 
     public Account(String email, String userName, String password) {
         this.email = email;
@@ -23,7 +23,7 @@ public class Account implements Serializable {
         this.password = password;
         this.scoreRecord = new String[3];
         this.prof = new Profile();
-        this.userScoreBoard = new GameScoreBoard();
+        this.userScoreBoard = new UserScoreBoard();
     }
 
     @Deprecated String[] getScoreRecord() {
@@ -76,7 +76,7 @@ public class Account implements Serializable {
         return this.savedGames.deleteGame(saveId);
     }
 
-    GameScoreBoard getUserScoreBoard() {
+    UserScoreBoard getUserScoreBoard() {
         return this.userScoreBoard;
     }
 
