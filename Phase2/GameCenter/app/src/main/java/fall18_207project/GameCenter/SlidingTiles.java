@@ -22,7 +22,7 @@ class SlidingTiles extends Game implements Cloneable {
         super(); // Explicitly put here
         List<Tile> tiles = new ArrayList<>();
         final int numTiles = num * num;
-        for (int tileNum = 0; tileNum != numTiles - 1; tileNum++) {
+        for (int tileNum = 0; tileNum < numTiles - 1; tileNum++) {
             tiles.add(new Tile(tileNum));
         }
         tiles.add(new Tile(24));
