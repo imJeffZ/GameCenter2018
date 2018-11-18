@@ -15,7 +15,7 @@ public class Account implements Serializable {
     private Profile prof;
 
     @Deprecated private String[] scoreRecord;
-    private UserScordBoard userScoreBoard;
+    private UserScoreBoard userScoreBoard;
 
     public Account(String email, String userName, String password) {
         this.email = email;
