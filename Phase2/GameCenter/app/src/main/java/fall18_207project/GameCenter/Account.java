@@ -13,7 +13,9 @@ public class Account implements Serializable {
     private String password;
     private GameManager savedGames;
     private Profile prof;
-    private String[] scoreRecord;
+
+    @Deprecated private String[] scoreRecord;
+    private GameScoreBoard userScoreBoard;
 
     public Account(String email, String userName, String password) {
         this.email = email;
@@ -21,13 +23,16 @@ public class Account implements Serializable {
         this.password = password;
         this.scoreRecord = new String[3];
         this.prof = new Profile();
+        this.userScoreBoard = new GameScoreBoard();
     }
 
-    String[] getScoreRecord() {
+    @Deprecated String[] getScoreRecord() {
         return this.scoreRecord;
     }
 
-    void addScore(int index, String score) {
+
+
+    @Deprecated void addScore(int index, String score) {
         if (this.getScoreRecord()[index] == null) {
             this.getScoreRecord()[index] = score;
         } else if (Integer.parseInt(score) > Integer.parseInt(this.getScoreRecord()[index])) {
@@ -69,6 +74,10 @@ public class Account implements Serializable {
 
     boolean deleteSavedGame(String saveId) {
         return this.savedGames.deleteGame(saveId);
+    }
+
+    GameScoreBoard getUserScoreBoard() {
+        return this.userScoreBoard;
     }
 
 
