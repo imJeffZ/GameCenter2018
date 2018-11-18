@@ -107,7 +107,6 @@ public class SlidingTile3Test {
         setUpCorrect();
         Tile blankTile = new Tile(24);
         slidingTile.touchMove(7);
-
         assertEquals(false, slidingTile.isSolved());
         assertEquals(true, slidingTile.isValidTap(6));
         slidingTile.touchMove(6);
