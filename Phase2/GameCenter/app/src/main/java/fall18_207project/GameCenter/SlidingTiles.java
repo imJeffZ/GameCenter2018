@@ -12,34 +12,8 @@ import java.util.Stack;
  *
  * TODO: Make SlidingTiles Cloneable.
  */
-class SlidingTiles extends Game implements GameFeature, Cloneable {
+class SlidingTiles extends Game implements Cloneable {
 // If parent class is serializable, subclass is automatically serializable, thus we don't need to implement serializable for SlidingTiles
-
-    // Record how long the game takes to finish
-    // This endTime is not generalized into abstract Game class because the Timer awaits further modification.
-    private long endTime;
-    /**
-     * Manage a board that has been pre-populated.
-     *
-     * @param board the board
-     */
-
-    /**
-     * Return the current board.
-     */
-    Board getBoard() {
-        return board;
-    }
-
-    int getCountMove() {
-        return countMove;
-    }
-
-
-    void updateElapsedTime(long newElapsedTime) {
-        elapsedTime = newElapsedTime;
-        endTime = newElapsedTime;
-    }
 
     /**
      * Manage a new shuffled board.
@@ -95,14 +69,6 @@ class SlidingTiles extends Game implements GameFeature, Cloneable {
             correctId++;
         }
         return solved;
-    }
-
-    void resetElapsedTime() {
-        elapsedTime = 0;
-    }
-
-    public long getElapsedTime() {
-        return elapsedTime;
     }
 
     /**

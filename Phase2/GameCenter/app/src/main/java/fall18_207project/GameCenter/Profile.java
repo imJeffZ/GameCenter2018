@@ -12,7 +12,7 @@ class Profile implements Serializable {
      */
 
     // Avatar image location.
-    private Bitmap avatarImage;
+    transient private Bitmap avatarImage;
     // Self description.
     private String intro;
     // Does not count unfinished game.
