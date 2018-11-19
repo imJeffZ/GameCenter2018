@@ -86,6 +86,7 @@ public class GameCentreActivity extends AppCompatActivity implements  Navigation
         MenuItem menuItem = menu.getItem(0);
         menuItem.setChecked(true);
         addGameButtonListener();
+        addMatchingCardsGameButtonListener();
     }
 
     @Override
@@ -221,8 +222,24 @@ public class GameCentreActivity extends AppCompatActivity implements  Navigation
         });
     }
 
+    private void addMatchingCardsGameButtonListener() {
+
+        ImageButton ButtonGame = findViewById(R.id.MatchingCardsGame);
+        ButtonGame.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switchToMatchingCardsGame();
+            }
+        });
+    }
+
     private void switchToGame() {
         Intent tmp = new Intent(this, StartingActivity.class);
+        startActivity(tmp);
+    }
+
+    private  void switchToMatchingCardsGame(){
+        Intent tmp = new Intent(this, MatchingCardStartActivity.class);
         startActivity(tmp);
     }
 
