@@ -10,7 +10,7 @@
         android:id="@+id/beginApp"
         android:layout_width="395dp"
         android:layout_height="110dp"
-        android:text="Jeff wants a fancy startup animation!"
+        android:text="A fancy startup animation!"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
