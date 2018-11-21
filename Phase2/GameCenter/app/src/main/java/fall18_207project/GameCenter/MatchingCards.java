@@ -12,12 +12,14 @@ public class MatchingCards extends Game implements Cloneable, Serializable {
     protected MatchingBoard matchingBoard;
     private  int match;
     private  int prePos;
+    private  boolean startMode;
 
     public int getMatch(){return match;}
     public int getPrePos(){return prePos;}
     public MatchingBoard getMatchingBoard(){
         return matchingBoard;
     }
+    public boolean isStartMode(){return startMode;}
 
     MatchingCards(int num) {
         super();
@@ -32,6 +34,7 @@ public class MatchingCards extends Game implements Cloneable, Serializable {
         this.endTime = 0;
         this.prePos = -1;
         this.match = 0;
+        this.startMode = true;
     }
 
     @Override
@@ -41,7 +44,9 @@ public class MatchingCards extends Game implements Cloneable, Serializable {
 
     @Override
     public boolean isValidTap(int position) {
-        return position < matchingBoard.getNumOfCards();
+        int row = position / matchingBoard.getNumOfRows();
+        int col = position % matchingBoard.getNumOfColumns();
+        return (!this.startMode) && position < matchingBoard.getNumOfCards() && !(this.isCardUsed(row, col));
     }
 
     @Override
@@ -51,9 +56,10 @@ public class MatchingCards extends Game implements Cloneable, Serializable {
         int col = position % matchingBoard.getNumOfColumns();
         int row1 = prePos/ matchingBoard.getNumOfRows();
         int col1 = prePos % matchingBoard.getNumOfColumns();
-        if (isMatched(row, col)){
+        if (this.isMatched(row, col)){
             match++;
             matchingBoard.turnCard(row, col, true);
+            matchingBoard.useCards(row, col, row1, col1);
             prePos = -1;
             saveMove.push(position);
         }else {
@@ -67,11 +73,7 @@ public class MatchingCards extends Game implements Cloneable, Serializable {
                 prePos = -1;
                 saveMove.pop();
             }
-
         }
-
-
-
     }
 
     public boolean isMatched(int row0, int col0){
@@ -82,6 +84,8 @@ public class MatchingCards extends Game implements Cloneable, Serializable {
                 matchingBoard.getCard(row, col).getId() == matchingBoard.getCard(row0, col0).getId() - 1));
     }
 
+    public boolean isCardUsed(int row, int col){ return matchingBoard.getCard(row, col).isUsed();}
+
     @Override
     public void undo() {
         if (!saveMove.isEmpty()) {
@@ -91,6 +95,8 @@ public class MatchingCards extends Game implements Cloneable, Serializable {
         }
 
     }
+
+    public void setStartMode(){ this.startMode = false;}
 
     @Override
     public long getElapsedTime() {
