@@ -13,6 +13,7 @@ public class MatchingCards extends Game implements Cloneable, Serializable {
     private  int match;
     private  int prePos;
     private  boolean startMode;
+    private  boolean matchBomb;
 
     public int getMatch(){return match;}
     public int getPrePos(){return prePos;}
@@ -21,11 +22,13 @@ public class MatchingCards extends Game implements Cloneable, Serializable {
     }
     public boolean isStartMode(){return startMode;}
 
+    public boolean isMatchBomb(){return matchBomb;}
+
     MatchingCards(int num) {
         super();
         this.gameId = num;
         List<Card> cardList = new ArrayList<>();
-        final int numCards = 4 * num;
+        final int numCards = num * num;
         for (int cardNum = 0; cardNum < numCards; cardNum++) {
             cardList.add(new Card(cardNum));
         }
@@ -35,11 +38,12 @@ public class MatchingCards extends Game implements Cloneable, Serializable {
         this.prePos = -1;
         this.match = 0;
         this.startMode = true;
+        this.matchBomb = false;
     }
 
     @Override
     public boolean isSolved() {
-        return match == 2 * this.gameId;
+        return matchBomb||(match == 2 * this.gameId);
     }
 
     @Override
@@ -56,7 +60,11 @@ public class MatchingCards extends Game implements Cloneable, Serializable {
         int col = position % matchingBoard.getNumOfColumns();
         int row1 = prePos/ matchingBoard.getNumOfRows();
         int col1 = prePos % matchingBoard.getNumOfColumns();
-        if (this.isMatched(row, col)){
+        if (matchingBoard.getCard(row, col).isBomb()) {
+            matchingBoard.turnCard(row, col, true);
+            matchBomb = true;
+        }
+        else if (this.isMatched(row, col)){
             match++;
             matchingBoard.turnCard(row, col, true);
             matchingBoard.useCards(row, col, row1, col1);
@@ -104,6 +112,9 @@ public class MatchingCards extends Game implements Cloneable, Serializable {
     }
 
     public int calculateScore(){
-        return Math.round(1400 / (countMove + 1) + 600 / (endTime + 1));
+        if (!isMatchBomb())
+            return Math.round(1400 / (countMove + 1) + 600 / (endTime + 1));
+        else
+            return 0;
     }
 }
