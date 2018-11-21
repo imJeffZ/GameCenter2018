@@ -65,7 +65,7 @@ public class StartingActivity extends AppCompatActivity {
                 loadFromFile(CURRENT_ACCOUNT + AUTO_SAVE_FILENAME);
                 saveToFile(TEMP_SAVE_FILENAME);
                 if (slidingTiles == null) {
-                    makeAnotherToatCurrentMessage();
+                    makeAnotherToastCurrentMessage();
                     return;
                 }
                 makeToastLoadedText();
@@ -107,7 +107,7 @@ public class StartingActivity extends AppCompatActivity {
         Toast.makeText(this, "Loaded Game", Toast.LENGTH_SHORT).show();
     }
 
-    private void makeAnotherToatCurrentMessage() {
+    private void makeAnotherToastCurrentMessage() {
         Toast.makeText(this, "No current Game", Toast.LENGTH_SHORT).show();
     }
 
