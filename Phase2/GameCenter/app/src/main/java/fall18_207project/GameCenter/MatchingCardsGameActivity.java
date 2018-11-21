@@ -28,7 +28,6 @@ public class MatchingCardsGameActivity extends AppCompatActivity implements Obse
      * The buttons to display.
      */
     private ArrayList<Button> cardButtons;
-    private int matched = 0;
 
     //Timer textview
     TextView mTvTimer;
@@ -50,7 +49,10 @@ public class MatchingCardsGameActivity extends AppCompatActivity implements Obse
      */
     // Display
     public void display() {
-        updateCardButtons();
+        if (matchingCards.isStartMode())
+            initCardButtons();
+        else
+            updateCardButtons();
         gridView.setAdapter(new CustomAdapter(cardButtons, columnWidth, columnHeight));
 
         int counter = matchingCards.getCountMove();
@@ -68,7 +70,7 @@ public class MatchingCardsGameActivity extends AppCompatActivity implements Obse
         mContext = this;
         mTvTimer = findViewById(R.id.time_id);
 
-        addUndoButtonListener();
+        addStartButtonListener();
 
         // Add View to activity
         gridView = findViewById(R.id.grid);
@@ -116,12 +118,14 @@ public class MatchingCardsGameActivity extends AppCompatActivity implements Obse
     }
 
 
-    private void addUndoButtonListener() {
-        Button undoButton = findViewById(R.id.UndoButton);
-        undoButton.setOnClickListener((new View.OnClickListener() {
+    private void addStartButtonListener() {
+        final Button startButton = findViewById(R.id.StartMatchButton);
+        startButton.setOnClickListener((new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                matchingCards.undo();
+                matchingCards.setStartMode();
+                startButton.setClickable(false);
+                updateCardButtons();
             }
         }));
 
@@ -157,12 +161,24 @@ public class MatchingCardsGameActivity extends AppCompatActivity implements Obse
                 b.setBackgroundResource(matchingBoard.getCard(row, col).getBackId());
                 }
             else {
-                b.setBackgroundResource(R.drawable.back_image);
+                b.setBackgroundResource(R.drawable.matching_front);
 
             }
             nextPos++;
         }
     }
+
+    private void initCardButtons() {
+        MatchingBoard matchingBoard = matchingCards.getMatchingBoard();
+        int nextPos = 0;
+        for (Button b : cardButtons) {
+            int row = nextPos /matchingCards.getMatchingBoard().getNumOfRows();
+            int col = nextPos % matchingCards.getMatchingBoard().getNumOfColumns();
+            b.setBackgroundResource(matchingBoard.getCard(row, col).getBackId());
+            nextPos++;
+        }
+    }
+
 
     /**
      * Dispatch onPause() to fragments.
