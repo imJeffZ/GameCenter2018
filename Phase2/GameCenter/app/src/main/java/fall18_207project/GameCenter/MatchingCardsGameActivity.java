@@ -140,8 +140,8 @@ public class MatchingCardsGameActivity extends AppCompatActivity implements Obse
     private void createCardButtons(Context context) {
         MatchingBoard matchingBoard = matchingCards.getMatchingBoard();
         cardButtons = new ArrayList<>();
-        for (int row = 0; row != matchingCards.getMatchingBoard().getNumOfRows(); row++) {
-            for (int col = 0; col != matchingCards.getMatchingBoard().getNumOfColumns(); col++) {
+        for (int row = 0; row < matchingCards.getMatchingBoard().getNumOfRows(); row++) {
+            for (int col = 0; col < matchingCards.getMatchingBoard().getNumOfColumns(); col++) {
                 Button tmp = new Button(context);
                 tmp.setBackgroundResource(matchingBoard.getCard(row, col).getBackId());
                 this.cardButtons.add(tmp);

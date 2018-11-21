@@ -10,6 +10,7 @@ public class Card implements Comparable<Card>, Serializable {
     private  int backId;
     private boolean up;
     private boolean used;
+    private boolean bomb;
 
     public int getId() {
         return id;
@@ -25,10 +26,13 @@ public class Card implements Comparable<Card>, Serializable {
 
    public boolean isUsed(){ return used; }
 
+   public boolean isBomb(){return bomb;}
+
     Card(int position){
         id = position + 1;
         up = false;
         used = false;
+        bomb = false;
         switch(position + 1){
             case 1:
                 backId = R.drawable.p1;
@@ -102,8 +106,21 @@ public class Card implements Comparable<Card>, Serializable {
             case 24:
                 backId = R.drawable.p24;
                 break;
+            case 27:
+                backId = R.drawable.p27;
+                break;
+            case 28:
+                backId = R.drawable.p28;
+                break;
+            case 29:
+                backId = R.drawable.p29;
+                break;
+            case 30:
+                backId = R.drawable.p30;
+                break;
             default:
-                backId = R.drawable.matching_front;
+                backId = R.drawable.bomb;
+                bomb = true;
         }
 
 

@@ -42,7 +42,7 @@ class MovementController {
     private void createDialog(final Context context) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setCancelable(false);
-        builder.setMessage("You won! press continue to keep going!");
+        builder.setMessage("Game Over! press continue to keep going!");
         builder.setPositiveButton("Continue", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {

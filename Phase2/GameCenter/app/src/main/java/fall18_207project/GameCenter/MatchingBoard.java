@@ -15,7 +15,7 @@ public class MatchingBoard extends Observable implements Cloneable, Serializable
     private  Card[][] cards;
 
     public MatchingBoard(List<Card> cardList, int size){
-        this.numOfColumns = 4;
+        this.numOfColumns = size;
         this.numOfRows = size;
         this.cards = new Card[numOfRows][numOfColumns];
 
