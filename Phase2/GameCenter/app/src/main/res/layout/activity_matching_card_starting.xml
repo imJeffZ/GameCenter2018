@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@drawable/back_image"
+    android:background="@drawable/matching_front"
     tools:context="fall18_207project.GameCenter.MatchingCardStartActivity">
 
     <TextView
@@ -23,7 +23,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="100dp"
         android:text="Welcome to Matching Card!"
-        android:textColor="#caf0a708"
+        android:textColor="#ca144e3d"
         android:gravity="center"
         android:textSize="50sp"
         android:textStyle="bold"
