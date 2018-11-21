@@ -51,6 +51,11 @@ public class MatchingBoard extends Observable implements Cloneable, Serializable
         notifyObservers();
     }
 
+    void useCards(int row, int col, int row1, int col1) {
+        cards[row][col].setUsed(true);
+        cards[row1][col1].setUsed(true);
+    }
+
     @NonNull
     @Override
     public String toString() {
