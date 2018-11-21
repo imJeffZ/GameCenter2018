@@ -70,7 +70,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
             android:layout_marginTop="15dp"
-            android:background="@drawable/sliding_tile_game"
+            android:background="@drawable/matching_card_game"
             android:contentDescription="Matching Cards Game"
             app:layout_constraintLeft_toRightOf="@id/SlidingTileGame"
             app:layout_constraintTop_toBottomOf="@+id/message" />
@@ -81,7 +81,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
             android:layout_marginTop="5dp"
-            android:text="Matching Cards"
+            android:text="MatchCard"
             android:textColor="#cd000000"
             android:textSize="15sp"
             app:layout_constraintLeft_toRightOf="@id/sliding_text"
