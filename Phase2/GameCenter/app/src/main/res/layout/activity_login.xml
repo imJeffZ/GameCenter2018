@@ -38,10 +38,10 @@
         android:layout_width="120sp"
         android:layout_height="50sp"
         android:layout_alignTop="@+id/passwordtext"
-        android:layout_marginTop="120sp"
-        android:text="Log in"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="120sp"
         android:background="@drawable/button_style3"
+        android:text="Log in"
         tools:layout_editor_absoluteX="38sp"
         tools:layout_editor_absoluteY="275sp" />
 
