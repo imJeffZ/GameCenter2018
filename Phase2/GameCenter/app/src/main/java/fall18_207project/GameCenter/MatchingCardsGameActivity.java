@@ -125,6 +125,7 @@ public class MatchingCardsGameActivity extends AppCompatActivity implements Obse
             public void onClick(View view) {
                 matchingCards.setStartMode();
                 startButton.setClickable(false);
+                startButton.setText("Started");
                 updateCardButtons();
             }
         }));
