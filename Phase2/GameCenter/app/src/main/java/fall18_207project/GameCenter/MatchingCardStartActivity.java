@@ -40,8 +40,8 @@ public class MatchingCardStartActivity extends AppCompatActivity {
         addLoadButtonListener();
         addSaveButtonListener();
         add4ButtonListener();
-        //add5ButtonListener();
-        //add6ButtonListener();
+        add5ButtonListener();
+        add6ButtonListener();
         addLogOutButtonListener();
         addReturnToGameCenterListener();
         TextView account = findViewById(R.id.Hiuser);
@@ -137,30 +137,30 @@ public class MatchingCardStartActivity extends AppCompatActivity {
     /**
      * Activate the 4x4 new game board.
 //     */
-//    private void add5ButtonListener() {
-//        Button Button5 = findViewById(R.id.Button5);
-//        Button5.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                matchingCards = new MatchingCards(5);
-//                switchToGame();
-//            }
-//        });
-//    }
+    private void add5ButtonListener() {
+        Button Button5 = findViewById(R.id.Button5);
+        Button5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                matchingCards = new MatchingCards(5);
+                switchToGame();
+            }
+        });
+    }
 
     /**
      * Activate the 5x5 new game board.
      */
-//    private void add6ButtonListener() {
-//        Button Button6 = findViewById(R.id.Button6);
-//        Button6.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                matchingCards = new MatchingCards(6);
-//                switchToGame();
-//            }
-//        });
-//    }
+    private void add6ButtonListener() {
+        Button Button6 = findViewById(R.id.Button6);
+        Button6.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                matchingCards = new MatchingCards(6);
+                switchToGame();
+            }
+        });
+    }
 
     /**
      * Log out of the current Account.
