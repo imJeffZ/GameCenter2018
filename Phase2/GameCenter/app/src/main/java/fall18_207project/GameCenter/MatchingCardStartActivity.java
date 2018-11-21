@@ -59,7 +59,7 @@ public class MatchingCardStartActivity extends AppCompatActivity {
                 loadFromFile(CURRENT_ACCOUNT + AUTO_SAVE_FILENAME);
                 saveToFile(TEMP_SAVE_FILENAME);
                 if (matchingCards == null) {
-                    makeAnotherToatCurrentMessage();
+                    makeAnotherToastCurrentMessage();
                     return;
                 }
                 makeToastLoadedText();
@@ -101,7 +101,7 @@ public class MatchingCardStartActivity extends AppCompatActivity {
         Toast.makeText(this, "Loaded Game", Toast.LENGTH_SHORT).show();
     }
 
-    private void makeAnotherToatCurrentMessage() {
+    private void makeAnotherToastCurrentMessage() {
         Toast.makeText(this, "No current Game", Toast.LENGTH_SHORT).show();
     }
 
