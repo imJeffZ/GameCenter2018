@@ -94,15 +94,6 @@ public class MatchingCards extends Game implements Cloneable, Serializable {
 
     public boolean isCardUsed(int row, int col){ return matchingBoard.getCard(row, col).isUsed();}
 
-    @Override
-    public void undo() {
-        if (!saveMove.isEmpty()) {
-            int position = saveMove.pop();
-            touchMove(position);
-            saveMove.pop();
-        }
-
-    }
 
     public void setStartMode(){ this.startMode = false;}
 
