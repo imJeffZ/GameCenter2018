@@ -43,7 +43,7 @@ public class MatchingCards extends Game implements Cloneable, Serializable {
 
     @Override
     public boolean isSolved() {
-        return matchBomb||(match == 2 * this.gameId);
+        return matchBomb||(match == this.gameId * this.gameId / 2);
     }
 
     @Override
