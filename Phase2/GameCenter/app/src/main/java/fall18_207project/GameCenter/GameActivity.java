@@ -75,7 +75,7 @@ public class GameActivity extends AppCompatActivity implements Observer {
         super.onCreate(savedInstanceState);
         loadFromFile(StartingActivity.TEMP_SAVE_FILENAME);
         createTileButtons(this);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_game);
 
         mContext = this;
         mTvTimer = findViewById(R.id.time_id);
