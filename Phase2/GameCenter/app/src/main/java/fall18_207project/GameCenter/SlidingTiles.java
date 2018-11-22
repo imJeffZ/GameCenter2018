@@ -18,7 +18,7 @@ class SlidingTiles extends Game implements Cloneable {
     /**
      * Manage a new shuffled board.
      */
-    private Board board;
+    protected Board board;
 
     SlidingTiles(int num) {
         super(); // Explicitly put here
