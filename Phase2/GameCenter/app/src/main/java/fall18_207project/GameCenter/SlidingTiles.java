@@ -18,6 +18,8 @@ class SlidingTiles extends Game implements Cloneable {
     /**
      * Manage a new shuffled board.
      */
+    private Board board;
+
     SlidingTiles(int num) {
         super(); // Explicitly put here
         this.gameId = num-2;
@@ -154,6 +156,10 @@ class SlidingTiles extends Game implements Cloneable {
      */
     private boolean checkBlankTile(Tile tile, int blankId) {
         return (tile != null && tile.getId() == blankId);
+    }
+
+    Board getBoard() {
+        return this.board;
     }
 
     @Override

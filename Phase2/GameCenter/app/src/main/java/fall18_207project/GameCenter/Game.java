@@ -14,10 +14,6 @@ public abstract class Game implements Serializable, GameFeature {
     // This saveId is an unique identifier for a game. Two 3x3 slidingTiles does not have the same saveId.
     // Intending to use hashCode
     protected final String saveId;
-    /**
-     * The board being managed.
-     */
-    protected Board board;
     protected int countMove;
     protected Stack<Integer> saveMove;
     protected long elapsedTime;
@@ -61,9 +57,6 @@ public abstract class Game implements Serializable, GameFeature {
     /**
      * Return the current board.
      */
-    Board getBoard() {
-        return this.board;
-    }
 
     @Override
     public String toString() {
