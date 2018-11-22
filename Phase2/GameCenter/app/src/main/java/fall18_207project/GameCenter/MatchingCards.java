@@ -12,6 +12,7 @@ public class MatchingCards extends Game implements Cloneable, Serializable {
     protected MatchingBoard matchingBoard;
     private  int match;
     private  int prePos;
+    private  int numOfBombs = 0;
     private  boolean startMode;
     private  boolean matchBomb;
 
@@ -30,7 +31,10 @@ public class MatchingCards extends Game implements Cloneable, Serializable {
         List<Card> cardList = new ArrayList<>();
         final int numCards = num * num;
         for (int cardNum = 0; cardNum < numCards; cardNum++) {
-            cardList.add(new Card(cardNum));
+            Card c = new Card(cardNum);
+            cardList.add(c);
+            if(c.isBomb())
+                this.numOfBombs++;
         }
         Collections.shuffle(cardList);
         matchingBoard = new MatchingBoard(cardList, num);
@@ -43,7 +47,7 @@ public class MatchingCards extends Game implements Cloneable, Serializable {
 
     @Override
     public boolean isSolved() {
-        return matchBomb||(match == this.gameId * this.gameId / 2);
+        return matchBomb||(2 * match == this.gameId * this.gameId - this.numOfBombs);
     }
 
     @Override
@@ -93,7 +97,6 @@ public class MatchingCards extends Game implements Cloneable, Serializable {
     }
 
     public boolean isCardUsed(int row, int col){ return matchingBoard.getCard(row, col).isUsed();}
-
 
     public void setStartMode(){ this.startMode = false;}
 
