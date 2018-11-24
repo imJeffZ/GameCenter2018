@@ -17,7 +17,7 @@ public class MatchingCard4Test {
     private List<Card> makeCards() {
         int n = 4;
         List<Card> cards = new ArrayList<>();
-        int numTiles = 4 * n;
+        int numTiles = n * n;
         for (int i = 0; i < numTiles; i++) {
             cards.add(new Card(i));
         }
