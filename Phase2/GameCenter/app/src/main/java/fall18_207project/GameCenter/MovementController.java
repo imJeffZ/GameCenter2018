@@ -14,9 +14,10 @@ class MovementController {
     MovementController() {
     }
 
-    void setGame(Game slidingTiles) {
-        this.game = slidingTiles;
+    void setGame(Game game) {
+        this.game = game;
     }
+
 
     void processTapMovement(final Context context, int position, boolean display) {
         if (this.game.isSolved()) {

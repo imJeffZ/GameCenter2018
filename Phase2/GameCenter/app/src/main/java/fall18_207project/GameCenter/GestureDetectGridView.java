@@ -61,6 +61,9 @@ public class GestureDetectGridView extends GridView {
                 return true;
             }
 
+
+
+
             @Override
             public boolean onDown(MotionEvent event) {
                 return true;
@@ -106,3 +109,5 @@ public class GestureDetectGridView extends GridView {
         mController.setGame(this.game);
     }
 }
+
+

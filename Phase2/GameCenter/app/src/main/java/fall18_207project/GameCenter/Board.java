@@ -2,7 +2,6 @@ package fall18_207project.GameCenter;
 
 import android.support.annotation.NonNull;
 
-import java.util.ArrayList;
 import java.util.Observable;
 
 import java.io.Serializable;
@@ -80,6 +79,9 @@ public class Board extends Observable implements Cloneable, Serializable, Iterab
         return tiles[row][col];
     }
 
+    Tile[][] getTiles(){
+        return this.tiles;
+    }
     /**
      * Swap the tiles at (row1, col1) and (row2, col2)
      *
@@ -88,6 +90,7 @@ public class Board extends Observable implements Cloneable, Serializable, Iterab
      * @param row2 the second tile row
      * @param col2 the second tile col
      */
+
     void swapTiles(int row1, int col1, int row2, int col2) {
         Tile t1 = tiles[row1][col1];
         tiles[row1][col1] = tiles[row2][col2];

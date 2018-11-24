@@ -74,4 +74,8 @@ public abstract class Game implements Serializable, GameFeature {
     public boolean equals(Object obj) {
         return obj instanceof Game && ((Game) obj).saveId.equals(this.saveId);
     }
+
+    public abstract boolean isValidTap(int position);
+
+    public abstract void touchMove(int position);
 }
