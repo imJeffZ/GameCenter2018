@@ -134,12 +134,17 @@ public class Game2048Activity extends AppCompatActivity implements Observer {
             @Override
             public void onClick(View view) {
                 game2048.undo();
+                setObserver(game2048.getBoard());
+                game2048.getBoard().swapTiles(1,2,2,1);
+                game2048.getBoard().swapTiles(1,2,2,1);
             }
         }));
 
     }
 
-
+    private void setObserver(Board board) {
+        board.addObserver(this);
+    }
 
     /**
      * Create the buttons for displaying the tiles.

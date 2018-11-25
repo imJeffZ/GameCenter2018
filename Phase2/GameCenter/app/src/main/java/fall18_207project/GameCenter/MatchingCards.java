@@ -109,8 +109,5 @@ public class MatchingCards extends Game implements Cloneable, Serializable {
             return 0;
     }
 
-    @Override
-    public boolean hasVaildMove() {
-        return true;
-    }
+
 }

@@ -150,7 +150,9 @@ public class Board extends Observable implements Cloneable, Serializable, Iterab
                 tiles.add(this.getTile(i, j));
             }
         }
-        return new Board(tiles, this.getNUM_ROWS());
+
+       Board board1 = new Board(tiles, this.getNUM_ROWS());
+        return board1;
 
     }
 }

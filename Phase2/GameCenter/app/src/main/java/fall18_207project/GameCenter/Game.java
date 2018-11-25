@@ -72,5 +72,7 @@ public abstract class Game implements Serializable, GameFeature {
 
     public abstract void touchMove(int position);
 
-    public abstract boolean hasVaildMove();
+    public boolean hasVaildMove(){
+        return true;
+    }
 }
