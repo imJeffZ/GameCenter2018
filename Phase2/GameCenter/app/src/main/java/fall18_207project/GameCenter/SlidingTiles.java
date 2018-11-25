@@ -18,8 +18,11 @@ class SlidingTiles extends Game implements Cloneable, GameFeature {
     /**
      * Manage a new shuffled board.
      */
+    protected Board board;
+
     SlidingTiles(int num) {
         super(); // Explicitly put here
+        this.gameId = num-2;
         List<Tile> tiles = new ArrayList<>();
         final int numTiles = num * num;
         for (int tileNum = 0; tileNum < numTiles - 1; tileNum++) {
@@ -155,9 +158,17 @@ class SlidingTiles extends Game implements Cloneable, GameFeature {
         return (tile != null && tile.getId() == blankId);
     }
 
+    Board getBoard() {
+        return this.board;
+    }
+
     @Override
     public String toString() {
         return board.getNUM_COLS() + " X " + board.getNUM_ROWS() + " SlidingTiles";
     }
 
+    @Override
+    public boolean hasVaildMove() {
+        return true;
+    }
 }

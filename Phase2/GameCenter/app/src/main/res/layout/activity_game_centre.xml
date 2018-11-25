@@ -64,6 +64,55 @@
 
             />
 
+        <ImageButton
+            android:id="@+id/Game2048"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="192dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/sliding_tile_game"
+            android:contentDescription="2048"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/message" />
+
+        <TextView
+            android:id="@+id/Game2048_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="208dp"
+            android:layout_marginTop="4dp"
+            android:text="2048"
+            android:textColor="#cd000000"
+            android:textSize="15sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+
+            app:layout_constraintTop_toBottomOf="@id/SlidingTileGame" />
+
+        <ImageButton
+            android:id="@+id/MatchingCardsGame"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/matching_card_game"
+            android:contentDescription="Matching Cards Game"
+            app:layout_constraintLeft_toRightOf="@id/SlidingTileGame"
+            app:layout_constraintTop_toBottomOf="@+id/message" />
+
+        <TextView
+            android:id="@+id/matching_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="5dp"
+            android:text="MatchCard"
+            android:textColor="#cd000000"
+            android:textSize="15sp"
+            app:layout_constraintLeft_toRightOf="@id/sliding_text"
+            app:layout_constraintTop_toBottomOf="@id/MatchingCardsGame"
+
+            />
+
         <android.support.design.widget.BottomNavigationView
             android:id="@+id/navigation"
             android:layout_width="0dp"

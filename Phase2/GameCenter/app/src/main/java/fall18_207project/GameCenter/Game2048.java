@@ -1,31 +1,36 @@
 package fall18_207project.GameCenter;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Random;
-import java.util.Stack;
+        import java.util.ArrayList;
+        import java.util.Collections;
+        import java.util.Iterator;
+        import java.util.List;
+        import java.util.Random;
+        import java.util.Stack;
 
 public class Game2048 extends Game implements GameFeature, Cloneable {
 
-    private final static int LEFT = 1;
-    private final static int RIGHT = 2;
-    private final static int UP = 3;
-    private final static int DOWN = 4;
+    public final static int LEFT = 1;
+    public final static int RIGHT = 2;
+    public final static int UP = 3;
+    public final static int DOWN = 4;
+    private final static int BLANK_ID = 25;
     private int score;
     private Stack<Board> boardStack;
+    private Board board;
 
     public Game2048() {
         super(); // Explicitly put here
         List<Tile> tiles = new ArrayList<>();
         final int numTiles = 16;
         Random r = new Random();
-        int beginnum1 = (r.nextInt(2) + 1) * 2;
-        int beginnum2 = (r.nextInt(2) + 1) * 2;
+        int beginnum1 = (r.nextInt(1) + 1) * 2;
+        int beginnum2 = (r.nextInt(1) + 1) * 2;
 
         tiles.add(new Tile(beginnum1 + 1));
         tiles.add(new Tile(beginnum2 + 1));
+        for (int tileNum = 0; tileNum < numTiles - 2; tileNum++) {
+            tiles.add(new Tile(24));
+        }
         Collections.shuffle(tiles);
         board = new Board(tiles, 4);
         this.endTime = 0;
@@ -34,6 +39,21 @@ public class Game2048 extends Game implements GameFeature, Cloneable {
         boardStack.add(board);
     }
 
+    public static int getLEFT() {
+        return LEFT;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public Stack<Board> getBoardStack() {
+        return boardStack;
+    }
+
+    public Board getBoard() {
+        return board;
+    }
 
     @Override
     int calculateScore() {
@@ -41,199 +61,213 @@ public class Game2048 extends Game implements GameFeature, Cloneable {
     }
 
     /**
-     *
-     *
      * @param direction
      * @return
      */
     @Override
     public boolean isValidTap(int direction) {
+        return true;
+
+
+    }
+
+
+    public boolean hasVaildMove(){
         boolean valid = false;
         int blankid = 25;
-        if (direction == LEFT) {
-            for (int i = 0; i < board.getNUM_COLS() - 1; i++) {
-                for (int j = board.getNUM_ROWS() -1; j > 0; j--) {
-                    if (board.getTile(i, j ).getId()!= blankid && board.getTile(i, j - 1).getId() == blankid) {
+        for (int i = 0; i < board.getNUM_COLS(); i++){
+            for (int j = 0; j<board.getNUM_ROWS(); j++){
+                if (i+1 < board.getNUM_COLS()){
+                    if (board.getTile(i+1,j).getId() == blankid || board.getTile(i+1,j).getId() == board.getTile(i,j).getId()){
                         return true;
-                    } else if ((board.getTile(i, j - 1)!= null && board.getTile(i, j - 1).getId() == board.getTile(i, j).getId())) {
+                    }
+                }
+                if (i - 1 >= 0){
+                    if (board.getTile(i-1,j).getId() == blankid || board.getTile(i-1,j).getId() == board.getTile(i,j).getId()){
+                        return true;
+                    }
+                }
+
+                if (j + 1 < board.getNUM_COLS()){
+                    if (board.getTile(i, j+1).getId() == blankid || board.getTile(i, j+1).getId() == board.getTile(i,j).getId()){
+                        return true;
+                    }
+                }
+
+                if (j-1>=0){
+                    if (board.getTile(i,j-1).getId() == blankid || board.getTile(i,j-1).getId() == board.getTile(i,j).getId()){
                         return true;
                     }
                 }
 
             }
         }
+        return valid;
 
-        if (direction == RIGHT) {
-            for (int i = 0; i < board.getNUM_COLS() - 1; i++) {
-                for (int j = 0; j < board.getNUM_ROWS() - 1; j++) {
-                    if (board.getTile(i, j ).getId()!= blankid && board.getTile(i, j + 1).getId() == blankid) {
-                        return true;
-                    } else if (board.getTile(i, j + 1)!= null && board.getTile(i, j + 1).getId() == board.getTile(i, j).getId()) {
-                        return true;
-                    }
-                }
+    }
 
+    private boolean leftShift(int row) {
+        boolean check = false;
+        for (int col = 0; col < board.getNUM_COLS() - 1; ++col) {
+            if (board.getTile(row, col).getId() == BLANK_ID && board.getTile(row, col + 1).getId() != BLANK_ID) {
+                board.swapTiles(row, col + 1, row, col);
+                check = true;
             }
         }
+        return check;
+    }
 
-        if (direction == DOWN) {
-            for (int i = 0; i < board.getNUM_ROWS() - 1; i++) {
-                for (int j = 0; j < board.getNUM_COLS() - 1; j++) {
-                    if (board.getTile(j,i).getId()!= blankid &&board.getTile(j+1,i).getId() == blankid) {
-                        return true;
-                    } else if (board.getTile(j+1, i).getId() == board.getTile(j,i).getId()) {
-                        return true;
-                    }
-                }
-
-                }
+    private boolean rightShift(int row) {
+        boolean check = false;
+        for (int col = board.getNUM_COLS() - 1; col > 0; --col) {
+            if (board.getTile(row, col).getId() == BLANK_ID && board.getTile(row, col -1).getId() != BLANK_ID) {
+                board.swapTiles(row, col, row, col - 1);
+                check = true;
             }
-
-
-
-        if (direction == UP) {
-            for (int i = 0; i < board.getNUM_ROWS() - 1; i++) {
-                for (int j = board.getNUM_COLS() - 1; j > 0; j--) {
-                    if (board.getTile(j,i).getId()!= blankid &board.getTile(j-1,i)!= null &&board.getTile(j-1,i).getId() == blankid) {
-                        return true;
-                    } else if (board.getTile(j-1, i).getId() == board.getTile(j,i).getId()) {
-                        return true;
-                    }
-                }
-
-            }
-
         }
+        return check;
+    }
 
-    return valid;
+    private boolean downShift(int col) {
+        boolean check = false;
+        for (int row = board.getNUM_ROWS() - 1; row > 0; --row) {
+            if (board.getTile(row, col).getId() == BLANK_ID && board.getTile(row - 1, col).getId() != BLANK_ID) {
+                board.swapTiles(row, col ,row - 1, col);
+                check = true;
+            }
+        }
+        return check;
+    }
+
+    private boolean upShift(int col) {
+        boolean check = false;
+        for (int row = 0; row < board.getNUM_ROWS() - 1; ++row) {
+            if (board.getTile(row, col).getId() == BLANK_ID && board.getTile(row + 1, col).getId() != BLANK_ID) {
+                board.swapTiles(row, col, row + 1, col);
+                check = true;
+            }
+        }
+        return check;
     }
 
     @Override
     public void touchMove(int direction) {
-        int blankid = 25;
+        boolean check = false;
+        int counterlr = 0;
+        int counterud = 0;
+        int boundlr = 0;
+        int bourdud = 0;
+
+        int changedBackground, value;
+
         if (direction == LEFT) {
-            for (int i = 0; i < board.getNUM_COLS() - 1; i++) {
-                for (int j = board.getNUM_ROWS() -1; j > 0; j--) {
-                    if (board.getTile(i, j - 1)!= null && board.getTile(i, j - 1).getId() == blankid) {
-                            board.swapTiles(i, j, i, j - 1);
-                    } else if ((board.getTile(i, j - 1)!= null && board.getTile(i, j - 1).getId() == board.getTile(i, j).getId())) {
-                        int changedbackground = board.getTile(i, j - 1).getBackground() * 2;
-                        board.getTiles()[i][j - 1] = new Tile(changedbackground);
-                        board.getTiles()[i][j] = new Tile(blankid);
-                        this.score += changedbackground;
+            for (int row = 0; row < board.getNUM_ROWS(); ++row) {
+                // Shift everything left
+                check = check | leftShift(row);
+                // and again
+                check = check | leftShift(row);
+                // Merge
+                for (int col = 0; col < board.getNUM_COLS() - 1; ++col) {
+                    if ((value = board.getTile(row, col).getId()) != BLANK_ID && board.getTile(row, col).getId() == board.getTile(row, col + 1).getId()) {
+                        board.getTiles()[row][col] = new Tile(value * 2 - 1);
+                        board.getTiles()[row][col + 1] = new Tile(BLANK_ID - 1);
+                        check = true;
+                        this.score += (value * 2);
                     }
                 }
-                for (int m = board.getNUM_ROWS() -1; m > 0; m--) {
-                    if (board.getTile(i, m - 1)!= null && board.getTile(i, m - 1).getId() == blankid) {
-                        board.swapTiles(i, m, i, m - 1);
-                    }
-
-                }
+                // left shift
+                leftShift(row);
             }
         }
 
 
-        if (direction == RIGHT) {
-            for (int i = 0; i < board.getNUM_COLS() - 1; i++) {
-                for (int j = 0; j < board.getNUM_ROWS() - 1; j++) {
-                    if (board.getTile(i, j + 1)!= null && board.getTile(i, j + 1).getId() == blankid) {
-                        board.swapTiles(i, j, i, j + 1);
-                    } else if (board.getTile(i, j + 1)!= null && board.getTile(i, j + 1).getId() == board.getTile(i, j).getId()) {
-                        int changedbackground = board.getTile(i, j + 1).getBackground() * 2;
-                        board.getTiles()[i][j + 1] = new Tile(changedbackground);
-                        board.getTiles()[i][j] = new Tile(blankid);
-                        this.score += changedbackground;
-                    }
-                }
-                for (int m = 0; m < board.getNUM_ROWS() - 1; m++) {
-                    if (board.getTile(i, m - 1)!= null && board.getTile(i, m - 1).getId() == blankid) {
-                        board.swapTiles(i, m, i, m - 1);
-                    }
+        else if (direction == RIGHT) {
+            for (int row = 0; row < board.getNUM_ROWS(); ++row) {
+                check = check | rightShift(row);
+                check = check | rightShift(row);
 
+                for (int col = board.getNUM_COLS() - 1; col > 0; --col) {
+                    if ((value = board.getTile(row, col).getId()) != BLANK_ID && board.getTile(row, col).getId() == board.getTile(row, col -1).getId()) {
+                        board.getTiles()[row][col] = new Tile(value * 2 - 1);
+                        board.getTiles()[row][col - 1] = new Tile(BLANK_ID - 1);
+                        check = true;
+                        this.score += (value * 2);
+                    }
                 }
+                rightShift(row);
             }
         }
 
-        if (direction == DOWN) {
-            for (int i = 0; i < board.getNUM_ROWS() - 1; i++) {
-                for (int j = 0; j < board.getNUM_COLS() - 1; j++) {
-                    if (board.getTile(j+1,i).getId() == blankid) {
-                        board.swapTiles(j, i, j+1,i);
-                    } else if (board.getTile(j+1, i).getId() == board.getTile(j,i).getId()) {
-                        int changedbackground = board.getTile(j+1,i).getBackground() * 2;
-                        board.getTiles()[j+1][i] = new Tile(changedbackground);
-                        board.getTiles()[j][i] = new Tile(blankid);
-                        this.score += changedbackground;
+        else if (direction == DOWN) {
+            for (int col = 0; col < board.getNUM_COLS(); ++col) {
+                check = check | downShift(col);
+                downShift(col);
+                for (int row = board.getNUM_ROWS() - 1; row > 0; --row) {
+                    if ((value = board.getTile(row, col).getId()) != BLANK_ID && board.getTile(row, col).getId() == board.getTile(row - 1, col).getId()) {
+                        board.getTiles()[row][col] = new Tile(value * 2 - 1);
+                        board.getTiles()[row - 1][col] = new Tile(BLANK_ID - 1);
+                        check = true;
+                        this.score += (value * 2);
                     }
                 }
-                for (int m = 0; m < board.getNUM_ROWS() - 1; m++) {
-                    if (board.getTile(m+1,i).getId() == blankid) {
-                        board.swapTiles(m,i ,m+1,i);
-                    }
-
-                }
-            }
-
-        }
-
-        if (direction == UP) {
-            for (int i = 0; i < board.getNUM_ROWS() - 1; i++) {
-                for (int j = board.getNUM_COLS() - 1; j > 0; j--) {
-                    if (board.getTile(j-1,i)!= null &&board.getTile(j-1,i).getId() == blankid) {
-                        board.swapTiles(j, i, j-1,i);
-                    } else if (board.getTile(j-1, i).getId() == board.getTile(j,i).getId()) {
-                        int changedbackground = board.getTile(j-1,i).getBackground() * 2;
-                        board.getTiles()[j-1][i] = new Tile(changedbackground);
-                        board.getTiles()[j][i] = new Tile(blankid);
-                        this.score += changedbackground;
-                    }
-                }
-                for (int m= board.getNUM_COLS() - 1; m >0; m++) {
-                    if (board.getTile(i, m - 1).getId() == blankid) {
-                        board.swapTiles(m,i ,m-1,i);
-                    }
-
-                }
-            }
-
-        }
-
-    if (isValidTap(direction)){
-        List<ArrayList<Integer>> blanktiles = new ArrayList<>();
-        for (int i = 0; i< board.getNUM_COLS(); i++){
-            for (int j= 0; j< board.getNUM_ROWS(); j++){
-                if (board.getTile(i,j).getId() == blankid){
-                    ArrayList<Integer> coordinate = new ArrayList<>();
-                    coordinate.add(i);
-                    coordinate.add(j);
-                    blanktiles.add(coordinate);
-                }
+                downShift(col);
             }
         }
 
-        int bound = blanktiles.size();
-        Random rnd = new Random();
-        int position = rnd.nextInt(bound);
-        int number = (rnd.nextInt(2) + 1) *2;
-        board.getTiles()[blanktiles.get(position).get(0)][blanktiles.get(position).get(1)] = new Tile(number);
+        else if (direction == UP) {
+            for (int col = 0; col < board.getNUM_COLS(); ++col) {
+                check = check | upShift(col);
+                upShift(col);
+                for (int row = 0; row < board.getNUM_ROWS() - 1; ++row) {
+                    if ((value = board.getTile(row, col).getId()) != BLANK_ID && board.getTile(row, col).getId() == board.getTile(row + 1, col).getId()) {
+                        board.getTiles()[row][col] = new Tile(value * 2 - 1);
+                        board.getTiles()[row + 1][col] = new Tile(BLANK_ID - 1);
+                        check = true;
+                        this.score += (value * 2);
+                    }
+                }
+                upShift(col);
+            }
+        }
 
-    }
+        if (check) {
+            List<ArrayList<Integer>> blanktiles = new ArrayList<>();
+            for (int i = 0; i < board.getNUM_COLS(); i++) {
+                for (int j = 0; j < board.getNUM_ROWS(); j++) {
+                    if (board.getTile(i, j).getId() == BLANK_ID) {
+                        ArrayList<Integer> coordinate = new ArrayList<>();
+                        coordinate.add(i);
+                        coordinate.add(j);
+                        blanktiles.add(coordinate);
+                    }
+                }
+            }
 
-    boardStack.push(board);
+            int bound = blanktiles.size();
+            Random rnd = new Random();
+            int position = rnd.nextInt(bound);
+            int position2 = rnd.nextInt(bound);
+            int number = (rnd.nextInt(1) + 1) * 2;
+            board.getTiles()[blanktiles.get(position).get(0)][blanktiles.get(position).get(1)] = new Tile(number - 1);
+            board.swapTiles(blanktiles.get(position2).get(0), blanktiles.get(position2).get(1), blanktiles.get(position).get(0), blanktiles.get(position).get(1));
+        }
 
+        boardStack.push(board.clone());
 
     }
 
 
-    @Override
     public void undo() {
-        if (!boardStack.isEmpty()){
+        if (!boardStack.isEmpty()) {
+
             boardStack.pop();
         }
-        if (! boardStack.isEmpty()){
-           board = (Board) boardStack.pop();
-        }
+        if (!boardStack.isEmpty()) {
+            board = (Board) boardStack.pop();
+            board.swapTiles(1,2,2,1);
+            board.swapTiles(1,2,2,1);
 
+        }
 
     }
 
@@ -241,28 +275,14 @@ public class Game2048 extends Game implements GameFeature, Cloneable {
     public boolean isSolved() {
         Iterator<Tile> it = board.iterator();
         while (it.hasNext()) {
-            int curbackground = it.next().getBackground();
-            if (curbackground == 2048){
+            int curbackground = it.next().getId();
+            if (curbackground  == 2048 - 1) {
                 return true;
             }
         }
         return false;
     }
 
-    @Override
-    public Board clone(){
-        try {
-            super.clone();
-        } catch (CloneNotSupportedException e) {
-            e.printStackTrace();
-        }
-        List<Tile> tiles= new ArrayList<>();
-        for (int i = 0; i< board.getNUM_COLS(); i++) {
-            for (int j = 0; j < board.getNUM_ROWS(); j++) {
-                tiles.add(board.getTile(i ,j));
-            }
-        }
-        return new Board(tiles, board.getNUM_ROWS());
 
-    }
 }
+

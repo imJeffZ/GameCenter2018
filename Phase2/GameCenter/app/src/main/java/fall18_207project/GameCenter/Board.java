@@ -2,6 +2,7 @@ package fall18_207project.GameCenter;
 
 import android.support.annotation.NonNull;
 
+import java.util.ArrayList;
 import java.util.Observable;
 
 import java.io.Serializable;
@@ -135,5 +136,21 @@ public class Board extends Observable implements Cloneable, Serializable, Iterab
             position++;
             return nextTile;
         }
+    }
+
+    public Board clone() {
+        try {
+            super.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+        List<Tile> tiles = new ArrayList<>();
+        for (int i = 0; i < this.getNUM_COLS(); i++) {
+            for (int j = 0; j < this.getNUM_ROWS(); j++) {
+                tiles.add(this.getTile(i, j));
+            }
+        }
+        return new Board(tiles, this.getNUM_ROWS());
+
     }
 }

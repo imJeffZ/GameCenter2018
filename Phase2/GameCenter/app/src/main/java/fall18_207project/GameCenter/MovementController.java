@@ -19,6 +19,8 @@ class MovementController {
     }
 
 
+
+
     void processTapMovement(final Context context, int position, boolean display) {
         if (this.game.isSolved()) {
             addScoreOnFinish();
@@ -34,6 +36,25 @@ class MovementController {
         }
     }
 
+    void processSwipeMovement(final Context context,int dirction, boolean display) {
+        if (!this.game.hasVaildMove()){
+            Toast.makeText(context,"you lose", Toast.LENGTH_SHORT).show();
+        }
+        if (this.game.isSolved()) {
+            addScoreOnFinish();
+            createDialog(context);
+        } else if (this.game.isValidTap(dirction)) {
+            this.game.touchMove(dirction);
+            if (this.game.isSolved()) {
+                addScoreOnFinish();
+                createDialog(context);
+            }
+        } else {
+            Toast.makeText(context, "Invalid Tap", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
     /**
      * Created a dialog when the game finished, which have a continue button to continue to
      * next screen.
@@ -43,13 +64,13 @@ class MovementController {
     private void createDialog(final Context context) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setCancelable(false);
-        builder.setMessage("You won! press continue to keep going!");
+        builder.setMessage("Game Over! press continue to keep going!");
         builder.setPositiveButton("Continue", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Intent gotoFinishScreen = new Intent(context, GameFinishActivity.class);
                 gotoFinishScreen.putExtra("score", game.calculateScore());
-                gotoFinishScreen.putExtra("size", game.getBoard().getNUM_COLS());
+                gotoFinishScreen.putExtra("size", game.gameId);
                 context.startActivity(gotoFinishScreen);
             }
         });
@@ -61,16 +82,16 @@ class MovementController {
      */
     private void addScoreOnFinish() {
         String score = Integer.toString(this.game.calculateScore());
-        int size = this.game.getBoard().getNUM_COLS();
+        int size = this.game.gameId;
         int index;
-        if (size == 3) {
+        if (size == 1) {
             index = 0;
-        } else if (size == 4) {
+        } else if (size == 2) {
             index = 1;
         } else {
             index = 2;
         }
-        Account currentAccount = AccountManager.accountMap.get(StartingActivity.CURRENT_ACCOUNT);
+        Account currentAccount = AccountManager.accountMap.get(GameCentreActivity.CURRENT_ACCOUNT);
         currentAccount.addScore(index, score);
         AccountManager.accountMap.put(StartingActivity.CURRENT_ACCOUNT, currentAccount);
     }

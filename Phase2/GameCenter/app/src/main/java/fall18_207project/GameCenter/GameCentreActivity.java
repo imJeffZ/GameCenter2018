@@ -86,6 +86,8 @@ public class GameCentreActivity extends AppCompatActivity implements  Navigation
         MenuItem menuItem = menu.getItem(0);
         menuItem.setChecked(true);
         addGameButtonListener();
+        addMatchingCardsGameButtonListener();
+        addGame2048ButtonListener();
     }
 
     @Override
@@ -221,8 +223,40 @@ public class GameCentreActivity extends AppCompatActivity implements  Navigation
         });
     }
 
+    private void addMatchingCardsGameButtonListener() {
+
+        ImageButton ButtonGame = findViewById(R.id.MatchingCardsGame);
+        ButtonGame.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switchToMatchingCardsGame();
+            }
+        });
+    }
+
+    private void addGame2048ButtonListener() {
+
+        ImageButton ButtonGame = findViewById(R.id.Game2048);
+        ButtonGame.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switchToGame2048();
+            }
+        });
+    }
+
     private void switchToGame() {
         Intent tmp = new Intent(this, StartingActivity.class);
+        startActivity(tmp);
+    }
+
+    private  void switchToMatchingCardsGame(){
+        Intent tmp = new Intent(this, MatchingCardStartActivity.class);
+        startActivity(tmp);
+    }
+
+    private void switchToGame2048(){
+        Intent tmp = new Intent(this, Game2048StartActivity.class);
         startActivity(tmp);
     }
 
