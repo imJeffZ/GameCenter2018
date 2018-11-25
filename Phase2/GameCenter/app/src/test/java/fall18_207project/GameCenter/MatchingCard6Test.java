@@ -63,10 +63,14 @@ public class MatchingCard6Test {
     public void testIsSolvedWithBomb() {
         setUpCorrect();
 
+        assertFalse(matchCards.isMatchBomb());
         assertTrue(matchCards.getMatchingBoard().getCard(5,4).isBomb());
         assertFalse(matchCards.isSolved());
+
         matchCards.touchMove(34);
+        assertTrue(matchCards.isMatchBomb());
         assertTrue(matchCards.isSolved());
+        assertEquals(0, matchCards.calculateScore());
     }
 
     /**
@@ -93,12 +97,92 @@ public class MatchingCard6Test {
         setUpCorrect();
 
         // Since its comparing to Prepos == -1
+        assertEquals(-1, matchCards.getPrePos());
         assertFalse(matchCards.isMatched(3, 0));
         assertFalse(matchCards.isMatched(3, 4));
 
+        assertEquals(1, matchCards.getMatchingBoard().getCard(5, 2)
+                .compareTo(matchCards.getMatchingBoard().getCard(5, 3)));
         matchCards.touchMove(23);
         assertFalse(matchCards.isMatched(3, 0));
         assertFalse(matchCards.isMatched(3, 3));
         assertTrue(matchCards.isMatched(3, 4));
+    }
+
+    /**
+     * test getCountMove method. It should continuously incrementing by 1,
+     * although cards not match
+     */
+    @Test
+    public void testGetCountMove() {
+        setUpCorrect();
+        assertEquals(22, matchCards.getCountMove());
+
+        // not a possible move but count move will ++
+        matchCards.touchMove(14);
+        assertEquals(23, matchCards.getCountMove());
+        matchCards.touchMove(15);
+        assertEquals(24, matchCards.getCountMove());
+
+        matchCards.touchMove(26);
+        matchCards.touchMove(27);
+        assertEquals(26, matchCards.getCountMove());
+    }
+
+    /**
+     * test isValidTap method.
+     * There are two parts of it:
+     * 1. When StartMode is true, any tap is not allowed
+     * 2. When StartMode is false, only taps on unused card are allowed
+     */
+    @Test
+    public void testIsValidTap() {
+        setUpCorrect();
+
+        assertFalse(matchCards.isValidTap(0));
+        assertFalse(matchCards.isValidTap(27));
+        assertFalse(matchCards.isValidTap(26));
+        assertTrue(matchCards.isStartMode());
+
+        matchCards.setStartMode();
+        assertFalse(matchCards.isStartMode());
+        assertTrue(matchCards.isValidTap(27));
+
+        matchCards.touchMove(27);
+        assertTrue(matchCards.isValidTap(27));
+        assertTrue(matchCards.isValidTap(26));
+        assertFalse(matchCards.isValidTap(0));
+    }
+
+    @Test
+    public void testIsUp() {
+        setUpCorrect();
+
+        assertEquals(matchCards.getMatchingBoard().getCard(4, 3).isUp(),
+                matchCards.getMatchingBoard().getCard(4, 2).isUp());
+        assertFalse(matchCards.getMatchingBoard().getCard(4, 3).isUp());
+
+        matchCards.touchMove(27);
+        assertNotEquals(matchCards.getMatchingBoard().getCard(4, 3).isUp(),
+                matchCards.getMatchingBoard().getCard(4, 2).isUp());
+        assertTrue(matchCards.getMatchingBoard().getCard(4, 3).isUp());
+        assertFalse(matchCards.getMatchingBoard().getCard(4, 2).isUp());
+
+        matchCards.touchMove(26);
+        assertTrue(matchCards.getMatchingBoard().getCard(4, 3).isUp());
+        assertTrue(matchCards.getMatchingBoard().getCard(4, 2).isUp());
+    }
+
+    /**
+     * Test the card has right backID
+     */
+    @Test
+    public void testBackId() {
+        setUpCorrect();
+
+        assertEquals(R.drawable.p1, matchCards.getMatchingBoard().getCard(0, 0).getBackId());
+        assertEquals(R.drawable.p27, matchCards.getMatchingBoard().getCard(4, 2).getBackId());
+        assertEquals(R.drawable.bomb, matchCards.getMatchingBoard().getCard(5, 5).getBackId());
+        assertEquals(R.drawable.bomb, matchCards.getMatchingBoard().getCard(4, 0).getBackId());
     }
 }
