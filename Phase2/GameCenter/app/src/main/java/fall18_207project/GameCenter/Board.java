@@ -103,9 +103,15 @@ public class Board extends Observable implements Cloneable, Serializable, Iterab
     @NonNull
     @Override
     public String toString() {
-        return "Board{" +
-                "tiles=" + Arrays.toString(tiles) +
-                '}';
+        StringBuilder temp = new StringBuilder();
+        for (int row = 0; row < NUM_ROWS; row++) {
+            for (int col = 0; col < NUM_COLS; col++) {
+                temp.append(" ").append(this.getTile(row, col).getId());
+            }
+        }
+        return "Board: { " +
+                "tiles = [" + temp +
+                " ]" + " }";
     }
 
     @NonNull
@@ -151,8 +157,7 @@ public class Board extends Observable implements Cloneable, Serializable, Iterab
             }
         }
 
-       Board board1 = new Board(tiles, this.getNUM_ROWS());
-        return board1;
+        return new Board(tiles, this.getNUM_ROWS());
 
     }
 }
