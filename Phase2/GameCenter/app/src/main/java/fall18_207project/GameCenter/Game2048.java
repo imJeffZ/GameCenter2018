@@ -264,8 +264,7 @@ public class Game2048 extends Game implements GameFeature, Cloneable {
         }
         if (!boardStack.isEmpty()) {
             board = (Board) boardStack.pop();
-            board.swapTiles(1,2,2,1);
-            board.swapTiles(1,2,2,1);
+
 
         }
 
