@@ -10,19 +10,30 @@ import java.util.List;
 public class MatchingCards extends Game implements Cloneable, Serializable {
 
     protected MatchingBoard matchingBoard;
-    private  int match;
-    private  int prePos;
-    private  boolean startMode;
-    private  boolean matchBomb;
+    private int match;
+    private int prePos;
+    private boolean startMode;
+    private boolean matchBomb;
 
-    public int getMatch(){return match;}
-    public int getPrePos(){return prePos;}
-    public MatchingBoard getMatchingBoard(){
+    public int getMatch() {
+        return match;
+    }
+
+    public int getPrePos() {
+        return prePos;
+    }
+
+    public MatchingBoard getMatchingBoard() {
         return matchingBoard;
     }
-    public boolean isStartMode(){return startMode;}
 
-    public boolean isMatchBomb(){return matchBomb;}
+    public boolean isStartMode() {
+        return startMode;
+    }
+
+    public boolean isMatchBomb() {
+        return matchBomb;
+    }
 
     MatchingCards(int num) {
         super();
@@ -43,7 +54,7 @@ public class MatchingCards extends Game implements Cloneable, Serializable {
 
     @Override
     public boolean isSolved() {
-        return matchBomb||(match == this.gameId * this.gameId / 2);
+        return matchBomb || (match == this.gameId * this.gameId / 2);
     }
 
     @Override
@@ -58,51 +69,53 @@ public class MatchingCards extends Game implements Cloneable, Serializable {
         countMove++;
         int row = position / matchingBoard.getNumOfRows();
         int col = position % matchingBoard.getNumOfColumns();
-        int row1 = prePos/ matchingBoard.getNumOfRows();
+        int row1 = prePos / matchingBoard.getNumOfRows();
         int col1 = prePos % matchingBoard.getNumOfColumns();
         if (matchingBoard.getCard(row, col).isBomb()) {
             matchingBoard.turnCard(row, col, true);
             matchBomb = true;
-        }
-        else if (this.isMatched(row, col)){
+        } else if (this.isMatched(row, col)) {
             match++;
             matchingBoard.turnCard(row, col, true);
             matchingBoard.useCards(row, col, row1, col1);
             prePos = -1;
             saveMove.push(position);
-        }else {
-            if(this.prePos == -1){
+        } else {
+            if (this.prePos == -1) {
                 matchingBoard.turnCard(row, col, true);
                 prePos = position;
                 saveMove.push(position);
-            }
-            else{
-                matchingBoard.turnCard(row1,col1, false);
+            } else {
+                matchingBoard.turnCard(row1, col1, false);
                 prePos = -1;
                 saveMove.pop();
             }
         }
     }
 
-    public boolean isMatched(int row0, int col0){
-        int row = prePos/ matchingBoard.getNumOfRows();
+    public boolean isMatched(int row0, int col0) {
+        int row = prePos / matchingBoard.getNumOfRows();
         int col = prePos % matchingBoard.getNumOfColumns();
         return prePos != -1 && ((matchingBoard.getCard(row, col).getId() % 2 == 0 ? matchingBoard.getCard(row, col).getId()
                 == matchingBoard.getCard(row0, col0).getId() + 1 :
                 matchingBoard.getCard(row, col).getId() == matchingBoard.getCard(row0, col0).getId() - 1));
     }
 
-    public boolean isCardUsed(int row, int col){ return matchingBoard.getCard(row, col).isUsed();}
+    public boolean isCardUsed(int row, int col) {
+        return matchingBoard.getCard(row, col).isUsed();
+    }
 
 
-    public void setStartMode(){ this.startMode = false;}
+    public void setStartMode() {
+        this.startMode = false;
+    }
 
     @Override
     public long getElapsedTime() {
         return super.getElapsedTime();
     }
 
-    public int calculateScore(){
+    public int calculateScore() {
         if (!isMatchBomb())
             return Math.round(1400 / (countMove + 1) + 600 / (endTime + 1));
         else

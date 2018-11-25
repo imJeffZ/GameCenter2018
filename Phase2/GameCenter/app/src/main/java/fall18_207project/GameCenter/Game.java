@@ -28,6 +28,7 @@ public abstract class Game implements Serializable, GameFeature {
         // Creates a universal unique id
         this.saveId = UUID.randomUUID().toString();
     }
+
     int getCountMove() {
         return countMove;
     }
@@ -39,6 +40,7 @@ public abstract class Game implements Serializable, GameFeature {
     String getSaveId() {
         return this.saveId;
     }
+
     abstract int calculateScore();
 
     void updateElapsedTime(long newElapsedTime) {
@@ -72,7 +74,7 @@ public abstract class Game implements Serializable, GameFeature {
 
     public abstract void touchMove(int position);
 
-    public boolean hasVaildMove(){
+    public boolean hasVaildMove() {
         return true;
     }
 }

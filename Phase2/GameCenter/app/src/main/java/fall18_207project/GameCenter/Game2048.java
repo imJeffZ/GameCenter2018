@@ -1,11 +1,11 @@
 package fall18_207project.GameCenter;
 
-        import java.util.ArrayList;
-        import java.util.Collections;
-        import java.util.Iterator;
-        import java.util.List;
-        import java.util.Random;
-        import java.util.Stack;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Random;
+import java.util.Stack;
 
 public class Game2048 extends Game implements GameFeature, Cloneable {
 
@@ -72,30 +72,30 @@ public class Game2048 extends Game implements GameFeature, Cloneable {
     }
 
 
-    public boolean hasVaildMove(){
+    public boolean hasVaildMove() {
         boolean valid = false;
         int blankid = 25;
-        for (int i = 0; i < board.getNUM_COLS(); i++){
-            for (int j = 0; j<board.getNUM_ROWS(); j++){
-                if (i+1 < board.getNUM_COLS()){
-                    if (board.getTile(i+1,j).getId() == blankid || board.getTile(i+1,j).getId() == board.getTile(i,j).getId()){
+        for (int i = 0; i < board.getNUM_COLS(); i++) {
+            for (int j = 0; j < board.getNUM_ROWS(); j++) {
+                if (i + 1 < board.getNUM_COLS()) {
+                    if (board.getTile(i + 1, j).getId() == blankid || board.getTile(i + 1, j).getId() == board.getTile(i, j).getId()) {
                         return true;
                     }
                 }
-                if (i - 1 >= 0){
-                    if (board.getTile(i-1,j).getId() == blankid || board.getTile(i-1,j).getId() == board.getTile(i,j).getId()){
-                        return true;
-                    }
-                }
-
-                if (j + 1 < board.getNUM_COLS()){
-                    if (board.getTile(i, j+1).getId() == blankid || board.getTile(i, j+1).getId() == board.getTile(i,j).getId()){
+                if (i - 1 >= 0) {
+                    if (board.getTile(i - 1, j).getId() == blankid || board.getTile(i - 1, j).getId() == board.getTile(i, j).getId()) {
                         return true;
                     }
                 }
 
-                if (j-1>=0){
-                    if (board.getTile(i,j-1).getId() == blankid || board.getTile(i,j-1).getId() == board.getTile(i,j).getId()){
+                if (j + 1 < board.getNUM_COLS()) {
+                    if (board.getTile(i, j + 1).getId() == blankid || board.getTile(i, j + 1).getId() == board.getTile(i, j).getId()) {
+                        return true;
+                    }
+                }
+
+                if (j - 1 >= 0) {
+                    if (board.getTile(i, j - 1).getId() == blankid || board.getTile(i, j - 1).getId() == board.getTile(i, j).getId()) {
                         return true;
                     }
                 }
@@ -120,7 +120,7 @@ public class Game2048 extends Game implements GameFeature, Cloneable {
     private boolean rightShift(int row) {
         boolean check = false;
         for (int col = board.getNUM_COLS() - 1; col > 0; --col) {
-            if (board.getTile(row, col).getId() == BLANK_ID && board.getTile(row, col -1).getId() != BLANK_ID) {
+            if (board.getTile(row, col).getId() == BLANK_ID && board.getTile(row, col - 1).getId() != BLANK_ID) {
                 board.swapTiles(row, col, row, col - 1);
                 check = true;
             }
@@ -132,7 +132,7 @@ public class Game2048 extends Game implements GameFeature, Cloneable {
         boolean check = false;
         for (int row = board.getNUM_ROWS() - 1; row > 0; --row) {
             if (board.getTile(row, col).getId() == BLANK_ID && board.getTile(row - 1, col).getId() != BLANK_ID) {
-                board.swapTiles(row, col ,row - 1, col);
+                board.swapTiles(row, col, row - 1, col);
                 check = true;
             }
         }
@@ -178,16 +178,13 @@ public class Game2048 extends Game implements GameFeature, Cloneable {
                 // left shift
                 leftShift(row);
             }
-        }
-
-
-        else if (direction == RIGHT) {
+        } else if (direction == RIGHT) {
             for (int row = 0; row < board.getNUM_ROWS(); ++row) {
                 check = check | rightShift(row);
                 check = check | rightShift(row);
 
                 for (int col = board.getNUM_COLS() - 1; col > 0; --col) {
-                    if ((value = board.getTile(row, col).getId()) != BLANK_ID && board.getTile(row, col).getId() == board.getTile(row, col -1).getId()) {
+                    if ((value = board.getTile(row, col).getId()) != BLANK_ID && board.getTile(row, col).getId() == board.getTile(row, col - 1).getId()) {
                         board.getTiles()[row][col] = new Tile(value * 2 - 1);
                         board.getTiles()[row][col - 1] = new Tile(BLANK_ID - 1);
                         check = true;
@@ -196,9 +193,7 @@ public class Game2048 extends Game implements GameFeature, Cloneable {
                 }
                 rightShift(row);
             }
-        }
-
-        else if (direction == DOWN) {
+        } else if (direction == DOWN) {
             for (int col = 0; col < board.getNUM_COLS(); ++col) {
                 check = check | downShift(col);
                 downShift(col);
@@ -212,9 +207,7 @@ public class Game2048 extends Game implements GameFeature, Cloneable {
                 }
                 downShift(col);
             }
-        }
-
-        else if (direction == UP) {
+        } else if (direction == UP) {
             for (int col = 0; col < board.getNUM_COLS(); ++col) {
                 check = check | upShift(col);
                 upShift(col);
@@ -275,7 +268,7 @@ public class Game2048 extends Game implements GameFeature, Cloneable {
         Iterator<Tile> it = board.iterator();
         while (it.hasNext()) {
             int curbackground = it.next().getId();
-            if (curbackground  == 2048 - 1) {
+            if (curbackground == 2048 - 1) {
                 return true;
             }
         }
