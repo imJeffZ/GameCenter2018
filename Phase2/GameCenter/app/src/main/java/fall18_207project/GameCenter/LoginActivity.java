@@ -52,6 +52,8 @@ public class LoginActivity extends AppCompatActivity {
             ScoreBoardActivity.currentAccount = emailValue;
             UserHistoryActivity.currentAccount = emailValue;
             GameCentreActivity.CURRENT_ACCOUNT = emailValue;
+            MatchingCardStartActivity.CURRENT_ACCOUNT = emailValue;
+            Game2048StartActivity.CURRENT_ACCOUNT = emailValue;
             Intent goToCenter = new Intent(getApplicationContext(), GameCentreActivity.class);
             startActivity(goToCenter);
         }
