@@ -26,7 +26,7 @@ class Profile implements Serializable {
     }
 
 
-    Bitmap getAvatarImage() {
+    public Bitmap getAvatarImage() {
         return this.avatarImage;
     }
 
@@ -34,7 +34,7 @@ class Profile implements Serializable {
         this.avatarImage = avatarImage;
     }
 
-    String getIntro() {
+    public String getIntro() {
         return intro;
     }
 
@@ -42,7 +42,7 @@ class Profile implements Serializable {
         this.intro = intro;
     }
 
-    long getTotalPlayTime() {
+    public long getTotalPlayTime() {
         return totalPlayTime;
     }
 
