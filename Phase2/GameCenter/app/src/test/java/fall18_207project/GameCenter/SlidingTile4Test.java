@@ -175,4 +175,15 @@ public class SlidingTile4Test {
         stCopy = new SlidingTiles(5);
         assertNotEquals(stCopy.toString(), slidingTile.toString());
     }
+
+    /**
+     * Test calculateScore method works fine.
+     */
+    @Test
+    public void testCalculateScore() {
+        setUpCorrect();
+        slidingTile.endTime = 99;
+        slidingTile.countMove = 699;
+        assertEquals(8, slidingTile.calculateScore());
+    }
 }
