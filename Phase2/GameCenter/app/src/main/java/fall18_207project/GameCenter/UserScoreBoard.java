@@ -23,6 +23,11 @@ class UserScoreBoard implements GameScoreBoard {
         recordMap = new HashMap<Integer, ArrayList<GameRecord>>();
     }
 
+
+    public Map<Integer, ArrayList<GameRecord>> getRecordMap() {
+        return recordMap;
+    }
+
     public void updateScore(Game completedGame) {
         int gameId = completedGame.getGameId();
         if (!recordMap.containsKey(gameId)) {
@@ -61,7 +66,7 @@ class UserScoreBoard implements GameScoreBoard {
             this.game = game;
         }
 
-        Game getGame() {
+        public Game getGame() {
             return this.game;
         }
 

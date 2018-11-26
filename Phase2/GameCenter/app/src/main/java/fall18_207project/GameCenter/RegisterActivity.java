@@ -17,6 +17,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -28,6 +29,7 @@ import java.util.HashMap;
 public class RegisterActivity extends AppCompatActivity {
     AccountManager accountManager;
     private FirebaseAuth firebaseAuth;
+    private AccessDataBase accessDataBase;
     private String emailValue;
     private String passwordValue;
     private  String userNameValue;
@@ -37,7 +39,7 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         firebaseAuth = FirebaseAuth.getInstance();
-
+        accessDataBase = new AccessDataBase();
         accountManager = new AccountManager();
         loadFromFile(LoginActivity.SAVE_ACCOUNT_DETAILS);
         addRegisterButtonListener();
@@ -75,6 +77,8 @@ public class RegisterActivity extends AppCompatActivity {
                 if(task.isSuccessful()){
                     Log.d("RegisterActivity", "Successful!");
                     Toast.makeText(RegisterActivity.this, "Sign up successful", Toast.LENGTH_SHORT).show();
+                    Account account = new Account(emailValue, userNameValue, passwordValue);
+                    accessDataBase.saveToDataBase(account);
                     accountManager.addAccount(emailValue, userNameValue, passwordValue);
                     saveToFile(LoginActivity.SAVE_ACCOUNT_DETAILS);
                     Intent gotoLogin = new Intent(getApplicationContext(), LoginActivity.class);
