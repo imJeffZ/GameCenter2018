@@ -16,7 +16,7 @@ public class Game2048 extends Game implements GameFeature, Cloneable {
     private final static int BLANK_ID = 25;
     private int score;
     private Stack<Board> boardStack;
-    private Board board;
+    protected Board board;
 
     public Game2048() {
         super(); // Explicitly put here
