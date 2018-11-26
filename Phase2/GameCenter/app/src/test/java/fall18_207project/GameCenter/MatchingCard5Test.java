@@ -187,4 +187,17 @@ public class MatchingCard5Test {
         assertEquals(R.drawable.p24, matchCards.getMatchingBoard().getCard(4, 3).getBackId());
         assertEquals(R.drawable.bomb, matchCards.getMatchingBoard().getCard(4, 4).getBackId());
     }
+
+    /**
+     * Test calculateScore method works fine.
+     */
+    @Test
+    public void testCalculateScore() {
+        setUpCorrect();
+        matchCards.endTime = 99;
+        matchCards.countMove = 699;
+        assertEquals(8, matchCards.calculateScore());
+        matchCards.touchMove(24);
+        assertEquals(0, matchCards.calculateScore());
+    }
 }
