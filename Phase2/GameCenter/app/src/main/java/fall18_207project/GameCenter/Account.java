@@ -1,6 +1,7 @@
 package fall18_207project.GameCenter;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 /***
  * Account class that stores a user.
@@ -14,7 +15,7 @@ public class Account implements Serializable {
     //private GameManager savedGames;
     private Profile prof;
 
-    @Deprecated private String[] scoreRecord;
+    @Deprecated private ArrayList scoreRecord;
     private UserScoreBoard userScoreBoard;
 
 
@@ -26,22 +27,25 @@ public class Account implements Serializable {
         this.email = email;
         this.userName = userName;
         this.password = password;
-        this.scoreRecord = new String[3];
+        this.scoreRecord = new ArrayList(3);
+        this.scoreRecord.add(null);
+        this.scoreRecord.add(null);
+        this.scoreRecord.add(null);
         this.prof = new Profile();
         this.userScoreBoard = new UserScoreBoard();
     }
 
-    @Deprecated public String[] getScoreRecord() {
+    @Deprecated public ArrayList getScoreRecord() {
         return this.scoreRecord;
     }
 
 
 
     @Deprecated void addScore(int index, String score) {
-        if (this.getScoreRecord()[index] == null) {
-            this.getScoreRecord()[index] = score;
-        } else if (Integer.parseInt(score) > Integer.parseInt(this.getScoreRecord()[index])) {
-            this.getScoreRecord()[index] = score;
+        if (this.getScoreRecord().get(index) == null) {
+            this.getScoreRecord().set(index, score);
+        } else if (Integer.parseInt(score) > Integer.parseInt(((String)this.getScoreRecord().get(index)))) {
+            this.getScoreRecord().set(index, score);
         }
     }
 
