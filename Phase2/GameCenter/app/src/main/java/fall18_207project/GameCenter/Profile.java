@@ -12,27 +12,27 @@ class Profile implements Serializable {
      */
 
     // Avatar image location.
-    transient private Bitmap avatarImage;
+//    transient private Bitmap avatarImage;
     // Self description.
     private String intro;
     // Does not count unfinished game.
     private long totalPlayTime;
 
     Profile() {
-        this.avatarImage = BitmapFactory.decodeStream(getClass().getResourceAsStream(
-                "/res/drawable/paulorange1.jpg"));
+//        this.avatarImage = BitmapFactory.decodeStream(getClass().getResourceAsStream(
+//                "/res/drawable/paulorange1.jpg"));
         this.intro = "A New user who hasn't set his intro.";
         this.totalPlayTime = 0;
     }
 
 
-    public Bitmap getAvatarImage() {
-        return this.avatarImage;
-    }
+//    public Bitmap getAvatarImage() {
+//        return this.avatarImage;
+//    }
 
-    void setAvatarImage(Bitmap avatarImage) {
-        this.avatarImage = avatarImage;
-    }
+//    void setAvatarImage(Bitmap avatarImage) {
+//        this.avatarImage = avatarImage;
+//    }
 
     public String getIntro() {
         return intro;
