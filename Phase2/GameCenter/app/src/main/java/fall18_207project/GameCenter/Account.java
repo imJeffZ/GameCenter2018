@@ -11,11 +11,16 @@ public class Account implements Serializable {
     private String email;
     private String userName;
     private String password;
-    private GameManager savedGames;
+    //private GameManager savedGames;
     private Profile prof;
 
     @Deprecated private String[] scoreRecord;
     private UserScoreBoard userScoreBoard;
+
+
+    public Account(){
+
+    }
 
     public Account(String email, String userName, String password) {
         this.email = email;
@@ -26,7 +31,7 @@ public class Account implements Serializable {
         this.userScoreBoard = new UserScoreBoard();
     }
 
-    @Deprecated String[] getScoreRecord() {
+    @Deprecated public String[] getScoreRecord() {
         return this.scoreRecord;
     }
 
@@ -40,7 +45,7 @@ public class Account implements Serializable {
         }
     }
 
-    String getEmail() {
+    public String getEmail() {
         return this.email;
     }
 
@@ -48,7 +53,7 @@ public class Account implements Serializable {
         this.email = email;
     }
 
-    String getUserName() {
+    public String getUserName() {
         return this.userName;
     }
 
@@ -56,13 +61,13 @@ public class Account implements Serializable {
         this.userName = userName;
     }
 
-    String getPassword() {
+    public String getPassword() {
         return this.password;
     }
 
-    void emptySavedGames() {
-        this.savedGames.clear();
-    }
+//    void emptySavedGames() {
+//        this.savedGames.clear();
+//    }
 
     void setPassword(String newPass) {
         this.password = newPass;
@@ -72,11 +77,11 @@ public class Account implements Serializable {
         return prof;
     }
 
-    boolean deleteSavedGame(String saveId) {
-        return this.savedGames.deleteGame(saveId);
-    }
+//    boolean deleteSavedGame(String saveId) {
+//        return this.savedGames.deleteGame(saveId);
+//    }
 
-    UserScoreBoard getUserScoreBoard() {
+    public UserScoreBoard getUserScoreBoard() {
         return this.userScoreBoard;
     }
 
