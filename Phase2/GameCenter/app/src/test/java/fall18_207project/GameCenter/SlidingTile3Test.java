@@ -182,4 +182,33 @@ public class SlidingTile3Test {
         stCopy = new SlidingTiles(4);
         assertNotEquals(stCopy.toString(), slidingTile.toString());
     }
+
+    /**
+     * Test whether gameID is 1
+     */
+    @Test
+    public void testGameID() {
+        setUpCorrect();
+
+        assertEquals(1, slidingTile.getGameId());
+        assertNotEquals(2, slidingTile.getGameId());
+        assertNotEquals(0, slidingTile.getGameId());
+        String savedID = slidingTile.getSaveId();
+
+        slidingTile.touchMove(5);
+        assertEquals(savedID, slidingTile.getSaveId());
+
+        setUpCorrect();
+        assertNotEquals(savedID, slidingTile.getSaveId());
+    }
+
+    @Test
+    public void testHasValidMove() {
+        setUpCorrect();
+
+        assertTrue(slidingTile.hasVaildMove()); // it always returns true for slidingtile
+
+        slidingTile.touchMove(5);
+        assertTrue(slidingTile.hasVaildMove());
+    }
 }
