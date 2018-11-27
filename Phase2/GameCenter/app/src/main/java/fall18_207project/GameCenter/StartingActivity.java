@@ -133,6 +133,7 @@ public class StartingActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Game slidingTiles = new SlidingTiles(3);
+                readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
                 accountManager.getAccount(userEmail).getAutoSavedGames().addGame(slidingTiles);
                 saveToSer(LoginActivity.ACCOUNT_MANAGER_DATA);
                 switchToGame(slidingTiles.getSaveId());
@@ -149,6 +150,7 @@ public class StartingActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Game slidingTiles = new SlidingTiles(4);
+                readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
                 accountManager.getAccount(userEmail).getAutoSavedGames().addGame(slidingTiles);
                 saveToSer(LoginActivity.ACCOUNT_MANAGER_DATA);
                 switchToGame(slidingTiles.getSaveId());
@@ -165,6 +167,7 @@ public class StartingActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Game slidingTiles = new SlidingTiles(5);
+                readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
                 accountManager.getAccount(userEmail).getAutoSavedGames().addGame(slidingTiles);
                 saveToSer(LoginActivity.ACCOUNT_MANAGER_DATA);
                 switchToGame(slidingTiles.getSaveId());
