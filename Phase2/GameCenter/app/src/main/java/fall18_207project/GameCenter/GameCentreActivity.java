@@ -17,6 +17,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -30,10 +31,17 @@ import android.widget.TextView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+
 public class GameCentreActivity extends AppCompatActivity implements  NavigationView.OnNavigationItemSelectedListener{
 
-    public static String CURRENT_ACCOUNT = "";
+    public static String userEmail = "";
     private FirebaseAuth firebaseAuth;
+    private AccountManager accountManager;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -45,11 +53,14 @@ public class GameCentreActivity extends AppCompatActivity implements  Navigation
                     break;
                 case R.id.navigation_user_history:
                     Intent tmp2 = new Intent(GameCentreActivity.this, UserHistoryActivity.class);
+                    tmp2.putExtra("userEmail", userEmail);
                     startActivity(tmp2);
+
                     break;
                 case R.id.navigation_global_scoreboard:
-                    Intent tmp3 = new Intent(GameCentreActivity.this, ScoreBoardActivity.class);
-                    startActivity(tmp3);
+//                    Intent tmp3 = new Intent(GameCentreActivity.this, GlobalScoreBoardActivity.class);
+//                    tmp3.putExtra("userEmail", userEmail);
+//                    startActivity(tmp3);
                     break;
             }
             return false;
@@ -72,7 +83,11 @@ public class GameCentreActivity extends AppCompatActivity implements  Navigation
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_centre);
-
+        // Serialization
+        readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
+//        if (getIntent().hasExtra("userEmail")) {
+//            userEmail = getIntent().getStringExtra("userEmail");
+//        }
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -105,6 +120,18 @@ public class GameCentreActivity extends AppCompatActivity implements  Navigation
             Intent gotoLogin = new Intent(getApplicationContext(), LoginActivity.class);
             startActivity(gotoLogin);
         }
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
     }
 
     @Override
@@ -178,7 +205,7 @@ public class GameCentreActivity extends AppCompatActivity implements  Navigation
 
         final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(GameCentreActivity.this);
         dialogBuilder.setTitle(profTitle);
-       final int i = id;
+        final int i = id;
         @SuppressLint("InflateParams") final View profView = LayoutInflater.from(GameCentreActivity.this).inflate(R.layout.profile_dialog, null);
         dialogBuilder.setView(profView);
         dialogBuilder.setPositiveButton("Yes",
@@ -202,13 +229,13 @@ public class GameCentreActivity extends AppCompatActivity implements  Navigation
 
     private  void  updateProfile(int id, String update){
         if (id == R.id.nav_reset){
-            AccountManager.accountMap.get(CURRENT_ACCOUNT).setUserName(update);
+            accountManager.getAccount(userEmail).setUserName(update);
         } else if (id == R.id.nav_intro){
-            AccountManager.accountMap.get(CURRENT_ACCOUNT).getProf().setIntro(update);
+            accountManager.getAccount(userEmail).getProf().setIntro(update);
         } else if (id == R.id.nav_password){
-            AccountManager.accountMap.get(CURRENT_ACCOUNT).setPassword(update);
+            accountManager.getAccount(userEmail).setPassword(update);
         }
-
+        saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
     }
 
     private void updateProfileShow(){
@@ -217,16 +244,16 @@ public class GameCentreActivity extends AppCompatActivity implements  Navigation
         navigationView.setNavigationItemSelectedListener(this);
         View navHeader = navigationView.getHeaderView(0);
         TextView textUser = navHeader.findViewById(R.id.profileUser);
-        textUser.setText(AccountManager.accountMap.get(CURRENT_ACCOUNT).getUserName());
+        textUser.setText(accountManager.getAccount(userEmail).getUserName());
 
         TextView textIntro = navHeader.findViewById(R.id.profileIntro);
-        textIntro.setText(AccountManager.accountMap.get(CURRENT_ACCOUNT).getProf().getIntro());
+        textIntro.setText(accountManager.getAccount(userEmail).getProf().getIntro());
         //ImageView userImg = navHeader.findViewById(R.id.profileImg);
         //userImg.setImageBitmap(AccountManager.accountMap.get(CURRENT_ACCOUNT).getProf().getAvatarImage());
 
         TextView textPlayTime = navHeader.findViewById(R.id.profileTime);
         textPlayTime.setText("Play Time in Total: " +
-                AccountManager.accountMap.get(CURRENT_ACCOUNT).getProf().getTotalPlayTime());
+                accountManager.getAccount(userEmail).getProf().getTotalPlayTime());
     }
 
     private void addGameButtonListener() {
@@ -264,16 +291,19 @@ public class GameCentreActivity extends AppCompatActivity implements  Navigation
 
     private void switchToGame() {
         Intent tmp = new Intent(this, StartingActivity.class);
+        tmp.putExtra("userEmail", userEmail);
         startActivity(tmp);
     }
 
     private  void switchToMatchingCardsGame(){
         Intent tmp = new Intent(this, MatchingCardStartActivity.class);
+        tmp.putExtra("userEmail", userEmail);
         startActivity(tmp);
     }
 
     private void switchToGame2048(){
         Intent tmp = new Intent(this, Game2048StartActivity.class);
+        tmp.putExtra("userEmail", userEmail);
         startActivity(tmp);
     }
 
@@ -281,6 +311,34 @@ public class GameCentreActivity extends AppCompatActivity implements  Navigation
         firebaseAuth.signOut();
         Intent tmp = new Intent(this, LoginActivity.class);
         startActivity(tmp);
+    }
+
+    private void readFromSer(String fileName) {
+        try {
+            InputStream inputStream = this.openFileInput(fileName);
+            if (inputStream != null) {
+                ObjectInputStream in = new ObjectInputStream(inputStream);
+                accountManager = (AccountManager) in.readObject();
+            }
+            inputStream.close();
+        } catch (FileNotFoundException e) {
+            Log.e("GameCentre activity", "File not found: " + e.toString());
+        } catch (IOException e) {
+            Log.e("GameCentre activity", "Can not read file: " + e.toString());
+        } catch (ClassNotFoundException e) {
+            Log.e("GameCentre activity", "File contained unexpected data type: " + e.toString());
+        }
+    }
+
+    public void saveToFile(String fileName) {
+        try {
+            ObjectOutputStream outputStream = new ObjectOutputStream(
+                    this.openFileOutput(fileName, MODE_PRIVATE));
+            outputStream.writeObject(accountManager);
+            outputStream.close();
+        } catch (IOException e) {
+            Log.e("Exception", "File write failed: " + e.toString());
+        }
     }
 
 }

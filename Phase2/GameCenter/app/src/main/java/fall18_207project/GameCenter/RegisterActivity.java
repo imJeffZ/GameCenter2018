@@ -27,7 +27,7 @@ import java.io.ObjectOutputStream;
 import java.util.HashMap;
 
 public class RegisterActivity extends AppCompatActivity {
-    AccountManager accountManager;
+    private AccountManager accountManager;
     private FirebaseAuth firebaseAuth;
     private AccessDataBase accessDataBase;
     private String emailValue;
@@ -41,7 +41,7 @@ public class RegisterActivity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         accessDataBase = new AccessDataBase();
         accountManager = new AccountManager();
-        loadFromFile(LoginActivity.SAVE_ACCOUNT_DETAILS);
+        loadFromFile(LoginActivity.ACCOUNT_MANAGER_DATA);
         addRegisterButtonListener();
     }
 
@@ -80,7 +80,7 @@ public class RegisterActivity extends AppCompatActivity {
                     Account account = new Account(emailValue, userNameValue, passwordValue);
                     accessDataBase.saveToDataBase(account);
                     accountManager.addAccount(emailValue, userNameValue, passwordValue);
-                    saveToFile(LoginActivity.SAVE_ACCOUNT_DETAILS);
+                    saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
                     Intent gotoLogin = new Intent(getApplicationContext(), LoginActivity.class);
                     startActivity(gotoLogin);
                 }
@@ -98,7 +98,7 @@ public class RegisterActivity extends AppCompatActivity {
             InputStream inputStream = this.openFileInput(fileName);
             if (inputStream != null) {
                 ObjectInputStream input = new ObjectInputStream(inputStream);
-                AccountManager.accountMap = (HashMap) input.readObject();
+                accountManager = (AccountManager) input.readObject();
                 inputStream.close();
             }
         } catch (FileNotFoundException e) {
@@ -114,7 +114,7 @@ public class RegisterActivity extends AppCompatActivity {
         try {
             ObjectOutputStream outputStream = new ObjectOutputStream(
                     this.openFileOutput(fileName, MODE_PRIVATE));
-            outputStream.writeObject(AccountManager.accountMap);
+            outputStream.writeObject(accountManager);
             outputStream.close();
         } catch (IOException e) {
             Log.e("Exception", "File write failed: " + e.toString());

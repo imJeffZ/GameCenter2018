@@ -23,19 +23,23 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.HashMap;
 
 public class LoginActivity extends AppCompatActivity {
-    public static final String SAVE_ACCOUNT_DETAILS = "account_detail.ser";
 
     private FirebaseAuth firebaseAuth;
     private String emailValue;
+    public final static String ACCOUNT_MANAGER_DATA = "accountManager.ser";
+    private AccountManager accountManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        readFromSer(SAVE_ACCOUNT_DETAILS);
+        accountManager = new AccountManager();
+        readFromSer(ACCOUNT_MANAGER_DATA);
+        saveToFile(ACCOUNT_MANAGER_DATA);
         firebaseAuth = FirebaseAuth.getInstance();
         addLoginButtonListener();
         addRegisterButtonListener();
@@ -48,12 +52,19 @@ public class LoginActivity extends AppCompatActivity {
         FirebaseUser currentUser = firebaseAuth.getCurrentUser();
         if (currentUser != null){
             String emailValue = currentUser.getEmail();
-            StartingActivity.CURRENT_ACCOUNT = emailValue;
-            ScoreBoardActivity.currentAccount = emailValue;
-            UserHistoryActivity.currentAccount = emailValue;
-            GameCentreActivity.CURRENT_ACCOUNT = emailValue;
-            Game2048StartActivity.CURRENT_ACCOUNT = emailValue;
-            MatchingCardStartActivity.CURRENT_ACCOUNT = emailValue;
+
+//            ScoreBoardActivity.currentAccount = emailValue;
+            GameCentreActivity.userEmail = emailValue;
+            SavedGamesActivity.userEmail = emailValue;
+            Game2048StartActivity.userEmail = emailValue;
+            Game2048Activity.userEmail = emailValue;
+            StartingActivity.userEmail = emailValue;
+            GameActivity.userEmail = emailValue;
+            MatchingCardStartActivity.userEmail = emailValue;
+            MatchingCardsGameActivity.userEmail = emailValue;
+            GameFinishActivity.userEmail = emailValue;
+            UserHistoryActivity.userEmail = emailValue;
+
             firebaseAuth.signOut();
 //            Intent goToCenter = new Intent(getApplicationContext(), GameCentreActivity.class);
 //            startActivity(goToCenter);
@@ -90,7 +101,7 @@ public class LoginActivity extends AppCompatActivity {
             InputStream inputStream = this.openFileInput(fileName);
             if (inputStream != null) {
                 ObjectInputStream in = new ObjectInputStream(inputStream);
-                AccountManager.accountMap = (HashMap) in.readObject();
+                accountManager = (AccountManager) in.readObject();
             }
             inputStream.close();
         } catch (FileNotFoundException e) {
@@ -102,7 +113,18 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    private void userLogin(String email, String password){
+    public void saveToFile(String fileName) {
+        try {
+            ObjectOutputStream outputStream = new ObjectOutputStream(
+                    this.openFileOutput(fileName, MODE_PRIVATE));
+            outputStream.writeObject(accountManager);
+            outputStream.close();
+        } catch (IOException e) {
+            Log.e("Exception", "File write failed: " + e.toString());
+        }
+    }
+
+    private void userLogin(final String email, String password){
         if(!validateForm()){
             return;
         }
@@ -114,14 +136,20 @@ public class LoginActivity extends AppCompatActivity {
                 if (task.isSuccessful()){
                     Log.d("LoginActivity", "sign in successful!");
                     Toast.makeText(LoginActivity.this, "Login Succssful", Toast.LENGTH_SHORT).show();
-                    StartingActivity.CURRENT_ACCOUNT = emailValue;
-                    ScoreBoardActivity.currentAccount = emailValue;
-                    UserHistoryActivity.currentAccount = emailValue;
-                    GameCentreActivity.CURRENT_ACCOUNT = emailValue;
-                    Game2048StartActivity.CURRENT_ACCOUNT = emailValue;
-                    MatchingCardStartActivity.CURRENT_ACCOUNT = emailValue;
+//                    ScoreBoardActivity.currentAccount = emailValue;
+                    GameCentreActivity.userEmail = emailValue;
+                    SavedGamesActivity.userEmail = emailValue;
+                    Game2048StartActivity.userEmail = emailValue;
+                    Game2048Activity.userEmail = emailValue;
+                    StartingActivity.userEmail = emailValue;
+                    GameActivity.userEmail = emailValue;
+                    MatchingCardStartActivity.userEmail = emailValue;
+                    MatchingCardsGameActivity.userEmail = emailValue;
+                    GameFinishActivity.userEmail = emailValue;
+                    UserHistoryActivity.userEmail = emailValue;
+
                     Intent goToCenter = new Intent(getApplicationContext(), GameCentreActivity.class);
-                    goToCenter.putExtra("accountName", AccountManager.accountMap.get(emailValue).getUserName());
+                     goToCenter.putExtra("userEmail", accountManager.getAccount(emailValue).getUserName());
                     startActivity(goToCenter);
                 }
                 else{
