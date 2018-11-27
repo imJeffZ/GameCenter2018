@@ -1,6 +1,7 @@
 package fall18_207project.GameCenter;
 
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,59 +23,48 @@ import java.io.ObjectOutputStream;
  */
 public class StartingActivity extends AppCompatActivity {
 
+    public static String userEmail = "";
     private FirebaseAuth firebaseAuth;
-    /**
-     * A really bad idea. Please change later.
-     */
-    public static String CURRENT_ACCOUNT = "";
-    /**
-     * The main save file.
-     */
-    public static final String SAVE_FILENAME = "save_file.ser";
-    /**
-     * A temporary save file.
-     */
-    public static final String TEMP_SAVE_FILENAME = "save_file_tmp.ser";
-    public static final String AUTO_SAVE_FILENAME = "auto_save.ser";
-    /**
-     * The board manager.
-     */
-    private SlidingTiles slidingTiles;
+    private AccountManager accountManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        saveToFile(TEMP_SAVE_FILENAME);
+        readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
+//        saveToFile(TEMP_SAVE_FILENAME);
         setContentView(R.layout.activity_starting_);
         firebaseAuth = FirebaseAuth.getInstance();
         addStartButtonListener();
         addLoadButtonListener();
-        addSaveButtonListener();
+//        addSaveButtonListener();
         add3ButtonListener();
         add4ButtonListener();
         add5ButtonListener();
         addLogOutButtonListener();
         addReturnToGameCenterListener();
         TextView account = findViewById(R.id.Hiuser);
-        account.setText("Hi, " + AccountManager.accountMap.get(CURRENT_ACCOUNT).getUserName());
+        account.setText("Hi, " + accountManager.getAccount(userEmail).getUserName());
     }
 
     /**
-     * Activate the start button.
+     * Activate the load auto save button.
      */
     private void addStartButtonListener() {
         Button startButton = findViewById(R.id.StartButton);
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loadFromFile(CURRENT_ACCOUNT + AUTO_SAVE_FILENAME);
-                saveToFile(TEMP_SAVE_FILENAME);
-                if (slidingTiles == null) {
-                    makeAnotherToastCurrentMessage();
-                    return;
-                }
-                makeToastLoadedText();
-                switchToGame();
+                Intent goToSavedGames = new Intent(getApplicationContext(), SavedGamesActivity.class);
+                goToSavedGames.putExtra("saveType", "autoSave");
+//                goToSavedGames.putExtra("gameType", "slidingTile");
+                startActivity(goToSavedGames);
+//                loadFromFile(userEmail + AUTO_SAVE_FILENAME);
+//                saveToFile(TEMP_SAVE_FILENAME);
+//                if (slidingTiles == null) {
+//                    makeAnotherToastCurrentMessage();
+//                    return;
+//                }
+//                makeToastLoadedText();
             }
         });
     }
@@ -87,49 +77,52 @@ public class StartingActivity extends AppCompatActivity {
         loadButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loadFromFile(CURRENT_ACCOUNT + SAVE_FILENAME);
-                saveToFile(TEMP_SAVE_FILENAME);
-                if (slidingTiles == null) {
-                    makeToastForLoadGame();
-                    return;
-                }
-                loadFromFile(CURRENT_ACCOUNT + SAVE_FILENAME);
-                saveToFile(TEMP_SAVE_FILENAME);
-                makeToastLoadedText();
-                switchToGame();
+                Intent goToSavedGames = new Intent(getApplicationContext(), SavedGamesActivity.class);
+                goToSavedGames.putExtra("saveType", "userSave");
+                startActivity(goToSavedGames);
+//                loadFromFile(userEmail + SAVE_FILENAME);
+//                saveToFile(TEMP_SAVE_FILENAME);
+//                if (slidingTiles == null) {
+//                    makeToastForLoadGame();
+//                    return;
+//                }
+//                loadFromFile(userEmail + SAVE_FILENAME);
+//                saveToFile(TEMP_SAVE_FILENAME);
+//                makeToastLoadedText();
+//                switchToGame();
             }
         });
     }
 
-    private void makeToastForLoadGame() {
-        Toast.makeText(this, "No Saved Game", Toast.LENGTH_SHORT).show();
-    }
-
-    /**
-     * Display that a game was loaded successfully.
-     */
-    private void makeToastLoadedText() {
-        Toast.makeText(this, "Loaded Game", Toast.LENGTH_SHORT).show();
-    }
-
-    private void makeAnotherToastCurrentMessage() {
-        Toast.makeText(this, "No current Game", Toast.LENGTH_SHORT).show();
-    }
-
-    /**
-     * Activate the save button.
-     */
-    private void addSaveButtonListener() {
-        Button saveButton = findViewById(R.id.SaveButton);
-        saveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                saveToFile(CURRENT_ACCOUNT + SAVE_FILENAME);
-                saveToFile(TEMP_SAVE_FILENAME);
-                makeToastSavedText();
-            }
-        });
-    }
+//    private void makeToastForLoadGame() {
+//        Toast.makeText(this, "No Saved Game", Toast.LENGTH_SHORT).show();
+//    }
+//
+//    /**
+//     * Display that a game was loaded successfully.
+//     */
+//    private void makeToastLoadedText() {
+//        Toast.makeText(this, "Loaded Game", Toast.LENGTH_SHORT).show();
+//    }
+//
+//    private void makeAnotherToastCurrentMessage() {
+//        Toast.makeText(this, "No current Game", Toast.LENGTH_SHORT).show();
+//    }
+//
+//    /**
+//     * Activate the save button.
+//     */
+//    private void addSaveButtonListener() {
+//        Button saveButton = findViewById(R.id.SaveButton);
+//        saveButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                saveToFile(userEmail + SAVE_FILENAME);
+//                saveToFile(TEMP_SAVE_FILENAME);
+//                makeToastSavedText();
+//            }
+//        });
+//    }
 
     /**
      * Activate the 3x3 new game Board.
@@ -139,8 +132,10 @@ public class StartingActivity extends AppCompatActivity {
         Button3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                slidingTiles = new SlidingTiles(3);
-                switchToGame();
+                Game slidingTiles = new SlidingTiles(3);
+                accountManager.getAccount(userEmail).getAutoSavedGames().addGame(slidingTiles);
+                saveToSer(LoginActivity.ACCOUNT_MANAGER_DATA);
+                switchToGame(slidingTiles.getSaveId());
             }
         });
     }
@@ -153,8 +148,10 @@ public class StartingActivity extends AppCompatActivity {
         Button4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                slidingTiles = new SlidingTiles(4);
-                switchToGame();
+                Game slidingTiles = new SlidingTiles(4);
+                accountManager.getAccount(userEmail).getAutoSavedGames().addGame(slidingTiles);
+                saveToSer(LoginActivity.ACCOUNT_MANAGER_DATA);
+                switchToGame(slidingTiles.getSaveId());
             }
         });
     }
@@ -167,8 +164,10 @@ public class StartingActivity extends AppCompatActivity {
         Button5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                slidingTiles = new SlidingTiles(5);
-                switchToGame();
+                Game slidingTiles = new SlidingTiles(5);
+                accountManager.getAccount(userEmail).getAutoSavedGames().addGame(slidingTiles);
+                saveToSer(LoginActivity.ACCOUNT_MANAGER_DATA);
+                switchToGame(slidingTiles.getSaveId());
             }
         });
     }
@@ -198,28 +197,30 @@ public class StartingActivity extends AppCompatActivity {
         });
     }
 
-    /**
-     * Display that a game was saved successfully.
-     */
-    private void makeToastSavedText() {
-        Toast.makeText(this, "Game Saved", Toast.LENGTH_SHORT).show();
-    }
-
-    /**
-     * Read the temporary board from disk.
-     */
-    @Override
-    protected void onResume() {
-        super.onResume();
-        loadFromFile(TEMP_SAVE_FILENAME);
-    }
+//    /**
+//     * Display that a game was saved successfully.
+//     */
+//    private void makeToastSavedText() {
+//        Toast.makeText(this, "Game Saved", Toast.LENGTH_SHORT).show();
+//    }
+//
+//    /**
+//     * Read the temporary board from disk.
+//     */
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        loadFromFile(TEMP_SAVE_FILENAME);
+//    }
 
     /**
      * Switch to the GameActivity view to play the game.
      */
-    private void switchToGame() {
+    private void switchToGame(String saveId) {
         Intent tmp = new Intent(this, GameActivity.class);
-        saveToFile(StartingActivity.TEMP_SAVE_FILENAME);
+        tmp.putExtra("saveId", saveId);
+        tmp.putExtra("saveType", "autoSave");
+//        saveToFile(StartingActivity.TEMP_SAVE_FILENAME);
         startActivity(tmp);
     }
 
@@ -230,20 +231,14 @@ public class StartingActivity extends AppCompatActivity {
 
     }
 
-    /**
-     * Load the board manager from fileName.
-     *
-     * @param fileName the name of the file
-     */
-    private void loadFromFile(String fileName) {
-
+    private void readFromSer(String fileName) {
         try {
             InputStream inputStream = this.openFileInput(fileName);
             if (inputStream != null) {
-                ObjectInputStream input = new ObjectInputStream(inputStream);
-                slidingTiles = (SlidingTiles) input.readObject();
-                inputStream.close();
+                ObjectInputStream in = new ObjectInputStream(inputStream);
+                accountManager = (AccountManager) in.readObject();
             }
+            inputStream.close();
         } catch (FileNotFoundException e) {
             Log.e("Starting activity", "File not found: " + e.toString());
         } catch (IOException e) {
@@ -253,16 +248,11 @@ public class StartingActivity extends AppCompatActivity {
         }
     }
 
-    /**
-     * Save the board manager to fileName.
-     *
-     * @param fileName the name of the file
-     */
-    public void saveToFile(String fileName) {
+    public void saveToSer(String fileName) {
         try {
             ObjectOutputStream outputStream = new ObjectOutputStream(
                     this.openFileOutput(fileName, MODE_PRIVATE));
-            outputStream.writeObject(slidingTiles);
+            outputStream.writeObject(accountManager);
             outputStream.close();
         } catch (IOException e) {
             Log.e("Exception", "File write failed: " + e.toString());

@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -28,7 +29,10 @@ public class GameActivity extends AppCompatActivity implements Observer {
      * The board manager.
      */
     private SlidingTiles slidingTiles;
-
+    private AccountManager accountManager;
+    private GameManager gameManager;
+    private String saveType;
+    public static String userEmail = "";
     /**
      * The buttons to display.
      */
@@ -73,7 +77,32 @@ public class GameActivity extends AppCompatActivity implements Observer {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        loadFromFile(StartingActivity.TEMP_SAVE_FILENAME);
+        readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
+//        @NonNull String email = getIntent().getStringExtra("userEmail");
+//        userEmail = email;
+        saveType = getIntent().getStringExtra("saveType");
+        if (saveType.equals("autoSave")) {
+            gameManager = accountManager.getAccount(userEmail).getAutoSavedGames();
+        } else {
+            gameManager = accountManager.getAccount(userEmail).getUserSavedGames();
+        }
+        // TODO: Better fix on how to deal with Null pointer exception when passing data through intent
+        String saveId = getIntent().getStringExtra("saveId");
+        if (saveId == null) {
+            slidingTiles = new SlidingTiles(1);
+        } else {
+            slidingTiles = (SlidingTiles) gameManager.getGame(getIntent().getStringExtra("saveId"));
+        }
+
+        // Continue the timer
+        if (slidingTiles.getElapsedTime() != 0) {
+            mContext = this;
+            mChrono = new GameChronometer(mContext, System.currentTimeMillis() - slidingTiles.getElapsedTime());
+            mThreadChrono = new Thread(mChrono);
+            mThreadChrono.start();
+            mChrono.start();
+        }
+
         createTileButtons(this);
         setContentView(R.layout.activity_game);
 
@@ -81,11 +110,14 @@ public class GameActivity extends AppCompatActivity implements Observer {
         mTvTimer = findViewById(R.id.time_id);
 
         addUndoButtonListener();
+        addSaveButtonListener();
 
         // Add View to activity
         gridView = findViewById(R.id.grid);
         gridView.setNumColumns(slidingTiles.getBoard().getNUM_COLS());
+
         gridView.setGame(slidingTiles);
+
         slidingTiles.getBoard().addObserver(this);
         // Observer sets up desired dimensions as well as calls our display function
         gridView.getViewTreeObserver().addOnGlobalLayoutListener(
@@ -139,6 +171,22 @@ public class GameActivity extends AppCompatActivity implements Observer {
 
     }
 
+    private void addSaveButtonListener() {
+        Button saveButton = findViewById(R.id.saveGameButton);
+        saveButton.setOnClickListener((new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                slidingTiles.updateElapsedTime(mChrono.getElapsedTime());
+                accountManager.getAccount(userEmail).getUserSavedGames().addGame(slidingTiles);
+                saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
+                makeSavedMessage();
+            }
+        }));
+    }
+
+    private void makeSavedMessage() {
+        Toast.makeText(this, "Game Saved", Toast.LENGTH_SHORT).show();
+    }
     /**
      * Create the buttons for displaying the tiles.
      *
@@ -178,9 +226,15 @@ public class GameActivity extends AppCompatActivity implements Observer {
         super.onPause();
         slidingTiles.updateElapsedTime(mChrono.getElapsedTime());
         mChrono.stop();
-
-        saveToFile(StartingActivity.TEMP_SAVE_FILENAME);
-        slidingTiles.resetElapsedTime();
+//        slidingTiles.resetElapsedTime();
+//        gameManager.addGame(slidingTiles);
+        if (saveType.equals("autoSave")) {
+            accountManager.getAccount(userEmail).getAutoSavedGames().addGame(slidingTiles);
+        } else {
+            accountManager.getAccount(userEmail).getUserSavedGames().addGame(slidingTiles);
+        }
+        saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
+//        saveToFile(StartingActivity.TEMP_SAVE_FILENAME);
     }
 
     @Override
@@ -189,39 +243,59 @@ public class GameActivity extends AppCompatActivity implements Observer {
         slidingTiles.updateElapsedTime(mChrono.getElapsedTime());
         mChrono.stop();
 
-        saveToFile(StartingActivity.CURRENT_ACCOUNT + StartingActivity.AUTO_SAVE_FILENAME);
-        slidingTiles.resetElapsedTime();
-    }
-
-    /**
-     * Load the board manager from fileName.
-     *
-     * @param fileName the name of the file
-     */
-    private void loadFromFile(String fileName) {
-
-        try {
-            InputStream inputStream = this.openFileInput(fileName);
-            if (inputStream != null) {
-                ObjectInputStream input = new ObjectInputStream(inputStream);
-                slidingTiles = (SlidingTiles) input.readObject();
-                if (slidingTiles.getElapsedTime() != 0) {
-                    mContext = this;
-                    mChrono = new GameChronometer(mContext, System.currentTimeMillis() - slidingTiles.getElapsedTime());
-                    mThreadChrono = new Thread(mChrono);
-                    mThreadChrono.start();
-                    mChrono.start();
-                }
-                inputStream.close();
-            }
-        } catch (FileNotFoundException e) {
-            Log.e("Game activity", "File not found: " + e.toString());
-        } catch (IOException e) {
-            Log.e("Game activity", "Can not read file: " + e.toString());
-        } catch (ClassNotFoundException e) {
-            Log.e("Game activity", "File contained unexpected data type: " + e.toString());
+//        saveToFile(userEmail + StartingActivity.AUTO_SAVE_FILENAME);
+//        slidingTiles.resetElapsedTime();
+//        gameManager.addGame(slidingTiles);
+        if (saveType.equals("autoSave")) {
+            accountManager.getAccount(userEmail).getAutoSavedGames().addGame(slidingTiles);
+        } else {
+            accountManager.getAccount(userEmail).getUserSavedGames().addGame(slidingTiles);
         }
+        saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
+    }
+
+
+    //    /**
+//     * Load the board manager from fileName.
+//     *
+//     * @param fileName the name of the file
+//     */
+//    private void loadFromFile(String fileName) {
+//
+//        try {
+//            InputStream inputStream = this.openFileInput(fileName);
+//            if (inputStream != null) {
+//                ObjectInputStream input = new ObjectInputStream(inputStream);
+//                slidingTiles = (SlidingTiles) input.readObject();
+//                if (slidingTiles.getElapsedTime() != 0) {
+//                    mContext = this;
+//                    mChrono = new GameChronometer(mContext, System.currentTimeMillis() - slidingTiles.getElapsedTime());
+//                    mThreadChrono = new Thread(mChrono);
+//                    mThreadChrono.start();
+//                    mChrono.start();
+//                }
+//                inputStream.close();
+//            }
+//        } catch (FileNotFoundException e) {
+//            Log.e("Game activity", "File not found: " + e.toString());
+//        } catch (IOException e) {
+//            Log.e("Game activity", "Can not read file: " + e.toString());
+//        } catch (ClassNotFoundException e) {
+//            Log.e("Game activity", "File contained unexpected data type: " + e.toString());
+//        }
+//    }
 
     /**
      * Save the board manager to fileName.
@@ -232,10 +306,28 @@ public class GameActivity extends AppCompatActivity implements Observer {
         try {
             ObjectOutputStream outputStream = new ObjectOutputStream(
                     this.openFileOutput(fileName, MODE_PRIVATE));
-            outputStream.writeObject(slidingTiles);
+            outputStream.writeObject(accountManager);
             outputStream.close();
         } catch (IOException e) {
             Log.e("Exception", "File write failed: " + e.toString());
+        }
+    }
+
+    private void readFromSer(String fileName) {
+
+        try {
+            InputStream inputStream = this.openFileInput(fileName);
+            if (inputStream != null) {
+                ObjectInputStream input = new ObjectInputStream(inputStream);
+                accountManager = (AccountManager) input.readObject();
+                inputStream.close();
+            }
+        } catch (FileNotFoundException e) {
+            Log.e("Game activity", "File not found: " + e.toString());
+        } catch (IOException e) {
+            Log.e("Game activity", "Can not read file: " + e.toString());
+        } catch (ClassNotFoundException e) {
+            Log.e("Game activity", "File contained unexpected data type: " + e.toString());
         }
     }
 
