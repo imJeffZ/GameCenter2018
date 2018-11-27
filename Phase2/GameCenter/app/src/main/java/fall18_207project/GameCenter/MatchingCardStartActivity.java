@@ -50,7 +50,7 @@ public class MatchingCardStartActivity extends AppCompatActivity {
         addLogOutButtonListener();
         addReturnToGameCenterListener();
         TextView account = findViewById(R.id.Hiuser);
-        //account.setText("Hi, " + AccountManager.accountMap.get(CURRENT_ACCOUNT).getUserName());
+        account.setText("Hi, " + AccountManager.accountMap.get(CURRENT_ACCOUNT).getUserName());
     }
 
     /**
