@@ -1,7 +1,6 @@
 package fall18_207project.GameCenter;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 
 /***
  * Account class that stores a user.
@@ -12,10 +11,11 @@ public class Account implements Serializable {
     private String email;
     private String userName;
     private String password;
-    //private GameManager savedGames;
+    private GameManager userSavedGames;
+    private GameManager autoSavedGames;
     private Profile prof;
 
-    @Deprecated private ArrayList scoreRecord;
+//    @Deprecated private ArrayList scoreRecord;
     private UserScoreBoard userScoreBoard;
 
 
@@ -27,27 +27,44 @@ public class Account implements Serializable {
         this.email = email;
         this.userName = userName;
         this.password = password;
-        this.scoreRecord = new ArrayList(3);
-        this.scoreRecord.add(null);
-        this.scoreRecord.add(null);
-        this.scoreRecord.add(null);
+//        this.scoreRecord = new ArrayList(3);
+//        this.scoreRecord.add(null);
+//        this.scoreRecord.add(null);
+//        this.scoreRecord.add(null);
+        // TODO: Rename prof to profile
         this.prof = new Profile();
+//        this.userScoreBoard = new UserScoreBoard();
+        // TODO: Change to userSavedGames to new DuplicateGameManager(), someHow I might have reverted the functionality of DuplicateGameManger and NonDuplicateGameManager
+        this.userSavedGames = new NonDuplicateGameManager();
+        this.autoSavedGames = new NonDuplicateGameManager();
         this.userScoreBoard = new UserScoreBoard();
     }
 
-    @Deprecated public ArrayList getScoreRecord() {
-        return this.scoreRecord;
+    public GameManager getUserSavedGames() {
+        return this.userSavedGames;
     }
 
-
-
-    @Deprecated void addScore(int index, String score) {
-        if (this.getScoreRecord().get(index) == null) {
-            this.getScoreRecord().set(index, score);
-        } else if (Integer.parseInt(score) > Integer.parseInt(((String)this.getScoreRecord().get(index)))) {
-            this.getScoreRecord().set(index, score);
-        }
+    public GameManager getAutoSavedGames() {
+        return this.autoSavedGames;
     }
+
+    public UserScoreBoard getUserScoreBoard() {
+        return this.userScoreBoard;
+    }
+
+    //    @Deprecated public ArrayList getScoreRecord() {
+//        return this.scoreRecord;
+//    }
+
+
+//
+//    @Deprecated void addScore(int index, String score) {
+//        if (this.getScoreRecord().get(index) == null) {
+//            this.getScoreRecord().set(index, score);
+//        } else if (Integer.parseInt(score) > Integer.parseInt(((String)this.getScoreRecord().get(index)))) {
+//            this.getScoreRecord().set(index, score);
+//        }
+//    }
 
     public String getEmail() {
         return this.email;
@@ -84,10 +101,10 @@ public class Account implements Serializable {
 //    boolean deleteSavedGame(String saveId) {
 //        return this.savedGames.deleteGame(saveId);
 //    }
-
-    public UserScoreBoard getUserScoreBoard() {
-        return this.userScoreBoard;
-    }
+//
+//    public UserScoreBoard getUserScoreBoard() {
+//        return this.userScoreBoard;
+//    }
 
 
 }
