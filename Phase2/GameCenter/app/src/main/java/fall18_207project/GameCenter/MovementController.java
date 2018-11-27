@@ -10,6 +10,8 @@ import android.widget.Toast;
 class MovementController {
 
     private Game game;
+    private String userEmail;
+    private AccountManager accountManager;
 
     MovementController() {
     }
@@ -18,17 +20,14 @@ class MovementController {
         this.game = game;
     }
 
-
-
-
     void processTapMovement(final Context context, int position, boolean display) {
         if (this.game.isSolved()) {
-            addScoreOnFinish();
+//            addScoreOnFinish();
             createDialog(context);
         } else if (this.game.isValidTap(position)) {
             this.game.touchMove(position);
             if (this.game.isSolved()) {
-                addScoreOnFinish();
+//                addScoreOnFinish();
                 createDialog(context);
             }
         } else {
@@ -41,18 +40,17 @@ class MovementController {
             Toast.makeText(context,"you lose", Toast.LENGTH_SHORT).show();
         }
         if (this.game.isSolved()) {
-            addScoreOnFinish();
+//            addScoreOnFinish();
             createDialog(context);
         } else if (this.game.isValidTap(dirction)) {
             this.game.touchMove(dirction);
             if (this.game.isSolved()) {
-                addScoreOnFinish();
+//                addScoreOnFinish();
                 createDialog(context);
             }
         } else {
             Toast.makeText(context, "Invalid Tap", Toast.LENGTH_SHORT).show();
         }
-
     }
 
     /**
@@ -69,30 +67,31 @@ class MovementController {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Intent gotoFinishScreen = new Intent(context, GameFinishActivity.class);
-                gotoFinishScreen.putExtra("score", game.calculateScore());
-                gotoFinishScreen.putExtra("size", game.gameId);
+                gotoFinishScreen.putExtra("saveId", game.getSaveId());
+//                gotoFinishScreen.putExtra("score", game.calculateScore());
+//                gotoFinishScreen.putExtra("size", game.gameId);
                 context.startActivity(gotoFinishScreen);
             }
         });
         builder.create().show();
     }
 
-    /**
-     * add the score to the account when the game is over
-     */
-    private void addScoreOnFinish() {
-        String score = Integer.toString(this.game.calculateScore());
-        int size = this.game.gameId;
-        int index;
-        if (size == 1) {
-            index = 0;
-        } else if (size == 2) {
-            index = 1;
-        } else {
-            index = 2;
-        }
-        Account currentAccount = AccountManager.accountMap.get(GameCentreActivity.CURRENT_ACCOUNT);
-        currentAccount.addScore(index, score);
-        AccountManager.accountMap.put(StartingActivity.CURRENT_ACCOUNT, currentAccount);
-    }
+//    /**
+//     * add the score to the account when the game is over
+//     */
+//    private void addScoreOnFinish() {
+//        String score = Integer.toString(this.game.calculateScore());
+//        int size = this.game.gameId;
+//        int index;
+//        if (size == 1) {
+//            index = 0;
+//        } else if (size == 2) {
+//            index = 1;
+//        } else {
+//            index = 2;
+//        }
+//        Account currentAccount = accountManager.getAccount(userEmail);
+//        currentAccount.addScore(index, score);
+//        AccountManager.accountMap.put(StartingActivity.CURRENT_ACCOUNT, currentAccount);
+//    }
 }
