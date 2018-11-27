@@ -33,14 +33,16 @@ public abstract class Game implements Serializable, GameFeature {
         return countMove;
     }
 
-    int getGameId() {
+    public int getGameId() {
         return this.gameId;
     }
 
-    String getSaveId() {
+    public String getSaveId() {
         return this.saveId;
     }
 
+    // TODO: Implement reset
+    abstract void reset();
     abstract int calculateScore();
 
     void updateElapsedTime(long newElapsedTime) {

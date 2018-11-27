@@ -55,6 +55,12 @@ public class MatchingCards extends Game implements Cloneable, Serializable {
         this.startMode = true;
         this.matchBomb = false;
     }
+    // TODO: Implement reset
+
+    @Override
+    void reset() {
+        return;
+    }
 
     @Override
     public boolean isSolved() {

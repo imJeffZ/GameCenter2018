@@ -74,6 +74,12 @@ class SlidingTiles extends Game implements Cloneable, GameFeature {
         return solved;
     }
 
+    // TODO: Implement reset
+    @Override
+    void reset() {
+        return;
+    }
+
     /**
      * Return whether any of the four surrounding tiles is the blank tile.
      *

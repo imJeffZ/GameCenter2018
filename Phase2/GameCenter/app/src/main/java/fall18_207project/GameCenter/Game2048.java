@@ -39,6 +39,13 @@ public class Game2048 extends Game implements GameFeature, Cloneable {
         boardStack.add(board);
     }
 
+
+    // TODO: Implement reset
+    @Override
+    void reset() {
+        return;
+    }
+
     public static int getLEFT() {
         return LEFT;
     }
