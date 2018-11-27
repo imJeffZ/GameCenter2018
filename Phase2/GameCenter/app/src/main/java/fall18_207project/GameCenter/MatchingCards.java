@@ -10,15 +10,15 @@ import java.util.List;
 public class MatchingCards extends Game implements Cloneable, Serializable {
 
     protected MatchingBoard matchingBoard;
-    private int match;
+//    private int match;
     private int prePos;
     private int numOfBombs = 0;
     private boolean startMode;
     private boolean matchBomb;
 
-    public int getMatch() {
-        return match;
-    }
+//    public int getMatch() {
+//        return match;
+//    }
 
     public int getPrePos() {
         return prePos;
@@ -51,7 +51,7 @@ public class MatchingCards extends Game implements Cloneable, Serializable {
         matchingBoard = new MatchingBoard(cardList, num);
         this.endTime = 0;
         this.prePos = -1;
-        this.match = 0;
+//        this.match = 0;
         this.startMode = true;
         this.matchBomb = false;
     }
@@ -64,9 +64,19 @@ public class MatchingCards extends Game implements Cloneable, Serializable {
 
     @Override
     public boolean isSolved() {
+        return matchBomb || !(this.hasVaildMove());
+    }
 
-        return matchBomb || (2 * match == this.gameId * this.gameId - this.numOfBombs);
-
+    @Override
+    public boolean hasVaildMove() {
+        for (int i = 0; i < matchingBoard.getNumOfCards(); i++) {
+            int row = i / matchingBoard.getNumOfRows();
+            int col = i % matchingBoard.getNumOfColumns();
+            if (!matchingBoard.getCard(row, col).isUsed() && !matchingBoard.getCard(row, col).isBomb()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
@@ -87,7 +97,7 @@ public class MatchingCards extends Game implements Cloneable, Serializable {
             matchingBoard.turnCard(row, col, true);
             matchBomb = true;
         } else if (this.isMatched(row, col)) {
-            match++;
+//            match++;
             matchingBoard.turnCard(row, col, true);
             matchingBoard.useCards(row, col, row1, col1);
             prePos = -1;
