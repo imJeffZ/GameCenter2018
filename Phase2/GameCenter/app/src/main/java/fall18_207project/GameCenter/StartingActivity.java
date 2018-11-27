@@ -34,7 +34,7 @@ public class StartingActivity extends AppCompatActivity {
 //        saveToFile(TEMP_SAVE_FILENAME);
         setContentView(R.layout.activity_starting_);
         firebaseAuth = FirebaseAuth.getInstance();
-        addStartButtonListener();
+        addLoadAutoSaveButtonListener();;
         addLoadButtonListener();
 //        addSaveButtonListener();
         add3ButtonListener();
@@ -49,7 +49,7 @@ public class StartingActivity extends AppCompatActivity {
     /**
      * Activate the load auto save button.
      */
-    private void addStartButtonListener() {
+    private void addLoadAutoSaveButtonListener() {
         Button startButton = findViewById(R.id.StartButton);
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
