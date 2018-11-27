@@ -9,6 +9,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -19,6 +21,8 @@ import java.io.ObjectOutputStream;
  * The initial activity for the sliding puzzle tile game.
  */
 public class StartingActivity extends AppCompatActivity {
+
+    private FirebaseAuth firebaseAuth;
     /**
      * A really bad idea. Please change later.
      */
@@ -42,6 +46,7 @@ public class StartingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         saveToFile(TEMP_SAVE_FILENAME);
         setContentView(R.layout.activity_starting_);
+        firebaseAuth = FirebaseAuth.getInstance();
         addStartButtonListener();
         addLoadButtonListener();
         addSaveButtonListener();
@@ -219,6 +224,7 @@ public class StartingActivity extends AppCompatActivity {
     }
 
     private void switchToLogin() {
+        firebaseAuth.signOut();
         Intent tmp = new Intent(this, LoginActivity.class);
         startActivity(tmp);
 

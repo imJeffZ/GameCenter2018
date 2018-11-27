@@ -9,6 +9,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,6 +18,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 public class MatchingCardStartActivity extends AppCompatActivity {
+    private FirebaseAuth firebaseAuth;
+
     public static String CURRENT_ACCOUNT = "";
     /**
      * The main save file.
@@ -36,6 +40,7 @@ public class MatchingCardStartActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         saveToFile(TEMP_SAVE_FILENAME);
         setContentView(R.layout.activity_matching_card_starting);
+        firebaseAuth = FirebaseAuth.getInstance();
         addStartButtonListener();
         addLoadButtonListener();
         addSaveButtonListener();
@@ -213,6 +218,7 @@ public class MatchingCardStartActivity extends AppCompatActivity {
     }
 
     private void switchToLogin() {
+        firebaseAuth.signOut();
         Intent tmp = new Intent(this, LoginActivity.class);
         startActivity(tmp);
 
