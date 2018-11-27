@@ -2,6 +2,7 @@ package fall18_207project.GameCenter;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -33,11 +34,18 @@ public class MatchingCardStartActivity extends AppCompatActivity {
     /**
      * The board manager.
      */
+    private AccountManager accountManager;
+    public static String userEmail = "";
     private MatchingCards matchingCards;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
+
+//        @NonNull String email = getIntent().getStringExtra("userEmail");
+//        userEmail = email;
         saveToFile(TEMP_SAVE_FILENAME);
         setContentView(R.layout.activity_matching_card_starting);
         firebaseAuth = FirebaseAuth.getInstance();
@@ -50,7 +58,7 @@ public class MatchingCardStartActivity extends AppCompatActivity {
         addLogOutButtonListener();
         addReturnToGameCenterListener();
         TextView account = findViewById(R.id.Hiuser);
-        account.setText("Hi, " + AccountManager.accountMap.get(CURRENT_ACCOUNT).getUserName());
+        account.setText("Hi, " + accountManager.getAccount(userEmail).getUserName());
     }
 
     /**
@@ -213,6 +221,7 @@ public class MatchingCardStartActivity extends AppCompatActivity {
      */
     private void switchToGame() {
         Intent tmp = new Intent(this, MatchingCardsGameActivity.class);
+        tmp.putExtra("userEmail", userEmail);
         saveToFile(MatchingCardStartActivity.TEMP_SAVE_FILENAME);
         startActivity(tmp);
     }
@@ -247,6 +256,24 @@ public class MatchingCardStartActivity extends AppCompatActivity {
         }
     }
 
+    private void readFromSer(String fileName) {
+
+        try {
+            InputStream inputStream = this.openFileInput(fileName);
+            if (inputStream != null) {
+                ObjectInputStream input = new ObjectInputStream(inputStream);
+                accountManager = (AccountManager) input.readObject();
+                inputStream.close();
+            }
+        } catch (FileNotFoundException e) {
+            Log.e("MatchingCardsStart activity", "File not found: " + e.toString());
+        } catch (IOException e) {
+            Log.e("MatchingCardsStart activity", "Can not read file: " + e.toString());
+        } catch (ClassNotFoundException e) {
+            Log.e("MatchingCardsStart activity", "File contained unexpected data type: " + e.toString());
+        }
+    }
+
     /**
      * Save the board manager to fileName.
      *
@@ -257,6 +284,22 @@ public class MatchingCardStartActivity extends AppCompatActivity {
             ObjectOutputStream outputStream = new ObjectOutputStream(
                     this.openFileOutput(fileName, MODE_PRIVATE));
             outputStream.writeObject(matchingCards);
+            outputStream.close();
+        } catch (IOException e) {
+            Log.e("Exception", "File write failed: " + e.toString());
+        }
+    }
+
+    /**
+     * Save the board manager to fileName.
+     *
+     * @param fileName the name of the file
+     */
+    public void saveToSer(String fileName) {
+        try {
+            ObjectOutputStream outputStream = new ObjectOutputStream(
+                    this.openFileOutput(fileName, MODE_PRIVATE));
+            outputStream.writeObject(accountManager);
             outputStream.close();
         } catch (IOException e) {
             Log.e("Exception", "File write failed: " + e.toString());

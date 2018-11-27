@@ -2,6 +2,7 @@ package fall18_207project.GameCenter;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -23,7 +24,8 @@ public class MatchingCardsGameActivity extends AppCompatActivity implements Obse
      * The matchingGame.
      */
     private MatchingCards matchingCards;
-
+    private AccountManager accountManager;
+    public static String userEmail = "";
     /**
      * The buttons to display.
      */
@@ -64,6 +66,10 @@ public class MatchingCardsGameActivity extends AppCompatActivity implements Obse
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         loadFromFile(MatchingCardStartActivity.TEMP_SAVE_FILENAME);
+        readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
+
+//        @NonNull String email = getIntent().getStringExtra("userEmail");
+//        userEmail = email;
         createCardButtons(this);
         setContentView(R.layout.activity_matchingcard_game_main);
 
@@ -75,7 +81,9 @@ public class MatchingCardsGameActivity extends AppCompatActivity implements Obse
         // Add View to activity
         gridView = findViewById(R.id.grid);
         gridView.setNumColumns(matchingCards.getMatchingBoard().getNumOfColumns());
+
         gridView.setGame(matchingCards);
+
         matchingCards.getMatchingBoard().addObserver(this);
         // Observer sets up desired dimensions as well as calls our display function
         gridView.getViewTreeObserver().addOnGlobalLayoutListener(
@@ -234,6 +242,32 @@ public class MatchingCardsGameActivity extends AppCompatActivity implements Obse
         }
     }
 
+    private void readFromSer(String fileName) {
+
+        try {
+            InputStream inputStream = this.openFileInput(fileName);
+            if (inputStream != null) {
+                ObjectInputStream input = new ObjectInputStream(inputStream);
+                accountManager = (AccountManager) input.readObject();
+//                if (matchingCards.getElapsedTime() != 0) {
+//                    mContext = this;
+//                    mChrono = new GameChronometer(mContext, System.currentTimeMillis() - matchingCards.getElapsedTime());
+//                    mThreadChrono = new Thread(mChrono);
+//                    mThreadChrono.start();
+//                    mChrono.start();
+//                }
+                inputStream.close();
+            }
+        } catch (FileNotFoundException e) {
+            Log.e("MatchingCardsGame activity", "File not found: " + e.toString());
+        } catch (IOException e) {
+            Log.e("MatchingCardsGame activity", "Can not read file: " + e.toString());
+        } catch (ClassNotFoundException e) {
+            Log.e("MatchingCardsGame activity", "File contained unexpected data type: " + e.toString());
+        }
+    }
+
+
     /**
      * Save the matchingTile to fileName.
      *
@@ -250,6 +284,16 @@ public class MatchingCardsGameActivity extends AppCompatActivity implements Obse
         }
     }
 
+    public void saveToSer(String fileName) {
+        try {
+            ObjectOutputStream outputStream = new ObjectOutputStream(
+                    this.openFileOutput(fileName, MODE_PRIVATE));
+            outputStream.writeObject(accountManager);
+            outputStream.close();
+        } catch (IOException e) {
+            Log.e("Exception", "File write failed: " + e.toString());
+        }
+    }
 
     @Override
     public void update(Observable o, Object arg) {

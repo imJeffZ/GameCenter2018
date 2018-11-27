@@ -28,6 +28,8 @@ public class Game2048Activity extends AppCompatActivity implements Observer {
      * The board manager.
      */
     private Game2048 game2048;
+    private AccountManager accountManager;
+    public static String userEmail = "";
 
     /**
      * The buttons to display.
@@ -73,7 +75,11 @@ public class Game2048Activity extends AppCompatActivity implements Observer {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
+//        userEmail = getIntent().getStringExtra("userEmail");
+
         loadFromFile(Game2048StartActivity.TEMP_SAVE_FILENAME);
+
         createTileButtons(this);
         setContentView(R.layout.activity_game2048);
 
@@ -196,7 +202,7 @@ public class Game2048Activity extends AppCompatActivity implements Observer {
  //       game2048.updateElapsedTime(mChrono.getElapsedTime());
  //       mChrono.stop();
 
-        saveToFile(Game2048StartActivity.CURRENT_ACCOUNT + Game2048StartActivity.AUTO_SAVE_FILENAME);
+        saveToFile(userEmail+ Game2048StartActivity.AUTO_SAVE_FILENAME);
   //      game2048.resetElapsedTime();
     }
 
@@ -221,6 +227,23 @@ public class Game2048Activity extends AppCompatActivity implements Observer {
                 }
                 inputStream.close();
             }
+        } catch (FileNotFoundException e) {
+            Log.e("Game2048 activity", "File not found: " + e.toString());
+        } catch (IOException e) {
+            Log.e("Game2048 activity", "Can not read file: " + e.toString());
+        } catch (ClassNotFoundException e) {
+            Log.e("Game2048 activity", "File contained unexpected data type: " + e.toString());
+        }
+    }
+
+    private void readFromSer(String fileName) {
+        try {
+            InputStream inputStream = this.openFileInput(fileName);
+            if (inputStream != null) {
+                ObjectInputStream in = new ObjectInputStream(inputStream);
+                accountManager = (AccountManager) in.readObject();
+            }
+            inputStream.close();
         } catch (FileNotFoundException e) {
             Log.e("Game2048 activity", "File not found: " + e.toString());
         } catch (IOException e) {

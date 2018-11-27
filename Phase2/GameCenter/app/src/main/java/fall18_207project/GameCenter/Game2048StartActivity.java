@@ -19,7 +19,9 @@ import java.io.ObjectOutputStream;
 
 public class Game2048StartActivity extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
-    public static String CURRENT_ACCOUNT = "";
+    public static String userEmail = "";
+    private AccountManager accountManager;
+//    private String userEmail;
     /**
      * The main save file.
      */
@@ -37,6 +39,7 @@ public class Game2048StartActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
         saveToFile(TEMP_SAVE_FILENAME);
         setContentView(R.layout.activity_game2048_starting);
         firebaseAuth = FirebaseAuth.getInstance();
@@ -47,7 +50,7 @@ public class Game2048StartActivity extends AppCompatActivity {
         addLogOutButtonListener();
         addReturnToGameCenterListener();
         TextView account = findViewById(R.id.Hiuser);
-        account.setText("Hi, " + AccountManager.accountMap.get(CURRENT_ACCOUNT).getUserName());
+        account.setText("Hi, " + accountManager.getAccount(userEmail).getUserName());
     }
 
     /**
@@ -58,7 +61,7 @@ public class Game2048StartActivity extends AppCompatActivity {
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loadFromFile(CURRENT_ACCOUNT + AUTO_SAVE_FILENAME);
+                loadFromFile(userEmail + AUTO_SAVE_FILENAME);
                 saveToFile(TEMP_SAVE_FILENAME);
                 if (game2048 == null) {
                     makeAnotherToastCurrentMessage();
@@ -78,13 +81,13 @@ public class Game2048StartActivity extends AppCompatActivity {
         loadButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loadFromFile(CURRENT_ACCOUNT + SAVE_FILENAME);
+                loadFromFile(userEmail + SAVE_FILENAME);
                 saveToFile(TEMP_SAVE_FILENAME);
                 if (game2048 == null) {
                     makeToastForLoadGame();
                     return;
                 }
-                loadFromFile(CURRENT_ACCOUNT + SAVE_FILENAME);
+                loadFromFile(userEmail + SAVE_FILENAME);
                 saveToFile(TEMP_SAVE_FILENAME);
                 makeToastLoadedText();
                 switchToGame();
@@ -115,7 +118,7 @@ public class Game2048StartActivity extends AppCompatActivity {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                saveToFile(CURRENT_ACCOUNT + SAVE_FILENAME);
+                saveToFile(userEmail + SAVE_FILENAME);
                 saveToFile(TEMP_SAVE_FILENAME);
                 makeToastSavedText();
             }
@@ -194,6 +197,7 @@ public class Game2048StartActivity extends AppCompatActivity {
     private void switchToLogin() {
         firebaseAuth.signOut();
         Intent tmp = new Intent(this, LoginActivity.class);
+        tmp.putExtra("userEmail", userEmail);
         startActivity(tmp);
 
     }
@@ -218,6 +222,23 @@ public class Game2048StartActivity extends AppCompatActivity {
             Log.e("Game2048t activity", "Can not read file: " + e.toString());
         } catch (ClassNotFoundException e) {
             Log.e("Game2048 activity", "File contained unexpected data type: " + e.toString());
+        }
+    }
+
+    private void readFromSer(String fileName) {
+        try {
+            InputStream inputStream = this.openFileInput(fileName);
+            if (inputStream != null) {
+                ObjectInputStream in = new ObjectInputStream(inputStream);
+                accountManager = (AccountManager) in.readObject();
+            }
+            inputStream.close();
+        } catch (FileNotFoundException e) {
+            Log.e("Game2048Start activity", "File not found: " + e.toString());
+        } catch (IOException e) {
+            Log.e("Game2048Start activity", "Can not read file: " + e.toString());
+        } catch (ClassNotFoundException e) {
+            Log.e("Game2048Start activity", "File contained unexpected data type: " + e.toString());
         }
     }
 
