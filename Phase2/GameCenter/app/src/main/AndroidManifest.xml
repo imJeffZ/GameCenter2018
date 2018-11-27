@@ -19,8 +19,8 @@
         <activity android:name=".LoginActivity" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".GameCentreActivity" />
-        <activity android:name=".ScoreBoardActivity" />
-        <activity android:name=".UserHistoryActivity" />
+         <!--<activity android:name=".ScoreBoardActivity" /> -->
+         <activity android:name=".UserHistoryActivity" />
         <activity android:name=".MatchingCardsGameActivity" />
         <activity android:name=".MatchingCardStartActivity" />
         <activity android:name=".StartingActivity" />
@@ -28,10 +28,7 @@
         <activity android:name=".GameFinishActivity" />
         <activity android:name=".Game2048StartActivity" />
         <activity android:name=".Game2048Activity" />
-
-
-
-
+        <activity android:name=".SavedGamesActivity"></activity>
     </application>
 
 </manifest>
