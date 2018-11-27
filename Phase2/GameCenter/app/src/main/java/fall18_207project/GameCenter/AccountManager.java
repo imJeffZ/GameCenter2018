@@ -10,30 +10,41 @@ import java.util.Map;
  */
 public class AccountManager implements Serializable {
 
-    static Map<String, Account> accountMap = new HashMap<>();
+    private Map<String, Account> accountMap = new HashMap<>();
+    // TODO: Maybe put AccountManager and GlobalScoreBoard together to become a MainSystem class. We can try singleton on it.
+    private GlobalScoreBoard globalScoreBoard;
 
     public AccountManager() {
         accountMap = new HashMap<>();
+        globalScoreBoard = new GlobalScoreBoard();
     }
 
     private ArrayList<Account> getaccountList() {
-        return new ArrayList<Account>(AccountManager.accountMap.values());
+        return new ArrayList<Account>(accountMap.values());
     }
 
+    // TODO: Change the parameters to (Account new Account)
     boolean addAccount(String email, String userName, String password) {
-        if (AccountManager.accountMap.containsKey(email)) {
+        if (accountMap.containsKey(email)) {
             return false;
         }
-        AccountManager.accountMap.put(email, new Account(email, userName, password));
+        accountMap.put(email, new Account(email, userName, password));
         return true;
     }
 
+    public GlobalScoreBoard getGlobalScoreBoard() {
+        return globalScoreBoard;
+    }
+
     Account getAccount(String email) {
-        return AccountManager.accountMap.get(email);
+        if (email == null) {
+            return new Account("null", "null", "null");
+        }
+        return accountMap.get(email);
     }
 
     boolean removeAccount(String email) {
-        return AccountManager.accountMap.remove(email) != null;
+        return accountMap.remove(email) != null;
     }
 
     boolean validate(String email, String password) {
