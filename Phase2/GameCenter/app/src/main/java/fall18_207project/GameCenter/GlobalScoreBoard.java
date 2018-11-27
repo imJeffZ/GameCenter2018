@@ -12,11 +12,10 @@ import java.util.Map;
 /***
  * A Global ScoreBoard for all users.
  *
- * TODO: Implement extra feature: Tap on a ScoreRecord to play the game again.
  */
-class GlobalScoreBoard implements GameScoreBoard {
+class GlobalScoreBoard implements GameScoreBoard, Serializable {
 
-    // Map of <gameId> to list of ScoreEntry. ScoreEntry is Node of userName and Game.
+    // Map of <gameId> to ArrayList of ScoreEntry. ScoreEntry is Node of userName and Game.
     Map<Integer, ArrayList<ScoreRecord>> scoreMap;
 
     GlobalScoreBoard() {
