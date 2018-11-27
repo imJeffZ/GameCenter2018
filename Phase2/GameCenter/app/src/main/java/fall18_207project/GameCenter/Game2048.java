@@ -67,43 +67,40 @@ public class Game2048 extends Game implements GameFeature, Cloneable {
     @Override
     public boolean isValidTap(int direction) {
         return true;
-
-
     }
 
-
     public boolean hasVaildMove() {
+        // TODO: code smell
         boolean valid = false;
         int blankid = 25;
         for (int i = 0; i < board.getNUM_COLS(); i++) {
             for (int j = 0; j < board.getNUM_ROWS(); j++) {
                 if (i + 1 < board.getNUM_COLS()) {
                     if (board.getTile(i + 1, j).getId() == blankid || board.getTile(i + 1, j).getId() == board.getTile(i, j).getId()) {
-                        return true;
+                        valid = true;
                     }
                 }
+
                 if (i - 1 >= 0) {
                     if (board.getTile(i - 1, j).getId() == blankid || board.getTile(i - 1, j).getId() == board.getTile(i, j).getId()) {
-                        return true;
+                        valid = true;
                     }
                 }
 
                 if (j + 1 < board.getNUM_COLS()) {
                     if (board.getTile(i, j + 1).getId() == blankid || board.getTile(i, j + 1).getId() == board.getTile(i, j).getId()) {
-                        return true;
+                        valid = true;
                     }
                 }
 
                 if (j - 1 >= 0) {
                     if (board.getTile(i, j - 1).getId() == blankid || board.getTile(i, j - 1).getId() == board.getTile(i, j).getId()) {
-                        return true;
+                        valid = true;
                     }
                 }
-
             }
         }
         return valid;
-
     }
 
     private boolean leftShift(int row) {
@@ -244,37 +241,29 @@ public class Game2048 extends Game implements GameFeature, Cloneable {
             board.getTiles()[blanktiles.get(position).get(0)][blanktiles.get(position).get(1)] = new Tile(number - 1);
             board.swapTiles(blanktiles.get(position2).get(0), blanktiles.get(position2).get(1), blanktiles.get(position).get(0), blanktiles.get(position).get(1));
         }
-
         boardStack.push(board.clone());
-
     }
-
 
     public void undo() {
         if (!boardStack.isEmpty()) {
-
             boardStack.pop();
         }
+
         if (!boardStack.isEmpty()) {
             board = (Board) boardStack.pop();
-
-
         }
-
     }
 
     @Override
     public boolean isSolved() {
         Iterator<Tile> it = board.iterator();
         while (it.hasNext()) {
-            int curbackground = it.next().getId();
-            if (curbackground == 2048 - 1) {
+            int curID = it.next().getId();
+            if (curID == 2048) {
                 return true;
             }
         }
         return false;
     }
-
-
 }
 
