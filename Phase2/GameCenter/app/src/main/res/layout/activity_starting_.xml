@@ -73,7 +73,7 @@
         android:layout_marginTop="50dp"
         android:layout_toEndOf="@+id/StartButton"
         android:background="@drawable/button_style"
-        android:text="Save Game" />
+        android:text="No Click" />
 
     <Button
         android:id="@+id/Button4"
