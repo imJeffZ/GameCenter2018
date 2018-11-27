@@ -27,10 +27,13 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 public class GameCentreActivity extends AppCompatActivity implements  NavigationView.OnNavigationItemSelectedListener{
 
     public static String CURRENT_ACCOUNT = "";
-
+    private FirebaseAuth firebaseAuth;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -73,6 +76,9 @@ public class GameCentreActivity extends AppCompatActivity implements  Navigation
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        //set up fireBaseAuth
+        firebaseAuth = FirebaseAuth.getInstance();
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -87,6 +93,18 @@ public class GameCentreActivity extends AppCompatActivity implements  Navigation
         menuItem.setChecked(true);
         addGameButtonListener();
         addMatchingCardsGameButtonListener();
+        addGame2048ButtonListener();
+    }
+
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+        if (currentUser == null){
+            Intent gotoLogin = new Intent(getApplicationContext(), LoginActivity.class);
+            startActivity(gotoLogin);
+        }
     }
 
     @Override
@@ -233,6 +251,17 @@ public class GameCentreActivity extends AppCompatActivity implements  Navigation
         });
     }
 
+    private void addGame2048ButtonListener() {
+
+        ImageButton ButtonGame = findViewById(R.id.Game2048);
+        ButtonGame.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switchToGame2048();
+            }
+        });
+    }
+
     private void switchToGame() {
         Intent tmp = new Intent(this, StartingActivity.class);
         startActivity(tmp);
@@ -243,10 +272,15 @@ public class GameCentreActivity extends AppCompatActivity implements  Navigation
         startActivity(tmp);
     }
 
+    private void switchToGame2048(){
+        Intent tmp = new Intent(this, Game2048StartActivity.class);
+        startActivity(tmp);
+    }
+
     private void switchToLogin() {
+        firebaseAuth.signOut();
         Intent tmp = new Intent(this, LoginActivity.class);
         startActivity(tmp);
-
     }
 
 }

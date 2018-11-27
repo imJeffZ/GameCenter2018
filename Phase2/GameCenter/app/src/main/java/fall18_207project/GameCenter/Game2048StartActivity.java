@@ -17,40 +17,37 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-public class MatchingCardStartActivity extends AppCompatActivity {
+public class Game2048StartActivity extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
-
     public static String CURRENT_ACCOUNT = "";
     /**
      * The main save file.
      */
-    public static final String SAVE_FILENAME = "save_card_file.ser";
+    public static final String SAVE_FILENAME = "save_2048_file.ser";
     /**
      * A temporary save file.
      */
-    public static final String TEMP_SAVE_FILENAME = "save_card_file_tmp.ser";
-    public static final String AUTO_SAVE_FILENAME = "auto_save_card.ser";
+    public static final String TEMP_SAVE_FILENAME = "save_2048_file_tmp.ser";
+    public static final String AUTO_SAVE_FILENAME = "auto_save_2048.ser";
     /**
      * The board manager.
      */
-    private MatchingCards matchingCards;
+    private Game2048 game2048;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         saveToFile(TEMP_SAVE_FILENAME);
-        setContentView(R.layout.activity_matching_card_starting);
+        setContentView(R.layout.activity_game2048_starting);
         firebaseAuth = FirebaseAuth.getInstance();
         addStartButtonListener();
         addLoadButtonListener();
         addSaveButtonListener();
         add4ButtonListener();
-        add5ButtonListener();
-        add6ButtonListener();
         addLogOutButtonListener();
         addReturnToGameCenterListener();
         TextView account = findViewById(R.id.Hiuser);
-        //account.setText("Hi, " + AccountManager.accountMap.get(CURRENT_ACCOUNT).getUserName());
+        account.setText("Hi, " + AccountManager.accountMap.get(CURRENT_ACCOUNT).getUserName());
     }
 
     /**
@@ -63,7 +60,7 @@ public class MatchingCardStartActivity extends AppCompatActivity {
             public void onClick(View v) {
                 loadFromFile(CURRENT_ACCOUNT + AUTO_SAVE_FILENAME);
                 saveToFile(TEMP_SAVE_FILENAME);
-                if (matchingCards == null) {
+                if (game2048 == null) {
                     makeAnotherToastCurrentMessage();
                     return;
                 }
@@ -83,7 +80,7 @@ public class MatchingCardStartActivity extends AppCompatActivity {
             public void onClick(View v) {
                 loadFromFile(CURRENT_ACCOUNT + SAVE_FILENAME);
                 saveToFile(TEMP_SAVE_FILENAME);
-                if (matchingCards == null) {
+                if (game2048 == null) {
                     makeToastForLoadGame();
                     return;
                 }
@@ -133,7 +130,7 @@ public class MatchingCardStartActivity extends AppCompatActivity {
         Button4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                matchingCards = new MatchingCards(4);
+                game2048 = new Game2048();
                 switchToGame();
             }
         });
@@ -141,31 +138,8 @@ public class MatchingCardStartActivity extends AppCompatActivity {
 
     /**
      * Activate the 4x4 new game board.
-//     */
-    private void add5ButtonListener() {
-        Button Button5 = findViewById(R.id.Button5);
-        Button5.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                matchingCards = new MatchingCards(5);
-                switchToGame();
-            }
-        });
-    }
+     //     */
 
-    /**
-     * Activate the 5x5 new game board.
-     */
-    private void add6ButtonListener() {
-        Button Button6 = findViewById(R.id.Button6);
-        Button6.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                matchingCards = new MatchingCards(6);
-                switchToGame();
-            }
-        });
-    }
 
     /**
      * Log out of the current Account.
@@ -212,8 +186,8 @@ public class MatchingCardStartActivity extends AppCompatActivity {
      * Switch to the GameActivity view to play the game.
      */
     private void switchToGame() {
-        Intent tmp = new Intent(this, MatchingCardsGameActivity.class);
-        saveToFile(MatchingCardStartActivity.TEMP_SAVE_FILENAME);
+        Intent tmp = new Intent(this, Game2048Activity.class);
+        saveToFile(Game2048StartActivity.TEMP_SAVE_FILENAME);
         startActivity(tmp);
     }
 
@@ -235,15 +209,15 @@ public class MatchingCardStartActivity extends AppCompatActivity {
             InputStream inputStream = this.openFileInput(fileName);
             if (inputStream != null) {
                 ObjectInputStream input = new ObjectInputStream(inputStream);
-               matchingCards = (MatchingCards) input.readObject();
+                game2048 = (Game2048) input.readObject();
                 inputStream.close();
             }
         } catch (FileNotFoundException e) {
-            Log.e("MatchingCardsStart activity", "File not found: " + e.toString());
+            Log.e("Game2048 activity", "File not found: " + e.toString());
         } catch (IOException e) {
-            Log.e("MatchingCardsStart activity", "Can not read file: " + e.toString());
+            Log.e("Game2048t activity", "Can not read file: " + e.toString());
         } catch (ClassNotFoundException e) {
-            Log.e("MatchingCardsStart activity", "File contained unexpected data type: " + e.toString());
+            Log.e("Game2048 activity", "File contained unexpected data type: " + e.toString());
         }
     }
 
@@ -256,7 +230,7 @@ public class MatchingCardStartActivity extends AppCompatActivity {
         try {
             ObjectOutputStream outputStream = new ObjectOutputStream(
                     this.openFileOutput(fileName, MODE_PRIVATE));
-            outputStream.writeObject(matchingCards);
+            outputStream.writeObject(game2048);
             outputStream.close();
         } catch (IOException e) {
             Log.e("Exception", "File write failed: " + e.toString());

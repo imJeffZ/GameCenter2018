@@ -52,6 +52,9 @@ public class GestureDetectGridView extends GridView {
         mController = new MovementController();
         gDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
 
+            private static final int SWIPE_THRESHOLD = 100;
+            private static final int SWIPE_VELOCITY_THRESHOLD = 100;
+
             @Override
             public boolean onSingleTapConfirmed(MotionEvent event) {
                 int position = GestureDetectGridView.this.pointToPosition
@@ -61,12 +64,59 @@ public class GestureDetectGridView extends GridView {
                 return true;
             }
 
+
+            @Override
+            public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+                boolean result = false;
+                try {
+                    float diffY = e2.getY() - e1.getY();
+                    float diffX = e2.getX() - e1.getX();
+                    if (Math.abs(diffX) > Math.abs(diffY)) {
+                        if (Math.abs(diffX) > SWIPE_THRESHOLD && Math.abs(velocityX) > SWIPE_VELOCITY_THRESHOLD) {
+                            if (diffX > 0) {
+                                onSwipeRight();
+                            } else {
+                                onSwipeLeft();
+                            }
+                            result = true;
+                        }
+                    }
+                    else if (Math.abs(diffY) > SWIPE_THRESHOLD && Math.abs(velocityY) > SWIPE_VELOCITY_THRESHOLD) {
+                        if (diffY > 0) {
+                            onSwipeBottom();
+                        } else {
+                            onSwipeTop();
+                        }
+                        result = true;
+                    }
+                } catch (Exception exception) {
+                    exception.printStackTrace();
+                }
+                return result;
+            }
+
             @Override
             public boolean onDown(MotionEvent event) {
                 return true;
             }
 
         });
+    }
+
+    public void onSwipeRight() {
+        mController.processSwipeMovement(getContext(),Game2048.RIGHT,true);
+    }
+
+    public void onSwipeLeft() {
+        mController.processSwipeMovement(getContext(),Game2048.LEFT,true);
+    }
+
+    public void onSwipeTop() {
+        mController.processSwipeMovement(getContext(),Game2048.UP,true);
+    }
+
+    public void onSwipeBottom() {
+        mController.processSwipeMovement(getContext(),Game2048.DOWN,true);
     }
 
     @Override
@@ -106,3 +156,5 @@ public class GestureDetectGridView extends GridView {
         mController.setGame(this.game);
     }
 }
+
+

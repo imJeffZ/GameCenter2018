@@ -1,13 +1,23 @@
 package fall18_207project.GameCenter;
 
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -18,11 +28,18 @@ import java.util.HashMap;
 
 public class RegisterActivity extends AppCompatActivity {
     AccountManager accountManager;
+    private FirebaseAuth firebaseAuth;
+    private AccessDataBase accessDataBase;
+    private String emailValue;
+    private String passwordValue;
+    private  String userNameValue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+        firebaseAuth = FirebaseAuth.getInstance();
+        accessDataBase = new AccessDataBase();
         accountManager = new AccountManager();
         loadFromFile(LoginActivity.SAVE_ACCOUNT_DETAILS);
         addRegisterButtonListener();
@@ -40,36 +57,39 @@ public class RegisterActivity extends AppCompatActivity {
                 EditText editEmail = findViewById(R.id.EmailRegister);
                 EditText editPassword = findViewById(R.id.passwordregister);
                 EditText editUserName = findViewById(R.id.Usernameregister);
-                String email = editEmail.getText().toString();
-                String password = editPassword.getText().toString();
-                String userName = editUserName.getText().toString();
-                if (!isValidEmail(email)) {
-                    Toast.makeText(getApplicationContext(), "Invalid Email: No Empty Email", Toast.LENGTH_SHORT).show();
-                } else if (!isValidUserName(userName)) {
-                    Toast.makeText(getApplicationContext(), "Invalid Username: No Empty Username", Toast.LENGTH_SHORT).show();
-                } else if (!isValidPassWord(password)) {
-                    Toast.makeText(getApplicationContext(), "Invalid Password: No Empty Password", Toast.LENGTH_SHORT).show();
-                } else {
-                    if (accountManager.addAccount(email, userName, password)) {
-                        saveToFile(LoginActivity.SAVE_ACCOUNT_DETAILS);
-                        Intent gotoLogin = new Intent(getApplicationContext(), LoginActivity.class);
-                        startActivity(gotoLogin);
-                    } else {
-                        Toast.makeText(getApplicationContext(), "Email Already exists", Toast.LENGTH_SHORT).show();
-                    }
-                }
+                emailValue = editEmail.getText().toString();
+                passwordValue = editPassword.getText().toString();
+                userNameValue = editUserName.getText().toString();
+                createAccount();
             }
         });
     }
 
-    private boolean isValidEmail(String email) {
-        return !email.equals("");
-    }
-    private boolean isValidUserName(String userName) {
-        return !userName.equals("");
-    }
-    private boolean isValidPassWord(String passWord) {
-        return !passWord.equals("");
+    private void createAccount(){
+        if(!validateForm()){
+            return;
+        }
+
+        firebaseAuth.createUserWithEmailAndPassword(emailValue, passwordValue).
+                addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if(task.isSuccessful()){
+                    Log.d("RegisterActivity", "Successful!");
+                    Toast.makeText(RegisterActivity.this, "Sign up successful", Toast.LENGTH_SHORT).show();
+                    Account account = new Account(emailValue, userNameValue, passwordValue);
+                    accessDataBase.saveToDataBase(account);
+                    accountManager.addAccount(emailValue, userNameValue, passwordValue);
+                    saveToFile(LoginActivity.SAVE_ACCOUNT_DETAILS);
+                    Intent gotoLogin = new Intent(getApplicationContext(), LoginActivity.class);
+                    startActivity(gotoLogin);
+                }
+                else{
+                    Log.w("RegisterActivity", "sign up failed", task.getException());
+                    Toast.makeText(RegisterActivity.this, "sign up failed", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     private void loadFromFile(String fileName) {
@@ -100,4 +120,37 @@ public class RegisterActivity extends AppCompatActivity {
             Log.e("Exception", "File write failed: " + e.toString());
         }
     }
+
+    private boolean validateForm() {
+        boolean valid = true;
+        EditText emailValue = findViewById(R.id.EmailRegister);
+        String email = emailValue.getText().toString();
+        if (TextUtils.isEmpty(email)) {
+            emailValue.setError("Required.");
+            valid = false;
+        } else {
+            emailValue.setError(null);
+        }
+
+        EditText passwordValue = findViewById(R.id.passwordregister);
+        String password = passwordValue.getText().toString();
+        if (TextUtils.isEmpty(password)) {
+            passwordValue.setError("Required.");
+            valid = false;
+        } else {
+            passwordValue.setError(null);
+        }
+
+        EditText userNameValue = findViewById(R.id.Usernameregister);
+        String userName = userNameValue.getText().toString();
+        if (TextUtils.isEmpty(userName)) {
+            userNameValue.setError("Required.");
+            valid = false;
+        } else {
+            userNameValue.setError(null);
+        }
+
+        return valid;
+    }
+
 }

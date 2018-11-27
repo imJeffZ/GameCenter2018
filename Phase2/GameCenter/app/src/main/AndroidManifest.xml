@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".MainActivity">
+        <activity android:name=".LauncherActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -26,6 +26,11 @@
         <activity android:name=".StartingActivity" />
         <activity android:name=".GameActivity" />
         <activity android:name=".GameFinishActivity" />
+        <activity android:name=".Game2048StartActivity" />
+        <activity android:name=".Game2048Activity" />
+
+
+
 
     </application>
 

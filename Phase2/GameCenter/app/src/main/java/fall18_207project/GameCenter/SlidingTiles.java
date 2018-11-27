@@ -12,7 +12,7 @@ import java.util.Stack;
  *
  * TODO: Make SlidingTiles Cloneable.
  */
-class SlidingTiles extends Game implements Cloneable {
+class SlidingTiles extends Game implements Cloneable, GameFeature {
 // If parent class is serializable, subclass is automatically serializable, thus we don't need to implement serializable for SlidingTiles
 
     /**
@@ -167,4 +167,8 @@ class SlidingTiles extends Game implements Cloneable {
         return board.getNUM_COLS() + " X " + board.getNUM_ROWS() + " SlidingTiles";
     }
 
+    @Override
+    public boolean hasVaildMove() {
+        return true;
+    }
 }

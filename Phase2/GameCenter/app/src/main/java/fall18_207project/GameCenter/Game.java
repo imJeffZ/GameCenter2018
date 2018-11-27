@@ -28,6 +28,7 @@ public abstract class Game implements Serializable, GameFeature {
         // Creates a universal unique id
         this.saveId = UUID.randomUUID().toString();
     }
+
     int getCountMove() {
         return countMove;
     }
@@ -39,6 +40,7 @@ public abstract class Game implements Serializable, GameFeature {
     String getSaveId() {
         return this.saveId;
     }
+
     abstract int calculateScore();
 
     void updateElapsedTime(long newElapsedTime) {
@@ -66,5 +68,13 @@ public abstract class Game implements Serializable, GameFeature {
     @Override
     public boolean equals(Object obj) {
         return obj instanceof Game && ((Game) obj).saveId.equals(this.saveId);
+    }
+
+    public abstract boolean isValidTap(int position);
+
+    public abstract void touchMove(int position);
+
+    public boolean hasVaildMove() {
+        return true;
     }
 }

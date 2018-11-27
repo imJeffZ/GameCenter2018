@@ -94,7 +94,7 @@ public class UserHistoryActivity extends Activity {
 
     private void getData(List<Map<String, Object>> list, int gameId) {
 
-        String[] accountScore;
+        ArrayList accountScore;
         String[] accountGame = {"3X3", "4X4", "5X5"};
         scoreBoard = new ScoreBoard();
         loadFromScoreBoard(SCOREBOARD);
@@ -102,7 +102,7 @@ public class UserHistoryActivity extends Activity {
            // for (int i = 0; i < accountScore.length; i++) {
                 Map<String, Object> map = new HashMap<>();
                 map.put("user", accountGame[gameId]);
-                map.put("score", accountScore[gameId]);
+                map.put("score", accountScore.get(gameId));
                 list.add(map);
          //       }
 

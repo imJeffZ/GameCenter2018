@@ -80,6 +80,9 @@ public class Board extends Observable implements Cloneable, Serializable, Iterab
         return tiles[row][col];
     }
 
+    Tile[][] getTiles(){
+        return this.tiles;
+    }
     /**
      * Swap the tiles at (row1, col1) and (row2, col2)
      *
@@ -88,6 +91,7 @@ public class Board extends Observable implements Cloneable, Serializable, Iterab
      * @param row2 the second tile row
      * @param col2 the second tile col
      */
+
     void swapTiles(int row1, int col1, int row2, int col2) {
         Tile t1 = tiles[row1][col1];
         tiles[row1][col1] = tiles[row2][col2];
@@ -99,9 +103,15 @@ public class Board extends Observable implements Cloneable, Serializable, Iterab
     @NonNull
     @Override
     public String toString() {
-        return "Board{" +
-                "tiles=" + Arrays.toString(tiles) +
-                '}';
+        StringBuilder temp = new StringBuilder();
+        for (int row = 0; row < NUM_ROWS; row++) {
+            for (int col = 0; col < NUM_COLS; col++) {
+                temp.append(" ").append(this.getTile(row, col).getId());
+            }
+        }
+        return "Board: { " +
+                "tiles = [" + temp +
+                " ]" + " }";
     }
 
     @NonNull
@@ -132,5 +142,22 @@ public class Board extends Observable implements Cloneable, Serializable, Iterab
             position++;
             return nextTile;
         }
+    }
+
+    public Board clone() {
+        try {
+            super.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+        List<Tile> tiles = new ArrayList<>();
+        for (int i = 0; i < this.getNUM_COLS(); i++) {
+            for (int j = 0; j < this.getNUM_ROWS(); j++) {
+                tiles.add(this.getTile(i, j));
+            }
+        }
+
+        return new Board(tiles, this.getNUM_ROWS());
+
     }
 }

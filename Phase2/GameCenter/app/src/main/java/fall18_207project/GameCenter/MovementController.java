@@ -14,9 +14,12 @@ class MovementController {
     MovementController() {
     }
 
-    void setGame(Game g) {
-        this.game = g;
+    void setGame(Game game) {
+        this.game = game;
     }
+
+
+
 
     void processTapMovement(final Context context, int position, boolean display) {
         if (this.game.isSolved()) {
@@ -31,6 +34,25 @@ class MovementController {
         } else {
             Toast.makeText(context, "Invalid Tap", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    void processSwipeMovement(final Context context,int dirction, boolean display) {
+        if (!this.game.hasVaildMove()){
+            Toast.makeText(context,"you lose", Toast.LENGTH_SHORT).show();
+        }
+        if (this.game.isSolved()) {
+            addScoreOnFinish();
+            createDialog(context);
+        } else if (this.game.isValidTap(dirction)) {
+            this.game.touchMove(dirction);
+            if (this.game.isSolved()) {
+                addScoreOnFinish();
+                createDialog(context);
+            }
+        } else {
+            Toast.makeText(context, "Invalid Tap", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     /**
