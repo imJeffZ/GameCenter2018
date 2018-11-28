@@ -16,7 +16,7 @@ public class Account implements Serializable {
     private Profile prof;
 
 //    @Deprecated private ArrayList scoreRecord;
-    private UserScoreBoard userScoreBoard;
+    private GameManager userScoreBoard;
 
 
     public Account(){
@@ -37,7 +37,7 @@ public class Account implements Serializable {
         // TODO: Change to userSavedGames to new DuplicateGameManager(), someHow I might have reverted the functionality of DuplicateGameManger and NonDuplicateGameManager
         this.userSavedGames = new DuplicateGameManager();
         this.autoSavedGames = new NonDuplicateGameManager();
-        this.userScoreBoard = new UserScoreBoard();
+        this.userScoreBoard = new SortingNonDuplicateGameManager();
     }
 
     public GameManager getUserSavedGames() {
@@ -48,7 +48,7 @@ public class Account implements Serializable {
         return this.autoSavedGames;
     }
 
-    public UserScoreBoard getUserScoreBoard() {
+    public GameManager getUserScoreBoard() {
         return this.userScoreBoard;
     }
 
