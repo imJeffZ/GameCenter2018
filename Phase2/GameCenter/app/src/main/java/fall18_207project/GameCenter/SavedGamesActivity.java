@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.Toast;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -30,8 +31,9 @@ public class SavedGamesActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         readAccountManagerFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
-
+        ArrayList<Game> allGameList = new ArrayList<>();
         ArrayList<Game> gameList = new ArrayList<>();
+        String gameType = null;
 
         if (getIntent().getStringExtra("saveType").equals("autoSave")) {
             gameManager = accountManager.getAccount(userEmail).getAutoSavedGames();
@@ -39,7 +41,29 @@ public class SavedGamesActivity extends Activity {
             gameManager = accountManager.getAccount(userEmail).getUserSavedGames();
         }
         // TODO: Make this only show specific type of games
-        gameList = gameManager.getAllGameList();
+        allGameList = gameManager.getAllGameList();
+        if (getIntent().getStringExtra("gameType") != null) {
+            gameType = getIntent().getStringExtra("gameType");
+        }
+        if(gameType.equals("slidingTiles")){
+            for(Game game : allGameList){
+                if(game.gameId == 1 || game.gameId == 2 || game.gameId == 3){
+                    gameList.add(game);
+                }
+            }
+        }else if(gameType.equals("matchingCards")){
+            for(Game game : allGameList) {
+                if (game.gameId == 4 || game.gameId == 5 || game.gameId == 6) {
+                    gameList.add(game);
+                }
+            }
+        }else if (gameType.equals("game2048")){
+            for(Game game : allGameList) {
+                if (game.gameId == 7) {
+                    gameList.add(game);
+                }
+            }
+        }
         Collections.reverse(gameList);
         setContentView(R.layout.activity_saved_games);
 
