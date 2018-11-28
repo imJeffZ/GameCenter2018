@@ -228,14 +228,16 @@ public class GameCentreActivity extends AppCompatActivity implements  Navigation
     }
 
     private  void  updateProfile(int id, String update){
-        if (id == R.id.nav_reset){
-            accountManager.getAccount(userEmail).setUserName(update);
-        } else if (id == R.id.nav_intro){
-            accountManager.getAccount(userEmail).getProf().setIntro(update);
-        } else if (id == R.id.nav_password){
-            accountManager.getAccount(userEmail).setPassword(update);
+        if (accountManager.getAccount(userEmail) != null) {
+            if (id == R.id.nav_reset){
+                accountManager.getAccount(userEmail).setUserName(update);
+            } else if (id == R.id.nav_intro){
+                accountManager.getAccount(userEmail).getProf().setIntro(update);
+            } else if (id == R.id.nav_password){
+                accountManager.getAccount(userEmail).setPassword(update);
+            }
+            saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
         }
-        saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
     }
 
     private void updateProfileShow(){
@@ -244,16 +246,19 @@ public class GameCentreActivity extends AppCompatActivity implements  Navigation
         navigationView.setNavigationItemSelectedListener(this);
         View navHeader = navigationView.getHeaderView(0);
         TextView textUser = navHeader.findViewById(R.id.profileUser);
-        textUser.setText(accountManager.getAccount(userEmail).getUserName());
+        if (accountManager.getAccount(userEmail) != null) {
+            textUser.setText(accountManager.getAccount(userEmail).getUserName());
 
-        TextView textIntro = navHeader.findViewById(R.id.profileIntro);
-        textIntro.setText(accountManager.getAccount(userEmail).getProf().getIntro());
-        //ImageView userImg = navHeader.findViewById(R.id.profileImg);
-        //userImg.setImageBitmap(AccountManager.accountMap.get(CURRENT_ACCOUNT).getProf().getAvatarImage());
+            TextView textIntro = navHeader.findViewById(R.id.profileIntro);
+            textIntro.setText(accountManager.getAccount(userEmail).getProf().getIntro());
+            //ImageView userImg = navHeader.findViewById(R.id.profileImg);
+            //userImg.setImageBitmap(AccountManager.accountMap.get(CURRENT_ACCOUNT).getProf().getAvatarImage());
 
-        TextView textPlayTime = navHeader.findViewById(R.id.profileTime);
-        textPlayTime.setText("Play Time in Total: " +
-                accountManager.getAccount(userEmail).getProf().getTotalPlayTime());
+            TextView textPlayTime = navHeader.findViewById(R.id.profileTime);
+            textPlayTime.setText("Play Time in Total: " +
+                    accountManager.getAccount(userEmail).getProf().getTotalPlayTime());
+        }
+
     }
 
     private void addGameButtonListener() {

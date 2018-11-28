@@ -75,7 +75,7 @@ public class GameFinishActivity extends AppCompatActivity {
         returnToScreen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent returnToMainScreen = new Intent(getApplicationContext(), GameCentreActivity.class);
+                Intent returnToMainScreen = new Intent(getApplicationContext(), UserHistoryActivity.class);
                 startActivity(returnToMainScreen);
             }
         });
