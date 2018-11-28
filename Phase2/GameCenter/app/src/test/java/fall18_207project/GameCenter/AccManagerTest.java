@@ -36,9 +36,6 @@ public class AccManagerTest {
         myAcc.setPassword("abc");
         assertNotEquals("abc123", myAcc.getPassword());
         assertEquals("abc", myAcc.getPassword());
-
-        assertEquals("null", manager.getAccount(null).getUserName());
-        assertEquals("null", manager.getAccount(null).getEmail());
 //        assertEquals(true, myAcc.getScoreRecord()[0] == null);
     }
 
