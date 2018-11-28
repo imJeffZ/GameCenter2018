@@ -14,6 +14,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,6 +40,7 @@ public class SavedGamesActivity extends Activity {
         }
         // TODO: Make this only show specific type of games
         gameList = gameManager.getAllGameList();
+        Collections.reverse(gameList);
         setContentView(R.layout.activity_saved_games);
 
         ListView scoreBoardView;

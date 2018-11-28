@@ -176,6 +176,7 @@ public class GameActivity extends AppCompatActivity implements Observer {
         saveButton.setOnClickListener((new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+//                readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
                 slidingTiles.updateElapsedTime(mChrono.getElapsedTime());
                 accountManager.getAccount(userEmail).getUserSavedGames().addGame(slidingTiles);
                 saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
