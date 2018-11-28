@@ -27,7 +27,6 @@ public class GameFinishActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
         setContentView(R.layout.activity_game_finish);
-        addReturnButtonListener();
 //        scoreBoard = new ScoreBoard();
 //        loadFromScoreBoard(SCOREBOARD);
 //        saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
@@ -38,21 +37,18 @@ public class GameFinishActivity extends AppCompatActivity {
         String result;
         Game finishedGame;
 
-        if (saveId == null) {
-            result = "ERROR";
-        } else {
             finishedGame = accountManager.getAccount(userEmail).getAutoSavedGames().getGame(saveId);
             result = Integer.toString(finishedGame.calculateScore());
 
             // TODO: Get helper functions for the following
+            // TODO: *Implement GlobalScoreBoard and also actually attach the getUserScoreBoard.
             // Update global score board
-            accountManager.getGlobalScoreBoard().updateScore(accountManager.getAccount(userEmail).getUserName(), finishedGame);
+//            accountManager.getGlobalScoreBoard().updateScore(accountManager.getAccount(userEmail).getUserName(), finishedGame);
             // Update user score board
-            accountManager.getAccount(userEmail).getUserScoreBoard().updateScore(finishedGame);
+            accountManager.getAccount(userEmail).getUserScoreBoard().addGame(finishedGame);
             // Delete game from user's autoSavedGameList
-            accountManager.getAccount(userEmail).getAutoSavedGames().deleteGame(saveId);
-        }
-        saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
+//            accountManager.getAccount(userEmail).getAutoSavedGames().deleteGame(saveId);
+            saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
         tvResult.setText(result);
 
 //        int size = getIntent().getExtras().getInt("size");
@@ -64,6 +60,7 @@ public class GameFinishActivity extends AppCompatActivity {
 //            scoreBoard.updateScorePerGame(3, StartingActivity.CURRENT_ACCOUNT, score);
 //        }
 //        saveToScoreBoard(SCOREBOARD);
+        addReturnButtonListener();
     }
 
     /**

@@ -15,6 +15,7 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,7 +24,6 @@ public class UserHistoryActivity extends Activity {
 
     public static String userEmail = "";
     private AccountManager accountManager;
-    private UserScoreBoard userScoreBoard;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,11 +31,14 @@ public class UserHistoryActivity extends Activity {
 
         ArrayList<Game> gameList = new ArrayList<>();
 
-        userScoreBoard = accountManager.getAccount(userEmail).getUserScoreBoard();
-
         // TODO: Make this only show specific type of games
-        gameList = userScoreBoard.getAllGames();
-
+        for (Game g : accountManager.getAccount(userEmail).getAutoSavedGames().getAllGameList()) {
+            if (g.isSolved()) {
+                gameList.add(g);
+            }
+        }
+//        gameList = accountManager.getAccount(userEmail).getAutoSavedGames().getAllGameList();
+        Collections.reverse(gameList);
         setContentView(R.layout.activity_user_history);
 
         ListView scoreBoardView;
@@ -65,6 +68,18 @@ public class UserHistoryActivity extends Activity {
         });
 
 
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        readAccountManagerFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        readAccountManagerFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
     }
 
     private void getData(List<Map<String, Object>> list, ArrayList<Game> gameArrayList) {
