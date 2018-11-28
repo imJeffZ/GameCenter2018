@@ -19,6 +19,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -97,10 +98,11 @@ public class GlobalScoreBoardActivity extends Activity {
 
     private void getData(List<Map<String, Object>> list, int gameId) {
         readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
-        GlobalScoreBoard globalScoreBoard= new GlobalScoreBoard(accountManager);
+        GlobalScoreBoard globalScoreBoard = new GlobalScoreBoard(accountManager);
         ArrayList<Game> games = globalScoreBoard.getSortedGames(gameId);
         ArrayList<String> user = globalScoreBoard.getSortedUserNames(gameId);
-
+        // TODO: Move this to some onStop or OnPause method
+        saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
             for (int i = 0; i < user.size(); i++) {
                 Map<String, Object> map = new HashMap<>();
                 map.put("user", user.get(i));
@@ -108,6 +110,18 @@ public class GlobalScoreBoardActivity extends Activity {
                 list.add(map);
             }
 //        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
     }
 
     private void readFromSer(String fileName) {
@@ -125,6 +139,17 @@ public class GlobalScoreBoardActivity extends Activity {
             Log.e("GlobalScoreBoard activity", "Can not read file: " + e.toString());
         } catch (ClassNotFoundException e) {
             Log.e("GlobalScoreBoard activity", "File contained unexpected data type: " + e.toString());
+        }
+    }
+
+    public void saveToFile(String fileName) {
+        try {
+            ObjectOutputStream outputStream = new ObjectOutputStream(
+                    this.openFileOutput(fileName, MODE_PRIVATE));
+            outputStream.writeObject(accountManager);
+            outputStream.close();
+        } catch (IOException e) {
+            Log.e("Exception", "File write failed: " + e.toString());
         }
     }
 
