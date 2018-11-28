@@ -135,21 +135,21 @@ public class LoginActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()){
                     Log.d("LoginActivity", "sign in successful!");
-                    Toast.makeText(LoginActivity.this, "Login Succssful", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
 //                    ScoreBoardActivity.currentAccount = emailValue;
-                    GameCentreActivity.userEmail = emailValue;
-                    SavedGamesActivity.userEmail = emailValue;
-                    Game2048StartActivity.userEmail = emailValue;
-                    Game2048Activity.userEmail = emailValue;
-                    StartingActivity.userEmail = emailValue;
-                    GameActivity.userEmail = emailValue;
-                    MatchingCardStartActivity.userEmail = emailValue;
-                    MatchingCardsGameActivity.userEmail = emailValue;
-                    GameFinishActivity.userEmail = emailValue;
-                    UserHistoryActivity.userEmail = emailValue;
+                    GameCentreActivity.userEmail = email;
+                    SavedGamesActivity.userEmail = email;
+                    Game2048StartActivity.userEmail = email;
+                    Game2048Activity.userEmail = email;
+                    StartingActivity.userEmail = email;
+                    GameActivity.userEmail = email;
+                    MatchingCardStartActivity.userEmail = email;
+                    MatchingCardsGameActivity.userEmail = email;
+                    GameFinishActivity.userEmail = email;
+                    UserHistoryActivity.userEmail = email;
 
                     Intent goToCenter = new Intent(getApplicationContext(), GameCentreActivity.class);
-                     goToCenter.putExtra("userEmail", accountManager.getAccount(emailValue).getUserName());
+//                    goToCenter.putExtra("userEmail", accountManager.getAccount(emailValue).getUserName());
                     startActivity(goToCenter);
                 }
                 else{
