@@ -69,14 +69,18 @@ public class MatchingCardStartActivity extends AppCompatActivity {
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loadFromFile(CURRENT_ACCOUNT + AUTO_SAVE_FILENAME);
-                saveToFile(TEMP_SAVE_FILENAME);
-                if (matchingCards == null) {
-                    makeAnotherToastCurrentMessage();
-                    return;
-                }
-                makeToastLoadedText();
-                switchToGame();
+                Intent goToSavedGames = new Intent(getApplicationContext(), SavedGamesActivity.class);
+                goToSavedGames.putExtra("saveType", "autoSave");
+                goToSavedGames.putExtra("gameType", "matchingCards");
+                startActivity(goToSavedGames);
+//                loadFromFile(CURRENT_ACCOUNT + AUTO_SAVE_FILENAME);
+//                saveToFile(TEMP_SAVE_FILENAME);
+//                if (matchingCards == null) {
+//                    makeAnotherToastCurrentMessage();
+//                    return;
+//                }
+//                makeToastLoadedText();
+//                switchToGame();
             }
         });
     }
@@ -89,16 +93,20 @@ public class MatchingCardStartActivity extends AppCompatActivity {
         loadButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loadFromFile(CURRENT_ACCOUNT + SAVE_FILENAME);
-                saveToFile(TEMP_SAVE_FILENAME);
-                if (matchingCards == null) {
-                    makeToastForLoadGame();
-                    return;
-                }
-                loadFromFile(CURRENT_ACCOUNT + SAVE_FILENAME);
-                saveToFile(TEMP_SAVE_FILENAME);
-                makeToastLoadedText();
-                switchToGame();
+                Intent goToSavedGames = new Intent(getApplicationContext(), SavedGamesActivity.class);
+                goToSavedGames.putExtra("saveType", "userSave");
+                goToSavedGames.putExtra("gameType", "matchingCards");
+                startActivity(goToSavedGames);
+//                loadFromFile(CURRENT_ACCOUNT + SAVE_FILENAME);
+//                saveToFile(TEMP_SAVE_FILENAME);
+//                if (matchingCards == null) {
+//                    makeToastForLoadGame();
+//                    return;
+//                }
+//                loadFromFile(CURRENT_ACCOUNT + SAVE_FILENAME);
+//                saveToFile(TEMP_SAVE_FILENAME);
+//                makeToastLoadedText();
+//                switchToGame();
             }
         });
     }
@@ -134,7 +142,7 @@ public class MatchingCardStartActivity extends AppCompatActivity {
     }
 
     /**
-     * Activate the 3x3 new game Board.
+     * Activate the 4x4 new game Board.
      */
     private void add4ButtonListener() {
         Button Button4 = findViewById(R.id.Button4);
@@ -142,13 +150,16 @@ public class MatchingCardStartActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 matchingCards = new MatchingCards(4);
-                switchToGame();
+                readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
+                accountManager.getAccount(userEmail).getAutoSavedGames().addGame(matchingCards);
+                saveToSer(LoginActivity.ACCOUNT_MANAGER_DATA);
+                switchToGame(matchingCards.getSaveId());
             }
         });
     }
 
     /**
-     * Activate the 4x4 new game board.
+     * Activate the 5x5 new game board.
 //     */
     private void add5ButtonListener() {
         Button Button5 = findViewById(R.id.Button5);
@@ -156,13 +167,16 @@ public class MatchingCardStartActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 matchingCards = new MatchingCards(5);
-                switchToGame();
+                readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
+                accountManager.getAccount(userEmail).getAutoSavedGames().addGame(matchingCards);
+                saveToSer(LoginActivity.ACCOUNT_MANAGER_DATA);
+                switchToGame(matchingCards.getSaveId());
             }
         });
     }
 
     /**
-     * Activate the 5x5 new game board.
+     * Activate the 6x6 new game board.
      */
     private void add6ButtonListener() {
         Button Button6 = findViewById(R.id.Button6);
@@ -170,7 +184,10 @@ public class MatchingCardStartActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 matchingCards = new MatchingCards(6);
-                switchToGame();
+                readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
+                accountManager.getAccount(userEmail).getAutoSavedGames().addGame(matchingCards);
+                saveToSer(LoginActivity.ACCOUNT_MANAGER_DATA);
+                switchToGame(matchingCards.getSaveId());
             }
         });
     }
@@ -207,22 +224,24 @@ public class MatchingCardStartActivity extends AppCompatActivity {
         Toast.makeText(this, "Game Saved", Toast.LENGTH_SHORT).show();
     }
 
-    /**
-     * Read the temporary board from disk.
-     */
-    @Override
-    protected void onResume() {
-        super.onResume();
-        loadFromFile(TEMP_SAVE_FILENAME);
-    }
+//    /**
+//     * Read the temporary board from disk.
+//     */
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        loadFromFile(TEMP_SAVE_FILENAME);
+//    }
 
     /**
      * Switch to the GameActivity view to play the game.
      */
-    private void switchToGame() {
+    private void switchToGame(String saveId) {
         Intent tmp = new Intent(this, MatchingCardsGameActivity.class);
         tmp.putExtra("userEmail", userEmail);
-        saveToFile(MatchingCardStartActivity.TEMP_SAVE_FILENAME);
+        tmp.putExtra("saveId", saveId);
+        tmp.putExtra("saveType", "autoSave");
+        //saveToFile(MatchingCardStartActivity.TEMP_SAVE_FILENAME);
         startActivity(tmp);
     }
 
