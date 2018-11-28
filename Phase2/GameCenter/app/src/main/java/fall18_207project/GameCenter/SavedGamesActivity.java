@@ -26,6 +26,7 @@ public class SavedGamesActivity extends Activity {
     public static String userEmail = "";
     private AccountManager accountManager;
     private GameManager gameManager;
+    private String gameType = null;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +34,6 @@ public class SavedGamesActivity extends Activity {
         readAccountManagerFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
         ArrayList<Game> allGameList = new ArrayList<>();
         ArrayList<Game> gameList = new ArrayList<>();
-        String gameType = null;
 
         if (getIntent().getStringExtra("saveType").equals("autoSave")) {
             gameManager = accountManager.getAccount(userEmail).getAutoSavedGames();
@@ -82,10 +82,22 @@ public class SavedGamesActivity extends Activity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // TODO: Need further generalization in GameActivity.
                 Game selectedGame = finalGameList.get(position);
-                Intent goToGame = new Intent(getApplicationContext(), GameActivity.class);
-                goToGame.putExtra("saveType", getIntent().getStringExtra("saveType"));
-                goToGame.putExtra("saveId", selectedGame.getSaveId());
-                startActivity(goToGame);
+                if("slidingTiles".equals(gameType)) {
+                    Intent goToGame = new Intent(getApplicationContext(), GameActivity.class);
+                    goToGame.putExtra("saveType", getIntent().getStringExtra("saveType"));
+                    goToGame.putExtra("saveId", selectedGame.getSaveId());
+                    startActivity(goToGame);
+                }else if("matchingCards".equals(gameType)) {
+                    Intent goToGame = new Intent(getApplicationContext(), MatchingCardsGameActivity.class);
+                    goToGame.putExtra("saveType", getIntent().getStringExtra("saveType"));
+                    goToGame.putExtra("saveId", selectedGame.getSaveId());
+                    startActivity(goToGame);
+                }else if("game2048".equals(gameType)) {
+                    Intent goToGame = new Intent(getApplicationContext(), Game2048Activity.class);
+                    goToGame.putExtra("saveType", getIntent().getStringExtra("saveType"));
+                    goToGame.putExtra("saveId", selectedGame.getSaveId());
+                    startActivity(goToGame);
+                }
             }
         });
 
