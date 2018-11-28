@@ -45,19 +45,19 @@ public class SavedGamesActivity extends Activity {
         if (getIntent().getStringExtra("gameType") != null) {
             gameType = getIntent().getStringExtra("gameType");
         }
-        if(gameType.equals("slidingTiles")){
+        if("slidingTiles".equals(gameType)){
             for(Game game : allGameList){
                 if(game.gameId == 1 || game.gameId == 2 || game.gameId == 3){
                     gameList.add(game);
                 }
             }
-        }else if(gameType.equals("matchingCards")){
+        }else if("matchingCards".equals(gameType)){
             for(Game game : allGameList) {
                 if (game.gameId == 4 || game.gameId == 5 || game.gameId == 6) {
                     gameList.add(game);
                 }
             }
-        }else if (gameType.equals("game2048")){
+        }else if ("game2048".equals(gameType)){
             for(Game game : allGameList) {
                 if (game.gameId == 7) {
                     gameList.add(game);

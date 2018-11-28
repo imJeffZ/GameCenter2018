@@ -56,7 +56,7 @@ public class StartingActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent goToSavedGames = new Intent(getApplicationContext(), SavedGamesActivity.class);
                 goToSavedGames.putExtra("saveType", "autoSave");
-//                goToSavedGames.putExtra("gameType", "slidingTile");
+                goToSavedGames.putExtra("gameType", "slidingTiles");
                 startActivity(goToSavedGames);
 //                loadFromFile(userEmail + AUTO_SAVE_FILENAME);
 //                saveToFile(TEMP_SAVE_FILENAME);
