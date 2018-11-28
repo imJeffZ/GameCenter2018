@@ -37,9 +37,6 @@ public class AccountManager implements Serializable {
     }
 
     Account getAccount(String email) {
-        if (email == null) {
-            return new Account("null", "null", "null");
-        }
         return accountMap.get(email);
     }
 
