@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -25,6 +26,8 @@ public class MatchingCardsGameActivity extends AppCompatActivity implements Obse
      */
     private MatchingCards matchingCards;
     private AccountManager accountManager;
+    private GameManager gameManager;
+    private String saveType;
     public static String userEmail = "";
     /**
      * The buttons to display.
@@ -65,9 +68,20 @@ public class MatchingCardsGameActivity extends AppCompatActivity implements Obse
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        loadFromFile(MatchingCardStartActivity.TEMP_SAVE_FILENAME);
+//        loadFromFile(MatchingCardStartActivity.TEMP_SAVE_FILENAME);
         readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
-
+        saveType = getIntent().getStringExtra("saveType");
+        if (saveType.equals("autoSave")) {
+            gameManager = accountManager.getAccount(userEmail).getAutoSavedGames();
+        } else {
+            gameManager = accountManager.getAccount(userEmail).getUserSavedGames();
+        }
+        String saveId = getIntent().getStringExtra("saveId");
+        if (saveId == null) {
+            matchingCards = new MatchingCards(4);
+        } else {
+            matchingCards = (MatchingCards) gameManager.getGame(getIntent().getStringExtra("saveId"));
+        }
 //        @NonNull String email = getIntent().getStringExtra("userEmail");
 //        userEmail = email;
         createCardButtons(this);
@@ -77,7 +91,7 @@ public class MatchingCardsGameActivity extends AppCompatActivity implements Obse
         mTvTimer = findViewById(R.id.time_id);
 
         addStartButtonListener();
-
+        addSaveButtonListener();
         // Add View to activity
         gridView = findViewById(R.id.grid);
         gridView.setNumColumns(matchingCards.getMatchingBoard().getNumOfColumns());
@@ -188,6 +202,17 @@ public class MatchingCardsGameActivity extends AppCompatActivity implements Obse
         }
     }
 
+    private void addSaveButtonListener() {
+        Button saveButton = findViewById(R.id.saveGameButton);
+        saveButton.setOnClickListener((new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                accountManager.getAccount(userEmail).getUserSavedGames().addGame(matchingCards);
+                saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
+                makeSavedMessage();
+            }
+        }));
+    }
 
     /**
      * Dispatch onPause() to fragments.
@@ -197,9 +222,18 @@ public class MatchingCardsGameActivity extends AppCompatActivity implements Obse
         super.onPause();
 //        matchingCards.updateElapsedTime(mChrono.getElapsedTime());
 //        mChrono.stop();
-
-        saveToFile(MatchingCardStartActivity.TEMP_SAVE_FILENAME);
+        if (saveType.equals("autoSave")) {
+            accountManager.getAccount(userEmail).getAutoSavedGames().addGame(matchingCards);
+        } else {
+            accountManager.getAccount(userEmail).getUserSavedGames().addGame(matchingCards);
+        }
+        saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
+//        saveToFile(MatchingCardStartActivity.TEMP_SAVE_FILENAME);
         matchingCards.resetElapsedTime();
+    }
+
+    private void makeSavedMessage() {
+        Toast.makeText(this, "Game Saved", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -208,8 +242,26 @@ public class MatchingCardsGameActivity extends AppCompatActivity implements Obse
 //        matchingCards.updateElapsedTime(mChrono.getElapsedTime());
 //        mChrono.stop();
 
-        saveToFile(MatchingCardStartActivity.CURRENT_ACCOUNT + MatchingCardStartActivity.AUTO_SAVE_FILENAME);
-        matchingCards.resetElapsedTime();
+//        saveToFile(MatchingCardStartActivity.CURRENT_ACCOUNT + MatchingCardStartActivity.AUTO_SAVE_FILENAME);
+//        matchingCards.resetElapsedTime();
+        if (saveType.equals("autoSave")) {
+            accountManager.getAccount(userEmail).getAutoSavedGames().addGame(matchingCards);
+        } else {
+            accountManager.getAccount(userEmail).getUserSavedGames().addGame(matchingCards);
+        }
+        saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
     }
 
     /**
@@ -277,23 +329,24 @@ public class MatchingCardsGameActivity extends AppCompatActivity implements Obse
         try {
             ObjectOutputStream outputStream = new ObjectOutputStream(
                     this.openFileOutput(fileName, MODE_PRIVATE));
-            outputStream.writeObject(matchingCards);
-            outputStream.close();
-        } catch (IOException e) {
-            Log.e("Exception", "File write failed: " + e.toString());
-        }
-    }
-
-    public void saveToSer(String fileName) {
-        try {
-            ObjectOutputStream outputStream = new ObjectOutputStream(
-                    this.openFileOutput(fileName, MODE_PRIVATE));
+            //outputStream.writeObject(matchingCards);
             outputStream.writeObject(accountManager);
             outputStream.close();
         } catch (IOException e) {
             Log.e("Exception", "File write failed: " + e.toString());
         }
     }
+
+//    public void saveToSer(String fileName) {
+//        try {
+//            ObjectOutputStream outputStream = new ObjectOutputStream(
+//                    this.openFileOutput(fileName, MODE_PRIVATE));
+//            outputStream.writeObject(accountManager);
+//            outputStream.close();
+//        } catch (IOException e) {
+//            Log.e("Exception", "File write failed: " + e.toString());
+//        }
+//    }
 
     @Override
     public void update(Observable o, Object arg) {
