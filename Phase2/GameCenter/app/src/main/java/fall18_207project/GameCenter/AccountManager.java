@@ -12,14 +12,12 @@ public class AccountManager implements Serializable {
 
     private Map<String, Account> accountMap = new HashMap<>();
     // TODO: Maybe put AccountManager and GlobalScoreBoard together to become a MainSystem class. We can try singleton on it.
-//    private GlobalScoreBoard globalScoreBoard;
 
     public AccountManager() {
         accountMap = new HashMap<>();
-//        globalScoreBoard = new GlobalScoreBoard();
     }
 
-    private ArrayList<Account> getaccountList() {
+    public ArrayList<Account> getAccountList() {
         return new ArrayList<Account>(accountMap.values());
     }
 
@@ -31,10 +29,6 @@ public class AccountManager implements Serializable {
         accountMap.put(email, new Account(email, userName, password));
         return true;
     }
-
-//    public GlobalScoreBoard getGlobalScoreBoard() {
-//        return globalScoreBoard;
-//    }
 
     Account getAccount(String email) {
         return accountMap.get(email);

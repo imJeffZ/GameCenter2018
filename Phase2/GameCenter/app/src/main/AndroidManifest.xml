@@ -19,7 +19,7 @@
         <activity android:name=".LoginActivity" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".GameCentreActivity" />
-         <!--<activity android:name=".GlobalScoreBoardActivity" /> -->
+         <activity android:name=".GlobalScoreBoardActivity" />
          <activity android:name=".UserHistoryActivity" />
         <activity android:name=".MatchingCardsGameActivity" />
         <activity android:name=".MatchingCardStartActivity" />

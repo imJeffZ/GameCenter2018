@@ -50,7 +50,7 @@ public class LoginActivity extends AppCompatActivity {
         if (currentUser != null) {
             String emailValue = currentUser.getEmail();
 
-//            GlobalScoreBoardActivity.userEmail = emailValue;
+            GlobalScoreBoardActivity.userEmail = emailValue;
             GameCentreActivity.userEmail = emailValue;
             SavedGamesActivity.userEmail = emailValue;
             Game2048StartActivity.userEmail = emailValue;
@@ -133,7 +133,8 @@ public class LoginActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             Log.d("LoginActivity", "sign in successful!");
                             Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
-//                    GlobalScoreBoardActivity.userEmail = email;
+
+                            GlobalScoreBoardActivity.userEmail = email;
                             GameCentreActivity.userEmail = email;
                             SavedGamesActivity.userEmail = email;
                             Game2048StartActivity.userEmail = email;

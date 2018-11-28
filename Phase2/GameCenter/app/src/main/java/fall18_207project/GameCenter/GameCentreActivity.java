@@ -53,14 +53,14 @@ public class GameCentreActivity extends AppCompatActivity implements  Navigation
                     break;
                 case R.id.navigation_user_history:
                     Intent tmp2 = new Intent(GameCentreActivity.this, UserHistoryActivity.class);
-                    tmp2.putExtra("userEmail", userEmail);
+//                    tmp2.putExtra("userEmail", userEmail);
                     startActivity(tmp2);
 
                     break;
                 case R.id.navigation_global_scoreboard:
-//                    Intent tmp3 = new Intent(GameCentreActivity.this, GlobalScoreBoardActivity.class);
+                    Intent tmp3 = new Intent(GameCentreActivity.this, GlobalScoreBoardActivity.class);
 //                    tmp3.putExtra("userEmail", userEmail);
-//                    startActivity(tmp3);
+                    startActivity(tmp3);
                     break;
             }
             return false;
