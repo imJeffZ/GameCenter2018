@@ -1,16 +1,14 @@
 package fall18_207project.GameCenter;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -24,7 +22,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.util.HashMap;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -47,13 +44,13 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onStart(){
+    public void onStart() {
         super.onStart();
         FirebaseUser currentUser = firebaseAuth.getCurrentUser();
-        if (currentUser != null){
+        if (currentUser != null) {
             String emailValue = currentUser.getEmail();
 
-//            ScoreBoardActivity.currentAccount = emailValue;
+//            GlobalScoreBoardActivity.userEmail = emailValue;
             GameCentreActivity.userEmail = emailValue;
             SavedGamesActivity.userEmail = emailValue;
             Game2048StartActivity.userEmail = emailValue;
@@ -124,40 +121,39 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    private void userLogin(final String email, String password){
-        if(!validateForm()){
+    private void userLogin(final String email, String password) {
+        if (!validateForm()) {
             return;
         }
 
         firebaseAuth.signInWithEmailAndPassword(email, password).
                 addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()){
-                    Log.d("LoginActivity", "sign in successful!");
-                    Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
-//                    ScoreBoardActivity.currentAccount = emailValue;
-                    GameCentreActivity.userEmail = email;
-                    SavedGamesActivity.userEmail = email;
-                    Game2048StartActivity.userEmail = email;
-                    Game2048Activity.userEmail = email;
-                    StartingActivity.userEmail = email;
-                    GameActivity.userEmail = email;
-                    MatchingCardStartActivity.userEmail = email;
-                    MatchingCardsGameActivity.userEmail = email;
-                    GameFinishActivity.userEmail = email;
-                    UserHistoryActivity.userEmail = email;
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            Log.d("LoginActivity", "sign in successful!");
+                            Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
+//                    GlobalScoreBoardActivity.userEmail = email;
+                            GameCentreActivity.userEmail = email;
+                            SavedGamesActivity.userEmail = email;
+                            Game2048StartActivity.userEmail = email;
+                            Game2048Activity.userEmail = email;
+                            StartingActivity.userEmail = email;
+                            GameActivity.userEmail = email;
+                            MatchingCardStartActivity.userEmail = email;
+                            MatchingCardsGameActivity.userEmail = email;
+                            GameFinishActivity.userEmail = email;
+                            UserHistoryActivity.userEmail = email;
 
-                    Intent goToCenter = new Intent(getApplicationContext(), GameCentreActivity.class);
+                            Intent goToCenter = new Intent(getApplicationContext(), GameCentreActivity.class);
 //                    goToCenter.putExtra("userEmail", accountManager.getAccount(emailValue).getUserName());
-                    startActivity(goToCenter);
-                }
-                else{
-                    Log.d("LoginActivity", "sign in failed");
-                    Toast.makeText(LoginActivity.this, "Sign in failed", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+                            startActivity(goToCenter);
+                        } else {
+                            Log.d("LoginActivity", "sign in failed");
+                            Toast.makeText(LoginActivity.this, "Sign in failed", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
     }
 
     private boolean validateForm() {

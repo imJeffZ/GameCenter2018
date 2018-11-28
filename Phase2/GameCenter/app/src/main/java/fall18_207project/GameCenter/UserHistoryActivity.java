@@ -31,13 +31,21 @@ public class UserHistoryActivity extends Activity {
 
         ArrayList<Game> gameList = new ArrayList<>();
 
-        // TODO: Make this only show specific type of games
+        // TODO: Such thing should actually be processed in GameFinishActivity. But there's bug.
         for (Game g : accountManager.getAccount(userEmail).getAutoSavedGames().getAllGameList()) {
             if (g.isSolved()) {
-                gameList.add(g);
+                accountManager.getAccount(userEmail).getUserScoreBoard().addGame(g);
             }
         }
-//        gameList = accountManager.getAccount(userEmail).getAutoSavedGames().getAllGameList();
+        // TODO: BUG: Deleting games from GameManager always seem to fail.
+        for (Game g : accountManager.getAccount(userEmail).getUserScoreBoard().getAllGameList()) {
+            accountManager.getAccount(userEmail).getAutoSavedGames().deleteGame(g.getSaveId());
+        }
+
+        saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
+
+        // TODO: Make this only show specific type of games by utilizing the getUserScoreBoard().getSortedGames(Game id) method
+        gameList = accountManager.getAccount(userEmail).getUserScoreBoard().getAllGameList();
         Collections.reverse(gameList);
         setContentView(R.layout.activity_user_history);
 

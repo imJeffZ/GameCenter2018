@@ -6,7 +6,7 @@ xmlns:tools="http://schemas.android.com/tools"
 android:id="@+id/container"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
-tools:context=".ScoreBoardActivity">
+tools:context=".GlobalScoreBoardActivity">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
@@ -15,7 +15,7 @@ tools:context=".ScoreBoardActivity">
         android:layout_above = "@id/navigation"
         android:background="@drawable/bgm_for_score"
         android:orientation="vertical"
-        tools:context="fall18_207project.GameCenter.ScoreBoardActivity">
+        tools:context="fall18_207project.GameCenter.GlobalScoreBoardActivity">
 
 
         <TextView

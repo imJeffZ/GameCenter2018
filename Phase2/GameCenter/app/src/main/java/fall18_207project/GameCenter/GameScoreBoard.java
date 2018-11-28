@@ -3,7 +3,7 @@ package fall18_207project.GameCenter;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-interface GameScoreBoard extends Serializable {
+interface GameScoreBoard extends Serializable{
 //    TODO: GlobalScoreBoard and UserScoreBoard does not share the same update Method
 //    But this interface theoretically should contain an updateScore() method.
 

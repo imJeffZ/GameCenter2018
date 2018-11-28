@@ -23,13 +23,11 @@
 //import java.util.HashMap;
 //import java.util.List;
 //import java.util.Map;
-//import java.util.Objects;
 //
 //
-//public class ScoreBoardActivity extends Activity {
-//    public static String currentAccount;
-//    public static String SCOREBOARD = "scoreBoard.ser";
-//    private ScoreBoard scoreBoard;
+//public class GlobalScoreBoardActivity extends Activity {
+//    public static String userEmail = "";
+//    private AccountManager accountManager;
 //    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
 //            = new BottomNavigationView.OnNavigationItemSelectedListener() {
 //
@@ -37,11 +35,11 @@
 //        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 //            switch (item.getItemId()) {
 //                case R.id.navigation_game_center:
-//                    Intent tmp1 = new Intent(ScoreBoardActivity.this, GameCentreActivity.class);
+//                    Intent tmp1 = new Intent(GlobalScoreBoardActivity.this, GameCentreActivity.class);
 //                    startActivity(tmp1);
 //                    break;
 //                case R.id.navigation_user_history:
-//                    Intent tmp2 = new Intent(ScoreBoardActivity.this, UserHistoryActivity.class);
+//                    Intent tmp2 = new Intent(GlobalScoreBoardActivity.this, UserHistoryActivity.class);
 //                    startActivity(tmp2);
 //                    break;
 //                case R.id.navigation_global_scoreboard:
@@ -111,7 +109,7 @@
 ////        }
 //    }
 //
-//    private void loadFromScoreBoard(String fileName) {
+//    private void readFromSer(String fileName) {
 //
 //        try {
 //            InputStream inputStream = this.openFileInput(fileName);
