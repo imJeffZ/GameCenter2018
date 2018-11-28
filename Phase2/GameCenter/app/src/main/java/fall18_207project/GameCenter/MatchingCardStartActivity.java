@@ -51,7 +51,7 @@ public class MatchingCardStartActivity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         addStartButtonListener();
         addLoadButtonListener();
-        addSaveButtonListener();
+//        addSaveButtonListener();
         add4ButtonListener();
         add5ButtonListener();
         add6ButtonListener();
@@ -111,35 +111,35 @@ public class MatchingCardStartActivity extends AppCompatActivity {
         });
     }
 
-    private void makeToastForLoadGame() {
-        Toast.makeText(this, "No Saved Game", Toast.LENGTH_SHORT).show();
-    }
+//    private void makeToastForLoadGame() {
+//        Toast.makeText(this, "No Saved Game", Toast.LENGTH_SHORT).show();
+//    }
+//
+//    /**
+//     * Display that a game was loaded successfully.
+//     */
+//    private void makeToastLoadedText() {
+//        Toast.makeText(this, "Loaded Game", Toast.LENGTH_SHORT).show();
+//    }
+//
+//    private void makeAnotherToastCurrentMessage() {
+//        Toast.makeText(this, "No current Game", Toast.LENGTH_SHORT).show();
+//    }
 
-    /**
-     * Display that a game was loaded successfully.
-     */
-    private void makeToastLoadedText() {
-        Toast.makeText(this, "Loaded Game", Toast.LENGTH_SHORT).show();
-    }
-
-    private void makeAnotherToastCurrentMessage() {
-        Toast.makeText(this, "No current Game", Toast.LENGTH_SHORT).show();
-    }
-
-    /**
-     * Activate the save button.
-     */
-    private void addSaveButtonListener() {
-        Button saveButton = findViewById(R.id.SaveButton);
-        saveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                saveToFile(CURRENT_ACCOUNT + SAVE_FILENAME);
-                saveToFile(TEMP_SAVE_FILENAME);
-                makeToastSavedText();
-            }
-        });
-    }
+//    /**
+//     * Activate the save button.
+//     */
+//    private void addSaveButtonListener() {
+//        Button saveButton = findViewById(R.id.SaveButton);
+//        saveButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                saveToFile(CURRENT_ACCOUNT + SAVE_FILENAME);
+//                saveToFile(TEMP_SAVE_FILENAME);
+//                makeToastSavedText();
+//            }
+//        });
+//    }
 
     /**
      * Activate the 4x4 new game Board.
