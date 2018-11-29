@@ -6,6 +6,7 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/gamecenter"
     android:fitsSystemWindows="true"
     tools:openDrawer="start">
 
@@ -15,16 +16,15 @@
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/test_img"
+        android:background="@drawable/gamecenter"
         tools:context=".GameCentreActivity">
+
         <android.support.v7.widget.Toolbar
-            android:id = "@+id/toolbar"
+            android:id="@+id/toolbar"
             android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            >
+            android:layout_height="wrap_content">
 
         </android.support.v7.widget.Toolbar>
-
 
         <TextView
             android:id="@+id/message"
@@ -39,12 +39,13 @@
             android:textStyle="bold"
             android:typeface="normal" />
 
+
         <ImageButton
             android:id="@+id/SlidingTileGame"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="135dp"
             android:background="@drawable/sliding_tile_game"
             android:contentDescription="SlidingTile Game"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -54,46 +55,21 @@
             android:id="@+id/sliding_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
+            android:layout_marginStart="0dp"
             android:layout_marginTop="5dp"
             android:text="Sliding Tile"
             android:textColor="#cd000000"
             android:textSize="15sp"
-            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintLeft_toLeftOf="@id/SlidingTileGame"
             app:layout_constraintTop_toBottomOf="@id/SlidingTileGame"
-
             />
-
-        <ImageButton
-            android:id="@+id/Game2048"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="192dp"
-            android:layout_marginTop="12dp"
-            android:background="@drawable/sliding_tile_game"
-            android:contentDescription="2048"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/message" />
-
-        <TextView
-            android:id="@+id/Game2048_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="208dp"
-            android:layout_marginTop="4dp"
-            android:text="2048"
-            android:textColor="#cd000000"
-            android:textSize="15sp"
-            app:layout_constraintLeft_toLeftOf="parent"
-
-            app:layout_constraintTop_toBottomOf="@id/SlidingTileGame" />
 
         <ImageButton
             android:id="@+id/MatchingCardsGame"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="135dp"
             android:background="@drawable/matching_card_game"
             android:contentDescription="Matching Cards Game"
             app:layout_constraintLeft_toRightOf="@id/SlidingTileGame"
@@ -103,15 +79,36 @@
             android:id="@+id/matching_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
+            android:layout_marginStart="0dp"
             android:layout_marginTop="5dp"
-            android:text="MatchCard"
+            android:text="Match Card"
             android:textColor="#cd000000"
             android:textSize="15sp"
-            app:layout_constraintLeft_toRightOf="@id/sliding_text"
-            app:layout_constraintTop_toBottomOf="@id/MatchingCardsGame"
+            app:layout_constraintLeft_toLeftOf="@id/MatchingCardsGame"
+            app:layout_constraintTop_toBottomOf="@id/MatchingCardsGame" />
 
-            />
+        <ImageButton
+            android:id="@+id/Game2048"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="135dp"
+            android:background="@drawable/sliding_tile_game"
+            android:contentDescription="2048"
+            app:layout_constraintLeft_toRightOf="@id/MatchingCardsGame"
+            app:layout_constraintTop_toBottomOf="@+id/message" />
+
+        <TextView
+            android:id="@+id/Game2048_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="0dp"
+            android:layout_marginTop="5dp"
+            android:text="2048 Game"
+            android:textColor="#cd000000"
+            android:textSize="15sp"
+            app:layout_constraintLeft_toLeftOf="@id/Game2048"
+            app:layout_constraintTop_toBottomOf="@id/Game2048" />
 
         <android.support.design.widget.BottomNavigationView
             android:id="@+id/navigation"
