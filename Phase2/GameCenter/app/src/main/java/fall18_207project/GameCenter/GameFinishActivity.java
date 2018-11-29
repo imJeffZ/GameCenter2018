@@ -49,6 +49,8 @@ public class GameFinishActivity extends AppCompatActivity {
             // Delete game from user's autoSavedGameList
 //            accountManager.getAccount(userEmail).getAutoSavedGames().deleteGame(saveId);
             saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
+//            readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
+//            String debugId = accountManager.getAccount(userEmail).getUserScoreBoard().getAllGameList().get(0).getSaveId();
         tvResult.setText(result);
 
 //        int size = getIntent().getExtras().getInt("size");
@@ -72,10 +74,24 @@ public class GameFinishActivity extends AppCompatActivity {
         returnToScreen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+//                readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
+//                saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
                 Intent returnToMainScreen = new Intent(getApplicationContext(), UserHistoryActivity.class);
                 startActivity(returnToMainScreen);
             }
         });
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
     }
 
     public void saveToFile(String fileName) {
