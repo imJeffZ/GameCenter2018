@@ -1,6 +1,7 @@
 package fall18_207project.GameCenter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -113,7 +114,7 @@ public class Game2048Activity extends AppCompatActivity implements Observer, Gam
 
         addUndoButtonListener();
         addSaveButtonListener();
-//        addResetButtonListener();
+        addResetButtonListener();
 
         // Add View to activity
         gridView = findViewById(R.id.grid);
@@ -184,6 +185,26 @@ public class Game2048Activity extends AppCompatActivity implements Observer, Gam
 
     }
 
+    private void addResetButtonListener() {
+        Button resetButton = findViewById(R.id.resetButton);
+        resetButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent restart = new Intent(getApplicationContext(), Game2048Activity.class);
+                Game2048 newGame2048 = new Game2048();
+                newGame2048.tiles = game2048.cloneTiles();
+                newGame2048.board = new Board(game2048.tiles, 4);
+                newGame2048.initialBoard = new Board(game2048.tiles, 4);
+                restart.putExtra("saveId", newGame2048.getSaveId());
+                restart.putExtra("saveType", "autoSave");
+                readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
+                accountManager.getAccount(userEmail).getAutoSavedGames().addGame(newGame2048);
+                saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
+                startActivity(restart);
+            }
+        });
+    }
+
     private void addSaveButtonListener() {
         Button saveButton = findViewById(R.id.saveGameButton);
         saveButton.setOnClickListener((new View.OnClickListener() {
@@ -199,6 +220,13 @@ public class Game2048Activity extends AppCompatActivity implements Observer, Gam
     }
     private void makeSavedMessage() {
         Toast.makeText(this, "Game Saved", Toast.LENGTH_SHORT).show();
+    }
+
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent gotoStarting = new Intent(getApplicationContext(), Game2048StartActivity.class);
+        startActivity(gotoStarting);
+        saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
     }
 
 //    private void addResetButtonListener() {
