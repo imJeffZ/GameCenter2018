@@ -38,6 +38,7 @@ class MovementController {
     void processSwipeMovement(final Context context,int dirction, boolean display) {
         if (!this.game.hasVaildMove()){
             Toast.makeText(context,"you lose", Toast.LENGTH_SHORT).show();
+            createDialog(context);
         }
         if (this.game.isSolved()) {
 //            addScoreOnFinish();
