@@ -1,13 +1,14 @@
 package fall18_207project.GameCenter;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -43,10 +44,11 @@ public class Game2048StartActivity extends AppCompatActivity {
         //saveToFile(TEMP_SAVE_FILENAME);
         setContentView(R.layout.activity_game2048_starting);
         firebaseAuth = FirebaseAuth.getInstance();
-        addAutoSaveButtonListener();
-        addLoadButtonListener();
+   //     addAutoSaveButtonListener();
+ //       addLoadButtonListener();
 //        addSaveButtonListener();
-        addGameButtonListener();
+        addLoadGameButtonListener();
+        addNewGameButtonListener();
         addLogOutButtonListener();
         addReturnToGameCenterListener();
         TextView account = findViewById(R.id.Hiuser);
@@ -56,15 +58,15 @@ public class Game2048StartActivity extends AppCompatActivity {
     /**
      * Activate the autoSave button.
      */
-    private void addAutoSaveButtonListener() {
-        Button startButton = findViewById(R.id.StartButton);
-        startButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent goToSavedGames = new Intent(getApplicationContext(), SavedGamesActivity.class);
-                goToSavedGames.putExtra("saveType", "autoSave");
-                goToSavedGames.putExtra("gameType", "game2048");
-                startActivity(goToSavedGames);
+//    private void addAutoSaveButtonListener() {
+//        Button startButton = findViewById(R.id.StartButton);
+//        startButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent goToSavedGames = new Intent(getApplicationContext(), SavedGamesActivity.class);
+//                goToSavedGames.putExtra("saveType", "autoSave");
+//                goToSavedGames.putExtra("gameType", "game2048");
+//                startActivity(goToSavedGames);
 //                loadFromFile(userEmail + AUTO_SAVE_FILENAME);
 //                saveToFile(TEMP_SAVE_FILENAME);
 //                if (game2048 == null) {
@@ -73,22 +75,22 @@ public class Game2048StartActivity extends AppCompatActivity {
 //                }
 //                makeToastLoadedText();
 //                switchToGame();
-            }
-        });
-    }
+//            }
+//        });
+//    }
 
     /**
      * Activate the load button.
      */
-    private void addLoadButtonListener() {
-        Button loadButton = findViewById(R.id.LoadButton);
-        loadButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent goToSavedGames = new Intent(getApplicationContext(), SavedGamesActivity.class);
-                goToSavedGames.putExtra("saveType", "userSave");
-                goToSavedGames.putExtra("gameType", "game2048");
-                startActivity(goToSavedGames);
+//    private void addLoadButtonListener() {
+//        Button loadButton = findViewById(R.id.LoadButton);
+//        loadButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent goToSavedGames = new Intent(getApplicationContext(), SavedGamesActivity.class);
+//                goToSavedGames.putExtra("saveType", "userSave");
+//                goToSavedGames.putExtra("gameType", "game2048");
+//                startActivity(goToSavedGames);
 //                loadFromFile(userEmail + SAVE_FILENAME);
 //                saveToFile(TEMP_SAVE_FILENAME);
 //                if (game2048 == null) {
@@ -99,9 +101,9 @@ public class Game2048StartActivity extends AppCompatActivity {
 //                saveToFile(TEMP_SAVE_FILENAME);
 //                makeToastLoadedText();
 //                switchToGame();
-            }
-        });
-    }
+//            }
+//        });
+//    }
 
 //    private void makeToastForLoadGame() {
 //        Toast.makeText(this, "No Saved Game", Toast.LENGTH_SHORT).show();
@@ -136,8 +138,8 @@ public class Game2048StartActivity extends AppCompatActivity {
     /**
      * Activate new 2048 game.
      */
-    private void addGameButtonListener() {
-        Button Button4 = findViewById(R.id.Button4);
+    private void addNewGameButtonListener() {
+        Button Button4 = findViewById(R.id.StartButton);
         Button4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -153,7 +155,15 @@ public class Game2048StartActivity extends AppCompatActivity {
     /**
      * Activate the 4x4 new game board.
      //     */
-
+    private void addLoadGameButtonListener(){
+        Button Button4 = findViewById(R.id.loadGameButton);
+        Button4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showLoadDialog();
+            }
+        });
+    }
 
     /**
      * Log out of the current Account.
@@ -178,6 +188,27 @@ public class Game2048StartActivity extends AppCompatActivity {
                 startActivity(backToGameCenter);
             }
         });
+    }
+
+    private void showLoadDialog(){
+        AlertDialog.Builder loadDialog =
+                new AlertDialog.Builder(Game2048StartActivity.this);
+        loadDialog.setTitle("Load Game ").setMessage("Load From...");
+
+        loadDialog.setNeutralButton("Load Saved game",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switchToSaveGames();
+                    }
+                });
+        loadDialog.setNegativeButton("Load AutoSaved game", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switchToAutoSaveGames();
+            }
+        });
+        loadDialog.show();
     }
 
     /**
@@ -205,6 +236,23 @@ public class Game2048StartActivity extends AppCompatActivity {
         tmp.putExtra("saveType", "autoSave");
 //        saveToFile(Game2048StartActivity.TEMP_SAVE_FILENAME);
         startActivity(tmp);
+    }
+
+    private void switchToSaveGames(){
+
+        Intent goToSavedGames = new Intent(getApplicationContext(), SavedGamesActivity.class);
+        goToSavedGames.putExtra("saveType", "userSave");
+        goToSavedGames.putExtra("gameType", "game2048");
+        startActivity(goToSavedGames);
+    }
+
+    private void switchToAutoSaveGames(){
+
+        Intent goToSavedGames = new Intent(getApplicationContext(), SavedGamesActivity.class);
+        goToSavedGames.putExtra("saveType", "autoSave");
+        goToSavedGames.putExtra("gameType", "game2048");
+        startActivity(goToSavedGames);
+
     }
 
     private void switchToLogin() {
