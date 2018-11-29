@@ -73,8 +73,10 @@ public class MatchingCardsGameActivity extends AppCompatActivity implements Obse
         saveType = getIntent().getStringExtra("saveType");
         if (saveType.equals("autoSave")) {
             gameManager = accountManager.getAccount(userEmail).getAutoSavedGames();
-        } else {
+        } else if (saveType.equals("userSave")){
             gameManager = accountManager.getAccount(userEmail).getUserSavedGames();
+        } else {
+            gameManager = accountManager.getAccount(userEmail).getUserScoreBoard();
         }
         String saveId = getIntent().getStringExtra("saveId");
         if (saveId == null) {
