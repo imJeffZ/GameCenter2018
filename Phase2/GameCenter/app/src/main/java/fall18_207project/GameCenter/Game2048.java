@@ -17,11 +17,13 @@ public class Game2048 extends Game implements GameFeature, Cloneable {
     private int score;
     private Stack<Board> boardStack;
     protected Board board;
+    protected Board initialBoard;
+    protected List<Tile> tiles;
 
     public Game2048() {
         super(); // Explicitly put here
         this.gameId = 7;
-        List<Tile> tiles = new ArrayList<>();
+        tiles = new ArrayList<>();
         final int numTiles = 16;
         Random r = new Random();
         int beginnum1 = (r.nextInt(1) + 1) * 2;
@@ -34,6 +36,7 @@ public class Game2048 extends Game implements GameFeature, Cloneable {
         }
         Collections.shuffle(tiles);
         board = new Board(tiles, 4);
+        this.initialBoard = new Board(tiles, 4);
         this.endTime = 0;
         this.score = 0;
         this.boardStack = new Stack<>();
@@ -44,6 +47,14 @@ public class Game2048 extends Game implements GameFeature, Cloneable {
     @Override
     void reset() {
         return;
+    }
+
+    public List<Tile> cloneTiles() {
+        List<Tile> returnTile = new ArrayList<>();
+        for (Tile tile : tiles) {
+            returnTile.add(tile);
+        }
+        return returnTile;
     }
 
     public static int getLEFT() {
