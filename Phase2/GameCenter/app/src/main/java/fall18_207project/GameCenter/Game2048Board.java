@@ -3,16 +3,10 @@ package fall18_207project.GameCenter;
 import android.support.annotation.NonNull;
 
 import java.util.ArrayList;
-import java.util.Observable;
-
-import java.io.Serializable;
 import java.util.Iterator;
 import java.util.List;
 
-/**
- * The sliding tiles board.
- */
-public class Board extends Observable implements Cloneable, Serializable, Iterable<Tile> {
+public class Game2048Board extends Board implements Cloneable {
 
     /**
      * The number of rows.
@@ -28,7 +22,7 @@ public class Board extends Observable implements Cloneable, Serializable, Iterab
     /**
      * The tiles on the board in row-major order.
      */
-    private Tile[][] tiles;
+    private Game2048Tile[][] tiles;
 
 
     /**
@@ -37,16 +31,17 @@ public class Board extends Observable implements Cloneable, Serializable, Iterab
      *
      * @param tiles the tiles for the board
      */
-    public Board(List<? extends Tile> tiles, int size) {
+    public Game2048Board(List<Game2048Tile> tiles, int size) {
+        super(tiles, size);
         this.NUM_COLS = size;
         this.NUM_ROWS = size;
-        this.tiles = new Tile[size][size];
+        this.tiles = new Game2048Tile[size][size];
 
         Iterator<?> iter = tiles.iterator();
 
         for (int row = 0; row != this.getNUM_COLS(); row++) {
             for (int col = 0; col != this.getNUM_COLS(); col++) {
-                this.tiles[row][col] = (Tile) iter.next();
+                this.tiles[row][col] = (Game2048Tile) iter.next();
             }
         }
     }
@@ -75,8 +70,8 @@ public class Board extends Observable implements Cloneable, Serializable, Iterab
      * @param col the tile column
      * @return the tile at (row, col)
      */
-    Tile getTile(int row, int col) {
-        return tiles[row][col];
+    Game2048Tile getTile(int row, int col) {
+        return (Game2048Tile) tiles[row][col];
     }
 
     Tile[][] getTiles(){
@@ -92,7 +87,7 @@ public class Board extends Observable implements Cloneable, Serializable, Iterab
      */
 
     void swapTiles(int row1, int col1, int row2, int col2) {
-        Tile t1 = tiles[row1][col1];
+        Game2048Tile t1 = tiles[row1][col1];
         tiles[row1][col1] = tiles[row2][col2];
         tiles[row2][col2] = t1;
         setChanged();
@@ -113,50 +108,51 @@ public class Board extends Observable implements Cloneable, Serializable, Iterab
                 " ]" + " }";
     }
 
-    @NonNull
-    @Override
-    public Iterator<Tile> iterator() {
-        return new BoardIterator();
-    }
-
-    /**
-     * The iterator class for Board's iterator.
-     */
-    private class BoardIterator implements Iterator<Tile> {
-        /**
-         * The position
-         */
-        private int position = 0;
-
-        @Override
-        public boolean hasNext() {
-            return position != NUM_ROWS * NUM_COLS;
-        }
-
-        @Override
-        public Tile next() {
-            int row = position / NUM_ROWS;
-            int col = position % NUM_COLS;
-            Tile nextTile = tiles[row][col];
-            position++;
-            return nextTile;
-        }
-    }
-
-//    public Board clone() {
-//        try {
-//            super.clone();
-//        } catch (CloneNotSupportedException e) {
-//            e.printStackTrace();
-//        }
-//        List<Tile> tiles = new ArrayList<>();
-//        for (int i = 0; i < this.getNUM_COLS(); i++) {
-//            for (int j = 0; j < this.getNUM_ROWS(); j++) {
-//                tiles.add(this.getTile(i, j));
-//            }
-//        }
-//
-//        return new Board(tiles, this.getNUM_ROWS());
-//
+//    @NonNull
+//    @Override
+//    public Iterator<Game2048Tile> iterator() {
+//        return new BoardIterator();
 //    }
+//
+//    /**
+//     * The iterator class for Board's iterator.
+//     */
+//    private class BoardIterator implements Iterator<Game2048Tile> {
+//        /**
+//         * The position
+//         */
+//        private int position = 0;
+//
+//        @Override
+//        public boolean hasNext() {
+//            return position != NUM_ROWS * NUM_COLS;
+//        }
+//
+//        @Override
+//        public Game2048Tile next() {
+//            int row = position / NUM_ROWS;
+//            int col = position % NUM_COLS;
+//            Game2048Tile nextTile = tiles[row][col];
+//            position++;
+//            return nextTile;
+//        }
+//    }
+
+    public Game2048Board clone() {
+        try {
+            super.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+        List<Game2048Tile> tiles = new ArrayList<>();
+        for (int i = 0; i < this.getNUM_COLS(); i++) {
+            for (int j = 0; j < this.getNUM_ROWS(); j++) {
+                tiles.add(this.getTile(i, j));
+            }
+        }
+
+        return new Game2048Board(tiles, this.getNUM_ROWS());
+
+    }
 }
+

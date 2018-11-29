@@ -15,25 +15,25 @@ public class Game2048 extends Game implements GameFeature, Cloneable {
     public final static int DOWN = 4;
     private final static int BLANK_ID = 25;
     private int score;
-    private Stack<Board> boardStack;
-    protected Board board;
+    private Stack<Game2048Board> boardStack;
+    protected Game2048Board board;
 
     public Game2048() {
         super(); // Explicitly put here
         this.gameId = 7;
-        List<Tile> tiles = new ArrayList<>();
+        List<Game2048Tile> tiles = new ArrayList<>();
         final int numTiles = 16;
         Random r = new Random();
         int beginnum1 = (r.nextInt(1) + 1) * 2;
         int beginnum2 = (r.nextInt(1) + 1) * 2;
 
-        tiles.add(new Tile(beginnum1 - 1));
-        tiles.add(new Tile(beginnum2 - 1));
+        tiles.add(new Game2048Tile(beginnum1 - 1));
+        tiles.add(new Game2048Tile(beginnum2 - 1));
         for (int tileNum = 0; tileNum < numTiles - 2; tileNum++) {
-            tiles.add(new Tile(24));
+            tiles.add(new Game2048Tile(BLANK_ID - 1));
         }
         Collections.shuffle(tiles);
-        board = new Board(tiles, 4);
+        board = new Game2048Board(tiles, 4);
         this.endTime = 0;
         this.score = 0;
         this.boardStack = new Stack<>();
@@ -55,19 +55,19 @@ public class Game2048 extends Game implements GameFeature, Cloneable {
         return score;
     }
 
-    public Stack<Board> getBoardStack() {
+    public Stack<Game2048Board> getBoardStack() {
         return boardStack;
     }
 
-    public Board getBoard() {
+    public Game2048Board getBoard() {
         return board;
     }
 
     @Override
     int calculateScore() {
-        if(!hasVaildMove()){
+        if (!hasVaildMove()) {
             return 0;
-        }else {
+        } else {
             return score;
         }
     }
@@ -163,11 +163,8 @@ public class Game2048 extends Game implements GameFeature, Cloneable {
     @Override
     public void touchMove(int direction) {
         boolean check = false;
-        boardStack.push(board.clone());
-        int counterlr = 0;
-        int counterud = 0;
-        int boundlr = 0;
-        int bourdud = 0;
+        boardStack.push((Game2048Board) board.clone());
+
 
         int changedBackground, value;
 
@@ -180,8 +177,8 @@ public class Game2048 extends Game implements GameFeature, Cloneable {
                 // Merge
                 for (int col = 0; col < board.getNUM_COLS() - 1; ++col) {
                     if ((value = board.getTile(row, col).getId()) != BLANK_ID && board.getTile(row, col).getId() == board.getTile(row, col + 1).getId()) {
-                        board.getTiles()[row][col] = new Tile(value * 2 - 1);
-                        board.getTiles()[row][col + 1] = new Tile(BLANK_ID - 1);
+                        board.getTiles()[row][col] = new Game2048Tile(value * 2 - 1);
+                        board.getTiles()[row][col + 1] = new Game2048Tile(BLANK_ID - 1);
                         check = true;
                         this.score += (value * 2);
                     }
@@ -196,8 +193,8 @@ public class Game2048 extends Game implements GameFeature, Cloneable {
 
                 for (int col = board.getNUM_COLS() - 1; col > 0; --col) {
                     if ((value = board.getTile(row, col).getId()) != BLANK_ID && board.getTile(row, col).getId() == board.getTile(row, col - 1).getId()) {
-                        board.getTiles()[row][col] = new Tile(value * 2 - 1);
-                        board.getTiles()[row][col - 1] = new Tile(BLANK_ID - 1);
+                        board.getTiles()[row][col] = new Game2048Tile(value * 2 - 1);
+                        board.getTiles()[row][col - 1] = new Game2048Tile(BLANK_ID - 1);
                         check = true;
                         this.score += (value * 2);
                     }
@@ -210,8 +207,8 @@ public class Game2048 extends Game implements GameFeature, Cloneable {
                 downShift(col);
                 for (int row = board.getNUM_ROWS() - 1; row > 0; --row) {
                     if ((value = board.getTile(row, col).getId()) != BLANK_ID && board.getTile(row, col).getId() == board.getTile(row - 1, col).getId()) {
-                        board.getTiles()[row][col] = new Tile(value * 2 - 1);
-                        board.getTiles()[row - 1][col] = new Tile(BLANK_ID - 1);
+                        board.getTiles()[row][col] = new Game2048Tile(value * 2 - 1);
+                        board.getTiles()[row - 1][col] = new Game2048Tile(BLANK_ID - 1);
                         check = true;
                         this.score += (value * 2);
                     }
@@ -224,8 +221,8 @@ public class Game2048 extends Game implements GameFeature, Cloneable {
                 upShift(col);
                 for (int row = 0; row < board.getNUM_ROWS() - 1; ++row) {
                     if ((value = board.getTile(row, col).getId()) != BLANK_ID && board.getTile(row, col).getId() == board.getTile(row + 1, col).getId()) {
-                        board.getTiles()[row][col] = new Tile(value * 2 - 1);
-                        board.getTiles()[row + 1][col] = new Tile(BLANK_ID - 1);
+                        board.getTiles()[row][col] = new Game2048Tile(value * 2 - 1);
+                        board.getTiles()[row + 1][col] = new Game2048Tile(BLANK_ID - 1);
                         check = true;
                         this.score += (value * 2);
                     }
@@ -252,7 +249,7 @@ public class Game2048 extends Game implements GameFeature, Cloneable {
             int position = rnd.nextInt(bound);
             int position2 = rnd.nextInt(bound);
             int number = (rnd.nextInt(1) + 1) * 2;
-            board.getTiles()[blanktiles.get(position).get(0)][blanktiles.get(position).get(1)] = new Tile(number - 1);
+            board.getTiles()[blanktiles.get(position).get(0)][blanktiles.get(position).get(1)] = new Game2048Tile(number - 1);
             board.swapTiles(blanktiles.get(position2).get(0), blanktiles.get(position2).get(1), blanktiles.get(position).get(0), blanktiles.get(position).get(1));
         }
     }
@@ -263,20 +260,26 @@ public class Game2048 extends Game implements GameFeature, Cloneable {
         }
 
         if (!boardStack.isEmpty()) {
-            board = (Board) boardStack.pop();
+            board = (Game2048Board) boardStack.pop();
         }
     }
 
     @Override
     public boolean isSolved() {
-        Iterator<Tile> it = board.iterator();
-        while (it.hasNext()) {
-            int curID = it.next().getId();
-            if (curID == 2048) {
-                return true;
+        boolean check = false;
+        for (int i = 0; i < board.getNUM_COLS(); i++){
+            for (int j = 0; j< board.getNUM_ROWS(); j++){
+                //TODO change back
+                if (board.getTile(i,j).getId() == 64){
+                    return true;
+                }
             }
         }
-        return false;
+        return check;
     }
-}
 
+
+
+
+
+}

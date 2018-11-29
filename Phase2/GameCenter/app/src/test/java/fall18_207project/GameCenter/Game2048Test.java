@@ -115,10 +115,10 @@ public class Game2048Test {
     public void testIsValidTap() {
         setUpCorrect();
 
-        assertTrue(game2048.isValidTap(Game2048.UP));
-        assertTrue(game2048.isValidTap(Game2048.DOWN));
-        assertTrue(game2048.isValidTap(Game2048.LEFT));
-        assertTrue(game2048.isValidTap(Game2048.RIGHT));
+        assertFalse(game2048.isValidTap(Game2048.UP));
+        assertFalse(game2048.isValidTap(Game2048.DOWN));
+        assertFalse(game2048.isValidTap(Game2048.LEFT));
+        assertFalse(game2048.isValidTap(Game2048.RIGHT));
         assertFalse(game2048.isValidTap(5));
     }
 }
