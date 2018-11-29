@@ -23,7 +23,7 @@ import java.util.Observer;
  * The game activity.
  * test for push.
  */
-public class GameActivity extends AppCompatActivity implements Observer {
+public class SlidingTileGameActivity extends AppCompatActivity implements Observer {
 
     /**
      * The board manager.
@@ -107,7 +107,7 @@ public class GameActivity extends AppCompatActivity implements Observer {
         }
 
         createTileButtons(this);
-        setContentView(R.layout.activity_game);
+        setContentView(R.layout.activity_slidingtiles);
 
         mContext = this;
         mTvTimer = findViewById(R.id.time_id);

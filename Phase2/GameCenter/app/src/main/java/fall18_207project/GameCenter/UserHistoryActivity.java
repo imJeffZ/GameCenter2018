@@ -143,7 +143,7 @@ public class UserHistoryActivity extends Activity {
 
     private void goToDifferentGames(int id, Game selectedGame){
 
-        Intent goToGame = id <= 3? new Intent(getApplicationContext(), GameActivity.class):
+        Intent goToGame = id <= 3? new Intent(getApplicationContext(), SlidingTileGameActivity.class):
                 id <= 6? new Intent(getApplicationContext(), MatchingCardsGameActivity.class):
                         new Intent(getApplicationContext(), Game2048Activity.class);
         goToGame.putExtra("saveType", "autoSave");

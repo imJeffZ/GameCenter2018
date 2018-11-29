@@ -78,10 +78,10 @@ public class SavedGamesActivity extends Activity {
         scoreBoardView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // TODO: Need further generalization in GameActivity.
+                // TODO: Need further generalization in SlidingTileGameActivity.
                 Game selectedGame = finalGameList.get(position);
                 if("slidingTiles".equals(gameType)) {
-                    Intent goToGame = new Intent(getApplicationContext(), GameActivity.class);
+                    Intent goToGame = new Intent(getApplicationContext(), SlidingTileGameActivity.class);
                     goToGame.putExtra("saveType", getIntent().getStringExtra("saveType"));
                     goToGame.putExtra("saveId", selectedGame.getSaveId());
                     startActivity(goToGame);
