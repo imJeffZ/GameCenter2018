@@ -147,7 +147,7 @@ public class UserHistoryActivity extends Activity {
         Intent goToGame = id <= 3? new Intent(getApplicationContext(), GameActivity.class):
                 id <= 6? new Intent(getApplicationContext(), MatchingCardsGameActivity.class):
                         new Intent(getApplicationContext(), Game2048Activity.class);
-        goToGame.putExtra("saveType", "autoSave");
+        goToGame.putExtra("saveType", "userHistory");
         goToGame.putExtra("saveId", selectedGame.getSaveId());
         startActivity(goToGame);
     }
