@@ -46,10 +46,9 @@ public class GameFinishActivity extends AppCompatActivity {
             // Update user score board
             accountManager.getAccount(userEmail).getUserScoreBoard().addGame(finishedGame);
             // Delete game from user's autoSavedGameList
-//            accountManager.getAccount(userEmail).getAutoSavedGames().deleteGame(saveId);
+            accountManager.getAccount(userEmail).getAutoSavedGames().deleteGame(saveId);
             saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
 //            readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
-//            String debugId = accountManager.getAccount(userEmail).getUserScoreBoard().getAllGameList().get(0).getSaveId();
         tvResult.setText(result);
 
 //        int size = getIntent().getExtras().getInt("size");

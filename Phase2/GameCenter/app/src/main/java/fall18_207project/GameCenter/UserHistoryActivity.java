@@ -104,7 +104,6 @@ public class UserHistoryActivity extends Activity {
         scoreBoardView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // TODO: Need further generalization in GameActivity.
                 Game selectedGame = finalGameList.get(position);
                 selectedGame.reset();
                 accountManager.getAccount(userEmail).getAutoSavedGames().addGame(selectedGame);
