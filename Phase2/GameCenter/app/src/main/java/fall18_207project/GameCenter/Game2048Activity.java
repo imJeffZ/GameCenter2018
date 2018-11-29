@@ -83,8 +83,10 @@ public class Game2048Activity extends AppCompatActivity implements Observer {
         saveType = getIntent().getStringExtra("saveType");
         if (saveType.equals("autoSave")) {
             gameManager = accountManager.getAccount(userEmail).getAutoSavedGames();
-        } else {
+        } else if (saveType.equals("userSave")){
             gameManager = accountManager.getAccount(userEmail).getUserSavedGames();
+        } else {
+            gameManager = accountManager.getAccount(userEmail).getUserScoreBoard();
         }
         // TODO: Better fix on how to deal with Null pointer exception when passing data through intent
         String saveId = getIntent().getStringExtra("saveId");
