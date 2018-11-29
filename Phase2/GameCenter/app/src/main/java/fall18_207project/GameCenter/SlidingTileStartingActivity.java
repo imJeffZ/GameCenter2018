@@ -21,7 +21,7 @@ import java.io.ObjectOutputStream;
 /**
  * The initial activity for the sliding puzzle tile game.
  */
-public class StartingActivity extends AppCompatActivity {
+public class SlidingTileStartingActivity extends AppCompatActivity {
 
     public static String userEmail = "";
     private FirebaseAuth firebaseAuth;
@@ -51,7 +51,7 @@ public class StartingActivity extends AppCompatActivity {
     }
     private void showLoadDialog(){
         AlertDialog.Builder loadDialog =
-                new AlertDialog.Builder(StartingActivity.this);
+                new AlertDialog.Builder(SlidingTileStartingActivity.this);
         loadDialog.setTitle("Load Game ").setMessage("Load From...");
 
         loadDialog.setNeutralButton("Load Saved game",
@@ -72,7 +72,7 @@ public class StartingActivity extends AppCompatActivity {
 
     private void showNewGameDialog(){
         AlertDialog.Builder newGameDialog =
-                new AlertDialog.Builder(StartingActivity.this);
+                new AlertDialog.Builder(SlidingTileStartingActivity.this);
         newGameDialog.setTitle("New Game ").setMessage("Choose the complexity you want:");
         newGameDialog.setNeutralButton("3 x 3",
                 new DialogInterface.OnClickListener() {
@@ -322,7 +322,7 @@ public class StartingActivity extends AppCompatActivity {
         Intent tmp = new Intent(this, SlidingTileGameActivity.class);
         tmp.putExtra("saveId", saveId);
         tmp.putExtra("saveType", "autoSave");
-//        saveToFile(StartingActivity.TEMP_SAVE_FILENAME);
+//        saveToFile(SlidingTileStartingActivity.TEMP_SAVE_FILENAME);
         startActivity(tmp);
     }
 

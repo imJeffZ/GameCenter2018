@@ -53,11 +53,11 @@ public class GameFinishActivity extends AppCompatActivity {
 
 //        int size = getIntent().getExtras().getInt("size");
 //        if (size == 1) {
-//            scoreBoard.updateScorePerGame(1, StartingActivity.CURRENT_ACCOUNT, score);
+//            scoreBoard.updateScorePerGame(1, SlidingTileStartingActivity.CURRENT_ACCOUNT, score);
 //        } else if (size == 2) {
-//            scoreBoard.updateScorePerGame(2, StartingActivity.CURRENT_ACCOUNT, score);
+//            scoreBoard.updateScorePerGame(2, SlidingTileStartingActivity.CURRENT_ACCOUNT, score);
 //        } else if (size == 3) {
-//            scoreBoard.updateScorePerGame(3, StartingActivity.CURRENT_ACCOUNT, score);
+//            scoreBoard.updateScorePerGame(3, SlidingTileStartingActivity.CURRENT_ACCOUNT, score);
 //        }
 //        saveToScoreBoard(SCOREBOARD);
         addReturnButtonListener();

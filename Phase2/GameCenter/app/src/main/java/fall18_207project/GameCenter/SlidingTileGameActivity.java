@@ -252,7 +252,7 @@ public class SlidingTileGameActivity extends AppCompatActivity implements Observ
 //        gameManager.addGame(slidingTiles);
         accountManager.getAccount(userEmail).getAutoSavedGames().addGame(slidingTiles);
         saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
-//        saveToFile(StartingActivity.TEMP_SAVE_FILENAME);
+//        saveToFile(SlidingTileStartingActivity.TEMP_SAVE_FILENAME);
     }
 
     @Override
@@ -261,7 +261,7 @@ public class SlidingTileGameActivity extends AppCompatActivity implements Observ
         slidingTiles.updateElapsedTime(mChrono.getElapsedTime());
         mChrono.stop();
 
-//        saveToFile(userEmail + StartingActivity.AUTO_SAVE_FILENAME);
+//        saveToFile(userEmail + SlidingTileStartingActivity.AUTO_SAVE_FILENAME);
 //        slidingTiles.resetElapsedTime();
 //        gameManager.addGame(slidingTiles);
         accountManager.getAccount(userEmail).getAutoSavedGames().addGame(slidingTiles);

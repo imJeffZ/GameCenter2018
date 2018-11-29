@@ -55,7 +55,7 @@ public class LoginActivity extends AppCompatActivity {
             SavedGamesActivity.userEmail = emailValue;
             Game2048StartActivity.userEmail = emailValue;
             Game2048Activity.userEmail = emailValue;
-            StartingActivity.userEmail = emailValue;
+            SlidingTileStartingActivity.userEmail = emailValue;
             SlidingTileGameActivity.userEmail = emailValue;
             MatchingCardStartActivity.userEmail = emailValue;
             MatchingCardsGameActivity.userEmail = emailValue;
@@ -139,7 +139,7 @@ public class LoginActivity extends AppCompatActivity {
                             SavedGamesActivity.userEmail = email;
                             Game2048StartActivity.userEmail = email;
                             Game2048Activity.userEmail = email;
-                            StartingActivity.userEmail = email;
+                            SlidingTileStartingActivity.userEmail = email;
                             SlidingTileGameActivity.userEmail = email;
                             MatchingCardStartActivity.userEmail = email;
                             MatchingCardsGameActivity.userEmail = email;

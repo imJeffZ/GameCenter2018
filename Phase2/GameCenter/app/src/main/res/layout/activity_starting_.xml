@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/back_image"
-    tools:context="fall18_207project.GameCenter.StartingActivity">
+    tools:context="fall18_207project.GameCenter.SlidingTileStartingActivity">
 
     <TextView
         android:id="@+id/Hiuser"

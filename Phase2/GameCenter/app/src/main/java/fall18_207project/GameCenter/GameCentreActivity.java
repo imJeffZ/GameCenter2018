@@ -1,14 +1,12 @@
 package fall18_207project.GameCenter;
 
 import android.annotation.SuppressLint;
-import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
-import android.support.design.internal.BottomNavigationMenu;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -22,10 +20,8 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -106,7 +102,7 @@ public class GameCentreActivity extends AppCompatActivity implements  Navigation
         Menu menu = navigation.getMenu();
         MenuItem menuItem = menu.getItem(0);
         menuItem.setChecked(true);
-        addGameButtonListener();
+        addSlidingTilesGameButtonListener();
         addMatchingCardsGameButtonListener();
         addGame2048ButtonListener();
     }
@@ -261,14 +257,13 @@ public class GameCentreActivity extends AppCompatActivity implements  Navigation
 
     }
 
-    // TODO: Rename this to addSlidingGameButtonListener
-    private void addGameButtonListener() {
+    private void addSlidingTilesGameButtonListener() {
 
         ImageButton ButtonGame = findViewById(R.id.SlidingTileGame);
         ButtonGame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switchToGame();
+                switchToSlidingTilesStartingAct();
             }
         });
     }
@@ -279,7 +274,7 @@ public class GameCentreActivity extends AppCompatActivity implements  Navigation
         ButtonGame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switchToMatchingCardsGame();
+                switchToMatchingCardsStartingAct();
             }
         });
     }
@@ -290,25 +285,24 @@ public class GameCentreActivity extends AppCompatActivity implements  Navigation
         ButtonGame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switchToGame2048();
+                switchToGame2048StartingAct();
             }
         });
     }
 
-    // TODO: Rename this to switchToStartingActivity
-    private void switchToGame() {
-        Intent tmp = new Intent(this, StartingActivity.class);
+    private void switchToSlidingTilesStartingAct() {
+        Intent tmp = new Intent(this, SlidingTileStartingActivity.class);
         tmp.putExtra("userEmail", userEmail);
         startActivity(tmp);
     }
 
-    private  void switchToMatchingCardsGame(){
+    private  void switchToMatchingCardsStartingAct(){
         Intent tmp = new Intent(this, MatchingCardStartActivity.class);
         tmp.putExtra("userEmail", userEmail);
         startActivity(tmp);
     }
 
-    private void switchToGame2048(){
+    private void switchToGame2048StartingAct(){
         Intent tmp = new Intent(this, Game2048StartActivity.class);
         tmp.putExtra("userEmail", userEmail);
         startActivity(tmp);
