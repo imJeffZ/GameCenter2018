@@ -261,6 +261,7 @@ public class GameCentreActivity extends AppCompatActivity implements  Navigation
 
     }
 
+    // TODO: Rename this to addSlidingGameButtonListener
     private void addGameButtonListener() {
 
         ImageButton ButtonGame = findViewById(R.id.SlidingTileGame);
@@ -294,6 +295,7 @@ public class GameCentreActivity extends AppCompatActivity implements  Navigation
         });
     }
 
+    // TODO: Rename this to switchToStartingActivity
     private void switchToGame() {
         Intent tmp = new Intent(this, StartingActivity.class);
         tmp.putExtra("userEmail", userEmail);
