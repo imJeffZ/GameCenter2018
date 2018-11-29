@@ -22,6 +22,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -170,7 +171,8 @@ public class GameCentreActivity extends AppCompatActivity implements  Navigation
         String editTitle;
 
         if (id == R.id.nav_image) {
-            // Handle the camera action
+            showImageChooseDialog();
+            myHand.sendEmptyMessageDelayed(0, 1000);
         } else if (id == R.id.nav_intro) {
             editTitle = "Editing Information";
             editProfileByDialog(id, editTitle);
@@ -223,6 +225,33 @@ public class GameCentreActivity extends AppCompatActivity implements  Navigation
 
     }
 
+    public void showImageChooseDialog(){
+        AlertDialog.Builder imageDialog =
+                new AlertDialog.Builder(GameCentreActivity.this);
+        imageDialog.setTitle("Choose Image ").setMessage("Choose the image you want:");
+        imageDialog.setNeutralButton("paul",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        updateImage(R.drawable.paulorange1);
+                    }
+                });
+        imageDialog.setNegativeButton("lidsney",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        updateImage(R.drawable.lindsey);
+                    }
+                });
+        imageDialog.setPositiveButton("david", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                updateImage(R.drawable.david);
+            }
+        });
+        imageDialog.show();
+    }
+
     private  void  updateProfile(int id, String update){
         if (accountManager.getAccount(userEmail) != null) {
             if (id == R.id.nav_reset){
@@ -233,6 +262,12 @@ public class GameCentreActivity extends AppCompatActivity implements  Navigation
                 accountManager.getAccount(userEmail).setPassword(update);
             }
             saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
+        }
+    }
+
+    private void updateImage(int id){
+        if (accountManager.getAccount(userEmail) != null) {
+        accountManager.getAccount(userEmail).getProf().setAvatarId(id);
         }
     }
 
@@ -247,8 +282,8 @@ public class GameCentreActivity extends AppCompatActivity implements  Navigation
 
             TextView textIntro = navHeader.findViewById(R.id.profileIntro);
             textIntro.setText(accountManager.getAccount(userEmail).getProf().getIntro());
-            //ImageView userImg = navHeader.findViewById(R.id.profileImg);
-            //userImg.setImageBitmap(AccountManager.accountMap.get(CURRENT_ACCOUNT).getProf().getAvatarImage());
+            ImageView userImg = navHeader.findViewById(R.id.profileImg);
+            userImg.setImageResource(accountManager.getAccount(userEmail).getProf().getAvatarId());
 
             TextView textPlayTime = navHeader.findViewById(R.id.profileTime);
             textPlayTime.setText("Play Time in Total: " +
