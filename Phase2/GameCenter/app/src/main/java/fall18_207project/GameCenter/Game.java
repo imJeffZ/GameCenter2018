@@ -33,6 +33,10 @@ public abstract class Game implements Serializable, GameFeature {
         return countMove;
     }
 
+    void resetCountMove() {
+        this.countMove = 0;
+    }
+
     public int getGameId() {
         return this.gameId;
     }

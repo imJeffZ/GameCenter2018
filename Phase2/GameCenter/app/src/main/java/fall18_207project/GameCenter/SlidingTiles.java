@@ -77,7 +77,9 @@ class SlidingTiles extends Game implements Cloneable, GameFeature {
     // TODO: Implement reset
     @Override
     void reset() {
-        return;
+        while (undo()){
+        }
+        resetCountMove();
     }
 
     /**
@@ -136,12 +138,14 @@ class SlidingTiles extends Game implements Cloneable, GameFeature {
      * undo the move by calling touchmove to goback to previous state. Can keep pressing until
      * board get back to start of the game.
      */
-    public void undo() {
+    public boolean undo() {
         if (!saveMove.isEmpty()) {
             int position = saveMove.pop();
             touchMove(position);
             saveMove.pop();
+            return true;
         }
+        return false;
     }
 
     /**
