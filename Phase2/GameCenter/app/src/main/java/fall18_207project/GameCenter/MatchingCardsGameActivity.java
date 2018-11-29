@@ -1,6 +1,7 @@
 package fall18_207project.GameCenter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -105,6 +106,7 @@ public class MatchingCardsGameActivity extends AppCompatActivity implements Obse
         else
             setStartButtonUnclickable();
         addSaveButtonListener();
+        addResetButtonListener();
         // Add View to activity
         gridView = findViewById(R.id.grid);
         gridView.setNumColumns(matchingCards.getMatchingBoard().getNumOfColumns());
@@ -171,6 +173,26 @@ public class MatchingCardsGameActivity extends AppCompatActivity implements Obse
 
     }
 
+    private void addResetButtonListener() {
+        Button resetButton = findViewById(R.id.resetButton);
+        resetButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent restart = new Intent(getApplicationContext(), MatchingCardsGameActivity.class);
+                int size = matchingCards.getGameId();
+                MatchingCards newMatchingCards = new MatchingCards(size);
+                newMatchingCards.initialList = matchingCards.cloneCards(matchingCards.initialList);
+                newMatchingCards.matchingBoard = new MatchingBoard(matchingCards.cloneCards(matchingCards.initialList), size);
+                newMatchingCards.initialBoard = new MatchingBoard(matchingCards.cloneCards(matchingCards.initialList), size);
+                restart.putExtra("saveId", newMatchingCards.getSaveId());
+                restart.putExtra("saveType", "autoSave");
+                readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
+                accountManager.getAccount(userEmail).getAutoSavedGames().addGame(newMatchingCards);
+                saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
+                startActivity(restart);
+            }
+        });
+    }
     /**
      * Create the buttons for displaying the cards.
      *
