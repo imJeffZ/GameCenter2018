@@ -98,7 +98,13 @@ public class Game2048Activity extends AppCompatActivity implements Observer, Gam
         }
 
 //        loadFromFile(Game2048StartActivity.TEMP_SAVE_FILENAME);
-
+        if (game2048.getElapsedTime() != 0) {
+            mContext = this;
+            mChrono = new GameChronometer(mContext, System.currentTimeMillis() - game2048.getElapsedTime());
+            mThreadChrono = new Thread(mChrono);
+            mThreadChrono.start();
+            mChrono.start();
+        }
         createTileButtons(this);
         setContentView(R.layout.activity_game2048);
 
@@ -184,6 +190,7 @@ public class Game2048Activity extends AppCompatActivity implements Observer, Gam
             @Override
             public void onClick(View view) {
 //                readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
+                game2048.updateElapsedTime(mChrono.getElapsedTime());
                 accountManager.getAccount(userEmail).getUserSavedGames().addGame(game2048);
                 saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
                 makeSavedMessage();
@@ -251,7 +258,7 @@ public class Game2048Activity extends AppCompatActivity implements Observer, Gam
         mChrono.stop();
 
 //        saveToFile(Game2048StartActivity.TEMP_SAVE_FILENAME);
-        game2048.resetElapsedTime();
+//        game2048.resetElapsedTime();
         accountManager.getAccount(userEmail).getAutoSavedGames().addGame(game2048);
         saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
     }
@@ -260,10 +267,10 @@ public class Game2048Activity extends AppCompatActivity implements Observer, Gam
     protected void onStop() {
         super.onStop();
         game2048.updateElapsedTime(mChrono.getElapsedTime());
-       mChrono.stop();
+        mChrono.stop();
 
  //       saveToFile(userEmail+ Game2048StartActivity.AUTO_SAVE_FILENAME);
-        game2048.resetElapsedTime();
+ //       game2048.resetElapsedTime();
         accountManager.getAccount(userEmail).getAutoSavedGames().addGame(game2048);
         saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
     }
