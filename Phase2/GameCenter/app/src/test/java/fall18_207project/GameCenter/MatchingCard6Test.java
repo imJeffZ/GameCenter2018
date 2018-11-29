@@ -180,9 +180,9 @@ public class MatchingCard6Test {
     public void testBackId() {
         setUpCorrect();
 
-        assertEquals(R.drawable.p1, matchCards.getMatchingBoard().getCard(0, 0).getBackId());
-        assertEquals(R.drawable.p27, matchCards.getMatchingBoard().getCard(4, 2).getBackId());
-        assertEquals(R.drawable.bomb, matchCards.getMatchingBoard().getCard(5, 5).getBackId());
-        assertEquals(R.drawable.bomb, matchCards.getMatchingBoard().getCard(4, 0).getBackId());
+        assertEquals(R.drawable.p1, matchCards.getMatchingBoard().getCard(0, 0).getBackground());
+        assertEquals(R.drawable.p27, matchCards.getMatchingBoard().getCard(4, 2).getBackground());
+        assertEquals(R.drawable.bomb, matchCards.getMatchingBoard().getCard(5, 5).getBackground());
+        assertEquals(R.drawable.bomb, matchCards.getMatchingBoard().getCard(4, 0).getBackground());
     }
 }

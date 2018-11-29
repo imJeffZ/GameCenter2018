@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
-import java.util.Stack;
 
 /**
  * Manage a board, including swapping tiles, checking for a win, and managing taps.
@@ -101,14 +100,14 @@ class SlidingTiles extends Game implements Cloneable, GameFeature {
      * @return whether the tile at position is surrounded by a blank tile
      */
     public boolean isValidTap(int position) {
-        int row = position / board.getNUM_ROWS();
-        int col = position % board.getNUM_COLS();
+        int row = position / board.getNumOfRows();
+        int col = position % board.getNumOfColumns();
         int blankId = 25;
         // Are any of the 4 the blank tile?
         Tile above = row == 0 ? null : board.getTile(row - 1, col);
-        Tile below = row == board.getNUM_ROWS() - 1 ? null : board.getTile(row + 1, col);
+        Tile below = row == board.getNumOfRows() - 1 ? null : board.getTile(row + 1, col);
         Tile left = col == 0 ? null : board.getTile(row, col - 1);
-        Tile right = col == board.getNUM_COLS() - 1 ? null : board.getTile(row, col + 1);
+        Tile right = col == board.getNumOfColumns() - 1 ? null : board.getTile(row, col + 1);
         return (below != null && below.getId() == blankId)
                 || (above != null && above.getId() == blankId)
                 || (left != null && left.getId() == blankId)
@@ -123,20 +122,20 @@ class SlidingTiles extends Game implements Cloneable, GameFeature {
      * @param position the position
      */
     public void touchMove(int position) {
-        int row = position / board.getNUM_ROWS();
-        int col = position % board.getNUM_COLS();
+        int row = position / board.getNumOfRows();
+        int col = position % board.getNumOfColumns();
         int blankId = 25;
         countMove++;
         Tile above = row == 0 ? null : board.getTile(row - 1, col);
-        Tile below = row == board.getNUM_ROWS() - 1 ? null : board.getTile(row + 1, col);
+        Tile below = row == board.getNumOfRows() - 1 ? null : board.getTile(row + 1, col);
         Tile left = col == 0 ? null : board.getTile(row, col - 1);
-        Tile right = col == board.getNUM_COLS() - 1 ? null : board.getTile(row, col + 1);
+        Tile right = col == board.getNumOfColumns() - 1 ? null : board.getTile(row, col + 1);
         if (checkBlankTile(below, blankId)) {
             board.swapTiles(row, col, row + 1, col);
-            saveMove.push(position + board.getNUM_ROWS());
+            saveMove.push(position + board.getNumOfRows());
         } else if (checkBlankTile(above, blankId)) {
             board.swapTiles(row, col, row - 1, col);
-            saveMove.push(position - board.getNUM_ROWS());
+            saveMove.push(position - board.getNumOfRows());
         } else if (checkBlankTile(left, blankId)) {
             board.swapTiles(row, col, row, col - 1);
             saveMove.push(position - 1);
@@ -186,7 +185,7 @@ class SlidingTiles extends Game implements Cloneable, GameFeature {
 
     @Override
     public String toString() {
-        return board.getNUM_COLS() + " X " + board.getNUM_ROWS() + " SlidingTiles";
+        return board.getNumOfColumns() + " X " + board.getNumOfRows() + " SlidingTiles";
     }
 
     @Override
