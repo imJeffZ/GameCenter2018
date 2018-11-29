@@ -3,7 +3,6 @@ package fall18_207project.GameCenter;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -58,7 +57,7 @@ public class MatchingCardsGameActivity extends AppCompatActivity implements Obse
         if (matchingCards.isStartMode())
             initCardButtons();
         else
-            updateCardButtons();
+            updateGameTileButtons();
         gridView.setAdapter(new CustomAdapter(cardButtons, columnWidth, columnHeight));
 
         int counter = matchingCards.getCountMove();
@@ -95,7 +94,7 @@ public class MatchingCardsGameActivity extends AppCompatActivity implements Obse
         }
 //        @NonNull String email = getIntent().getStringExtra("userEmail");
 //        userEmail = email;
-        createCardButtons(this);
+        createGameTileButtons(this);
         setContentView(R.layout.activity_matchingcard_game_main);
 
         mContext = this;
@@ -167,7 +166,7 @@ public class MatchingCardsGameActivity extends AppCompatActivity implements Obse
                 matchingCards.setStartMode();
                 startButton.setClickable(false);
                 startButton.setText("Started");
-                updateCardButtons();
+                updateGameTileButtons();
             }
         }));
 
@@ -198,13 +197,13 @@ public class MatchingCardsGameActivity extends AppCompatActivity implements Obse
      *
      * @param context the context
      */
-    public void createCardButtons(Context context) {
+    public void createGameTileButtons(Context context) {
         MatchingBoard matchingBoard = matchingCards.getMatchingBoard();
         cardButtons = new ArrayList<>();
         for (int row = 0; row < matchingCards.getMatchingBoard().getNumOfRows(); row++) {
             for (int col = 0; col < matchingCards.getMatchingBoard().getNumOfColumns(); col++) {
                 Button tmp = new Button(context);
-                tmp.setBackgroundResource(matchingBoard.getCard(row, col).getBackId());
+                tmp.setBackgroundResource(matchingBoard.getCard(row, col).getBackground());
                 this.cardButtons.add(tmp);
             }
         }
@@ -213,14 +212,14 @@ public class MatchingCardsGameActivity extends AppCompatActivity implements Obse
     /**
      * Update the backgrounds on the buttons to match the cards.
      */
-    public void updateCardButtons() {
+    public void updateGameTileButtons() {
         MatchingBoard matchingBoard = matchingCards.getMatchingBoard();
         int nextPos = 0;
         for (Button b : cardButtons) {
             int row = nextPos /matchingCards.getMatchingBoard().getNumOfRows();
             int col = nextPos % matchingCards.getMatchingBoard().getNumOfColumns();
             if(matchingBoard.getCard(row, col).isUp()) {
-                b.setBackgroundResource(matchingBoard.getCard(row, col).getBackId());
+                b.setBackgroundResource(matchingBoard.getCard(row, col).getBackground());
                 }
             else {
                 b.setBackgroundResource(R.drawable.matching_front);
@@ -236,7 +235,7 @@ public class MatchingCardsGameActivity extends AppCompatActivity implements Obse
         for (Button b : cardButtons) {
             int row = nextPos /matchingCards.getMatchingBoard().getNumOfRows();
             int col = nextPos % matchingCards.getMatchingBoard().getNumOfColumns();
-            b.setBackgroundResource(matchingBoard.getCard(row, col).getBackId());
+            b.setBackgroundResource(matchingBoard.getCard(row, col).getBackground());
             nextPos++;
         }
     }

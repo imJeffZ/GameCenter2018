@@ -4,6 +4,6 @@ import android.content.Context;
 public interface GameActivity {
     void updateTimerText(final String timeAsText);
     void display();
-    //void createTileButtons(Context context);
-    //void updateTileButtons();
+    void createGameTileButtons(Context context);
+    void updateGameTileButtons();
 }

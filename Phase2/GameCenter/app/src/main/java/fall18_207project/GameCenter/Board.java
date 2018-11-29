@@ -6,24 +6,23 @@ import java.util.ArrayList;
 import java.util.Observable;
 
 import java.io.Serializable;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
 /**
  * The sliding tiles board.
  */
-public class Board extends Observable implements Cloneable, Serializable, Iterable<Tile> {
+public class Board extends Observable implements Cloneable, Serializable, Iterable<Tile>, GameBoard {
 
     /**
      * The number of rows.
      */
-    private int NUM_ROWS = 4;
+    private int numOfRows = 4;
 
     /**
      * The number of rows.
      */
-    private int NUM_COLS = 4;
+    private int numOfColumns = 4;
 
 
     /**
@@ -34,30 +33,30 @@ public class Board extends Observable implements Cloneable, Serializable, Iterab
 
     /**
      * A new board of tiles in row-major order.
-     * Precondition: len(tiles) == NUM_ROWS * NUM_COLS
+     * Precondition: len(tiles) == numOfRows * numOfColumns
      *
      * @param tiles the tiles for the board
      */
     public Board(List<Tile> tiles, int size) {
-        this.NUM_COLS = size;
-        this.NUM_ROWS = size;
+        this.numOfColumns = size;
+        this.numOfRows = size;
         this.tiles = new Tile[size][size];
 
         Iterator<Tile> iter = tiles.iterator();
 
-        for (int row = 0; row != this.getNUM_COLS(); row++) {
-            for (int col = 0; col != this.getNUM_COLS(); col++) {
+        for (int row = 0; row != this.getNumOfColumns(); row++) {
+            for (int col = 0; col != this.getNumOfColumns(); col++) {
                 this.tiles[row][col] = iter.next();
             }
         }
     }
 
-    int getNUM_COLS() {
-        return NUM_COLS;
+    public int getNumOfColumns() {
+        return numOfColumns;
     }
 
-    int getNUM_ROWS() {
-        return NUM_ROWS;
+    public int getNumOfRows() {
+        return numOfRows;
     }
 
     /**
@@ -66,7 +65,7 @@ public class Board extends Observable implements Cloneable, Serializable, Iterab
      * @return the number of tiles on the board
      */
     int numTiles() {
-        return NUM_ROWS * NUM_COLS;
+        return numOfRows * numOfColumns;
     }
 
     /**
@@ -104,8 +103,8 @@ public class Board extends Observable implements Cloneable, Serializable, Iterab
     @Override
     public String toString() {
         StringBuilder temp = new StringBuilder();
-        for (int row = 0; row < NUM_ROWS; row++) {
-            for (int col = 0; col < NUM_COLS; col++) {
+        for (int row = 0; row < numOfRows; row++) {
+            for (int col = 0; col < numOfColumns; col++) {
                 temp.append(" ").append(this.getTile(row, col).getId());
             }
         }
@@ -131,13 +130,13 @@ public class Board extends Observable implements Cloneable, Serializable, Iterab
 
         @Override
         public boolean hasNext() {
-            return position != NUM_ROWS * NUM_COLS;
+            return position != numOfRows * numOfColumns;
         }
 
         @Override
         public Tile next() {
-            int row = position / NUM_ROWS;
-            int col = position % NUM_COLS;
+            int row = position / numOfRows;
+            int col = position % numOfColumns;
             Tile nextTile = tiles[row][col];
             position++;
             return nextTile;
@@ -151,13 +150,13 @@ public class Board extends Observable implements Cloneable, Serializable, Iterab
             e.printStackTrace();
         }
         List<Tile> tiles = new ArrayList<>();
-        for (int i = 0; i < this.getNUM_COLS(); i++) {
-            for (int j = 0; j < this.getNUM_ROWS(); j++) {
+        for (int i = 0; i < this.getNumOfColumns(); i++) {
+            for (int j = 0; j < this.getNumOfRows(); j++) {
                 tiles.add(this.getTile(i, j));
             }
         }
 
-        return new Board(tiles, this.getNUM_ROWS());
+        return new Board(tiles, this.getNumOfRows());
 
     }
 }

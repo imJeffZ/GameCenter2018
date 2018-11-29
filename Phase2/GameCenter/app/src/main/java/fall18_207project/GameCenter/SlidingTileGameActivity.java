@@ -67,7 +67,7 @@ public class SlidingTileGameActivity extends AppCompatActivity implements Observ
      */
     // Display
     public void display() {
-        updateTileButtons();
+        updateGameTileButtons();
         gridView.setAdapter(new CustomAdapter(tileButtons, columnWidth, columnHeight));
 
         int counter = slidingTiles.getCountMove();
@@ -107,7 +107,7 @@ public class SlidingTileGameActivity extends AppCompatActivity implements Observ
             mChrono.start();
         }
 
-        createTileButtons(this);
+        createGameTileButtons(this);
         setContentView(R.layout.activity_slidingtiles);
 
         mContext = this;
@@ -119,7 +119,7 @@ public class SlidingTileGameActivity extends AppCompatActivity implements Observ
 
         // Add View to activity
         gridView = findViewById(R.id.grid);
-        gridView.setNumColumns(slidingTiles.getBoard().getNUM_COLS());
+        gridView.setNumColumns(slidingTiles.getBoard().getNumOfColumns());
 
         gridView.setGame(slidingTiles);
 
@@ -135,8 +135,8 @@ public class SlidingTileGameActivity extends AppCompatActivity implements Observ
                         int displayHeight = gridView.getMeasuredHeight();
 
 
-                        columnWidth = displayWidth / slidingTiles.getBoard().getNUM_COLS();
-                        columnHeight = displayHeight / slidingTiles.getBoard().getNUM_ROWS();
+                        columnWidth = displayWidth / slidingTiles.getBoard().getNumOfColumns();
+                        columnHeight = displayHeight / slidingTiles.getBoard().getNumOfRows();
 
                         display();
                     }
@@ -237,11 +237,11 @@ public class SlidingTileGameActivity extends AppCompatActivity implements Observ
      *
      * @param context the context
      */
-    private void createTileButtons(Context context) {
+    public void createGameTileButtons(Context context) {
         Board board = slidingTiles.getBoard();
         tileButtons = new ArrayList<>();
-        for (int row = 0; row != slidingTiles.getBoard().getNUM_ROWS(); row++) {
-            for (int col = 0; col != slidingTiles.getBoard().getNUM_COLS(); col++) {
+        for (int row = 0; row != slidingTiles.getBoard().getNumOfRows(); row++) {
+            for (int col = 0; col != slidingTiles.getBoard().getNumOfColumns(); col++) {
                 Button tmp = new Button(context);
                 tmp.setBackgroundResource(board.getTile(row, col).getBackground());
                 this.tileButtons.add(tmp);
@@ -252,12 +252,12 @@ public class SlidingTileGameActivity extends AppCompatActivity implements Observ
     /**
      * Update the backgrounds on the buttons to match the tiles.
      */
-    private void updateTileButtons() {
+    public void updateGameTileButtons() {
         Board board = slidingTiles.getBoard();
         int nextPos = 0;
         for (Button b : tileButtons) {
-            int row = nextPos / slidingTiles.getBoard().getNUM_ROWS();
-            int col = nextPos % slidingTiles.getBoard().getNUM_COLS();
+            int row = nextPos / slidingTiles.getBoard().getNumOfRows();
+            int col = nextPos % slidingTiles.getBoard().getNumOfColumns();
             b.setBackgroundResource(board.getTile(row, col).getBackground());
             nextPos++;
         }

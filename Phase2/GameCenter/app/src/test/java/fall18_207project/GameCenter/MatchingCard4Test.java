@@ -3,7 +3,6 @@ package fall18_207project.GameCenter;
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -169,7 +168,7 @@ public class MatchingCard4Test {
     public void testBackId() {
         setUpCorrect();
 
-        assertEquals(R.drawable.p1, matchCards.getMatchingBoard().getCard(0, 0).getBackId());
-        assertEquals(R.drawable.p16, matchCards.getMatchingBoard().getCard(3, 3).getBackId());
+        assertEquals(R.drawable.p1, matchCards.getMatchingBoard().getCard(0, 0).getBackground());
+        assertEquals(R.drawable.p16, matchCards.getMatchingBoard().getCard(3, 3).getBackground());
     }
 }

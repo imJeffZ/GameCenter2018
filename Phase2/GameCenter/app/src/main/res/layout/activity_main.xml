@@ -6,14 +6,15 @@
     android:layout_height="match_parent"
     tools:context=".LauncherActivity">
 
-    <Button
-        android:id="@+id/beginApp"
-        android:layout_width="395dp"
-        android:layout_height="110dp"
-        android:text="A fancy startup animation!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <!--<Button-->
+        <!--android:id="@+id/beginApp"-->
+        <!--android:layout_width="395dp"-->
+        <!--android:layout_height="110dp"-->
+        <!--android:text="Start Game"-->
+        <!--android:background="#00ffffff"-->
+        <!--app:layout_constraintBottom_toBottomOf="parent"-->
+        <!--app:layout_constraintEnd_toEndOf="parent"-->
+        <!--app:layout_constraintHorizontal_bias="0.5"-->
+        <!--app:layout_constraintStart_toStartOf="parent"-->
+        <!--app:layout_constraintTop_toTopOf="parent" />-->
 </android.support.constraint.ConstraintLayout>

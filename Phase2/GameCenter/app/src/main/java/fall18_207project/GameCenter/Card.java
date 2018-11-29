@@ -4,10 +4,10 @@ import android.support.annotation.NonNull;
 
 import java.io.Serializable;
 
-public class Card implements Comparable<Card>, Serializable {
+public class Card implements Comparable<Card>, Serializable, GameTile {
 
     private  int id;
-    private  int backId;
+    private  int background;
     private boolean up;
     private boolean used;
     private boolean bomb;
@@ -16,8 +16,8 @@ public class Card implements Comparable<Card>, Serializable {
         return id;
     }
 
-   public int getBackId(){
-        return backId;
+   public int getBackground(){
+        return background;
    }
 
    public boolean isUp(){
@@ -35,91 +35,91 @@ public class Card implements Comparable<Card>, Serializable {
         bomb = false;
         switch(position + 1){
             case 1:
-                backId = R.drawable.p1;
+                background = R.drawable.p1;
                 break;
             case 2:
-                backId= R.drawable.p2;
+                background = R.drawable.p2;
                 break;
             case 3:
-                backId = R.drawable.p3;
+                background = R.drawable.p3;
                 break;
             case 4:
-                backId = R.drawable.p4;
+                background = R.drawable.p4;
                 break;
             case 5:
-                backId = R.drawable.p5;
+                background = R.drawable.p5;
                 break;
             case 6:
-                backId = R.drawable.p6;
+                background = R.drawable.p6;
                 break;
             case 7:
-                backId = R.drawable.p7;
+                background = R.drawable.p7;
                 break;
             case 8:
-                backId = R.drawable.p8;
+                background = R.drawable.p8;
                 break;
             case 9:
-                backId = R.drawable.p9;
+                background = R.drawable.p9;
                 break;
             case 10:
-                backId = R.drawable.p10;
+                background = R.drawable.p10;
                 break;
             case 11:
-                backId = R.drawable.p11;
+                background = R.drawable.p11;
                 break;
             case 12:
-                backId = R.drawable.p12;
+                background = R.drawable.p12;
                 break;
             case 13:
-                backId = R.drawable.p13;
+                background = R.drawable.p13;
                 break;
             case 14:
-                backId = R.drawable.p14;
+                background = R.drawable.p14;
                 break;
             case 15:
-                backId = R.drawable.p15;
+                background = R.drawable.p15;
                 break;
             case 16:
-                backId = R.drawable.p16;
+                background = R.drawable.p16;
                 break;
             case 17:
-                backId = R.drawable.p17;
+                background = R.drawable.p17;
                 break;
             case 18:
-                backId = R.drawable.p18;
+                background = R.drawable.p18;
                 break;
             case 19:
-                backId = R.drawable.p19;
+                background = R.drawable.p19;
                 break;
             case 20:
-                backId = R.drawable.p20;
+                background = R.drawable.p20;
                 break;
             case 21:
-                backId = R.drawable.p21;
+                background = R.drawable.p21;
                 break;
             case 22:
-                backId = R.drawable.p22;
+                background = R.drawable.p22;
                 break;
             case 23:
-                backId = R.drawable.p23;
+                background = R.drawable.p23;
                 break;
             case 24:
-                backId = R.drawable.p24;
+                background = R.drawable.p24;
                 break;
             case 27:
-                backId = R.drawable.p27;
+                background = R.drawable.p27;
                 break;
             case 28:
-                backId = R.drawable.p28;
+                background = R.drawable.p28;
                 break;
             case 29:
-                backId = R.drawable.p29;
+                background = R.drawable.p29;
                 break;
             case 30:
-                backId = R.drawable.p30;
+                background = R.drawable.p30;
                 break;
             default:
-                backId = R.drawable.bomb;
+                background = R.drawable.bomb;
                 bomb = true;
         }
 
