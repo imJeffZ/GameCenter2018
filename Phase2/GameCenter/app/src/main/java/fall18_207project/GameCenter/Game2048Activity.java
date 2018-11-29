@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -29,6 +30,8 @@ public class Game2048Activity extends AppCompatActivity implements Observer {
      */
     private Game2048 game2048;
     private AccountManager accountManager;
+    private  GameManager gameManager;
+    private String saveType;
     public static String userEmail = "";
 
     /**
@@ -77,8 +80,21 @@ public class Game2048Activity extends AppCompatActivity implements Observer {
         super.onCreate(savedInstanceState);
         readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
 //        userEmail = getIntent().getStringExtra("userEmail");
+        saveType = getIntent().getStringExtra("saveType");
+        if (saveType.equals("autoSave")) {
+            gameManager = accountManager.getAccount(userEmail).getAutoSavedGames();
+        } else {
+            gameManager = accountManager.getAccount(userEmail).getUserSavedGames();
+        }
+        // TODO: Better fix on how to deal with Null pointer exception when passing data through intent
+        String saveId = getIntent().getStringExtra("saveId");
+        if (saveId == null) {
+            game2048 = new Game2048();
+        } else {
+            game2048 = (Game2048) gameManager.getGame(getIntent().getStringExtra("saveId"));
+        }
 
-        loadFromFile(Game2048StartActivity.TEMP_SAVE_FILENAME);
+//        loadFromFile(Game2048StartActivity.TEMP_SAVE_FILENAME);
 
         createTileButtons(this);
         setContentView(R.layout.activity_game2048);
@@ -87,6 +103,7 @@ public class Game2048Activity extends AppCompatActivity implements Observer {
 //        mTvTimer = findViewById(R.id.time_id);
 
         addUndoButtonListener();
+        addSaveButtonListener();
 
         // Add View to activity
         gridView = findViewById(R.id.grid);
@@ -148,6 +165,22 @@ public class Game2048Activity extends AppCompatActivity implements Observer {
 
     }
 
+    private void addSaveButtonListener() {
+        Button saveButton = findViewById(R.id.saveGameButton);
+        saveButton.setOnClickListener((new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
+                accountManager.getAccount(userEmail).getUserSavedGames().addGame(game2048);
+                saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
+                makeSavedMessage();
+            }
+        }));
+    }
+    private void makeSavedMessage() {
+        Toast.makeText(this, "Game Saved", Toast.LENGTH_SHORT).show();
+    }
+
     private void setObserver(Board board) {
         board.addObserver(this);
     }
@@ -192,8 +225,10 @@ public class Game2048Activity extends AppCompatActivity implements Observer {
 //        game2048.updateElapsedTime(mChrono.getElapsedTime());
  //       mChrono.stop();
 
-        saveToFile(Game2048StartActivity.TEMP_SAVE_FILENAME);
-        game2048.resetElapsedTime();
+//        saveToFile(Game2048StartActivity.TEMP_SAVE_FILENAME);
+//        game2048.resetElapsedTime();
+        accountManager.getAccount(userEmail).getAutoSavedGames().addGame(game2048);
+        saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
     }
 
     @Override
@@ -202,8 +237,10 @@ public class Game2048Activity extends AppCompatActivity implements Observer {
  //       game2048.updateElapsedTime(mChrono.getElapsedTime());
  //       mChrono.stop();
 
-        saveToFile(userEmail+ Game2048StartActivity.AUTO_SAVE_FILENAME);
+ //       saveToFile(userEmail+ Game2048StartActivity.AUTO_SAVE_FILENAME);
   //      game2048.resetElapsedTime();
+        accountManager.getAccount(userEmail).getAutoSavedGames().addGame(game2048);
+        saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
     }
 
     /**
@@ -262,7 +299,7 @@ public class Game2048Activity extends AppCompatActivity implements Observer {
         try {
             ObjectOutputStream outputStream = new ObjectOutputStream(
                     this.openFileOutput(fileName, MODE_PRIVATE));
-            outputStream.writeObject(game2048);
+            outputStream.writeObject(accountManager);
             outputStream.close();
         } catch (IOException e) {
             Log.e("Exception", "File write failed: " + e.toString());
