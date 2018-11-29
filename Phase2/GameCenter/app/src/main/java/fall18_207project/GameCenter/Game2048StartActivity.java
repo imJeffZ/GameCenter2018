@@ -34,19 +34,19 @@ public class Game2048StartActivity extends AppCompatActivity {
     /**
      * The board manager.
      */
-    private Game2048 game2048;
+//    private Game2048 game2048;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
-        saveToFile(TEMP_SAVE_FILENAME);
+        //saveToFile(TEMP_SAVE_FILENAME);
         setContentView(R.layout.activity_game2048_starting);
         firebaseAuth = FirebaseAuth.getInstance();
-        addStartButtonListener();
+        addAutoSaveButtonListener();
         addLoadButtonListener();
-        addSaveButtonListener();
-        add4ButtonListener();
+//        addSaveButtonListener();
+        addGameButtonListener();
         addLogOutButtonListener();
         addReturnToGameCenterListener();
         TextView account = findViewById(R.id.Hiuser);
@@ -54,21 +54,25 @@ public class Game2048StartActivity extends AppCompatActivity {
     }
 
     /**
-     * Activate the start button.
+     * Activate the autoSave button.
      */
-    private void addStartButtonListener() {
+    private void addAutoSaveButtonListener() {
         Button startButton = findViewById(R.id.StartButton);
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loadFromFile(userEmail + AUTO_SAVE_FILENAME);
-                saveToFile(TEMP_SAVE_FILENAME);
-                if (game2048 == null) {
-                    makeAnotherToastCurrentMessage();
-                    return;
-                }
-                makeToastLoadedText();
-                switchToGame();
+                Intent goToSavedGames = new Intent(getApplicationContext(), SavedGamesActivity.class);
+                goToSavedGames.putExtra("saveType", "autoSave");
+                goToSavedGames.putExtra("gameType", "game2048");
+                startActivity(goToSavedGames);
+//                loadFromFile(userEmail + AUTO_SAVE_FILENAME);
+//                saveToFile(TEMP_SAVE_FILENAME);
+//                if (game2048 == null) {
+//                    makeAnotherToastCurrentMessage();
+//                    return;
+//                }
+//                makeToastLoadedText();
+//                switchToGame();
             }
         });
     }
@@ -81,60 +85,67 @@ public class Game2048StartActivity extends AppCompatActivity {
         loadButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loadFromFile(userEmail + SAVE_FILENAME);
-                saveToFile(TEMP_SAVE_FILENAME);
-                if (game2048 == null) {
-                    makeToastForLoadGame();
-                    return;
-                }
-                loadFromFile(userEmail + SAVE_FILENAME);
-                saveToFile(TEMP_SAVE_FILENAME);
-                makeToastLoadedText();
-                switchToGame();
+                Intent goToSavedGames = new Intent(getApplicationContext(), SavedGamesActivity.class);
+                goToSavedGames.putExtra("saveType", "userSave");
+                goToSavedGames.putExtra("gameType", "game2048");
+                startActivity(goToSavedGames);
+//                loadFromFile(userEmail + SAVE_FILENAME);
+//                saveToFile(TEMP_SAVE_FILENAME);
+//                if (game2048 == null) {
+//                    makeToastForLoadGame();
+//                    return;
+//                }
+//                loadFromFile(userEmail + SAVE_FILENAME);
+//                saveToFile(TEMP_SAVE_FILENAME);
+//                makeToastLoadedText();
+//                switchToGame();
             }
         });
     }
 
-    private void makeToastForLoadGame() {
-        Toast.makeText(this, "No Saved Game", Toast.LENGTH_SHORT).show();
-    }
-
-    /**
-     * Display that a game was loaded successfully.
-     */
-    private void makeToastLoadedText() {
-        Toast.makeText(this, "Loaded Game", Toast.LENGTH_SHORT).show();
-    }
-
-    private void makeAnotherToastCurrentMessage() {
-        Toast.makeText(this, "No current Game", Toast.LENGTH_SHORT).show();
-    }
+//    private void makeToastForLoadGame() {
+//        Toast.makeText(this, "No Saved Game", Toast.LENGTH_SHORT).show();
+//    }
+//
+//    /**
+//     * Display that a game was loaded successfully.
+//     */
+//    private void makeToastLoadedText() {
+//        Toast.makeText(this, "Loaded Game", Toast.LENGTH_SHORT).show();
+//    }
+//
+//    private void makeAnotherToastCurrentMessage() {
+//        Toast.makeText(this, "No current Game", Toast.LENGTH_SHORT).show();
+//    }
 
     /**
      * Activate the save button.
      */
-    private void addSaveButtonListener() {
-        Button saveButton = findViewById(R.id.SaveButton);
-        saveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                saveToFile(userEmail + SAVE_FILENAME);
-                saveToFile(TEMP_SAVE_FILENAME);
-                makeToastSavedText();
-            }
-        });
-    }
+//    private void addSaveButtonListener() {
+//        Button saveButton = findViewById(R.id.SaveButton);
+//        saveButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                saveToFile(userEmail + SAVE_FILENAME);
+//                saveToFile(TEMP_SAVE_FILENAME);
+//                makeToastSavedText();
+//            }
+//        });
+//    }
 
     /**
-     * Activate the 3x3 new game Board.
+     * Activate new 2048 game.
      */
-    private void add4ButtonListener() {
+    private void addGameButtonListener() {
         Button Button4 = findViewById(R.id.Button4);
         Button4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                game2048 = new Game2048();
-                switchToGame();
+                Game2048 game2048 = new Game2048();
+                readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
+                accountManager.getAccount(userEmail).getAutoSavedGames().addGame(game2048);
+                saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
+                switchToGame(game2048.getSaveId());
             }
         });
     }
@@ -172,9 +183,9 @@ public class Game2048StartActivity extends AppCompatActivity {
     /**
      * Display that a game was saved successfully.
      */
-    private void makeToastSavedText() {
-        Toast.makeText(this, "Game Saved", Toast.LENGTH_SHORT).show();
-    }
+//    private void makeToastSavedText() {
+//        Toast.makeText(this, "Game Saved", Toast.LENGTH_SHORT).show();
+//    }
 
     /**
      * Read the temporary board from disk.
@@ -182,15 +193,17 @@ public class Game2048StartActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        loadFromFile(TEMP_SAVE_FILENAME);
+        readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
     }
 
     /**
      * Switch to the GameActivity view to play the game.
      */
-    private void switchToGame() {
+    private void switchToGame(String saveId) {
         Intent tmp = new Intent(this, Game2048Activity.class);
-        saveToFile(Game2048StartActivity.TEMP_SAVE_FILENAME);
+        tmp.putExtra("saveId", saveId);
+        tmp.putExtra("saveType", "autoSave");
+//        saveToFile(Game2048StartActivity.TEMP_SAVE_FILENAME);
         startActivity(tmp);
     }
 
@@ -207,23 +220,23 @@ public class Game2048StartActivity extends AppCompatActivity {
      *
      * @param fileName the name of the file
      */
-    private void loadFromFile(String fileName) {
-
-        try {
-            InputStream inputStream = this.openFileInput(fileName);
-            if (inputStream != null) {
-                ObjectInputStream input = new ObjectInputStream(inputStream);
-                game2048 = (Game2048) input.readObject();
-                inputStream.close();
-            }
-        } catch (FileNotFoundException e) {
-            Log.e("Game2048 activity", "File not found: " + e.toString());
-        } catch (IOException e) {
-            Log.e("Game2048t activity", "Can not read file: " + e.toString());
-        } catch (ClassNotFoundException e) {
-            Log.e("Game2048 activity", "File contained unexpected data type: " + e.toString());
-        }
-    }
+//    private void loadFromFile(String fileName) {
+//
+////        try {
+////            InputStream inputStream = this.openFileInput(fileName);
+////            if (inputStream != null) {
+////                ObjectInputStream input = new ObjectInputStream(inputStream);
+////                game2048 = (Game2048) input.readObject();
+////                inputStream.close();
+////            }
+////        } catch (FileNotFoundException e) {
+////            Log.e("Game2048 activity", "File not found: " + e.toString());
+////        } catch (IOException e) {
+////            Log.e("Game2048t activity", "Can not read file: " + e.toString());
+////        } catch (ClassNotFoundException e) {
+////            Log.e("Game2048 activity", "File contained unexpected data type: " + e.toString());
+////        }
+////    }
 
     private void readFromSer(String fileName) {
         try {
@@ -251,7 +264,7 @@ public class Game2048StartActivity extends AppCompatActivity {
         try {
             ObjectOutputStream outputStream = new ObjectOutputStream(
                     this.openFileOutput(fileName, MODE_PRIVATE));
-            outputStream.writeObject(game2048);
+            outputStream.writeObject(accountManager);
             outputStream.close();
         } catch (IOException e) {
             Log.e("Exception", "File write failed: " + e.toString());
