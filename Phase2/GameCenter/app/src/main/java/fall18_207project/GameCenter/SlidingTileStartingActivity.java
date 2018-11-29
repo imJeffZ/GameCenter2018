@@ -21,7 +21,8 @@ import java.io.ObjectOutputStream;
 /**
  * The initial activity for the sliding puzzle tile game.
  */
-public class SlidingTileStartingActivity extends AppCompatActivity {
+public class SlidingTileStartingActivity extends AppCompatActivity implements
+        MultiLoadStartActivity, MultiComplexityStartActivity, GameStartingActivity{
 
     public static String userEmail = "";
     private FirebaseAuth firebaseAuth;
@@ -49,7 +50,7 @@ public class SlidingTileStartingActivity extends AppCompatActivity {
             account.setText("Hi, " + accountManager.getAccount(userEmail).getUserName());
         }
     }
-    private void showLoadDialog(){
+    public void showLoadDialog(){
         AlertDialog.Builder loadDialog =
                 new AlertDialog.Builder(SlidingTileStartingActivity.this);
         loadDialog.setTitle("Load Game ").setMessage("Load From...");
@@ -70,7 +71,7 @@ public class SlidingTileStartingActivity extends AppCompatActivity {
         loadDialog.show();
     }
 
-    private void showNewGameDialog(){
+    public void showNewGameDialog(){
         AlertDialog.Builder newGameDialog =
                 new AlertDialog.Builder(SlidingTileStartingActivity.this);
         newGameDialog.setTitle("New Game ").setMessage("Choose the complexity you want:");
@@ -293,7 +294,7 @@ public class SlidingTileStartingActivity extends AppCompatActivity {
      * Switch to the SlidingTileGameActivity view to play the game.
      */
 
-    private void switchToSaveGames(){
+    public void switchToSaveGames(){
 
         Intent goToSavedGames = new Intent(getApplicationContext(), SavedGamesActivity.class);
         goToSavedGames.putExtra("saveType", "userSave");
@@ -301,7 +302,7 @@ public class SlidingTileStartingActivity extends AppCompatActivity {
         startActivity(goToSavedGames);
     }
 
-    private void switchToAutoSaveGames(){
+    public void switchToAutoSaveGames(){
 
         Intent goToSavedGames = new Intent(getApplicationContext(), SavedGamesActivity.class);
         goToSavedGames.putExtra("saveType", "autoSave");
@@ -310,7 +311,7 @@ public class SlidingTileStartingActivity extends AppCompatActivity {
 
     }
 
-    private void switchGameByComplexity(int num){
+    public void switchGameByComplexity(int num){
         Game slidingTiles = new SlidingTiles(num);
         readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
         accountManager.getAccount(userEmail).getAutoSavedGames().addGame(slidingTiles);
@@ -318,7 +319,7 @@ public class SlidingTileStartingActivity extends AppCompatActivity {
         switchToGame(slidingTiles.getSaveId());
 
     }
-    private void switchToGame(String saveId) {
+    public void switchToGame(String saveId) {
         Intent tmp = new Intent(this, SlidingTileGameActivity.class);
         tmp.putExtra("saveId", saveId);
         tmp.putExtra("saveType", "autoSave");
@@ -326,7 +327,7 @@ public class SlidingTileStartingActivity extends AppCompatActivity {
         startActivity(tmp);
     }
 
-    private void switchToLogin() {
+    public void switchToLogin() {
         firebaseAuth.signOut();
         Intent tmp = new Intent(this, LoginActivity.class);
         startActivity(tmp);

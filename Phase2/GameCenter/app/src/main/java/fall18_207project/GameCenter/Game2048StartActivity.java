@@ -18,7 +18,8 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-public class Game2048StartActivity extends AppCompatActivity {
+public class Game2048StartActivity extends AppCompatActivity implements
+        MultiLoadStartActivity, GameStartingActivity{
     private FirebaseAuth firebaseAuth;
     public static String userEmail = "";
     private AccountManager accountManager;
@@ -190,7 +191,7 @@ public class Game2048StartActivity extends AppCompatActivity {
         });
     }
 
-    private void showLoadDialog(){
+    public void showLoadDialog(){
         AlertDialog.Builder loadDialog =
                 new AlertDialog.Builder(Game2048StartActivity.this);
         loadDialog.setTitle("Load Game ").setMessage("Load From...");
@@ -230,7 +231,7 @@ public class Game2048StartActivity extends AppCompatActivity {
     /**
      * Switch to the Game2048Activity view to play the game.
      */
-    private void switchToGame(String saveId) {
+    public void switchToGame(String saveId) {
         Intent tmp = new Intent(this, Game2048Activity.class);
         tmp.putExtra("saveId", saveId);
         tmp.putExtra("saveType", "autoSave");
@@ -238,7 +239,7 @@ public class Game2048StartActivity extends AppCompatActivity {
         startActivity(tmp);
     }
 
-    private void switchToSaveGames(){
+    public void switchToSaveGames(){
 
         Intent goToSavedGames = new Intent(getApplicationContext(), SavedGamesActivity.class);
         goToSavedGames.putExtra("saveType", "userSave");
@@ -246,7 +247,7 @@ public class Game2048StartActivity extends AppCompatActivity {
         startActivity(goToSavedGames);
     }
 
-    private void switchToAutoSaveGames(){
+    public void switchToAutoSaveGames(){
 
         Intent goToSavedGames = new Intent(getApplicationContext(), SavedGamesActivity.class);
         goToSavedGames.putExtra("saveType", "autoSave");
@@ -255,7 +256,7 @@ public class Game2048StartActivity extends AppCompatActivity {
 
     }
 
-    private void switchToLogin() {
+    public void switchToLogin() {
         firebaseAuth.signOut();
         Intent tmp = new Intent(this, LoginActivity.class);
         tmp.putExtra("userEmail", userEmail);

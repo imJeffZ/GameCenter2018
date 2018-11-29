@@ -23,7 +23,7 @@ import java.util.Observer;
  * The game activity.
  * test for push.
  */
-public class Game2048Activity extends AppCompatActivity implements Observer {
+public class Game2048Activity extends AppCompatActivity implements Observer, GameActivity {
 
     /**
      * The board manager.
@@ -48,11 +48,11 @@ public class Game2048Activity extends AppCompatActivity implements Observer {
     public static final int RIGHT = 4;
 
     //Timer textview
-//    TextView mTvTimer;
+    TextView mTvTimer;
     //Instance of Chronometer
-//    GameChronometer mChrono;
+    GameChronometer mChrono;
     //Thread for chronometer
-//    Thread mThreadChrono;
+    Thread mThreadChrono;
     //Reference to the MainActivity (this class!)
     Context mContext;
 
@@ -102,7 +102,7 @@ public class Game2048Activity extends AppCompatActivity implements Observer {
         setContentView(R.layout.activity_game2048);
 
         mContext = this;
-//        mTvTimer = findViewById(R.id.time_id);
+        mTvTimer = findViewById(R.id.time_id);
 
         addUndoButtonListener();
         addSaveButtonListener();
@@ -129,13 +129,13 @@ public class Game2048Activity extends AppCompatActivity implements Observer {
                         display();
                     }
                 });
-//         if (mChrono == null) {
-//            mChrono = new GameChronometer(mContext);
-//            mThreadChrono = new Thread(mChrono);
-//            mThreadChrono.start();
-//            mChrono.start();
-//        }
-//    }
+         if (mChrono == null) {
+            mChrono = new GameChronometer(mContext);
+            mThreadChrono = new Thread(mChrono);
+            mThreadChrono.start();
+            mChrono.start();
+        }
+    }
 
 
     /**
@@ -150,7 +150,16 @@ public class Game2048Activity extends AppCompatActivity implements Observer {
 //                mTvTimer.setText(timeAsText);
 //            }
 //        });
-  }
+
+
+    public void updateTimerText(final String timeAsText) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mTvTimer.setText(timeAsText);
+            }
+        });
+    }
 
 
     private void addUndoButtonListener() {
@@ -192,7 +201,7 @@ public class Game2048Activity extends AppCompatActivity implements Observer {
      *
      * @param context the context
      */
-    private void createTileButtons(Context context) {
+    public void createTileButtons(Context context) {
         Board board = game2048.getBoard();
         tileButtons = new ArrayList<>();
         for (int row = 0; row != game2048.getBoard().getNUM_ROWS(); row++) {
@@ -207,7 +216,7 @@ public class Game2048Activity extends AppCompatActivity implements Observer {
     /**
      * Update the backgrounds on the buttons to match the tiles.
      */
-    private void updateTileButtons() {
+    public void updateTileButtons() {
         Board board = game2048.getBoard();
         int nextPos = 0;
         for (Button b : tileButtons) {
@@ -224,11 +233,11 @@ public class Game2048Activity extends AppCompatActivity implements Observer {
     @Override
     protected void onPause() {
         super.onPause();
-//        game2048.updateElapsedTime(mChrono.getElapsedTime());
- //       mChrono.stop();
+        game2048.updateElapsedTime(mChrono.getElapsedTime());
+        mChrono.stop();
 
 //        saveToFile(Game2048StartActivity.TEMP_SAVE_FILENAME);
-//        game2048.resetElapsedTime();
+        game2048.resetElapsedTime();
         accountManager.getAccount(userEmail).getAutoSavedGames().addGame(game2048);
         saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
     }
@@ -236,11 +245,11 @@ public class Game2048Activity extends AppCompatActivity implements Observer {
     @Override
     protected void onStop() {
         super.onStop();
- //       game2048.updateElapsedTime(mChrono.getElapsedTime());
- //       mChrono.stop();
+        game2048.updateElapsedTime(mChrono.getElapsedTime());
+       mChrono.stop();
 
  //       saveToFile(userEmail+ Game2048StartActivity.AUTO_SAVE_FILENAME);
-  //      game2048.resetElapsedTime();
+        game2048.resetElapsedTime();
         accountManager.getAccount(userEmail).getAutoSavedGames().addGame(game2048);
         saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
     }

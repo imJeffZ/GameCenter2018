@@ -84,7 +84,7 @@ public class GameChronometer implements Runnable {
             int minutes = (int) ((since / (MILLIS_TO_MINUTES)) % 60);
             int hours = (int) ((since / (MILLS_TO_HOURS))); //this does not reset to 0!
 
-            ((SlidingTileGameActivity) mContext).updateTimerText(String.format("%02d:%02d:%02d"
+            ((GameActivity) mContext).updateTimerText(String.format("%02d:%02d:%02d"
                     , hours, minutes, seconds));
 
             //Sleep the thread for a short amount, to prevent high CPU usage!

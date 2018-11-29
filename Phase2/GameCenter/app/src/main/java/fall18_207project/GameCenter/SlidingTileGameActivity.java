@@ -23,7 +23,7 @@ import java.util.Observer;
  * The game activity.
  * test for push.
  */
-public class SlidingTileGameActivity extends AppCompatActivity implements Observer {
+public class SlidingTileGameActivity extends AppCompatActivity implements Observer, GameActivity {
 
     /**
      * The board manager.

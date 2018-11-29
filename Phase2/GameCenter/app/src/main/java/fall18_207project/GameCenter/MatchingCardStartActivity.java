@@ -19,7 +19,8 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-public class MatchingCardStartActivity extends AppCompatActivity {
+public class MatchingCardStartActivity extends AppCompatActivity implements
+        MultiLoadStartActivity, GameStartingActivity {
     private FirebaseAuth firebaseAuth;
 
     public static String CURRENT_ACCOUNT = "";
@@ -257,7 +258,7 @@ public class MatchingCardStartActivity extends AppCompatActivity {
 //        loadFromFile(TEMP_SAVE_FILENAME);
 //    }
 
-    private void showLoadDialog(){
+    public void showLoadDialog(){
         AlertDialog.Builder loadDialog =
                 new AlertDialog.Builder(MatchingCardStartActivity.this);
         loadDialog.setTitle("Load Game ").setMessage("Load From...");
@@ -279,7 +280,7 @@ public class MatchingCardStartActivity extends AppCompatActivity {
     }
 
 
-    private void showNewGameDialog(){
+    public void showNewGameDialog(){
         AlertDialog.Builder newGameDialog =
                 new AlertDialog.Builder(MatchingCardStartActivity.this);
         newGameDialog.setTitle("New Game ").setMessage("Choose the complexity you want:");
@@ -306,7 +307,7 @@ public class MatchingCardStartActivity extends AppCompatActivity {
         newGameDialog.show();
     }
 
-private void switchGameByComplexity(int num){
+public void switchGameByComplexity(int num){
     matchingCards = new MatchingCards(num);
     readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
     accountManager.getAccount(userEmail).getAutoSavedGames().addGame(matchingCards);
@@ -318,7 +319,7 @@ private void switchGameByComplexity(int num){
     /**
      * Switch to the MatchingCardsGameActivity view to play the game.
      */
-    private void switchToGame(String saveId) {
+    public void switchToGame(String saveId) {
         Intent tmp = new Intent(this, MatchingCardsGameActivity.class);
         tmp.putExtra("userEmail", userEmail);
         tmp.putExtra("saveId", saveId);
@@ -327,7 +328,7 @@ private void switchGameByComplexity(int num){
         startActivity(tmp);
     }
 
-    private void switchToSaveGames(){
+    public void switchToSaveGames(){
 
         Intent goToSavedGames = new Intent(getApplicationContext(), SavedGamesActivity.class);
         goToSavedGames.putExtra("saveType", "userSave");
@@ -335,7 +336,7 @@ private void switchGameByComplexity(int num){
         startActivity(goToSavedGames);
     }
 
-    private void switchToAutoSaveGames(){
+    public void switchToAutoSaveGames(){
 
         Intent goToSavedGames = new Intent(getApplicationContext(), SavedGamesActivity.class);
         goToSavedGames.putExtra("saveType", "autoSave");
@@ -344,7 +345,7 @@ private void switchGameByComplexity(int num){
 
     }
 
-    private void switchToLogin() {
+    public void switchToLogin() {
         firebaseAuth.signOut();
         Intent tmp = new Intent(this, LoginActivity.class);
         startActivity(tmp);
