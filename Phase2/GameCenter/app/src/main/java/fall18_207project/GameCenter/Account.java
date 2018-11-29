@@ -5,7 +5,6 @@ import java.io.Serializable;
 /***
  * Account class that stores a user.
  *
- * TODO: Connect to DataBase
  */
 public class Account implements Serializable {
     private String email;
@@ -34,7 +33,6 @@ public class Account implements Serializable {
         // TODO: Rename prof to profile
         this.prof = new Profile();
 //        this.userScoreBoard = new UserScoreBoard();
-        // TODO: Change to userSavedGames to new DuplicateGameManager(), someHow I might have reverted the functionality of DuplicateGameManger and NonDuplicateGameManager
         this.userSavedGames = new NonDuplicateGameManager();
         this.autoSavedGames = new NonDuplicateGameManager();
         this.userScoreBoard = new SortingNonDuplicateGameManager();

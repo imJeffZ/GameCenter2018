@@ -50,7 +50,6 @@
 //                specificTypeGameList.add(g);
 //            }
 //        }
-//        // TODO: Sort the list
 ////        specificTypeGameList.sort();
 //        return specificTypeGameList;
 //    }

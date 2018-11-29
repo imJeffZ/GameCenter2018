@@ -40,8 +40,7 @@ public class GameFinishActivity extends AppCompatActivity {
             finishedGame = accountManager.getAccount(userEmail).getAutoSavedGames().getGame(saveId);
             result = Integer.toString(finishedGame.calculateScore());
 
-            // TODO: Get helper functions for the following
-            // TODO: *Implement GlobalScoreBoard and also actually attach the getUserScoreBoard.
+            // TODO:  Jeff Implement helper functions for the following
             // Update global score board
             accountManager.getGlobalScoreBoard().updateScore(userEmail, finishedGame);
             // Update user score board

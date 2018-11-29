@@ -106,7 +106,6 @@ public class GlobalScoreBoardActivity extends Activity {
 
         Collections.reverse(games);
         Collections.reverse(emails);
-        // TODO: Move this to some onStop or OnPause method
             for (int i = 0; i < emails.size(); i++) {
                 Map<String, Object> map = new HashMap<>();
                 map.put("user", accountManager.getAccount(emails.get(i)).getUserName());

@@ -40,7 +40,7 @@ public class SavedGamesActivity extends Activity {
         } else {
             gameManager = accountManager.getAccount(userEmail).getUserSavedGames();
         }
-        // TODO: Make this only show specific type of games
+        // TODO: Marvel Make this only show specific type of games
         allGameList = gameManager.getAllGameList();
         if (getIntent().getStringExtra("gameType") != null) {
             gameType = getIntent().getStringExtra("gameType");

@@ -10,7 +10,7 @@ import java.util.Stack;
 /**
  * Manage a board, including swapping tiles, checking for a win, and managing taps.
  *
- * TODO: Make SlidingTiles Cloneable.
+ * TODO: ? Make SlidingTiles Cloneable.
  */
 class SlidingTiles extends Game implements Cloneable, GameFeature {
 // If parent class is serializable, subclass is automatically serializable, thus we don't need to implement serializable for SlidingTiles

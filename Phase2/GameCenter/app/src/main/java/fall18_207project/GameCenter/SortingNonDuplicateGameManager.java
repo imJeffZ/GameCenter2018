@@ -28,7 +28,7 @@ public class SortingNonDuplicateGameManager extends GameManager implements GameS
 
     @Override
     public ArrayList<Game> getSortedGames(int gameId) {
-        //TODO: Sort this.gameList
+        //TODO: After making UserHistoryAct and SavedGamesAct show a specific type of game, sort this.gameList
         return getSavedGames(gameId);
     }
 }
