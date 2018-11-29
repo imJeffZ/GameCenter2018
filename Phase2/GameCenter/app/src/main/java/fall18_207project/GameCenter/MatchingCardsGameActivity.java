@@ -222,15 +222,10 @@ public class MatchingCardsGameActivity extends AppCompatActivity implements Obse
         super.onPause();
 //        matchingCards.updateElapsedTime(mChrono.getElapsedTime());
 //        mChrono.stop();
-        // TODO: this is problematic, it saves the data to user saved game on pause, weird stuff.
-        if (saveType.equals("autoSave")) {
-            accountManager.getAccount(userEmail).getAutoSavedGames().addGame(matchingCards);
-        } else {
-            accountManager.getAccount(userEmail).getUserSavedGames().addGame(matchingCards);
-        }
+        accountManager.getAccount(userEmail).getAutoSavedGames().addGame(matchingCards);
         saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
 //        saveToFile(MatchingCardStartActivity.TEMP_SAVE_FILENAME);
-        matchingCards.resetElapsedTime();
+//        matchingCards.resetElapsedTime();
     }
 
     private void makeSavedMessage() {
@@ -245,12 +240,7 @@ public class MatchingCardsGameActivity extends AppCompatActivity implements Obse
 
 //        saveToFile(MatchingCardStartActivity.CURRENT_ACCOUNT + MatchingCardStartActivity.AUTO_SAVE_FILENAME);
 //        matchingCards.resetElapsedTime();
-        // TODO: this is problematic, it saves the data to user saved game on pause, weird stuff.
-        if (saveType.equals("autoSave")) {
-            accountManager.getAccount(userEmail).getAutoSavedGames().addGame(matchingCards);
-        } else {
-            accountManager.getAccount(userEmail).getUserSavedGames().addGame(matchingCards);
-        }
+        accountManager.getAccount(userEmail).getAutoSavedGames().addGame(matchingCards);
         saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
     }
 
