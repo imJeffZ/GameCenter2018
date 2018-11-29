@@ -1,14 +1,12 @@
 package fall18_207project.GameCenter;
 
 import android.annotation.SuppressLint;
-import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
-import android.support.design.internal.BottomNavigationMenu;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -22,7 +20,6 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -106,7 +103,7 @@ public class GameCentreActivity extends AppCompatActivity implements  Navigation
         Menu menu = navigation.getMenu();
         MenuItem menuItem = menu.getItem(0);
         menuItem.setChecked(true);
-        addGameButtonListener();
+        addSlidingTilesGameButtonListener();
         addMatchingCardsGameButtonListener();
         addGame2048ButtonListener();
     }
@@ -174,7 +171,8 @@ public class GameCentreActivity extends AppCompatActivity implements  Navigation
         String editTitle;
 
         if (id == R.id.nav_image) {
-            // Handle the camera action
+            showImageChooseDialog();
+            myHand.sendEmptyMessageDelayed(0, 1000);
         } else if (id == R.id.nav_intro) {
             editTitle = "Editing Information";
             editProfileByDialog(id, editTitle);
@@ -227,6 +225,33 @@ public class GameCentreActivity extends AppCompatActivity implements  Navigation
 
     }
 
+    public void showImageChooseDialog(){
+        AlertDialog.Builder imageDialog =
+                new AlertDialog.Builder(GameCentreActivity.this);
+        imageDialog.setTitle("Choose Image ").setMessage("Choose the image you want:");
+        imageDialog.setNeutralButton("paul",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        updateImage(R.drawable.paulorange1);
+                    }
+                });
+        imageDialog.setNegativeButton("lidsney",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        updateImage(R.drawable.lindsey);
+                    }
+                });
+        imageDialog.setPositiveButton("david", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                updateImage(R.drawable.david);
+            }
+        });
+        imageDialog.show();
+    }
+
     private  void  updateProfile(int id, String update){
         if (accountManager.getAccount(userEmail) != null) {
             if (id == R.id.nav_reset){
@@ -237,6 +262,12 @@ public class GameCentreActivity extends AppCompatActivity implements  Navigation
                 accountManager.getAccount(userEmail).setPassword(update);
             }
             saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
+        }
+    }
+
+    private void updateImage(int id){
+        if (accountManager.getAccount(userEmail) != null) {
+        accountManager.getAccount(userEmail).getProf().setAvatarId(id);
         }
     }
 
@@ -251,8 +282,8 @@ public class GameCentreActivity extends AppCompatActivity implements  Navigation
 
             TextView textIntro = navHeader.findViewById(R.id.profileIntro);
             textIntro.setText(accountManager.getAccount(userEmail).getProf().getIntro());
-            //ImageView userImg = navHeader.findViewById(R.id.profileImg);
-            //userImg.setImageBitmap(AccountManager.accountMap.get(CURRENT_ACCOUNT).getProf().getAvatarImage());
+            ImageView userImg = navHeader.findViewById(R.id.profileImg);
+            userImg.setImageResource(accountManager.getAccount(userEmail).getProf().getAvatarId());
 
             TextView textPlayTime = navHeader.findViewById(R.id.profileTime);
             textPlayTime.setText("Play Time in Total: " +
@@ -261,13 +292,13 @@ public class GameCentreActivity extends AppCompatActivity implements  Navigation
 
     }
 
-    private void addGameButtonListener() {
+    private void addSlidingTilesGameButtonListener() {
 
         ImageButton ButtonGame = findViewById(R.id.SlidingTileGame);
         ButtonGame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switchToGame();
+                switchToSlidingTilesStartingAct();
             }
         });
     }
@@ -278,7 +309,7 @@ public class GameCentreActivity extends AppCompatActivity implements  Navigation
         ButtonGame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switchToMatchingCardsGame();
+                switchToMatchingCardsStartingAct();
             }
         });
     }
@@ -289,24 +320,24 @@ public class GameCentreActivity extends AppCompatActivity implements  Navigation
         ButtonGame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switchToGame2048();
+                switchToGame2048StartingAct();
             }
         });
     }
 
-    private void switchToGame() {
-        Intent tmp = new Intent(this, StartingActivity.class);
+    private void switchToSlidingTilesStartingAct() {
+        Intent tmp = new Intent(this, SlidingTileStartingActivity.class);
         tmp.putExtra("userEmail", userEmail);
         startActivity(tmp);
     }
 
-    private  void switchToMatchingCardsGame(){
+    private  void switchToMatchingCardsStartingAct(){
         Intent tmp = new Intent(this, MatchingCardStartActivity.class);
         tmp.putExtra("userEmail", userEmail);
         startActivity(tmp);
     }
 
-    private void switchToGame2048(){
+    private void switchToGame2048StartingAct(){
         Intent tmp = new Intent(this, Game2048StartActivity.class);
         tmp.putExtra("userEmail", userEmail);
         startActivity(tmp);

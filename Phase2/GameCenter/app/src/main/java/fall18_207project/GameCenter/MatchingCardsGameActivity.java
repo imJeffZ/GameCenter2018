@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
-public class MatchingCardsGameActivity extends AppCompatActivity implements Observer {
+public class MatchingCardsGameActivity extends AppCompatActivity implements Observer, GameActivity {
     /**
      * The matchingGame.
      */
@@ -37,9 +37,9 @@ public class MatchingCardsGameActivity extends AppCompatActivity implements Obse
     //Timer textview
     TextView mTvTimer;
     //Instance of Chronometer
-    //GameChronometer mChrono;
+    GameChronometer mChrono;
     //Thread for chronometer
-   // Thread mThreadChrono;
+    Thread mThreadChrono;
     //Reference to the Activity (this class!)
     Context mContext;
 
@@ -92,7 +92,10 @@ public class MatchingCardsGameActivity extends AppCompatActivity implements Obse
         mContext = this;
         mTvTimer = findViewById(R.id.time_id);
 
-        addStartButtonListener();
+        if(matchingCards.isStartMode())
+            addStartButtonListener();
+        else
+            setStartButtonUnclickable();
         addSaveButtonListener();
         // Add View to activity
         gridView = findViewById(R.id.grid);
@@ -118,12 +121,12 @@ public class MatchingCardsGameActivity extends AppCompatActivity implements Obse
                         display();
                     }
                 });
-//        if (mChrono == null) {
-//            mChrono = new GameChronometer(mContext);
-//            mThreadChrono = new Thread(mChrono);
-//            mThreadChrono.start();
-//            mChrono.start();
-//        }
+        if (mChrono == null) {
+            mChrono = new GameChronometer(mContext);
+            mThreadChrono = new Thread(mChrono);
+            mThreadChrono.start();
+            mChrono.start();
+        }
     }
 
 
@@ -141,7 +144,11 @@ public class MatchingCardsGameActivity extends AppCompatActivity implements Obse
         });
     }
 
-
+    private void setStartButtonUnclickable(){
+        Button startButton = findViewById(R.id.StartMatchButton);
+        startButton.setClickable(false);
+        startButton.setText("Started");
+    }
     private void addStartButtonListener() {
         final Button startButton = findViewById(R.id.StartMatchButton);
         startButton.setOnClickListener((new View.OnClickListener() {
@@ -161,7 +168,7 @@ public class MatchingCardsGameActivity extends AppCompatActivity implements Obse
      *
      * @param context the context
      */
-    private void createCardButtons(Context context) {
+    public void createCardButtons(Context context) {
         MatchingBoard matchingBoard = matchingCards.getMatchingBoard();
         cardButtons = new ArrayList<>();
         for (int row = 0; row < matchingCards.getMatchingBoard().getNumOfRows(); row++) {
@@ -176,7 +183,7 @@ public class MatchingCardsGameActivity extends AppCompatActivity implements Obse
     /**
      * Update the backgrounds on the buttons to match the cards.
      */
-    private void updateCardButtons() {
+    public void updateCardButtons() {
         MatchingBoard matchingBoard = matchingCards.getMatchingBoard();
         int nextPos = 0;
         for (Button b : cardButtons) {
@@ -222,12 +229,12 @@ public class MatchingCardsGameActivity extends AppCompatActivity implements Obse
     @Override
     protected void onPause() {
         super.onPause();
-//        matchingCards.updateElapsedTime(mChrono.getElapsedTime());
-//        mChrono.stop();
+        matchingCards.updateElapsedTime(mChrono.getElapsedTime());
+        mChrono.stop();
         accountManager.getAccount(userEmail).getAutoSavedGames().addGame(matchingCards);
         saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
 //        saveToFile(MatchingCardStartActivity.TEMP_SAVE_FILENAME);
-//        matchingCards.resetElapsedTime();
+        matchingCards.resetElapsedTime();
     }
 
     private void makeSavedMessage() {
@@ -237,11 +244,11 @@ public class MatchingCardsGameActivity extends AppCompatActivity implements Obse
     @Override
     protected void onStop() {
         super.onStop();
-//        matchingCards.updateElapsedTime(mChrono.getElapsedTime());
-//        mChrono.stop();
+        matchingCards.updateElapsedTime(mChrono.getElapsedTime());
+        mChrono.stop();
 
 //        saveToFile(MatchingCardStartActivity.CURRENT_ACCOUNT + MatchingCardStartActivity.AUTO_SAVE_FILENAME);
-//        matchingCards.resetElapsedTime();
+        matchingCards.resetElapsedTime();
         accountManager.getAccount(userEmail).getAutoSavedGames().addGame(matchingCards);
         saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
     }

@@ -85,6 +85,7 @@ public class Game2048 extends Game implements GameFeature, Cloneable {
         // TODO: code smell
         boolean valid = false;
         int blankid = 25;
+        countMove++;
         for (int i = 0; i < board.getNUM_COLS(); i++) {
             for (int j = 0; j < board.getNUM_ROWS(); j++) {
                 if (i + 1 < board.getNUM_COLS()) {

@@ -5,7 +5,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:background="@drawable/text_img"
-    tools:context="fall18_207project.GameCenter.GameActivity">
+    tools:context="fall18_207project.GameCenter.Game2048Activity">
 
     <fall18_207project.GameCenter.GestureDetectGridView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -17,7 +17,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginStart="0dp"
         android:layout_marginTop="50dp"
-        tools:context="fall18_207project.GameCenter.GameActivity">
+        tools:context="fall18_207project.GameCenter.Game2048Activity">
 
 
     </fall18_207project.GameCenter.GestureDetectGridView>

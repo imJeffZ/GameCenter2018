@@ -43,6 +43,38 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
         android:textSize="18dp" />
 
+    <!--<Button-->
+        <!--android:id="@+id/StartButton"-->
+        <!--android:layout_width="120dp"-->
+        <!--android:layout_height="50dp"-->
+        <!--android:layout_below="@+id/GameText"-->
+        <!--android:layout_marginTop="50dp"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--android:background="@drawable/button_style"-->
+        <!--android:text="Load From AutoSave" />-->
+
+    <!--<Button-->
+        <!--android:id="@+id/LoadButton"-->
+        <!--android:layout_width="120dp"-->
+        <!--android:layout_height="50dp"-->
+        <!--android:layout_below="@+id/GameText"-->
+        <!--android:layout_marginTop="50dp"-->
+        <!--android:layout_marginEnd="17dp"-->
+        <!--android:layout_toStartOf="@+id/StartButton"-->
+        <!--android:background="@drawable/button_style"-->
+        <!--android:text="Load  Game" />-->
+
+    <!--<Button-->
+        <!--android:id="@+id/SaveButton"-->
+        <!--android:layout_width="120dp"-->
+        <!--android:layout_height="50dp"-->
+        <!--android:layout_below="@+id/GameText"-->
+        <!--android:layout_marginStart="17dp"-->
+        <!--android:layout_marginTop="50dp"-->
+        <!--android:layout_toEndOf="@+id/StartButton"-->
+        <!--android:background="@drawable/button_style"-->
+        <!--android:text="Remove this" />-->
+
     <Button
         android:id="@+id/StartButton"
         android:layout_width="120dp"
@@ -51,62 +83,50 @@
         android:layout_marginTop="50dp"
         android:layout_centerHorizontal="true"
         android:background="@drawable/button_style"
-        android:text="Load From AutoSave" />
+        android:text="New Game" />
+
+    <!--<Button-->
+        <!--android:id="@+id/Button5"-->
+        <!--android:layout_width="120dp"-->
+        <!--android:layout_height="50dp"-->
+        <!--android:layout_below="@+id/SaveButton"-->
+        <!--android:layout_toStartOf="@+id/Button4"-->
+        <!--android:layout_marginTop="25dp"-->
+        <!--android:layout_marginEnd="17dp"-->
+        <!--android:background="@drawable/button_style"-->
+        <!--android:text="5X5 New Game" />-->
+
+    <!--<Button-->
+        <!--android:id="@+id/Button4"-->
+        <!--android:layout_width="120dp"-->
+        <!--android:layout_height="50dp"-->
+        <!--android:layout_below="@+id/SaveButton"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--android:layout_marginTop="25dp"-->
+
+        <!--android:background="@drawable/button_style"-->
+        <!--android:text="4X4 New Game" />-->
+
+    <!--<Button-->
+        <!--android:id="@+id/Button6"-->
+        <!--android:layout_width="120dp"-->
+        <!--android:layout_height="50dp"-->
+        <!--android:layout_below="@+id/SaveButton"-->
+        <!--android:layout_marginStart="17dp"-->
+        <!--android:layout_marginTop="25dp"-->
+        <!--android:layout_toEndOf="@+id/Button4"-->
+        <!--android:background="@drawable/button_style"-->
+        <!--android:text="6X6 New Game" />-->
 
     <Button
-        android:id="@+id/LoadButton"
+        android:id="@+id/loadGameButton"
         android:layout_width="120dp"
         android:layout_height="50dp"
-        android:layout_below="@+id/GameText"
-        android:layout_marginTop="50dp"
-        android:layout_marginEnd="17dp"
-        android:layout_toStartOf="@+id/StartButton"
-        android:background="@drawable/button_style"
-        android:text="Load  Game" />
-
-    <Button
-        android:id="@+id/SaveButton"
-        android:layout_width="120dp"
-        android:layout_height="50dp"
-        android:layout_below="@+id/GameText"
-        android:layout_marginStart="17dp"
-        android:layout_marginTop="50dp"
-        android:layout_toEndOf="@+id/StartButton"
-        android:background="@drawable/button_style"
-        android:text="Remove this" />
-
-    <Button
-        android:id="@+id/Button5"
-        android:layout_width="120dp"
-        android:layout_height="50dp"
-        android:layout_below="@+id/SaveButton"
-        android:layout_toStartOf="@+id/Button4"
-        android:layout_marginTop="25dp"
-        android:layout_marginEnd="17dp"
-        android:background="@drawable/button_style"
-        android:text="5X5 New Game" />
-
-    <Button
-        android:id="@+id/Button4"
-        android:layout_width="120dp"
-        android:layout_height="50dp"
-        android:layout_below="@+id/SaveButton"
+        android:layout_below="@+id/StartButton"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="25dp"
-
         android:background="@drawable/button_style"
-        android:text="4X4 New Game" />
-
-    <Button
-        android:id="@+id/Button6"
-        android:layout_width="120dp"
-        android:layout_height="50dp"
-        android:layout_below="@+id/SaveButton"
-        android:layout_marginStart="17dp"
-        android:layout_marginTop="25dp"
-        android:layout_toEndOf="@+id/Button4"
-        android:background="@drawable/button_style"
-        android:text="6X6 New Game" />
+        android:text="Load Game" />
 
     <Button
         android:id="@+id/button"

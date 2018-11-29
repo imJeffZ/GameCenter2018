@@ -93,6 +93,6 @@ class MovementController {
 //        }
 //        Account currentAccount = accountManager.getAccount(userEmail);
 //        currentAccount.addScore(index, score);
-//        AccountManager.accountMap.put(StartingActivity.CURRENT_ACCOUNT, currentAccount);
+//        AccountManager.accountMap.put(SlidingTileStartingActivity.CURRENT_ACCOUNT, currentAccount);
 //    }
 }

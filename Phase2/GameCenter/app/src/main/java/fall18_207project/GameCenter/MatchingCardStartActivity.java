@@ -1,8 +1,9 @@
 package fall18_207project.GameCenter;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -18,7 +19,8 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-public class MatchingCardStartActivity extends AppCompatActivity {
+public class MatchingCardStartActivity extends AppCompatActivity implements
+        MultiLoadStartActivity, GameStartingActivity {
     private FirebaseAuth firebaseAuth;
 
     public static String CURRENT_ACCOUNT = "";
@@ -49,12 +51,14 @@ public class MatchingCardStartActivity extends AppCompatActivity {
         saveToFile(TEMP_SAVE_FILENAME);
         setContentView(R.layout.activity_matching_card_starting);
         firebaseAuth = FirebaseAuth.getInstance();
-        addStartButtonListener();
-        addLoadButtonListener();
+        //addStartButtonListener();
+        //addLoadButtonListener();
 //        addSaveButtonListener();
-        add4ButtonListener();
-        add5ButtonListener();
-        add6ButtonListener();
+       // add4ButtonListener();
+       // add5ButtonListener();
+        //add6ButtonListener();
+        addLoadGameButtonListener();
+        addNewGameButtonListener();
         addLogOutButtonListener();
         addReturnToGameCenterListener();
         TextView account = findViewById(R.id.Hiuser);
@@ -64,15 +68,15 @@ public class MatchingCardStartActivity extends AppCompatActivity {
     /**
      * Activate the start button.
      */
-    private void addStartButtonListener() {
-        Button startButton = findViewById(R.id.StartButton);
-        startButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent goToSavedGames = new Intent(getApplicationContext(), SavedGamesActivity.class);
-                goToSavedGames.putExtra("saveType", "autoSave");
-                goToSavedGames.putExtra("gameType", "matchingCards");
-                startActivity(goToSavedGames);
+//    private void addStartButtonListener() {
+//        Button startButton = findViewById(R.id.StartButton);
+//        startButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent goToSavedGames = new Intent(getApplicationContext(), SavedGamesActivity.class);
+//                goToSavedGames.putExtra("saveType", "autoSave");
+//                goToSavedGames.putExtra("gameType", "matchingCards");
+//                startActivity(goToSavedGames);
 //                loadFromFile(CURRENT_ACCOUNT + AUTO_SAVE_FILENAME);
 //                saveToFile(TEMP_SAVE_FILENAME);
 //                if (matchingCards == null) {
@@ -81,22 +85,22 @@ public class MatchingCardStartActivity extends AppCompatActivity {
 //                }
 //                makeToastLoadedText();
 //                switchToGame();
-            }
-        });
-    }
+//            }
+//        });
+//    }
 
     /**
      * Activate the load button.
      */
-    private void addLoadButtonListener() {
-        Button loadButton = findViewById(R.id.LoadButton);
-        loadButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent goToSavedGames = new Intent(getApplicationContext(), SavedGamesActivity.class);
-                goToSavedGames.putExtra("saveType", "userSave");
-                goToSavedGames.putExtra("gameType", "matchingCards");
-                startActivity(goToSavedGames);
+//    private void addLoadButtonListener() {
+//        Button loadButton = findViewById(R.id.LoadButton);
+//        loadButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent goToSavedGames = new Intent(getApplicationContext(), SavedGamesActivity.class);
+//                goToSavedGames.putExtra("saveType", "userSave");
+//                goToSavedGames.putExtra("gameType", "matchingCards");
+//                startActivity(goToSavedGames);
 //                loadFromFile(CURRENT_ACCOUNT + SAVE_FILENAME);
 //                saveToFile(TEMP_SAVE_FILENAME);
 //                if (matchingCards == null) {
@@ -107,9 +111,9 @@ public class MatchingCardStartActivity extends AppCompatActivity {
 //                saveToFile(TEMP_SAVE_FILENAME);
 //                makeToastLoadedText();
 //                switchToGame();
-            }
-        });
-    }
+//            }
+//        });
+//    }
 
 //    private void makeToastForLoadGame() {
 //        Toast.makeText(this, "No Saved Game", Toast.LENGTH_SHORT).show();
@@ -141,56 +145,77 @@ public class MatchingCardStartActivity extends AppCompatActivity {
 //        });
 //    }
 
-    /**
-     * Activate the 4x4 new game Board.
-     */
-    private void add4ButtonListener() {
-        Button Button4 = findViewById(R.id.Button4);
-        Button4.setOnClickListener(new View.OnClickListener() {
+    private void addNewGameButtonListener(){
+        Button startButton = findViewById(R.id.StartButton);
+        startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                matchingCards = new MatchingCards(4);
-                readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
-                accountManager.getAccount(userEmail).getAutoSavedGames().addGame(matchingCards);
-                saveToSer(LoginActivity.ACCOUNT_MANAGER_DATA);
-                switchToGame(matchingCards.getSaveId());
+                showNewGameDialog();
             }
         });
     }
+
+
+    private void addLoadGameButtonListener(){
+        Button Button4 = findViewById(R.id.loadGameButton);
+        Button4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showLoadDialog();
+            }
+        });
+    }
+
+    /**
+     * Activate the 4x4 new game Board.
+     */
+//    private void add4ButtonListener() {
+//        Button Button4 = findViewById(R.id.Button4);
+//        Button4.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                matchingCards = new MatchingCards(4);
+//                readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
+//                accountManager.getAccount(userEmail).getAutoSavedGames().addGame(matchingCards);
+//                saveToSer(LoginActivity.ACCOUNT_MANAGER_DATA);
+//                switchToGame(matchingCards.getSaveId());
+//            }
+//        });
+//    }
 
     /**
      * Activate the 5x5 new game board.
 //     */
-    private void add5ButtonListener() {
-        Button Button5 = findViewById(R.id.Button5);
-        Button5.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                matchingCards = new MatchingCards(5);
-                readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
-                accountManager.getAccount(userEmail).getAutoSavedGames().addGame(matchingCards);
-                saveToSer(LoginActivity.ACCOUNT_MANAGER_DATA);
-                switchToGame(matchingCards.getSaveId());
-            }
-        });
-    }
+//    private void add5ButtonListener() {
+//        Button Button5 = findViewById(R.id.Button5);
+//        Button5.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                matchingCards = new MatchingCards(5);
+//                readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
+//                accountManager.getAccount(userEmail).getAutoSavedGames().addGame(matchingCards);
+//                saveToSer(LoginActivity.ACCOUNT_MANAGER_DATA);
+//                switchToGame(matchingCards.getSaveId());
+//            }
+//        });
+//    }
 
     /**
      * Activate the 6x6 new game board.
      */
-    private void add6ButtonListener() {
-        Button Button6 = findViewById(R.id.Button6);
-        Button6.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                matchingCards = new MatchingCards(6);
-                readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
-                accountManager.getAccount(userEmail).getAutoSavedGames().addGame(matchingCards);
-                saveToSer(LoginActivity.ACCOUNT_MANAGER_DATA);
-                switchToGame(matchingCards.getSaveId());
-            }
-        });
-    }
+//    private void add6ButtonListener() {
+//        Button Button6 = findViewById(R.id.Button6);
+//        Button6.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                matchingCards = new MatchingCards(6);
+//                readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
+//                accountManager.getAccount(userEmail).getAutoSavedGames().addGame(matchingCards);
+//                saveToSer(LoginActivity.ACCOUNT_MANAGER_DATA);
+//                switchToGame(matchingCards.getSaveId());
+//            }
+//        });
+//    }
 
     /**
      * Log out of the current Account.
@@ -233,10 +258,68 @@ public class MatchingCardStartActivity extends AppCompatActivity {
 //        loadFromFile(TEMP_SAVE_FILENAME);
 //    }
 
+    public void showLoadDialog(){
+        AlertDialog.Builder loadDialog =
+                new AlertDialog.Builder(MatchingCardStartActivity.this);
+        loadDialog.setTitle("Load Game ").setMessage("Load From...");
+
+        loadDialog.setNeutralButton("Load Saved game",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switchToSaveGames();
+                    }
+                });
+        loadDialog.setNegativeButton("Load AutoSaved game", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switchToAutoSaveGames();
+            }
+        });
+        loadDialog.show();
+    }
+
+
+    public void showNewGameDialog(){
+        AlertDialog.Builder newGameDialog =
+                new AlertDialog.Builder(MatchingCardStartActivity.this);
+        newGameDialog.setTitle("New Game ").setMessage("Choose the complexity you want:");
+        newGameDialog.setNeutralButton("4 x 4",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switchGameByComplexity(4);
+                    }
+                });
+        newGameDialog.setNegativeButton("5 X 5",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switchGameByComplexity(5);
+                    }
+                });
+        newGameDialog.setPositiveButton("6 X 6", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switchGameByComplexity(6);
+            }
+        });
+        newGameDialog.show();
+    }
+
+public void switchGameByComplexity(int num){
+    matchingCards = new MatchingCards(num);
+    readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
+    accountManager.getAccount(userEmail).getAutoSavedGames().addGame(matchingCards);
+    saveToSer(LoginActivity.ACCOUNT_MANAGER_DATA);
+    switchToGame(matchingCards.getSaveId());
+
+}
+
     /**
-     * Switch to the GameActivity view to play the game.
+     * Switch to the MatchingCardsGameActivity view to play the game.
      */
-    private void switchToGame(String saveId) {
+    public void switchToGame(String saveId) {
         Intent tmp = new Intent(this, MatchingCardsGameActivity.class);
         tmp.putExtra("userEmail", userEmail);
         tmp.putExtra("saveId", saveId);
@@ -245,7 +328,24 @@ public class MatchingCardStartActivity extends AppCompatActivity {
         startActivity(tmp);
     }
 
-    private void switchToLogin() {
+    public void switchToSaveGames(){
+
+        Intent goToSavedGames = new Intent(getApplicationContext(), SavedGamesActivity.class);
+        goToSavedGames.putExtra("saveType", "userSave");
+        goToSavedGames.putExtra("gameType", "matchingCards");
+        startActivity(goToSavedGames);
+    }
+
+    public void switchToAutoSaveGames(){
+
+        Intent goToSavedGames = new Intent(getApplicationContext(), SavedGamesActivity.class);
+        goToSavedGames.putExtra("saveType", "autoSave");
+        goToSavedGames.putExtra("gameType", "matchingCards");
+        startActivity(goToSavedGames);
+
+    }
+
+    public void switchToLogin() {
         firebaseAuth.signOut();
         Intent tmp = new Intent(this, LoginActivity.class);
         startActivity(tmp);

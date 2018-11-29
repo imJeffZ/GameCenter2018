@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,17 +23,16 @@ import java.util.Observer;
  * The game activity.
  * test for push.
  */
-public class Game2048Activity extends AppCompatActivity implements Observer, GameActivity {
+public class SlidingTileGameActivity extends AppCompatActivity implements Observer, GameActivity {
 
     /**
      * The board manager.
      */
-    private Game2048 game2048;
+    private SlidingTiles slidingTiles;
     private AccountManager accountManager;
-    private  GameManager gameManager;
+    private GameManager gameManager;
     private String saveType;
     public static String userEmail = "";
-
     /**
      * The buttons to display.
      */
@@ -71,7 +69,7 @@ public class Game2048Activity extends AppCompatActivity implements Observer, Gam
         updateTileButtons();
         gridView.setAdapter(new CustomAdapter(tileButtons, columnWidth, columnHeight));
 
-        int counter = game2048.getCountMove();
+        int counter = slidingTiles.getCountMove();
         TextView count = findViewById(R.id.steps_id);
         count.setText("Step: " + counter);
     }
@@ -80,7 +78,8 @@ public class Game2048Activity extends AppCompatActivity implements Observer, Gam
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
-//        userEmail = getIntent().getStringExtra("userEmail");
+//        @NonNull String email = getIntent().getStringExtra("userEmail");
+//        userEmail = email;
         saveType = getIntent().getStringExtra("saveType");
         if (saveType.equals("autoSave")) {
             gameManager = accountManager.getAccount(userEmail).getAutoSavedGames();
@@ -89,31 +88,41 @@ public class Game2048Activity extends AppCompatActivity implements Observer, Gam
         } else {
             gameManager = accountManager.getAccount(userEmail).getUserScoreBoard();
         }
+
         // TODO: Better fix on how to deal with Null pointer exception when passing data through intent
         String saveId = getIntent().getStringExtra("saveId");
         if (saveId == null) {
-            game2048 = new Game2048();
+            slidingTiles = new SlidingTiles(1);
         } else {
-            game2048 = (Game2048) gameManager.getGame(getIntent().getStringExtra("saveId"));
+            slidingTiles = (SlidingTiles) gameManager.getGame(getIntent().getStringExtra("saveId"));
         }
 
-//        loadFromFile(Game2048StartActivity.TEMP_SAVE_FILENAME);
+        // Continue the timer
+        if (slidingTiles.getElapsedTime() != 0) {
+            mContext = this;
+            mChrono = new GameChronometer(mContext, System.currentTimeMillis() - slidingTiles.getElapsedTime());
+            mThreadChrono = new Thread(mChrono);
+            mThreadChrono.start();
+            mChrono.start();
+        }
 
         createTileButtons(this);
-        setContentView(R.layout.activity_game2048);
+        setContentView(R.layout.activity_slidingtiles);
 
         mContext = this;
         mTvTimer = findViewById(R.id.time_id);
 
         addUndoButtonListener();
         addSaveButtonListener();
-//        addResetButtonListener();
+        addResetButtonListener();
 
         // Add View to activity
         gridView = findViewById(R.id.grid);
-        gridView.setNumColumns(game2048.getBoard().getNUM_COLS());
-        gridView.setGame(game2048);
-        game2048.getBoard().addObserver(this);
+        gridView.setNumColumns(slidingTiles.getBoard().getNUM_COLS());
+
+        gridView.setGame(slidingTiles);
+
+        slidingTiles.getBoard().addObserver(this);
         // Observer sets up desired dimensions as well as calls our display function
         gridView.getViewTreeObserver().addOnGlobalLayoutListener(
                 new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -125,13 +134,13 @@ public class Game2048Activity extends AppCompatActivity implements Observer, Gam
                         int displayHeight = gridView.getMeasuredHeight();
 
 
-                        columnWidth = displayWidth / game2048.getBoard().getNUM_COLS();
-                        columnHeight = displayHeight / game2048.getBoard().getNUM_ROWS();
+                        columnWidth = displayWidth / slidingTiles.getBoard().getNUM_COLS();
+                        columnHeight = displayHeight / slidingTiles.getBoard().getNUM_ROWS();
 
                         display();
                     }
                 });
-         if (mChrono == null) {
+        if (mChrono == null) {
             mChrono = new GameChronometer(mContext);
             mThreadChrono = new Thread(mChrono);
             mThreadChrono.start();
@@ -144,16 +153,7 @@ public class Game2048Activity extends AppCompatActivity implements Observer, Gam
      * Update the text of tv_timer
      *
      * @param timeAsText the text to update tv_timer with
-//     */
-//    public void updateTimerText(final String timeAsText) {
-//        runOnUiThread(new Runnable() {
-//            @Override
-//            public void run() {
-//                mTvTimer.setText(timeAsText);
-//            }
-//        });
-
-
+     */
     public void updateTimerText(final String timeAsText) {
         runOnUiThread(new Runnable() {
             @Override
@@ -169,10 +169,7 @@ public class Game2048Activity extends AppCompatActivity implements Observer, Gam
         undoButton.setOnClickListener((new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                game2048.undo();
-                setObserver(game2048.getBoard());
-                game2048.getBoard().swapTiles(1,2,2,1);
-                game2048.getBoard().swapTiles(1,2,2,1);
+                slidingTiles.undo();
             }
         }));
 
@@ -184,42 +181,44 @@ public class Game2048Activity extends AppCompatActivity implements Observer, Gam
             @Override
             public void onClick(View view) {
 //                readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
-                accountManager.getAccount(userEmail).getUserSavedGames().addGame(game2048);
+                slidingTiles.updateElapsedTime(mChrono.getElapsedTime());
+                accountManager.getAccount(userEmail).getUserSavedGames().addGame(slidingTiles);
                 saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
                 makeSavedMessage();
             }
         }));
     }
+
     private void makeSavedMessage() {
         Toast.makeText(this, "Game Saved", Toast.LENGTH_SHORT).show();
     }
 
-//    private void addResetButtonListener() {
-//        Button resetButton = findViewById(R.id.resetButton);
-//        resetButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                game2048.reset();
-//                TextView counter = findViewById(R.id.steps_id);
-//                counter.setText("Step: " + 0);
-//            }
-//        });
-//    }
-
-    private void setObserver(Board board) {
-        board.addObserver(this);
+    private void addResetButtonListener() {
+        Button resetButton = findViewById(R.id.restartButton);
+        resetButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TextView count = findViewById(R.id.steps_id);
+                slidingTiles.reset();
+                count.setText("Step: " + 0);
+                mChrono.stop();
+                mChrono = new GameChronometer(mContext);
+                mThreadChrono = new Thread(mChrono);
+                mThreadChrono.start();
+                mChrono.start();
+            }
+        });
     }
-
     /**
      * Create the buttons for displaying the tiles.
      *
      * @param context the context
      */
-    public void createTileButtons(Context context) {
-        Board board = game2048.getBoard();
+    private void createTileButtons(Context context) {
+        Board board = slidingTiles.getBoard();
         tileButtons = new ArrayList<>();
-        for (int row = 0; row != game2048.getBoard().getNUM_ROWS(); row++) {
-            for (int col = 0; col != game2048.getBoard().getNUM_COLS(); col++) {
+        for (int row = 0; row != slidingTiles.getBoard().getNUM_ROWS(); row++) {
+            for (int col = 0; col != slidingTiles.getBoard().getNUM_COLS(); col++) {
                 Button tmp = new Button(context);
                 tmp.setBackgroundResource(board.getTile(row, col).getBackground());
                 this.tileButtons.add(tmp);
@@ -230,12 +229,12 @@ public class Game2048Activity extends AppCompatActivity implements Observer, Gam
     /**
      * Update the backgrounds on the buttons to match the tiles.
      */
-    public void updateTileButtons() {
-        Board board = game2048.getBoard();
+    private void updateTileButtons() {
+        Board board = slidingTiles.getBoard();
         int nextPos = 0;
         for (Button b : tileButtons) {
-            int row = nextPos / game2048.getBoard().getNUM_ROWS();
-            int col = nextPos % game2048.getBoard().getNUM_COLS();
+            int row = nextPos / slidingTiles.getBoard().getNUM_ROWS();
+            int col = nextPos % slidingTiles.getBoard().getNUM_COLS();
             b.setBackgroundResource(board.getTile(row, col).getBackground());
             nextPos++;
         }
@@ -247,73 +246,70 @@ public class Game2048Activity extends AppCompatActivity implements Observer, Gam
     @Override
     protected void onPause() {
         super.onPause();
-        game2048.updateElapsedTime(mChrono.getElapsedTime());
+        slidingTiles.updateElapsedTime(mChrono.getElapsedTime());
         mChrono.stop();
-
-//        saveToFile(Game2048StartActivity.TEMP_SAVE_FILENAME);
-        game2048.resetElapsedTime();
-        accountManager.getAccount(userEmail).getAutoSavedGames().addGame(game2048);
+//        slidingTiles.resetElapsedTime();
+//        gameManager.addGame(slidingTiles);
+        accountManager.getAccount(userEmail).getAutoSavedGames().addGame(slidingTiles);
         saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
+//        saveToFile(SlidingTileStartingActivity.TEMP_SAVE_FILENAME);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        game2048.updateElapsedTime(mChrono.getElapsedTime());
-       mChrono.stop();
+        slidingTiles.updateElapsedTime(mChrono.getElapsedTime());
+        mChrono.stop();
 
- //       saveToFile(userEmail+ Game2048StartActivity.AUTO_SAVE_FILENAME);
-        game2048.resetElapsedTime();
-        accountManager.getAccount(userEmail).getAutoSavedGames().addGame(game2048);
+//        saveToFile(userEmail + SlidingTileStartingActivity.AUTO_SAVE_FILENAME);
+//        slidingTiles.resetElapsedTime();
+//        gameManager.addGame(slidingTiles);
+        accountManager.getAccount(userEmail).getAutoSavedGames().addGame(slidingTiles);
         saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
     }
 
-    /**
-     * Load the board manager from fileName.
-     *
-     * @param fileName the name of the file
-     */
-    private void loadFromFile(String fileName) {
-
-        try {
-            InputStream inputStream = this.openFileInput(fileName);
-            if (inputStream != null) {
-                ObjectInputStream input = new ObjectInputStream(inputStream);
-                game2048 = (Game2048) input.readObject();
-                if (game2048.getElapsedTime() != 0) {
-                    mContext = this;
-                   // mChrono = new GameChronometer(mContext, System.currentTimeMillis() - game2048.getElapsedTime());
-                   // mThreadChrono = new Thread(mChrono);
-                   // mThreadChrono.start();
-                    //mChrono.start();
-                }
-                inputStream.close();
-            }
-        } catch (FileNotFoundException e) {
-            Log.e("Game2048 activity", "File not found: " + e.toString());
-        } catch (IOException e) {
-            Log.e("Game2048 activity", "Can not read file: " + e.toString());
-        } catch (ClassNotFoundException e) {
-            Log.e("Game2048 activity", "File contained unexpected data type: " + e.toString());
-        }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
     }
 
-    private void readFromSer(String fileName) {
-        try {
-            InputStream inputStream = this.openFileInput(fileName);
-            if (inputStream != null) {
-                ObjectInputStream in = new ObjectInputStream(inputStream);
-                accountManager = (AccountManager) in.readObject();
-            }
-            inputStream.close();
-        } catch (FileNotFoundException e) {
-            Log.e("Game2048 activity", "File not found: " + e.toString());
-        } catch (IOException e) {
-            Log.e("Game2048 activity", "Can not read file: " + e.toString());
-        } catch (ClassNotFoundException e) {
-            Log.e("Game2048 activity", "File contained unexpected data type: " + e.toString());
-        }
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
     }
+
+
+    //    /**
+//     * Load the board manager from fileName.
+//     *
+//     * @param fileName the name of the file
+//     */
+//    private void loadFromFile(String fileName) {
+//
+//        try {
+//            InputStream inputStream = this.openFileInput(fileName);
+//            if (inputStream != null) {
+//                ObjectInputStream input = new ObjectInputStream(inputStream);
+//                slidingTiles = (SlidingTiles) input.readObject();
+//                if (slidingTiles.getElapsedTime() != 0) {
+//                    mContext = this;
+//                    mChrono = new GameChronometer(mContext, System.currentTimeMillis() - slidingTiles.getElapsedTime());
+//                    mThreadChrono = new Thread(mChrono);
+//                    mThreadChrono.start();
+//                    mChrono.start();
+//                }
+//                inputStream.close();
+//            }
+//        } catch (FileNotFoundException e) {
+//            Log.e("Game activity", "File not found: " + e.toString());
+//        } catch (IOException e) {
+//            Log.e("Game activity", "Can not read file: " + e.toString());
+//        } catch (ClassNotFoundException e) {
+//            Log.e("Game activity", "File contained unexpected data type: " + e.toString());
+//        }
+//    }
 
     /**
      * Save the board manager to fileName.
@@ -331,13 +327,27 @@ public class Game2048Activity extends AppCompatActivity implements Observer, Gam
         }
     }
 
+    private void readFromSer(String fileName) {
+
+        try {
+            InputStream inputStream = this.openFileInput(fileName);
+            if (inputStream != null) {
+                ObjectInputStream input = new ObjectInputStream(inputStream);
+                accountManager = (AccountManager) input.readObject();
+                inputStream.close();
+            }
+        } catch (FileNotFoundException e) {
+            Log.e("Game activity", "File not found: " + e.toString());
+        } catch (IOException e) {
+            Log.e("Game activity", "Can not read file: " + e.toString());
+        } catch (ClassNotFoundException e) {
+            Log.e("Game activity", "File contained unexpected data type: " + e.toString());
+        }
+    }
+
 
     @Override
     public void update(Observable o, Object arg) {
         display();
     }
-
-
-
-
 }
