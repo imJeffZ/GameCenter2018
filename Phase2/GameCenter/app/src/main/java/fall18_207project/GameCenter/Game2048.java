@@ -17,27 +17,29 @@ public class Game2048 extends Game implements GameFeature, Cloneable {
     private int score;
     private Stack<Board> boardStack;
     protected Board board;
+    protected Board initialBoard;
+    protected List<Tile> tiles;
 
     public Game2048() {
         super(); // Explicitly put here
         this.gameId = 7;
-        List<Tile> tiles = new ArrayList<>();
+        tiles = new ArrayList<>();
         final int numTiles = 16;
         Random r = new Random();
         int beginnum1 = (r.nextInt(1) + 1) * 2;
         int beginnum2 = (r.nextInt(1) + 1) * 2;
 
-        tiles.add(new Tile(beginnum1 + 1));
-        tiles.add(new Tile(beginnum2 + 1));
+        tiles.add(new Tile(beginnum1 - 1));
+        tiles.add(new Tile(beginnum2 - 1));
         for (int tileNum = 0; tileNum < numTiles - 2; tileNum++) {
             tiles.add(new Tile(24));
         }
         Collections.shuffle(tiles);
         board = new Board(tiles, 4);
+        this.initialBoard = new Board(tiles, 4);
         this.endTime = 0;
         this.score = 0;
         this.boardStack = new Stack<>();
-        boardStack.add(board);
     }
 
 
@@ -45,6 +47,14 @@ public class Game2048 extends Game implements GameFeature, Cloneable {
     @Override
     void reset() {
         return;
+    }
+
+    public List<Tile> cloneTiles() {
+        List<Tile> returnTile = new ArrayList<>();
+        for (Tile tile : tiles) {
+            returnTile.add(tile);
+        }
+        return returnTile;
     }
 
     public static int getLEFT() {
@@ -78,7 +88,7 @@ public class Game2048 extends Game implements GameFeature, Cloneable {
      */
     @Override
     public boolean isValidTap(int direction) {
-        return true;
+        return false;
     }
 
     public boolean hasVaildMove() {
@@ -162,6 +172,7 @@ public class Game2048 extends Game implements GameFeature, Cloneable {
     @Override
     public void touchMove(int direction) {
         boolean check = false;
+        boardStack.push(board.clone());
         int counterlr = 0;
         int counterud = 0;
         int boundlr = 0;
@@ -262,7 +273,7 @@ public class Game2048 extends Game implements GameFeature, Cloneable {
         }
 
         if (!boardStack.isEmpty()) {
-            board = (Board) boardStack.pop();
+            board = boardStack.pop();
         }
     }
 

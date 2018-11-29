@@ -83,6 +83,14 @@ public class MatchingCardsGameActivity extends AppCompatActivity implements Obse
         } else {
             matchingCards = (MatchingCards) gameManager.getGame(getIntent().getStringExtra("saveId"));
         }
+
+        if (matchingCards.getElapsedTime() != 0) {
+            mContext = this;
+            mChrono = new GameChronometer(mContext, System.currentTimeMillis() - matchingCards.getElapsedTime());
+            mThreadChrono = new Thread(mChrono);
+            mThreadChrono.start();
+            mChrono.start();
+        }
 //        @NonNull String email = getIntent().getStringExtra("userEmail");
 //        userEmail = email;
         createGameTileButtons(this);
@@ -215,6 +223,7 @@ public class MatchingCardsGameActivity extends AppCompatActivity implements Obse
         saveButton.setOnClickListener((new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                matchingCards.updateElapsedTime(mChrono.getElapsedTime());
                 accountManager.getAccount(userEmail).getUserSavedGames().addGame(matchingCards);
                 saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
                 makeSavedMessage();
@@ -233,7 +242,7 @@ public class MatchingCardsGameActivity extends AppCompatActivity implements Obse
         accountManager.getAccount(userEmail).getAutoSavedGames().addGame(matchingCards);
         saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
 //        saveToFile(MatchingCardStartActivity.TEMP_SAVE_FILENAME);
-        matchingCards.resetElapsedTime();
+//        matchingCards.resetElapsedTime();
     }
 
     private void makeSavedMessage() {
@@ -247,7 +256,7 @@ public class MatchingCardsGameActivity extends AppCompatActivity implements Obse
         mChrono.stop();
 
 //        saveToFile(MatchingCardStartActivity.CURRENT_ACCOUNT + MatchingCardStartActivity.AUTO_SAVE_FILENAME);
-        matchingCards.resetElapsedTime();
+//        matchingCards.resetElapsedTime();
         accountManager.getAccount(userEmail).getAutoSavedGames().addGame(matchingCards);
         saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
     }
