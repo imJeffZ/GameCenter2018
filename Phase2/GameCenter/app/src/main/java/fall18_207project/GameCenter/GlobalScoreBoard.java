@@ -18,33 +18,33 @@ class GlobalScoreBoard implements GameScoreBoard, Serializable {
     // Map of <gameId> to ArrayList of ScoreEntry. ScoreEntry is Node of userName and Game.
     Map<Integer, ArrayList<ScoreRecord>> scoreMap;
 
-    GlobalScoreBoard(AccountManager accountManager) {
+    GlobalScoreBoard() {
         scoreMap = new HashMap<Integer, ArrayList<ScoreRecord>>();
-        initScoreMap(accountManager);
+//        initScoreMap(accountManager);
     }
 
-    public void updateScore(String userName, Game completedGame) {
+    public void updateScore(String email, Game completedGame) {
         int gameId = completedGame.getGameId();
         if (!scoreMap.containsKey(gameId)) {
             scoreMap.put(gameId, new ArrayList<ScoreRecord>());
         }
-        scoreMap.get(gameId).add(new ScoreRecord(userName, completedGame));
+        scoreMap.get(gameId).add(new ScoreRecord(email, completedGame));
     }
 
-    void initScoreMap(AccountManager accountManager) {
-        for (Account someAccount : accountManager.getAccountList()) {
-            ArrayList<Game> finishedGameList = new ArrayList<Game>();
-            for (Game g : someAccount.getAutoSavedGames().getAllGameList()) {
-                if (g.isSolved()) {
-                    finishedGameList.add(g);
-                }
-            }
-
-            for (Game finishedGame : finishedGameList) {
-                updateScore(someAccount.getUserName(), finishedGame);
-            }
-        }
-    }
+//    void initScoreMap(AccountManager accountManager) {
+//        for (Account someAccount : accountManager.getAccountList()) {
+//            ArrayList<Game> finishedGameList = new ArrayList<Game>();
+//            for (Game g : someAccount.getAutoSavedGames().getAllGameList()) {
+//                if (g.isSolved()) {
+//                    finishedGameList.add(g);
+//                }
+//            }
+//
+//            for (Game finishedGame : finishedGameList) {
+//                updateScore(someAccount.getUserName(), finishedGame);
+//            }
+//        }
+//    }
     /***
      * Helper function to extract a list of ScoreRecords from scoreMap.
      *
@@ -66,11 +66,11 @@ class GlobalScoreBoard implements GameScoreBoard, Serializable {
      * @return return a ArrayList of sorted username for the specific game type. Sorting based on score.
      *
      */
-    public ArrayList<String> getSortedUserNames(int gameId) {
+    public ArrayList<String> getSortedEmails(int gameId) {
         ArrayList<ScoreRecord> scoreRecordList = getSortedScoreRecord(gameId);
         ArrayList<String> userNameList = new ArrayList<String>();
         for (ScoreRecord scoreRecord : scoreRecordList) {
-            userNameList.add(scoreRecord.getUserName());
+            userNameList.add(scoreRecord.getEmail());
         }
         return userNameList;
     }
@@ -86,15 +86,15 @@ class GlobalScoreBoard implements GameScoreBoard, Serializable {
     }
 
     private class ScoreRecord implements Comparable<ScoreRecord>, Serializable{
-        private String userName;
+        private String email;
         private Game game;
         ScoreRecord(String userName, Game game) {
-            this.userName = userName;
+            this.email = userName;
             this.game = game;
         }
 
-        String getUserName() {
-            return this.userName;
+        String getEmail() {
+            return this.email;
         }
 
         Game getGame() {

@@ -21,6 +21,7 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -98,14 +99,17 @@ public class GlobalScoreBoardActivity extends Activity {
 
     private void getData(List<Map<String, Object>> list, int gameId) {
         readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
-        GlobalScoreBoard globalScoreBoard = new GlobalScoreBoard(accountManager);
+        GlobalScoreBoard globalScoreBoard = accountManager.getGlobalScoreBoard();
+
         ArrayList<Game> games = globalScoreBoard.getSortedGames(gameId);
-        ArrayList<String> user = globalScoreBoard.getSortedUserNames(gameId);
+        ArrayList<String> emails = globalScoreBoard.getSortedEmails(gameId);
+
+        Collections.reverse(games);
+        Collections.reverse(emails);
         // TODO: Move this to some onStop or OnPause method
-        saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
-            for (int i = 0; i < user.size(); i++) {
+            for (int i = 0; i < emails.size(); i++) {
                 Map<String, Object> map = new HashMap<>();
-                map.put("user", user.get(i));
+                map.put("user", accountManager.getAccount(emails.get(i)).getUserName());
                 map.put("score", games.get(i).calculateScore());
                 list.add(map);
             }
@@ -141,18 +145,4 @@ public class GlobalScoreBoardActivity extends Activity {
             Log.e("GlobalScoreBoard activity", "File contained unexpected data type: " + e.toString());
         }
     }
-
-    public void saveToFile(String fileName) {
-        try {
-            ObjectOutputStream outputStream = new ObjectOutputStream(
-                    this.openFileOutput(fileName, MODE_PRIVATE));
-            outputStream.writeObject(accountManager);
-            outputStream.close();
-        } catch (IOException e) {
-            Log.e("Exception", "File write failed: " + e.toString());
-        }
-    }
-
-
-
 }

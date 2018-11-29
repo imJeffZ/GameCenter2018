@@ -43,7 +43,7 @@ public class GameFinishActivity extends AppCompatActivity {
             // TODO: Get helper functions for the following
             // TODO: *Implement GlobalScoreBoard and also actually attach the getUserScoreBoard.
             // Update global score board
-//            accountManager.getGlobalScoreBoard().updateScore(accountManager.getAccount(userEmail).getUserName(), finishedGame);
+            accountManager.getGlobalScoreBoard().updateScore(userEmail, finishedGame);
             // Update user score board
             accountManager.getAccount(userEmail).getUserScoreBoard().addGame(finishedGame);
             // Delete game from user's autoSavedGameList
@@ -76,7 +76,7 @@ public class GameFinishActivity extends AppCompatActivity {
             public void onClick(View v) {
 //                readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
 //                saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
-                Intent returnToMainScreen = new Intent(getApplicationContext(), UserHistoryActivity.class);
+                Intent returnToMainScreen = new Intent(getApplicationContext(), GameCentreActivity.class);
                 startActivity(returnToMainScreen);
             }
         });

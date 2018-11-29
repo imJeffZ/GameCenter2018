@@ -16,7 +16,7 @@
         android:textStyle="bold"
         android:textSize="30dp"
         android:gravity="center"
-        android:text="Click anywhere and return to the main menu."
+        android:text="Click anywhere and return to GameCentre."
         android:textColor="#daeda828" />
 
     <Button
