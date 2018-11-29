@@ -228,7 +228,7 @@ public class Game2048StartActivity extends AppCompatActivity {
     }
 
     /**
-     * Switch to the GameActivity view to play the game.
+     * Switch to the Game2048Activity view to play the game.
      */
     private void switchToGame(String saveId) {
         Intent tmp = new Intent(this, Game2048Activity.class);

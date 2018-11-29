@@ -21,7 +21,6 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -144,7 +143,7 @@ public class UserHistoryActivity extends Activity {
 
     private void goToDifferentGames(int id, Game selectedGame){
 
-        Intent goToGame = id <= 3? new Intent(getApplicationContext(), GameActivity.class):
+        Intent goToGame = id <= 3? new Intent(getApplicationContext(), SlidingTileGameActivity.class):
                 id <= 6? new Intent(getApplicationContext(), MatchingCardsGameActivity.class):
                         new Intent(getApplicationContext(), Game2048Activity.class);
         goToGame.putExtra("saveType", "userHistory");

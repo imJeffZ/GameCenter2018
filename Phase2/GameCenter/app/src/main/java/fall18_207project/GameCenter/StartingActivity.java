@@ -290,7 +290,7 @@ public class StartingActivity extends AppCompatActivity {
 //    }
 
     /**
-     * Switch to the GameActivity view to play the game.
+     * Switch to the SlidingTileGameActivity view to play the game.
      */
 
     private void switchToSaveGames(){
@@ -319,7 +319,7 @@ public class StartingActivity extends AppCompatActivity {
 
     }
     private void switchToGame(String saveId) {
-        Intent tmp = new Intent(this, GameActivity.class);
+        Intent tmp = new Intent(this, SlidingTileGameActivity.class);
         tmp.putExtra("saveId", saveId);
         tmp.putExtra("saveType", "autoSave");
 //        saveToFile(StartingActivity.TEMP_SAVE_FILENAME);

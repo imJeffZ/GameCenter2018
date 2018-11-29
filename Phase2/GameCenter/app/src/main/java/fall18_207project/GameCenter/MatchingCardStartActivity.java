@@ -316,7 +316,7 @@ private void switchGameByComplexity(int num){
 }
 
     /**
-     * Switch to the GameActivity view to play the game.
+     * Switch to the MatchingCardsGameActivity view to play the game.
      */
     private void switchToGame(String saveId) {
         Intent tmp = new Intent(this, MatchingCardsGameActivity.class);

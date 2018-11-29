@@ -24,7 +24,7 @@
         <activity android:name=".MatchingCardsGameActivity" />
         <activity android:name=".MatchingCardStartActivity" />
         <activity android:name=".StartingActivity" />
-        <activity android:name=".GameActivity" />
+        <activity android:name=".SlidingTileGameActivity" />
         <activity android:name=".GameFinishActivity" />
         <activity android:name=".Game2048StartActivity" />
         <activity android:name=".Game2048Activity" />
