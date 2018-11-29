@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -106,6 +107,7 @@ public class Game2048Activity extends AppCompatActivity implements Observer {
 
         addUndoButtonListener();
         addSaveButtonListener();
+//        addResetButtonListener();
 
         // Add View to activity
         gridView = findViewById(R.id.grid);
@@ -182,6 +184,18 @@ public class Game2048Activity extends AppCompatActivity implements Observer {
     private void makeSavedMessage() {
         Toast.makeText(this, "Game Saved", Toast.LENGTH_SHORT).show();
     }
+
+//    private void addResetButtonListener() {
+//        Button resetButton = findViewById(R.id.resetButton);
+//        resetButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                game2048.reset();
+//                TextView counter = findViewById(R.id.steps_id);
+//                counter.setText("Step: " + 0);
+//            }
+//        });
+//    }
 
     private void setObserver(Board board) {
         board.addObserver(this);
