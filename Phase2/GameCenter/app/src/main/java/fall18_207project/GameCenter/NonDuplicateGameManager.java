@@ -1,10 +1,12 @@
 package fall18_207project.GameCenter;
 
+import java.util.ArrayList;
+
 /***
  * This is the game history of Account. It stores all the games that the user saved, but have not finished.
  * For finished games, visit ScoreBoard.
  */
-public class NonDuplicateGameManager extends GameManager {
+public class NonDuplicateGameManager extends GameManager implements GameScoreBoard {
 
     public NonDuplicateGameManager() {
         super();
@@ -20,6 +22,11 @@ public class NonDuplicateGameManager extends GameManager {
             deleteGame(newGame.getSaveId());
         }
         this.gameList.add(newGame);
+    }
+
+    public ArrayList<Game> getSortedGames(int gameId) {
+        //TODO: After making UserHistoryAct and SavedGamesAct show a specific type of game, sort this.gameList
+        return getSavedGames(gameId);
     }
 
 }
