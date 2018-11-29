@@ -35,7 +35,7 @@ public class Account implements Serializable {
         this.prof = new Profile();
 //        this.userScoreBoard = new UserScoreBoard();
         // TODO: Change to userSavedGames to new DuplicateGameManager(), someHow I might have reverted the functionality of DuplicateGameManger and NonDuplicateGameManager
-        this.userSavedGames = new NonDuplicateGameManager();
+        this.userSavedGames = new DuplicateGameManager();
         this.autoSavedGames = new NonDuplicateGameManager();
         this.userScoreBoard = new SortingNonDuplicateGameManager();
     }

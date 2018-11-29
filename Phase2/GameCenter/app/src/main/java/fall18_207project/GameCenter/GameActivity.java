@@ -229,11 +229,7 @@ public class GameActivity extends AppCompatActivity implements Observer {
         mChrono.stop();
 //        slidingTiles.resetElapsedTime();
 //        gameManager.addGame(slidingTiles);
-        if (saveType.equals("autoSave")) {
-            accountManager.getAccount(userEmail).getAutoSavedGames().addGame(slidingTiles);
-        } else {
-            accountManager.getAccount(userEmail).getUserSavedGames().addGame(slidingTiles);
-        }
+        accountManager.getAccount(userEmail).getAutoSavedGames().addGame(slidingTiles);
         saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
 //        saveToFile(StartingActivity.TEMP_SAVE_FILENAME);
     }
@@ -247,11 +243,7 @@ public class GameActivity extends AppCompatActivity implements Observer {
 //        saveToFile(userEmail + StartingActivity.AUTO_SAVE_FILENAME);
 //        slidingTiles.resetElapsedTime();
 //        gameManager.addGame(slidingTiles);
-        if (saveType.equals("autoSave")) {
-            accountManager.getAccount(userEmail).getAutoSavedGames().addGame(slidingTiles);
-        } else {
-            accountManager.getAccount(userEmail).getUserSavedGames().addGame(slidingTiles);
-        }
+        accountManager.getAccount(userEmail).getAutoSavedGames().addGame(slidingTiles);
         saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
     }
 
