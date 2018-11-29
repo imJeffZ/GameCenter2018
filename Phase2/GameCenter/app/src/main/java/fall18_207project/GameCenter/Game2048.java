@@ -65,7 +65,11 @@ public class Game2048 extends Game implements GameFeature, Cloneable {
 
     @Override
     int calculateScore() {
-        return score;
+        if(!hasVaildMove()){
+            return 0;
+        }else {
+            return score;
+        }
     }
 
     /**
