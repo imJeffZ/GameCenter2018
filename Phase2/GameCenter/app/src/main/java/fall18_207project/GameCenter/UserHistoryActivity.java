@@ -55,7 +55,7 @@ public class UserHistoryActivity extends Activity {
                 saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
 
                 Intent goToGame = new Intent(getApplicationContext(), GameActivity.class);
-                goToGame.putExtra("saveType", "autoSave");
+                goToGame.putExtra("saveType", "userHistory");
                 goToGame.putExtra("saveId", selectedGame.getSaveId());
                 startActivity(goToGame);
             }
