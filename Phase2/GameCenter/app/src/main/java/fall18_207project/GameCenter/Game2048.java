@@ -20,6 +20,7 @@ public class Game2048 extends Game implements GameFeature, Cloneable {
 
     public Game2048() {
         super(); // Explicitly put here
+        this.gameId = 7;
         List<Tile> tiles = new ArrayList<>();
         final int numTiles = 16;
         Random r = new Random();
