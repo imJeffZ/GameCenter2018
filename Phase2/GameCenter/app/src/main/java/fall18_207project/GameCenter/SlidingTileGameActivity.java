@@ -1,6 +1,7 @@
 package fall18_207project.GameCenter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -209,6 +210,29 @@ public class SlidingTileGameActivity extends AppCompatActivity implements Observ
             }
         });
     }
+
+//    private void addResetButtonListener() {
+//        Button resetButton = findViewById(R.id.restartButton);
+//        resetButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                TextView count = findViewById(R.id.steps_id);
+//                Intent restart = new Intent(getApplicationContext(), GameActivity.class);
+//                int size = slidingTiles.getGameId() + 2;
+//                SlidingTiles newSlidingTiles = new SlidingTiles(size);
+//                newSlidingTiles.tiles = slidingTiles.cloneTiles();
+//                newSlidingTiles.board = new Board(slidingTiles.tiles, size);
+//                newSlidingTiles.initialBoard = new Board(slidingTiles.tiles, size);
+//                restart.putExtra("saveId", newSlidingTiles.getSaveId());
+//                restart.putExtra("saveType", "autoSave");
+//                readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
+//                accountManager.getAccount(userEmail).getAutoSavedGames().addGame(newSlidingTiles);
+//                saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
+//                startActivity(restart);
+//            }
+//        });
+//    }
+
     /**
      * Create the buttons for displaying the tiles.
      *
@@ -277,6 +301,8 @@ public class SlidingTileGameActivity extends AppCompatActivity implements Observ
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        Intent gotoStarting = new Intent(getApplicationContext(), SlidingTileStartingActivity.class);
+        startActivity(gotoStarting);
         saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
     }
 

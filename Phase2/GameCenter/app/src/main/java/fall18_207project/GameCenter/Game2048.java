@@ -37,7 +37,6 @@ public class Game2048 extends Game implements GameFeature, Cloneable {
         this.endTime = 0;
         this.score = 0;
         this.boardStack = new Stack<>();
-        boardStack.add(board);
     }
 
 
@@ -78,7 +77,7 @@ public class Game2048 extends Game implements GameFeature, Cloneable {
      */
     @Override
     public boolean isValidTap(int direction) {
-        return true;
+        return false;
     }
 
     public boolean hasVaildMove() {
@@ -255,6 +254,7 @@ public class Game2048 extends Game implements GameFeature, Cloneable {
             board.getTiles()[blanktiles.get(position).get(0)][blanktiles.get(position).get(1)] = new Tile(number - 1);
             board.swapTiles(blanktiles.get(position2).get(0), blanktiles.get(position2).get(1), blanktiles.get(position).get(0), blanktiles.get(position).get(1));
         }
+        boardStack.push(board.clone());
     }
 
     public void undo() {
