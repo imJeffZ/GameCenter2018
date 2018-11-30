@@ -134,7 +134,7 @@ public class UserHistoryActivity extends Activity {
             Map<String, Object> map = new HashMap<>();
             if (gameList.get(i).gameId ==id){
                 playGame.add(gameList.get(i));
-                map.put("gameId", gameList.get(i).saveId);
+                map.put("gameId", gameList.get(i).getTime());
                 map.put("score",  gameList.get(i).calculateScore());
                 list.add(map);
             }

@@ -212,7 +212,7 @@ public class SlidingTileGameActivity extends AppCompatActivity implements Observ
 //    }
 
     private void addResetButtonListener() {
-        Button resetButton = findViewById(R.id.restartButton);
+        Button resetButton = findViewById(R.id.resetButton);
         resetButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

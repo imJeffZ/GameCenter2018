@@ -38,7 +38,8 @@ class SlidingTiles extends Game implements Cloneable, GameFeature {
         int blank = winBoard.size() - 1;
         Random r = new Random();
         int moveWay = r.nextInt(4);
-        int boundStep = 40 - r.nextInt(35);
+        //TODO: Marvel has changed it eeeeeeeazy
+        int boundStep = 6 - r.nextInt(4);
         int move;
         int i = 0;
         while (i < boundStep) {
