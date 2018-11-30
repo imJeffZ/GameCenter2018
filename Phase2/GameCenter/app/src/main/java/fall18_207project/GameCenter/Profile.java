@@ -50,7 +50,7 @@ class Profile implements Serializable {
     }
 
     public String getDisplayTime(){
-        long convertToSeconds = this.totalPlayTime / 1000;
+        long convertToSeconds = getTotalPlayTime() / 1000;
         long seconds = convertToSeconds % 60;
         long minutes = convertToSeconds / 60;
         long hours = convertToSeconds / 2400;

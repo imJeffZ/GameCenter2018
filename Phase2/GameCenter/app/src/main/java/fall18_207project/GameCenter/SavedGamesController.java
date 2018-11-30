@@ -9,17 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 public class SavedGamesController {
-//    public static String userEmail = "";
-//    private AccountManager accountManager;
-    // TODO: Maybe we don't need context
-    private Context mContext;
     private GameManager gameManager;
-
-   SavedGamesController(Context context){
-//       this.accountManager = acManager;
-//       this.userEmail = user;
-       this.mContext = context;
-   }
 
     public void getData(List<Map<String, Object>> list, String saveType, String gameType, ArrayList<Game> gameList ) {
         Account currAccount = CurrentAccountController.getCurrAccount();
@@ -47,7 +37,7 @@ public class SavedGamesController {
             for (Game g: gameList) {
                 Map<String, Object> map = new HashMap<>();
                 map.put("gameId", g.gameId);
-                map.put("time", g.getTime());
+                map.put("saveId", g.getTime());
                 list.add(map);
             }
         }
