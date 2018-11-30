@@ -44,7 +44,6 @@ public class MatchingCardsGameActivity extends AppCompatActivity implements Obse
     Context mContext;
 
 
-    // Grid View and calculated column height and width based on device size
     private GestureDetectGridView gridView;
     private static int columnWidth, columnHeight;
 
@@ -52,7 +51,6 @@ public class MatchingCardsGameActivity extends AppCompatActivity implements Obse
      * Set up the background image for each button based on the master list
      * of positions, and then call the adapter to set the view.
      */
-    // Display
     public void display() {
         if (matchingCards.isStartMode())
             initCardButtons();
@@ -68,74 +66,67 @@ public class MatchingCardsGameActivity extends AppCompatActivity implements Obse
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        loadFromFile(MatchingCardStartActivity.TEMP_SAVE_FILENAME);
         readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
-        saveType = getIntent().getStringExtra("saveType");
-        if (saveType.equals("autoSave")) {
-            gameManager = accountManager.getAccount(userEmail).getAutoSavedGames();
-        } else if (saveType.equals("userSave")){
-            gameManager = accountManager.getAccount(userEmail).getUserSavedGames();
-        } else {
-            gameManager = accountManager.getAccount(userEmail).getUserScoreBoard();
-        }
-        String saveId = getIntent().getStringExtra("saveId");
-        if (saveId == null) {
-            matchingCards = new MatchingCards(4);
-        } else {
-            matchingCards = (MatchingCards) gameManager.getGame(getIntent().getStringExtra("saveId"));
-        }
-
-        if (matchingCards.getElapsedTime() != 0) {
-            mContext = this;
-            mChrono = new GameChronometer(mContext, System.currentTimeMillis() - matchingCards.getElapsedTime());
-            mThreadChrono = new Thread(mChrono);
-            mThreadChrono.start();
-            mChrono.start();
-        }
-//        @NonNull String email = getIntent().getStringExtra("userEmail");
-//        userEmail = email;
+        initial();
         createGameTileButtons(this);
         setContentView(R.layout.activity_matchingcard_game_main);
-
-        mContext = this;
-        mTvTimer = findViewById(R.id.time_id);
-
+        setTimerText();
+        setGameView();
         if(matchingCards.isStartMode())
             addStartButtonListener();
-        else
-            setStartButtonUnclickable();
+        else setStartButtonUnclickable();
         addSaveButtonListener();
         addResetButtonListener();
-        // Add View to activity
+    }
+
+    public void setGameView(){
         gridView = findViewById(R.id.grid);
         gridView.setNumColumns(matchingCards.getMatchingBoard().getNumOfColumns());
-
         gridView.setGame(matchingCards);
-
         matchingCards.getMatchingBoard().addObserver(this);
         // Observer sets up desired dimensions as well as calls our display function
         gridView.getViewTreeObserver().addOnGlobalLayoutListener(
                 new ViewTreeObserver.OnGlobalLayoutListener() {
                     @Override
                     public void onGlobalLayout() {
-                        gridView.getViewTreeObserver().removeOnGlobalLayoutListener(
-                                this);
+                        gridView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
                         int displayWidth = gridView.getMeasuredWidth();
                         int displayHeight = gridView.getMeasuredHeight();
-
-
                         columnWidth = displayWidth / matchingCards.getMatchingBoard().getNumOfColumns();
                         columnHeight = displayHeight / matchingCards.getMatchingBoard().getNumOfRows();
-
                         display();
                     }
                 });
+
+    }
+
+    public void setTimerText(){
+        if (matchingCards.getElapsedTime() != 0) {
+            mContext = this;
+            mChrono = new GameChronometer(mContext,
+                    System.currentTimeMillis() - matchingCards.getElapsedTime());
+            mThreadChrono = new Thread(mChrono);
+            mThreadChrono.start();
+            mChrono.start();
+        }
+        mContext = this;
+        mTvTimer = findViewById(R.id.time_id);
         if (mChrono == null) {
             mChrono = new GameChronometer(mContext);
             mThreadChrono = new Thread(mChrono);
             mThreadChrono.start();
             mChrono.start();
         }
+    }
+
+    void initial(){
+        saveType = getIntent().getStringExtra("saveType");
+        gameManager = saveType.equals("autoSave")?accountManager.getAccount(userEmail).getAutoSavedGames():
+                saveType.equals("userSave")? accountManager.getAccount(userEmail).getUserSavedGames():
+                        accountManager.getAccount(userEmail).getUserScoreBoard();
+        String saveId = getIntent().getStringExtra("saveId");
+        matchingCards = saveId == null? new MatchingCards(4):
+                (MatchingCards) gameManager.getGame(getIntent().getStringExtra("saveId"));
     }
 
 
@@ -266,8 +257,6 @@ public class MatchingCardsGameActivity extends AppCompatActivity implements Obse
         accountManager.getAccount(userEmail).getProf().updateTotalPlayTime(mChrono.getActualElapsedTime());
         mChrono.updateSavedTime();
         saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
-//        saveToFile(MatchingCardStartActivity.TEMP_SAVE_FILENAME);
-//        matchingCards.resetElapsedTime();
     }
 
     private void makeSavedMessage() {
@@ -279,9 +268,6 @@ public class MatchingCardsGameActivity extends AppCompatActivity implements Obse
         super.onStop();
         matchingCards.updateElapsedTime(mChrono.getElapsedTime());
         mChrono.stop();
-
-//        saveToFile(MatchingCardStartActivity.CURRENT_ACCOUNT + MatchingCardStartActivity.AUTO_SAVE_FILENAME);
-//        matchingCards.resetElapsedTime();
         accountManager.getAccount(userEmail).getAutoSavedGames().addGame(matchingCards);
         accountManager.getAccount(userEmail).getProf().updateTotalPlayTime(mChrono.getActualElapsedTime());
         mChrono.updateSavedTime();
@@ -302,36 +288,6 @@ public class MatchingCardsGameActivity extends AppCompatActivity implements Obse
         startActivity(goToStart);
     }
 
-    /**
-     * Load the matchingTile from fileName.
-     *
-     * @param fileName the name of the file
-     */
-    private void loadFromFile(String fileName) {
-
-        try {
-            InputStream inputStream = this.openFileInput(fileName);
-            if (inputStream != null) {
-                ObjectInputStream input = new ObjectInputStream(inputStream);
-                matchingCards = (MatchingCards) input.readObject();
-//                if (matchingCards.getElapsedTime() != 0) {
-//                    mContext = this;
-//                    mChrono = new GameChronometer(mContext, System.currentTimeMillis() - matchingCards.getElapsedTime());
-//                    mThreadChrono = new Thread(mChrono);
-//                    mThreadChrono.start();
-//                    mChrono.start();
-//                }
-                inputStream.close();
-            }
-        } catch (FileNotFoundException e) {
-            Log.e("MatchingCardsGame activity", "File not found: " + e.toString());
-        } catch (IOException e) {
-            Log.e("MatchingCardsGame activity", "Can not read file: " + e.toString());
-        } catch (ClassNotFoundException e) {
-            Log.e("MatchingCardsGame activity", "File contained unexpected data type: " + e.toString());
-        }
-    }
-
     private void readFromSer(String fileName) {
 
         try {
@@ -339,13 +295,6 @@ public class MatchingCardsGameActivity extends AppCompatActivity implements Obse
             if (inputStream != null) {
                 ObjectInputStream input = new ObjectInputStream(inputStream);
                 accountManager = (AccountManager) input.readObject();
-//                if (matchingCards.getElapsedTime() != 0) {
-//                    mContext = this;
-//                    mChrono = new GameChronometer(mContext, System.currentTimeMillis() - matchingCards.getElapsedTime());
-//                    mThreadChrono = new Thread(mChrono);
-//                    mThreadChrono.start();
-//                    mChrono.start();
-//                }
                 inputStream.close();
             }
         } catch (FileNotFoundException e) {
@@ -367,25 +316,12 @@ public class MatchingCardsGameActivity extends AppCompatActivity implements Obse
         try {
             ObjectOutputStream outputStream = new ObjectOutputStream(
                     this.openFileOutput(fileName, MODE_PRIVATE));
-            //outputStream.writeObject(matchingCards);
             outputStream.writeObject(accountManager);
             outputStream.close();
         } catch (IOException e) {
             Log.e("Exception", "File write failed: " + e.toString());
         }
     }
-
-//    public void saveToSer(String fileName) {
-//        try {
-//            ObjectOutputStream outputStream = new ObjectOutputStream(
-//                    this.openFileOutput(fileName, MODE_PRIVATE));
-//            outputStream.writeObject(accountManager);
-//            outputStream.close();
-//        } catch (IOException e) {
-//            Log.e("Exception", "File write failed: " + e.toString());
-//        }
-//    }
-
     @Override
     public void update(Observable o, Object arg) {
         display();

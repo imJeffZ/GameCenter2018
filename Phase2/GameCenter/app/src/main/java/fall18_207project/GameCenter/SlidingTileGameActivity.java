@@ -22,7 +22,6 @@ import java.util.Observer;
 
 /**
  * The game activity.
- * test for push.
  */
 public class SlidingTileGameActivity extends AppCompatActivity implements Observer, GameActivity {
 
@@ -38,22 +37,12 @@ public class SlidingTileGameActivity extends AppCompatActivity implements Observ
      * The buttons to display.
      */
     private ArrayList<Button> tileButtons;
-
-    /**
-     * Constants for swiping directions. Should be an enum, probably.
-     */
-    public static final int UP = 1;
-    public static final int DOWN = 2;
-    public static final int LEFT = 3;
-    public static final int RIGHT = 4;
-
     //Timer textview
     TextView mTvTimer;
     //Instance of Chronometer
     GameChronometer mChrono;
     //Thread for chronometer
     Thread mThreadChrono;
-    //Reference to the MainActivity (this class!)
     Context mContext;
 
 
@@ -79,45 +68,37 @@ public class SlidingTileGameActivity extends AppCompatActivity implements Observ
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
-//        @NonNull String email = getIntent().getStringExtra("userEmail");
-//        userEmail = email;
-        saveType = getIntent().getStringExtra("saveType");
-        if (saveType.equals("autoSave")) {
-            gameManager = accountManager.getAccount(userEmail).getAutoSavedGames();
-        } else if (saveType.equals("userSave")){
-            gameManager = accountManager.getAccount(userEmail).getUserSavedGames();
-        } else {
-            gameManager = accountManager.getAccount(userEmail).getUserScoreBoard();
-        }
-
-        // TODO: Better fix on how to deal with Null pointer exception when passing data through intent
-        String saveId = getIntent().getStringExtra("saveId");
-        if (saveId == null) {
-            slidingTiles = new SlidingTiles(1);
-        } else {
-            slidingTiles = (SlidingTiles) gameManager.getGame(getIntent().getStringExtra("saveId"));
-        }
-
-        // Continue the timer
-        if (slidingTiles.getElapsedTime() != 0) {
-            mContext = this;
-            mChrono = new GameChronometer(mContext, System.currentTimeMillis() - slidingTiles.getElapsedTime());
-            mThreadChrono = new Thread(mChrono);
-            mThreadChrono.start();
-            mChrono.start();
-        }
-
+        initial();
         createGameTileButtons(this);
         setContentView(R.layout.activity_slidingtiles);
-
-        mContext = this;
-        mTvTimer = findViewById(R.id.time_id);
-
+        setGameView();
+        setTimerText();
         addUndoButtonListener();
         addSaveButtonListener();
         addResetButtonListener();
 
-        // Add View to activity
+    }
+
+    public void setTimerText(){
+        if (slidingTiles.getElapsedTime() != 0) {
+            mContext = this;
+            mChrono = new GameChronometer(mContext,
+                    System.currentTimeMillis() - slidingTiles.getElapsedTime());
+            mThreadChrono = new Thread(mChrono);
+            mThreadChrono.start();
+            mChrono.start();
+        }
+        mContext = this;
+        mTvTimer = findViewById(R.id.time_id);
+        if (mChrono == null) {
+            mChrono = new GameChronometer(mContext);
+            mThreadChrono = new Thread(mChrono);
+            mThreadChrono.start();
+            mChrono.start();
+        }
+    }
+
+    public void setGameView(){
         gridView = findViewById(R.id.grid);
         gridView.setNumColumns(slidingTiles.getBoard().getNumOfColumns());
 
@@ -133,20 +114,21 @@ public class SlidingTileGameActivity extends AppCompatActivity implements Observ
                                 this);
                         int displayWidth = gridView.getMeasuredWidth();
                         int displayHeight = gridView.getMeasuredHeight();
-
-
                         columnWidth = displayWidth / slidingTiles.getBoard().getNumOfColumns();
                         columnHeight = displayHeight / slidingTiles.getBoard().getNumOfRows();
-
                         display();
                     }
                 });
-        if (mChrono == null) {
-            mChrono = new GameChronometer(mContext);
-            mThreadChrono = new Thread(mChrono);
-            mThreadChrono.start();
-            mChrono.start();
-        }
+    }
+
+    void initial(){
+        saveType = getIntent().getStringExtra("saveType");
+        gameManager = saveType.equals("autoSave")?accountManager.getAccount(userEmail).getAutoSavedGames():
+                saveType.equals("userSave")? accountManager.getAccount(userEmail).getUserSavedGames():
+                        accountManager.getAccount(userEmail).getUserScoreBoard();
+        String saveId = getIntent().getStringExtra("saveId");
+        slidingTiles = saveId == null? new SlidingTiles(1):
+                (SlidingTiles) gameManager.getGame(getIntent().getStringExtra("saveId"));
     }
 
 
@@ -181,7 +163,6 @@ public class SlidingTileGameActivity extends AppCompatActivity implements Observ
         saveButton.setOnClickListener((new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
                 slidingTiles.updateElapsedTime(mChrono.getElapsedTime());
                 accountManager.getAccount(userEmail).getUserSavedGames().addGame(slidingTiles);
                 accountManager.getAccount(userEmail).getProf().updateTotalPlayTime(mChrono.getActualElapsedTime());
@@ -255,13 +236,10 @@ public class SlidingTileGameActivity extends AppCompatActivity implements Observ
         super.onPause();
         slidingTiles.updateElapsedTime(mChrono.getElapsedTime());
         mChrono.stop();
-//        slidingTiles.resetElapsedTime();
-//        gameManager.addGame(slidingTiles);
         accountManager.getAccount(userEmail).getAutoSavedGames().addGame(slidingTiles);
         accountManager.getAccount(userEmail).getProf().updateTotalPlayTime(mChrono.getActualElapsedTime());
         mChrono.updateSavedTime();
         saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
-//        saveToFile(SlidingTileStartingActivity.TEMP_SAVE_FILENAME);
     }
 
     @Override
@@ -270,9 +248,6 @@ public class SlidingTileGameActivity extends AppCompatActivity implements Observ
         slidingTiles.updateElapsedTime(mChrono.getElapsedTime());
         mChrono.stop();
 
-//        saveToFile(userEmail + SlidingTileStartingActivity.AUTO_SAVE_FILENAME);
-//        slidingTiles.resetElapsedTime();
-//        gameManager.addGame(slidingTiles);
         accountManager.getAccount(userEmail).getAutoSavedGames().addGame(slidingTiles);
         accountManager.getAccount(userEmail).getProf().updateTotalPlayTime(mChrono.getActualElapsedTime());
         mChrono.updateSavedTime();
@@ -292,37 +267,6 @@ public class SlidingTileGameActivity extends AppCompatActivity implements Observ
         saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
         startActivity(gotoStarting);
     }
-
-
-    //    /**
-//     * Load the board manager from fileName.
-//     *
-//     * @param fileName the name of the file
-//     */
-//    private void loadFromFile(String fileName) {
-//
-//        try {
-//            InputStream inputStream = this.openFileInput(fileName);
-//            if (inputStream != null) {
-//                ObjectInputStream input = new ObjectInputStream(inputStream);
-//                slidingTiles = (SlidingTiles) input.readObject();
-//                if (slidingTiles.getElapsedTime() != 0) {
-//                    mContext = this;
-//                    mChrono = new GameChronometer(mContext, System.currentTimeMillis() - slidingTiles.getElapsedTime());
-//                    mThreadChrono = new Thread(mChrono);
-//                    mThreadChrono.start();
-//                    mChrono.start();
-//                }
-//                inputStream.close();
-//            }
-//        } catch (FileNotFoundException e) {
-//            Log.e("Game activity", "File not found: " + e.toString());
-//        } catch (IOException e) {
-//            Log.e("Game activity", "Can not read file: " + e.toString());
-//        } catch (ClassNotFoundException e) {
-//            Log.e("Game activity", "File contained unexpected data type: " + e.toString());
-//        }
-//    }
 
     /**
      * Save the board manager to fileName.

@@ -6,8 +6,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.Spinner;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -23,85 +25,47 @@ public class SavedGamesActivity extends Activity {
 
     public static String userEmail = "";
     private AccountManager accountManager;
-    private GameManager gameManager;
     private String gameType = null;
+    private  SavedGamesController mController;
 
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         readAccountManagerFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
-        ArrayList<Game> allGameList = new ArrayList<>();
-        ArrayList<Game> gameList = new ArrayList<>();
-
-        if (getIntent().getStringExtra("saveType").equals("autoSave")) {
-            gameManager = accountManager.getAccount(userEmail).getAutoSavedGames();
-        } else {
-            gameManager = accountManager.getAccount(userEmail).getUserSavedGames();
-        }
-        // TODO: Marvel Make this only show specific type of games
-        allGameList = gameManager.getAllGameList();
         if (getIntent().getStringExtra("gameType") != null) {
             gameType = getIntent().getStringExtra("gameType");
         }
-        if("slidingTiles".equals(gameType)){
-            for(Game game : allGameList){
-                if(game.gameId == 1 || game.gameId == 2 || game.gameId == 3){
-                    gameList.add(game);
-                }
-            }
-        }else if("matchingCards".equals(gameType)){
-            for(Game game : allGameList) {
-                if (game.gameId == 4 || game.gameId == 5 || game.gameId == 6) {
-                    gameList.add(game);
-                }
-            }
-        }else if ("game2048".equals(gameType)){
-            for(Game game : allGameList) {
-                if (game.gameId == 7) {
-                    gameList.add(game);
-                }
-            }
-        }
-        Collections.reverse(gameList);
         setContentView(R.layout.activity_saved_games);
+        setGameListView();
+    }
 
+
+    public void setGameListView(){
         ListView scoreBoardView;
         scoreBoardView = findViewById(R.id.historyView);
         final List<Map<String, Object>> list = new ArrayList<>();
-        getData(list, gameList);
+        final ArrayList<Game> gameList = new ArrayList<>();
+        mController.getData(list, getIntent().getStringExtra("saveType"), gameType, gameList);
         final SimpleAdapter adapter = new SimpleAdapter(this, list,
                 R.layout.user_history_item, new String[]{"gameId", "saveId"},
                 new int[]{R.id.user, R.id.score});
         scoreBoardView.setAdapter(adapter);
-
-        final ArrayList<Game> finalGameList = gameList;
         scoreBoardView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // TODO: Need further generalization in SlidingTileGameActivity.
-                Game selectedGame = finalGameList.get(position);
                 if("slidingTiles".equals(gameType)) {
                     Intent goToGame = new Intent(getApplicationContext(), SlidingTileGameActivity.class);
-                    goToGame.putExtra("saveType", getIntent().getStringExtra("saveType"));
-                    goToGame.putExtra("saveId", selectedGame.getSaveId());
-                    startActivity(goToGame);
+                    switchToGame(goToGame, gameList, position);
                 }else if("matchingCards".equals(gameType)) {
                     Intent goToGame = new Intent(getApplicationContext(), MatchingCardsGameActivity.class);
-                    goToGame.putExtra("saveType", getIntent().getStringExtra("saveType"));
-                    goToGame.putExtra("saveId", selectedGame.getSaveId());
-                    startActivity(goToGame);
+                    switchToGame(goToGame, gameList, position);
                 }else if("game2048".equals(gameType)) {
                     Intent goToGame = new Intent(getApplicationContext(), Game2048Activity.class);
-                    goToGame.putExtra("saveType", getIntent().getStringExtra("saveType"));
-                    goToGame.putExtra("saveId", selectedGame.getSaveId());
-                    startActivity(goToGame);
+                    switchToGame(goToGame, gameList, position);
                 }
             }
         });
-
-
     }
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -114,15 +78,11 @@ public class SavedGamesActivity extends Activity {
         readAccountManagerFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
     }
 
-    private void getData(List<Map<String, Object>> list, ArrayList<Game> gameArrayList) {
-
-        for (Game g: gameArrayList) {
-            Map<String, Object> map = new HashMap<>();
-            map.put("gameId", g.gameId);
-            map.put("saveId", g.getTime());
-            list.add(map);
-        }
-    }
+   private void switchToGame(Intent goToGame, ArrayList<Game> gameList, int position){
+       goToGame.putExtra("saveType", getIntent().getStringExtra("saveType"));
+       goToGame.putExtra("saveId", gameList.get(position).getSaveId());
+       startActivity(goToGame);
+   }
 
 
     private void readAccountManagerFromSer(String fileName) {
@@ -132,6 +92,7 @@ public class SavedGamesActivity extends Activity {
             if (inputStream != null) {
                 ObjectInputStream input = new ObjectInputStream(inputStream);
                 accountManager = (AccountManager) input.readObject();
+                mController = new SavedGamesController(accountManager, userEmail);
                 inputStream.close();
             }
         } catch (FileNotFoundException e) {

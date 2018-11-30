@@ -8,7 +8,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,10 +43,6 @@ public class Game2048Activity extends AppCompatActivity implements Observer, Gam
     /**
      * Constants for swiping directions. Should be an enum, probably.
      */
-    public static final int UP = 1;
-    public static final int DOWN = 2;
-    public static final int LEFT = 3;
-    public static final int RIGHT = 4;
 
     //Timer textview
     TextView mTvTimer;
@@ -81,43 +76,46 @@ public class Game2048Activity extends AppCompatActivity implements Observer, Gam
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
-//        userEmail = getIntent().getStringExtra("userEmail");
-        saveType = getIntent().getStringExtra("saveType");
-        if (saveType.equals("autoSave")) {
-            gameManager = accountManager.getAccount(userEmail).getAutoSavedGames();
-        } else if (saveType.equals("userSave")){
-            gameManager = accountManager.getAccount(userEmail).getUserSavedGames();
-        } else {
-            gameManager = accountManager.getAccount(userEmail).getUserScoreBoard();
-        }
-        // TODO: Better fix on how to deal with Null pointer exception when passing data through intent
-        String saveId = getIntent().getStringExtra("saveId");
-        if (saveId == null) {
-            game2048 = new Game2048();
-        } else {
-            game2048 = (Game2048) gameManager.getGame(getIntent().getStringExtra("saveId"));
-            System.out.println("HERE");
-        }
+        initial();
+        createGameTileButtons(this);
+        setContentView(R.layout.activity_game2048);
+        setGameView();
+        setTimerText();
+        addUndoButtonListener();
+        addSaveButtonListener();
+        addResetButtonListener();
+    }
 
-//        loadFromFile(Game2048StartActivity.TEMP_SAVE_FILENAME);
+    void initial(){
+        saveType = getIntent().getStringExtra("saveType");
+        gameManager = saveType.equals("autoSave")?accountManager.getAccount(userEmail).getAutoSavedGames():
+                saveType.equals("userSave")? accountManager.getAccount(userEmail).getUserSavedGames():
+                        accountManager.getAccount(userEmail).getUserScoreBoard();
+        String saveId = getIntent().getStringExtra("saveId");
+        game2048 = saveId == null? new Game2048():
+                (Game2048) gameManager.getGame(getIntent().getStringExtra("saveId"));
+    }
+
+    public void setTimerText(){
         if (game2048.getElapsedTime() != 0) {
             mContext = this;
-            mChrono = new GameChronometer(mContext, System.currentTimeMillis() - game2048.getElapsedTime());
+            mChrono = new GameChronometer(mContext,
+                    System.currentTimeMillis() - game2048.getElapsedTime());
             mThreadChrono = new Thread(mChrono);
             mThreadChrono.start();
             mChrono.start();
         }
-        createGameTileButtons(this);
-        setContentView(R.layout.activity_game2048);
-
         mContext = this;
         mTvTimer = findViewById(R.id.time_id);
 
-        addUndoButtonListener();
-        addSaveButtonListener();
-        addResetButtonListener();
-
-        // Add View to activity
+        if (mChrono == null) {
+            mChrono = new GameChronometer(mContext);
+            mThreadChrono = new Thread(mChrono);
+            mThreadChrono.start();
+            mChrono.start();
+        }
+    }
+    public void setGameView(){
         gridView = findViewById(R.id.grid);
         gridView.setNumColumns(game2048.getBoard().getNumOfColumns());
         gridView.setGame(game2048);
@@ -139,17 +137,7 @@ public class Game2048Activity extends AppCompatActivity implements Observer, Gam
                         display();
                     }
                 });
-         if (mChrono == null) {
-            mChrono = new GameChronometer(mContext);
-            mThreadChrono = new Thread(mChrono);
-            mThreadChrono.start();
-            mChrono.start();
-        }
     }
-
-
-
-
 
     public void updateTimerText(final String timeAsText) {
         runOnUiThread(new Runnable() {
@@ -159,7 +147,6 @@ public class Game2048Activity extends AppCompatActivity implements Observer, Gam
             }
         });
     }
-
 
     private void addUndoButtonListener() {
         Button undoButton = findViewById(R.id.UndoButton);
@@ -202,7 +189,6 @@ public class Game2048Activity extends AppCompatActivity implements Observer, Gam
         saveButton.setOnClickListener((new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
                 game2048.updateElapsedTime(mChrono.getElapsedTime());
                 accountManager.getAccount(userEmail).getUserSavedGames().addGame(game2048);
                 accountManager.getAccount(userEmail).getProf().updateTotalPlayTime(mChrono.getActualElapsedTime());
@@ -222,18 +208,6 @@ public class Game2048Activity extends AppCompatActivity implements Observer, Gam
         saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
         startActivity(gotoStarting);
     }
-
-//    private void addResetButtonListener() {
-//        Button resetButton = findViewById(R.id.resetButton);
-//        resetButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                game2048.reset();
-//                TextView counter = findViewById(R.id.steps_id);
-//                counter.setText("Step: " + 0);
-//            }
-//        });
-//    }
 
     private void setObserver(Board board) {
         board.addObserver(this);
@@ -279,9 +253,6 @@ public class Game2048Activity extends AppCompatActivity implements Observer, Gam
         super.onPause();
         game2048.updateElapsedTime(mChrono.getElapsedTime());
         mChrono.stop();
-
-//        saveToFile(Game2048StartActivity.TEMP_SAVE_FILENAME);
-//        game2048.resetElapsedTime();
         accountManager.getAccount(userEmail).getAutoSavedGames().addGame(game2048);
         accountManager.getAccount(userEmail).getProf().updateTotalPlayTime(mChrono.getActualElapsedTime());
         mChrono.updateSavedTime();
@@ -293,9 +264,6 @@ public class Game2048Activity extends AppCompatActivity implements Observer, Gam
         super.onStop();
         game2048.updateElapsedTime(mChrono.getElapsedTime());
         mChrono.stop();
-
- //       saveToFile(userEmail+ Game2048StartActivity.AUTO_SAVE_FILENAME);
- //       game2048.resetElapsedTime();
         accountManager.getAccount(userEmail).getAutoSavedGames().addGame(game2048);
         accountManager.getAccount(userEmail).getProf().updateTotalPlayTime(mChrono.getActualElapsedTime());
         mChrono.updateSavedTime();
@@ -316,10 +284,6 @@ public class Game2048Activity extends AppCompatActivity implements Observer, Gam
                 game2048 = (Game2048) input.readObject();
                 if (game2048.getElapsedTime() != 0) {
                     mContext = this;
-                   // mChrono = new GameChronometer(mContext, System.currentTimeMillis() - game2048.getElapsedTime());
-                   // mThreadChrono = new Thread(mChrono);
-                   // mThreadChrono.start();
-                    //mChrono.start();
                 }
                 inputStream.close();
             }
