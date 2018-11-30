@@ -184,6 +184,8 @@ public class SlidingTileGameActivity extends AppCompatActivity implements Observ
 //                readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
                 slidingTiles.updateElapsedTime(mChrono.getElapsedTime());
                 accountManager.getAccount(userEmail).getUserSavedGames().addGame(slidingTiles);
+                accountManager.getAccount(userEmail).getProf().updateTotalPlayTime(mChrono.getActualElapsedTime());
+                mChrono.updateSavedTime();
                 saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
                 makeSavedMessage();
             }
@@ -274,6 +276,8 @@ public class SlidingTileGameActivity extends AppCompatActivity implements Observ
 //        slidingTiles.resetElapsedTime();
 //        gameManager.addGame(slidingTiles);
         accountManager.getAccount(userEmail).getAutoSavedGames().addGame(slidingTiles);
+        accountManager.getAccount(userEmail).getProf().updateTotalPlayTime(mChrono.getActualElapsedTime());
+        mChrono.updateSavedTime();
         saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
 //        saveToFile(SlidingTileStartingActivity.TEMP_SAVE_FILENAME);
     }
@@ -288,6 +292,8 @@ public class SlidingTileGameActivity extends AppCompatActivity implements Observ
 //        slidingTiles.resetElapsedTime();
 //        gameManager.addGame(slidingTiles);
         accountManager.getAccount(userEmail).getAutoSavedGames().addGame(slidingTiles);
+        accountManager.getAccount(userEmail).getProf().updateTotalPlayTime(mChrono.getActualElapsedTime());
+        mChrono.updateSavedTime();
         saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
     }
 
@@ -301,8 +307,8 @@ public class SlidingTileGameActivity extends AppCompatActivity implements Observ
     public void onBackPressed() {
         super.onBackPressed();
         Intent gotoStarting = new Intent(getApplicationContext(), SlidingTileStartingActivity.class);
-        startActivity(gotoStarting);
         saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
+        startActivity(gotoStarting);
     }
 
 

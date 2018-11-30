@@ -247,6 +247,8 @@ public class MatchingCardsGameActivity extends AppCompatActivity implements Obse
             public void onClick(View view) {
                 matchingCards.updateElapsedTime(mChrono.getElapsedTime());
                 accountManager.getAccount(userEmail).getUserSavedGames().addGame(matchingCards);
+                accountManager.getAccount(userEmail).getProf().updateTotalPlayTime(mChrono.getActualElapsedTime());
+                mChrono.updateSavedTime();
                 saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
                 makeSavedMessage();
             }
@@ -262,6 +264,8 @@ public class MatchingCardsGameActivity extends AppCompatActivity implements Obse
         matchingCards.updateElapsedTime(mChrono.getElapsedTime());
         mChrono.stop();
         accountManager.getAccount(userEmail).getAutoSavedGames().addGame(matchingCards);
+        accountManager.getAccount(userEmail).getProf().updateTotalPlayTime(mChrono.getActualElapsedTime());
+        mChrono.updateSavedTime();
         saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
 //        saveToFile(MatchingCardStartActivity.TEMP_SAVE_FILENAME);
 //        matchingCards.resetElapsedTime();
@@ -280,6 +284,8 @@ public class MatchingCardsGameActivity extends AppCompatActivity implements Obse
 //        saveToFile(MatchingCardStartActivity.CURRENT_ACCOUNT + MatchingCardStartActivity.AUTO_SAVE_FILENAME);
 //        matchingCards.resetElapsedTime();
         accountManager.getAccount(userEmail).getAutoSavedGames().addGame(matchingCards);
+        accountManager.getAccount(userEmail).getProf().updateTotalPlayTime(mChrono.getActualElapsedTime());
+        mChrono.updateSavedTime();
         saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
     }
 
@@ -292,7 +298,9 @@ public class MatchingCardsGameActivity extends AppCompatActivity implements Obse
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        Intent goToStart = new Intent(getApplicationContext(), MatchingCardStartActivity.class);
         saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
+        startActivity(goToStart);
     }
 
     /**

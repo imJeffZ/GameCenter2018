@@ -46,7 +46,7 @@ class Profile implements Serializable {
     }
 
     void updateTotalPlayTime(long newPlayTime) {
-        this.totalPlayTime += totalPlayTime;
+        this.totalPlayTime += newPlayTime;
     }
 
 
