@@ -27,14 +27,10 @@ import java.util.List;
 import java.util.Map;
 
 public class UserHistoryActivity extends Activity {
-
-//    public static String userEmail = "";
-//    private AccountManager accountManager;
     private UserHistoryController mController = new UserHistoryController(UserHistoryActivity.this);
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
-
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
@@ -55,10 +51,9 @@ public class UserHistoryActivity extends Activity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        readAccountManagerFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
         setContentView(R.layout.activity_user_history);
 
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         Menu menu = navigation.getMenu();
         MenuItem menuItem = menu.getItem(1);
@@ -89,8 +84,6 @@ public class UserHistoryActivity extends Activity {
                 finalGameList.clear();
                 mController.getData(list, finalGameList,pos+1);
                 adapter.notifyDataSetChanged();
-
-
             }
 
             @Override
@@ -104,30 +97,13 @@ public class UserHistoryActivity extends Activity {
                 Game selectedGame = finalGameList.get(position);
                 selectedGame.reset();
                 CurrentAccountController.getCurrAccount().getAutoSavedGames().addGame(selectedGame);
-//                saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
                 int i = selectedGame.getGameId();
                 goToDifferentGames(i, selectedGame);
-
             }
         });
-
-
     }
-//
-//    @Override
-//    protected void onRestart() {
-//        super.onRestart();
-////        readAccountManagerFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
-//    }
-//
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-////        readAccountManagerFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
-//    }
 
     private void goToDifferentGames(int id, Game selectedGame){
-
         Intent goToGame = id <= 3? new Intent(getApplicationContext(), SlidingTileGameActivity.class):
                 id <= 6? new Intent(getApplicationContext(), MatchingCardsGameActivity.class):
                         new Intent(getApplicationContext(), Game2048Activity.class);
@@ -151,35 +127,4 @@ public class UserHistoryActivity extends Activity {
     private void updateCurrAccount() {
         mController.updateCurrAccount();
     }
-
-    //    private void readAccountManagerFromSer(String fileName) {
-//
-//        try {
-//            InputStream inputStream = this.openFileInput(fileName);
-//            if (inputStream != null) {
-//                ObjectInputStream input = new ObjectInputStream(inputStream);
-//                accountManager = (AccountManager) input.readObject();
-//                mController = new UserHistoryController(accountManager, userEmail);
-//                inputStream.close();
-//            }
-//        } catch (FileNotFoundException e) {
-//            Log.e("UserHistory activity", "File not found: " + e.toString());
-//        } catch (IOException e) {
-//            Log.e("UserHistory activity", "Can not read file: " + e.toString());
-//        } catch (ClassNotFoundException e) {
-//            Log.e("UserHistory activity", "File contained unexpected data type: " + e.toString());
-//        }
-//    }
-//
-//    public void saveToFile(String fileName) {
-//        try {
-//            ObjectOutputStream outputStream = new ObjectOutputStream(
-//                    this.openFileOutput(fileName, MODE_PRIVATE));
-//            outputStream.writeObject(accountManager);
-//            outputStream.close();
-//        } catch (IOException e) {
-//            Log.e("Exception", "File write failed: " + e.toString());
-//        }
-//    }
-
 }
