@@ -36,7 +36,7 @@ class MovementController {
     }
 
     void processSwipeMovement(final Context context,int dirction, boolean display) {
-        if (!this.game.hasVaildMove()){
+        if (!this.game.hasValidMove()){
             Toast.makeText(context,"you lose", Toast.LENGTH_SHORT).show();
             createDialog(context);
         }

@@ -75,11 +75,11 @@ public class MatchingCards extends Game implements Cloneable, Serializable {
     }
     @Override
     public boolean isSolved() {
-        return matchBomb || !(this.hasVaildMove());
+        return matchBomb || !(this.hasValidMove());
     }
 
     @Override
-    public boolean hasVaildMove() {
+    public boolean hasValidMove() {
         for (int i = 0; i < matchingBoard.getNumOfCards(); i++) {
             int row = i / matchingBoard.getNumOfRows();
             int col = i % matchingBoard.getNumOfColumns();

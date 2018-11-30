@@ -3,11 +3,19 @@ package fall18_207project.GameCenter;
 import android.support.annotation.NonNull;
 
 import java.io.Serializable;
-
-public class Card implements Comparable<Card>, Serializable, GameTile {
-
+/*
+The card in matching card game
+ */
+public class Card implements Comparable<Card>, Serializable {
+    /**
+     * The id of the card
+     */
     private  int id;
+    /**
+     * The background of the card
+     */
     private  int background;
+
     private boolean up;
     private boolean used;
     private boolean bomb;

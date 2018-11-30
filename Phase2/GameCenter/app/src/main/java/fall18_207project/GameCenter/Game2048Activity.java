@@ -148,18 +148,7 @@ public class Game2048Activity extends AppCompatActivity implements Observer, Gam
     }
 
 
-    /**
-     * Update the text of tv_timer
-     *
-     * @param timeAsText the text to update tv_timer with
-//     */
-//    public void updateTimerText(final String timeAsText) {
-//        runOnUiThread(new Runnable() {
-//            @Override
-//            public void run() {
-//                mTvTimer.setText(timeAsText);
-//            }
-//        });
+
 
 
     public void updateTimerText(final String timeAsText) {
