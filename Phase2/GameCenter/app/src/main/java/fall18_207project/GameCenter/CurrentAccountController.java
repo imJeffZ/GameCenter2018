@@ -1,4 +1,4 @@
-package com.example.a46138.myapplication;
+package fall18_207project.GameCenter;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -46,7 +46,7 @@ public class CurrentAccountController implements Serializable {
     }
 
     // might need synchronized
-    static void readFromSer(Context context, String userEmail) {
+    static void readSavedFata(Context context, String userEmail) {
         initUserEmail(userEmail);
         try {
             InputStream inputStream = context.openFileInput("account_manager.ser");
@@ -69,7 +69,7 @@ public class CurrentAccountController implements Serializable {
         }
     }
     // might need synchronized
-    static void saveToFile(Context context) {
+    static void writeData(Context context) {
         try {
             ObjectOutputStream outputStream = new ObjectOutputStream(
                     context.openFileOutput("account_manager.ser", Context.MODE_PRIVATE));
