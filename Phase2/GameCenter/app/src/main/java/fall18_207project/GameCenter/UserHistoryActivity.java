@@ -96,7 +96,6 @@ public class UserHistoryActivity extends Activity {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                // Another interface callback
             }
         });
 
