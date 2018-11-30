@@ -4,6 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/save_games"
     android:id="@+id/container"
     tools:context=".SavedGamesActivity">
 
@@ -12,7 +13,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/navigation"
-        android:background="@drawable/img2"
         android:orientation="vertical"
         tools:context="fall18_207project.GameCenter.UserHistoryActivity">
 
