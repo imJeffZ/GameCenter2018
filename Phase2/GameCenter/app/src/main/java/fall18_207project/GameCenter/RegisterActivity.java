@@ -16,13 +16,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-
-public class RegisterActivity extends AppCompatActivity implements ValidateFormActivity{
+public class RegisterActivity extends AppCompatActivity implements ValidateFormatActivity {
     private FirebaseAuth firebaseAuth;
     private String emailValue;
     private String passwordValue;
@@ -57,7 +51,7 @@ public class RegisterActivity extends AppCompatActivity implements ValidateFormA
     }
 
     private void createAccount(){
-        if(validateForm()){
+        if(validateFormat()){
             return;
         }
 
@@ -83,40 +77,11 @@ public class RegisterActivity extends AppCompatActivity implements ValidateFormA
         });
     }
 
-//    private void loadFromFile(String fileName) {
-//
-//        try {
-//            InputStream inputStream = this.openFileInput(fileName);
-//            if (inputStream != null) {
-//                ObjectInputStream input = new ObjectInputStream(inputStream);
-//                accountManager = (AccountManager) input.readObject();
-//                inputStream.close();
-//            }
-//        } catch (FileNotFoundException e) {
-//            Log.e("Register activity", "File not found: " + e.toString());
-//        } catch (IOException e) {
-//            Log.e("Register activity", "Can not read file: " + e.toString());
-//        } catch (ClassNotFoundException e) {
-//            Log.e("Register activity", "File contained unexpected data type: " + e.toString());
-//        }
-//    }
-//
-//    public void saveToFile(String fileName) {
-//        try {
-//            ObjectOutputStream outputStream = new ObjectOutputStream(
-//                    this.openFileOutput(fileName, MODE_PRIVATE));
-//            outputStream.writeObject(accountManager);
-//            outputStream.close();
-//        } catch (IOException e) {
-//            Log.e("Exception", "File write failed: " + e.toString());
-//        }
-//    }
-
     /**
      * partially cited from https://firebase.google.com/docs/auth/android/password-auth
      * @return return whether the form is validated
      */
-    public boolean validateForm() {
+    public boolean validateFormat() {
         boolean valid = true;
         EditText emailValue = findViewById(R.id.EmailRegister);
         String email = emailValue.getText().toString();

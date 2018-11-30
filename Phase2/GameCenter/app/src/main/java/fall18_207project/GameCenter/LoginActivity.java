@@ -17,16 +17,10 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-
 /***
  *  the login activity for app.
  */
-public class LoginActivity extends AppCompatActivity implements ValidateFormActivity {
+public class LoginActivity extends AppCompatActivity implements ValidateFormatActivity {
 
     private FirebaseAuth firebaseAuth;
     private String emailValue;
@@ -46,19 +40,7 @@ public class LoginActivity extends AppCompatActivity implements ValidateFormActi
         FirebaseUser currentUser = firebaseAuth.getCurrentUser();
         if (currentUser != null) {
             String emailValue = currentUser.getEmail();
-
             CurrentAccountController.readSavedFata(this, emailValue);
-//                            GlobalScoreBoardActivity.userEmail = emailValue;
-//                            GameCentreActivity.userEmail = emailValue;
-//                            SavedGamesActivity.userEmail = emailValue;
-//                            Game2048StartActivity.userEmail = emailValue;
-//                            Game2048Activity.userEmail = emailValue;
-//                            SlidingTileStartingActivity.userEmail = emailValue;
-//                            SlidingTileGameActivity.userEmail = emailValue;
-//                            MatchingCardStartActivity.userEmail = emailValue;
-//                            MatchingCardsGameActivity.userEmail = emailValue;
-//                            GameFinishActivity.userEmail = emailValue;
-//                            UserHistoryActivity.userEmail = emailValue;
             firebaseAuth.signOut();
         }
     }
@@ -88,13 +70,14 @@ public class LoginActivity extends AppCompatActivity implements ValidateFormActi
         });
     }
 
-    /** Log the user in and get their account information.
+    /**
+     * Log the user in and get their account information.
      *
-     * @param email input email;
+     * @param email    input email;
      * @param password input password;
      */
     private void userLogin(final String email, String password) {
-        if (validateForm()) {
+        if (validateFormat()) {
             return;
         }
 
@@ -107,22 +90,7 @@ public class LoginActivity extends AppCompatActivity implements ValidateFormActi
                             Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
 
                             CurrentAccountController.readSavedFata(LoginActivity.this, email);
-
-//                            GlobalScoreBoardActivity.userEmail = email;
-//                            GameCentreActivity.userEmail = email;
-//                            SavedGamesActivity.userEmail = email;
-//                            Game2048StartActivity.userEmail = email;
-//                            Game2048Activity.userEmail = email;
-//                            SlidingTileStartingActivity.userEmail = email;
-//                            SlidingTileGameActivity.userEmail = email;
-//                            MatchingCardStartActivity.userEmail = email;
-//                            MatchingCardsGameActivity.userEmail = email;
-//                            GameFinishActivity.userEmail = email;
-//                            UserHistoryActivity.userEmail = email;
-
-                            Intent goToCenter = new Intent(getApplicationContext(), GameCentreActivity.class);
-//                    goToCenter.putExtra("userEmail", accountManager.getAccount(emailValue).getUserName());
-                            startActivity(goToCenter);
+                            switchToGameCentre();
                         } else {
                             Log.d("LoginActivity", "sign in failed");
                             Toast.makeText(LoginActivity.this, "Sign in failed", Toast.LENGTH_SHORT).show();
@@ -131,11 +99,17 @@ public class LoginActivity extends AppCompatActivity implements ValidateFormActi
                 });
     }
 
+    public void switchToGameCentre() {
+        Intent goToCenter = new Intent(getApplicationContext(), GameCentreActivity.class);
+        startActivity(goToCenter);
+    }
+
     /**
      * Check if the input information is not empty.
+     *
      * @return whether the form is validate
      */
-    public boolean validateForm() {
+    public boolean validateFormat() {
         boolean valid = true;
         EditText emailValue = findViewById(R.id.EmailLogin);
         String email = emailValue.getText().toString();
