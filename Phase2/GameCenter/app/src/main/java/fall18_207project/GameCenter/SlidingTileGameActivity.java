@@ -220,7 +220,7 @@ public class SlidingTileGameActivity extends AppCompatActivity implements Observ
                 int size = slidingTiles.getGameId() + 2;
                 SlidingTiles newSlidingTiles = new SlidingTiles(size);
                 newSlidingTiles.tiles = slidingTiles.cloneTiles();
-                //newSlidingTiles.board = new Board(slidingTiles.tiles, size);
+                newSlidingTiles.board = new SlidingTileBoard(slidingTiles.tiles, size);
                 newSlidingTiles.initialBoard = new Board(slidingTiles.tiles, size);
                 restart.putExtra("saveId", newSlidingTiles.getSaveId());
                 restart.putExtra("saveType", "autoSave");

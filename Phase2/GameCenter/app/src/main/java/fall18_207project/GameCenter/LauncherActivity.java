@@ -20,7 +20,6 @@ public class LauncherActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         //addBeginAppButtonListener();
-
         Intent goToLogin = new Intent(getApplicationContext(), LoginActivity.class);
         startActivity(goToLogin);
     }

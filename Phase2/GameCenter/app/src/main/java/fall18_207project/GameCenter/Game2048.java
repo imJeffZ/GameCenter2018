@@ -26,7 +26,7 @@ public class Game2048 extends Game implements GameFeature, Cloneable {
         super(); // Explicitly put here
         this.gameId = 7;
 
-        List<Game2048Tile> tiles = new ArrayList<>();
+        tiles = new ArrayList<>();
 
         final int numTiles = 16;
         Random r = new Random();
@@ -55,9 +55,9 @@ public class Game2048 extends Game implements GameFeature, Cloneable {
         return;
     }
 
-    public List<Tile> cloneTiles() {
-        List<Tile> returnTile = new ArrayList<>();
-        for (Tile tile : tiles) {
+    public List<Game2048Tile> cloneTiles() {
+        List<Game2048Tile> returnTile = new ArrayList<>();
+        for (Game2048Tile tile : tiles) {
             returnTile.add(tile);
         }
         return returnTile;
@@ -179,7 +179,7 @@ public class Game2048 extends Game implements GameFeature, Cloneable {
     public void touchMove(int direction) {
         boolean check = false;
         boardStack.push((Game2048Board) board.clone());
-
+        countMove++;
 
         int changedBackground, value;
 
