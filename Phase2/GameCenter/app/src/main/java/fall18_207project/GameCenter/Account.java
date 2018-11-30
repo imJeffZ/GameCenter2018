@@ -14,7 +14,6 @@ public class Account implements Serializable {
     private GameManager autoSavedGames;
     private Profile prof;
 
-//    @Deprecated private ArrayList scoreRecord;
     private GameManager userScoreBoard;
 
 
@@ -26,13 +25,10 @@ public class Account implements Serializable {
         this.email = email;
         this.userName = userName;
         this.password = password;
-//        this.scoreRecord = new ArrayList(3);
-//        this.scoreRecord.add(null);
-//        this.scoreRecord.add(null);
-//        this.scoreRecord.add(null);
+
         // TODO: Rename prof to profile
         this.prof = new Profile();
-//        this.userScoreBoard = new UserScoreBoard();
+
         this.userSavedGames = new NonDuplicateGameManager();
         this.autoSavedGames = new NonDuplicateGameManager();
         this.userScoreBoard = new SortingNonDuplicateGameManager();
@@ -50,19 +46,6 @@ public class Account implements Serializable {
         return this.userScoreBoard;
     }
 
-    //    @Deprecated public ArrayList getScoreRecord() {
-//        return this.scoreRecord;
-//    }
-
-
-//
-//    @Deprecated void addScore(int index, String score) {
-//        if (this.getScoreRecord().get(index) == null) {
-//            this.getScoreRecord().set(index, score);
-//        } else if (Integer.parseInt(score) > Integer.parseInt(((String)this.getScoreRecord().get(index)))) {
-//            this.getScoreRecord().set(index, score);
-//        }
-//    }
 
     public String getEmail() {
         return this.email;
@@ -84,9 +67,7 @@ public class Account implements Serializable {
         return this.password;
     }
 
-//    void emptySavedGames() {
-//        this.savedGames.clear();
-//    }
+
 
     void setPassword(String newPass) {
         this.password = newPass;
@@ -96,13 +77,6 @@ public class Account implements Serializable {
         return prof;
     }
 
-//    boolean deleteSavedGame(String saveId) {
-//        return this.savedGames.deleteGame(saveId);
-//    }
-//
-//    public UserScoreBoard getUserScoreBoard() {
-//        return this.userScoreBoard;
-//    }
 
 
 }

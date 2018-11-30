@@ -148,18 +148,7 @@ public class Game2048Activity extends AppCompatActivity implements Observer, Gam
     }
 
 
-    /**
-     * Update the text of tv_timer
-     *
-     * @param timeAsText the text to update tv_timer with
-//     */
-//    public void updateTimerText(final String timeAsText) {
-//        runOnUiThread(new Runnable() {
-//            @Override
-//            public void run() {
-//                mTvTimer.setText(timeAsText);
-//            }
-//        });
+
 
 
     public void updateTimerText(final String timeAsText) {
@@ -214,6 +203,8 @@ public class Game2048Activity extends AppCompatActivity implements Observer, Gam
 //                readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
                 game2048.updateElapsedTime(mChrono.getElapsedTime());
                 accountManager.getAccount(userEmail).getUserSavedGames().addGame(game2048);
+                accountManager.getAccount(userEmail).getProf().updateTotalPlayTime(mChrono.getActualElapsedTime());
+                mChrono.updateSavedTime();
                 saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
                 makeSavedMessage();
             }
@@ -226,8 +217,8 @@ public class Game2048Activity extends AppCompatActivity implements Observer, Gam
     public void onBackPressed() {
         super.onBackPressed();
         Intent gotoStarting = new Intent(getApplicationContext(), Game2048StartActivity.class);
-        startActivity(gotoStarting);
         saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
+        startActivity(gotoStarting);
     }
 
 //    private void addResetButtonListener() {
@@ -290,6 +281,8 @@ public class Game2048Activity extends AppCompatActivity implements Observer, Gam
 //        saveToFile(Game2048StartActivity.TEMP_SAVE_FILENAME);
 //        game2048.resetElapsedTime();
         accountManager.getAccount(userEmail).getAutoSavedGames().addGame(game2048);
+        accountManager.getAccount(userEmail).getProf().updateTotalPlayTime(mChrono.getActualElapsedTime());
+        mChrono.updateSavedTime();
         saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
     }
 
@@ -302,6 +295,8 @@ public class Game2048Activity extends AppCompatActivity implements Observer, Gam
  //       saveToFile(userEmail+ Game2048StartActivity.AUTO_SAVE_FILENAME);
  //       game2048.resetElapsedTime();
         accountManager.getAccount(userEmail).getAutoSavedGames().addGame(game2048);
+        accountManager.getAccount(userEmail).getProf().updateTotalPlayTime(mChrono.getActualElapsedTime());
+        mChrono.updateSavedTime();
         saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
     }
 

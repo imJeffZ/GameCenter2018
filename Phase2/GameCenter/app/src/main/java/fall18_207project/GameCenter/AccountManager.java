@@ -10,7 +10,7 @@ import java.util.Map;
  */
 public class AccountManager implements Serializable {
 
-    private Map<String, Account> accountMap = new HashMap<>();
+    private Map<String, Account> accountMap ;
     private GlobalScoreBoard globalScoreBoard;
     // TODO: Maybe put AccountManager and GlobalScoreBoard together to become a MainSystem class. We can try singleton on it.
 
@@ -23,9 +23,7 @@ public class AccountManager implements Serializable {
         return globalScoreBoard;
     }
 
-    public ArrayList<Account> getAccountList() {
-        return new ArrayList<Account>(accountMap.values());
-    }
+
 
     // TODO: Change the parameters to (Account new Account)
     boolean addAccount(String email, String userName, String password) {

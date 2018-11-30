@@ -8,7 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Observable;
 
-public class MatchingBoard extends Observable implements Cloneable, Serializable, Iterable<Card>, GameBoard {
+public class MatchingBoard extends Observable implements Cloneable, Serializable, Iterable<Card> {
 
     private int numOfColumns;
     private  int numOfRows;

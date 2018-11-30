@@ -2,7 +2,6 @@ package fall18_207project.GameCenter;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 import java.util.Stack;
@@ -130,7 +129,7 @@ public class Game2048 extends Game implements GameFeature, Cloneable {
     Method to check whether it is  a dead board
      */
     public boolean hasValidMove() {
-        // TODO: code smell
+
         boolean valid = false;
         int blankid = 25;
         for (int i = 0; i < board.getNumOfColumns(); i++) {

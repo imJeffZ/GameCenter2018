@@ -29,7 +29,7 @@
         <TextView
             android:id="@+id/message"
             android:layout_width="match_parent"
-            android:layout_height="?android:attr/windowTitleSize"
+            android:layout_height="64dp"
             android:background="#b2222425"
             android:fontFamily="sans-serif-condensed"
             android:text="Game Center"
@@ -37,15 +37,17 @@
             android:textColor="#af413535"
             android:textSize="40sp"
             android:textStyle="bold"
-            android:typeface="normal" />
+            android:typeface="normal"
+            tools:layout_editor_absoluteY="-8dp"
+            tools:ignore="MissingConstraints" />
 
 
         <ImageButton
             android:id="@+id/SlidingTileGame"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="135dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="132dp"
             android:background="@drawable/sliding_tile_game"
             android:contentDescription="SlidingTile Game"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -68,8 +70,8 @@
             android:id="@+id/MatchingCardsGame"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="135dp"
+            android:layout_marginLeft="208dp"
+            android:layout_marginTop="136dp"
             android:background="@drawable/matching_card_game"
             android:contentDescription="Matching Cards Game"
             app:layout_constraintLeft_toRightOf="@id/SlidingTileGame"
@@ -91,12 +93,12 @@
             android:id="@+id/Game2048"
             android:layout_width="71dp"
             android:layout_height="103dp"
-            android:layout_marginTop="136dp"
+            android:layout_marginTop="132dp"
             android:background="@drawable/game2048"
             android:contentDescription="2048"
             app:layout_constraintTop_toBottomOf="@+id/message"
-            tools:layout_editor_absoluteX="206dp"
-            tools:ignore="MissingConstraints" />
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteX="183dp" />
 
         <TextView
             android:id="@+id/Game2048_text"
@@ -119,7 +121,7 @@
             android:clickable="false"
             app:layout_constraintLeft_toLeftOf="@+id/SlidingTileGame"
             tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteY="191dp" />
+            tools:layout_editor_absoluteY="344dp" />
 
         <TextView
             android:id="@+id/UndeclaredGameText"
@@ -147,14 +149,14 @@
 
     </android.support.constraint.ConstraintLayout>
 
-    <!--<android.support.design.widget.NavigationView-->
-        <!--android:id="@+id/nav_view"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:layout_gravity="start"-->
-        <!--android:background="@drawable/test_img"-->
-        <!--android:fitsSystemWindows="true"-->
-        <!--app:headerLayout="@layout/nav_header_profile"-->
-        <!--app:menu="@menu/activity_profile_drawer" />-->
+    <android.support.design.widget.NavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:background="@drawable/test_img"
+        android:fitsSystemWindows="true"
+        app:headerLayout="@layout/nav_header_profile"
+        app:menu="@menu/activity_profile_drawer" />
 
 </android.support.v4.widget.DrawerLayout>

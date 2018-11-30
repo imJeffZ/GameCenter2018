@@ -6,7 +6,7 @@ import java.io.Serializable;
 /*
 The card in matching card game
  */
-public class Card implements Comparable<Card>, Serializable, GameTile {
+public class Card implements Comparable<Card>, Serializable {
     /**
      * The id of the card
      */
