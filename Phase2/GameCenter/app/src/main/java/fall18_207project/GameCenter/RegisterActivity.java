@@ -9,24 +9,20 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.util.HashMap;
 
-public class RegisterActivity extends AppCompatActivity {
+public class RegisterActivity extends AppCompatActivity implements ValidateFormActivity{
     private AccountManager accountManager;
     private FirebaseAuth firebaseAuth;
     private AccessDataBase accessDataBase;
@@ -66,7 +62,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void createAccount(){
-        if(!validateForm()){
+        if(validateForm()){
             return;
         }
 
@@ -121,7 +117,7 @@ public class RegisterActivity extends AppCompatActivity {
         }
     }
 
-    private boolean validateForm() {
+    public boolean validateForm() {
         boolean valid = true;
         EditText emailValue = findViewById(R.id.EmailRegister);
         String email = emailValue.getText().toString();
@@ -150,7 +146,7 @@ public class RegisterActivity extends AppCompatActivity {
             userNameValue.setError(null);
         }
 
-        return valid;
+        return !valid;
     }
 
 }

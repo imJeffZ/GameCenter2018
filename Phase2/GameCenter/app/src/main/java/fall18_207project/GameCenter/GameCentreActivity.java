@@ -34,6 +34,10 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
+/*** the main view gamecentre activity. Show all games and the user profie, connect to scoreboards.
+ *
+ */
+
 public class GameCentreActivity extends AppCompatActivity implements  NavigationView.OnNavigationItemSelectedListener{
 
     public static String userEmail = "";
