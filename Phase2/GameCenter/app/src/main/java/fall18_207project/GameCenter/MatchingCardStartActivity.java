@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 public class MatchingCardStartActivity extends AppCompatActivity implements
         MultiLoadStartActivity, GameStartingActivity {
-//    private AccountManager accountManager;
+    //    private AccountManager accountManager;
 //    public static String userEmail = "";
     private MatchingCardStartController mController = new MatchingCardStartController(MatchingCardStartActivity.this);
 
@@ -28,8 +28,7 @@ public class MatchingCardStartActivity extends AppCompatActivity implements
         setUserTextView();
     }
 
-    // TODO: Generalize this
-    private void setUserTextView(){
+    private void setUserTextView() {
         TextView account = findViewById(R.id.Hi_User);
         account.setText(mController.setUserTextViewTest());
     }
@@ -37,7 +36,7 @@ public class MatchingCardStartActivity extends AppCompatActivity implements
     /**
      * Activate the Start button.
      */
-    private void addNewGameButtonListener(){
+    private void addNewGameButtonListener() {
         Button startButton = findViewById(R.id.StartButton);
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,7 +49,7 @@ public class MatchingCardStartActivity extends AppCompatActivity implements
     /**
      * Activate the load button.
      */
-    private void addLoadGameButtonListener(){
+    private void addLoadGameButtonListener() {
         Button Button4 = findViewById(R.id.loadGameButton);
         Button4.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,15 +78,13 @@ public class MatchingCardStartActivity extends AppCompatActivity implements
         returnToGameCenter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: Implement helper function switchToGameCentre()
-                Intent backToGameCenter = new Intent(getApplicationContext(), GameCentreActivity.class);
-                startActivity(backToGameCenter);
+                switchToGameCentre();
             }
         });
     }
 
 
-    public void showLoadDialog(){
+    public void showLoadDialog() {
         AlertDialog.Builder loadDialog =
                 new AlertDialog.Builder(MatchingCardStartActivity.this);
         loadDialog.setTitle("Load Game ").setMessage("Load From...");
@@ -109,7 +106,7 @@ public class MatchingCardStartActivity extends AppCompatActivity implements
     }
 
 
-    public void showNewGameDialog(){
+    public void showNewGameDialog() {
         AlertDialog.Builder newGameDialog =
                 new AlertDialog.Builder(MatchingCardStartActivity.this);
         newGameDialog.setTitle("New Game ").setMessage("Choose the complexity you want:");
@@ -136,11 +133,16 @@ public class MatchingCardStartActivity extends AppCompatActivity implements
         newGameDialog.show();
     }
 
-public void switchGameByComplexity(int num){
+    public void switchGameByComplexity(int num) {
 //    readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
-    switchToGame( mController.addGameInAcc(mController.createGame(num)).getSaveId());
+        switchToGame(mController.addGameInAcc(mController.createGame(num)).getSaveId());
 
-}
+    }
+
+    public void switchToGameCentre() {
+        Intent backToGameCenter = new Intent(getApplicationContext(), GameCentreActivity.class);
+        startActivity(backToGameCenter);
+    }
 
     /**
      * Switch to the MatchingCardsGameActivity view to play the game.
@@ -154,7 +156,7 @@ public void switchGameByComplexity(int num){
         startActivity(tmp);
     }
 
-    public void switchToSaveGames(){
+    public void switchToSaveGames() {
 
         Intent goToSavedGames = new Intent(getApplicationContext(), SavedGamesActivity.class);
         goToSavedGames.putExtra("saveType", "userSave");
@@ -162,7 +164,7 @@ public void switchGameByComplexity(int num){
         startActivity(goToSavedGames);
     }
 
-    public void switchToAutoSaveGames(){
+    public void switchToAutoSaveGames() {
 
         Intent goToSavedGames = new Intent(getApplicationContext(), SavedGamesActivity.class);
         goToSavedGames.putExtra("saveType", "autoSave");
@@ -182,9 +184,7 @@ public void switchGameByComplexity(int num){
     public void onBackPressed() {
         super.onBackPressed();
         updateCurrAccount();
-        // TODO: Implement switchToGameCentre()
         Intent goToCenter = new Intent(getApplicationContext(), GameCentreActivity.class);
-//        saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
         startActivity(goToCenter);
     }
 
@@ -204,61 +204,4 @@ public void switchGameByComplexity(int num){
         mController.updateCurrAccount();
     }
 
-//
-//    /**
-//     * Load the accountmanager from fileName.
-//     *
-//     * @param fileName the name of the file
-//     */
-//
-//    private void readFromSer(String fileName) {
-//
-//        try {
-//            InputStream inputStream = this.openFileInput(fileName);
-//            if (inputStream != null) {
-//                ObjectInputStream input = new ObjectInputStream(inputStream);
-//                accountManager = (AccountManager) input.readObject();
-//                mController = new MatchingCardStartController(accountManager, userEmail);
-//                inputStream.close();
-//            }
-//        } catch (FileNotFoundException e) {
-//            Log.e("MatchingCardsStart activity", "File not found: " + e.toString());
-//        } catch (IOException e) {
-//            Log.e("MatchingCardsStart activity", "Can not read file: " + e.toString());
-//        } catch (ClassNotFoundException e) {
-//            Log.e("MatchingCardsStart activity", "File contained unexpected data type: " + e.toString());
-//        }
-//    }
-//
-//    /**
-//     * Save the accountmanager to fileName.
-//     *
-//     * @param fileName the name of the file
-//     */
-//    public void saveToFile(String fileName) {
-//        try {
-//            ObjectOutputStream outputStream = new ObjectOutputStream(
-//                    this.openFileOutput(fileName, MODE_PRIVATE));
-//            outputStream.writeObject(accountManager);
-//            outputStream.close();
-//        } catch (IOException e) {
-//            Log.e("Exception", "File write failed: " + e.toString());
-//        }
-//    }
-//
-//    /**
-//     * Save the accountmanager fileName.
-//     *
-//     * @param fileName the name of the file
-//     */
-//    public void saveToSer(String fileName) {
-//        try {
-//            ObjectOutputStream outputStream = new ObjectOutputStream(
-//                    this.openFileOutput(fileName, MODE_PRIVATE));
-//            outputStream.writeObject(accountManager);
-//            outputStream.close();
-//        } catch (IOException e) {
-//            Log.e("Exception", "File write failed: " + e.toString());
-//        }
-//    }
 }
