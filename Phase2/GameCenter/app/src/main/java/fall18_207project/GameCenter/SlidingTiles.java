@@ -186,6 +186,6 @@ class SlidingTiles extends Game implements Cloneable, GameFeature {
 
     @Override
     public boolean hasValidMove() {
-        return true;
+        return !isSolved();
     }
 }

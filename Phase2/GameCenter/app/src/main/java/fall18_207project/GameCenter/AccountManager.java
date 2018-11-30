@@ -23,18 +23,15 @@ public class AccountManager implements Serializable {
         return globalScoreBoard;
     }
 
-
-
-    // TODO: Change the parameters to (Account new Account)
-    boolean addAccount(String email, String userName, String password) {
-        if (accountMap.containsKey(email)) {
+    public boolean addAccount(Account newAccount) {
+        if (accountMap.containsKey(newAccount.getEmail())) {
             return false;
         }
-        accountMap.put(email, new Account(email, userName, password));
+        accountMap.put(newAccount.getEmail(), newAccount);
         return true;
     }
 
-    Account getAccount(String email) {
+    public Account getAccount(String email) {
         return accountMap.get(email);
     }
 
