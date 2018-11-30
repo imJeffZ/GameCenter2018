@@ -2,9 +2,8 @@ package fall18_207project.GameCenter;
 
 import java.io.Serializable;
 
-/***
+/**
  * Account class that stores a user.
- *
  */
 public class Account implements Serializable {
     private String email;
@@ -13,10 +12,11 @@ public class Account implements Serializable {
     private GameManager userSavedGames;
     private GameManager autoSavedGames;
     private Profile profile;
-
     private GameManager userScoreBoard;
 
-
+    /**
+     * default constructor
+     */
     public Account(){
 
     }
@@ -43,7 +43,6 @@ public class Account implements Serializable {
         return this.userScoreBoard;
     }
 
-
     public String getEmail() {
         return this.email;
     }
@@ -64,8 +63,6 @@ public class Account implements Serializable {
         return this.password;
     }
 
-
-
     void setPassword(String newPass) {
         this.password = newPass;
     }
@@ -73,7 +70,4 @@ public class Account implements Serializable {
     public Profile getProfile() {
         return profile;
     }
-
-
-
 }
