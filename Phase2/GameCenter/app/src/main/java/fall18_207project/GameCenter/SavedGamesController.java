@@ -25,14 +25,13 @@ public class SavedGamesController {
             for(Game game : allGameList){
                 if("slidingTiles".equals(gameType)){
                     gameList.add(game);
-                }
-                else if("matchingCards".equals(gameType)){
+                } else if("matchingCards".equals(gameType)){
                     gameList.add(game);
-                }
-                else if ("game2048".equals(gameType)){
+                } else if ("game2048".equals(gameType)){
                     gameList.add(game);
                 }
             }
+
             Collections.reverse(gameList);
             for (Game g: gameList) {
                 Map<String, Object> map = new HashMap<>();
@@ -41,6 +40,5 @@ public class SavedGamesController {
                 list.add(map);
             }
         }
-
     }
 }

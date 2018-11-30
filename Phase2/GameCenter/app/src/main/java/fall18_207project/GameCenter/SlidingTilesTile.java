@@ -1,14 +1,11 @@
 package fall18_207project.GameCenter;
 
-
-
 public class SlidingTilesTile extends Tile {
 
     /**
      * The background id to find the tile image.
      */
     private int background;
-
     /**
      * The unique id.
      */
@@ -22,7 +19,6 @@ public class SlidingTilesTile extends Tile {
     public int getBackground() {
         return background;
     }
-
     /**
      * Return the tile id.
      *
@@ -33,14 +29,6 @@ public class SlidingTilesTile extends Tile {
     }
 
     /**
-     * A Tile with id and background. The background may not have a corresponding image.
-     *
-     * @param id         the id
-     * @param background the background
-     */
-
-
-    /**
      * A tile with a background id; look up and set the id.
      *
      * @param backgroundId The background
@@ -48,7 +36,7 @@ public class SlidingTilesTile extends Tile {
     public SlidingTilesTile(int backgroundId) {
         super(backgroundId);
         id = backgroundId + 1;
-        // This looks so ugly.
+
         switch (backgroundId + 1) {
             case 1:
                 background = R.drawable.tile_1;
@@ -147,5 +135,4 @@ public class SlidingTilesTile extends Tile {
                 background = R.drawable.tile_blank;
         }
     }
-
 }

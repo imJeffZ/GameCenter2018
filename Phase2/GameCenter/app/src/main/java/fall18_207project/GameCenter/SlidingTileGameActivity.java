@@ -38,7 +38,6 @@ public class SlidingTileGameActivity extends AppCompatActivity implements Observ
     Thread mThreadChrono;
     Context mContext;
 
-
     // Grid View and calculated column height and width based on device size
     private GestureDetectGridView gridView;
     private static int columnWidth, columnHeight;
@@ -67,7 +66,6 @@ public class SlidingTileGameActivity extends AppCompatActivity implements Observ
         addUndoButtonListener();
         addSaveButtonListener();
         addResetButtonListener();
-
     }
 
     public void setTimerText(){
@@ -92,9 +90,7 @@ public class SlidingTileGameActivity extends AppCompatActivity implements Observ
     public void setGameView(){
         gridView = findViewById(R.id.grid);
         gridView.setNumColumns(slidingTiles.getBoard().getNumOfColumns());
-
         gridView.setGame(slidingTiles);
-
         slidingTiles.getBoard().addObserver(this);
         // Observer sets up desired dimensions as well as calls our display function
         gridView.getViewTreeObserver().addOnGlobalLayoutListener(
@@ -122,7 +118,6 @@ public class SlidingTileGameActivity extends AppCompatActivity implements Observ
                 (SlidingTiles) gameManager.getGame(getIntent().getStringExtra("saveId"));
     }
 
-
     /**
      * Update the text of tv_timer
      *
@@ -137,7 +132,6 @@ public class SlidingTileGameActivity extends AppCompatActivity implements Observ
         });
     }
 
-
     private void addUndoButtonListener() {
         Button undoButton = findViewById(R.id.UndoButton);
         undoButton.setOnClickListener((new View.OnClickListener() {
@@ -146,7 +140,6 @@ public class SlidingTileGameActivity extends AppCompatActivity implements Observ
                 slidingTiles.undo();
             }
         }));
-
     }
 
     private void addSaveButtonListener() {
