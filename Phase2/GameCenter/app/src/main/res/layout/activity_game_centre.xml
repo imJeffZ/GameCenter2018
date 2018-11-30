@@ -89,14 +89,14 @@
 
         <ImageButton
             android:id="@+id/Game2048"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="135dp"
-            android:background="@drawable/sliding_tile_game"
+            android:layout_width="71dp"
+            android:layout_height="103dp"
+            android:layout_marginTop="136dp"
+            android:background="@drawable/game2048"
             android:contentDescription="2048"
-            app:layout_constraintLeft_toRightOf="@id/MatchingCardsGame"
-            app:layout_constraintTop_toBottomOf="@+id/message" />
+            app:layout_constraintTop_toBottomOf="@+id/message"
+            tools:layout_editor_absoluteX="206dp"
+            tools:ignore="MissingConstraints" />
 
         <TextView
             android:id="@+id/Game2048_text"
@@ -109,6 +109,29 @@
             android:textSize="15sp"
             app:layout_constraintLeft_toLeftOf="@id/Game2048"
             app:layout_constraintTop_toBottomOf="@id/Game2048" />
+
+        <ImageButton
+            android:id="@+id/UndeclaredGame"
+            android:layout_width="78dp"
+            android:layout_height="104dp"
+            android:layout_marginLeft="280dp"
+            android:background="@drawable/gamenumber4"
+            android:clickable="false"
+            app:layout_constraintLeft_toLeftOf="@+id/SlidingTileGame"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteY="191dp" />
+
+        <TextView
+            android:id="@+id/UndeclaredGameText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
+            android:text="Coming Soon"
+            android:textColor="#cd000000"
+            android:textSize="15sp"
+            app:layout_constraintLeft_toLeftOf="@id/UndeclaredGame"
+            app:layout_constraintTop_toBottomOf="@id/UndeclaredGame" />
 
         <android.support.design.widget.BottomNavigationView
             android:id="@+id/navigation"
@@ -124,14 +147,14 @@
 
     </android.support.constraint.ConstraintLayout>
 
-    <android.support.design.widget.NavigationView
-        android:id="@+id/nav_view"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:background="@drawable/test_img"
-        android:fitsSystemWindows="true"
-        app:headerLayout="@layout/nav_header_profile"
-        app:menu="@menu/activity_profile_drawer" />
+    <!--<android.support.design.widget.NavigationView-->
+        <!--android:id="@+id/nav_view"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_gravity="start"-->
+        <!--android:background="@drawable/test_img"-->
+        <!--android:fitsSystemWindows="true"-->
+        <!--app:headerLayout="@layout/nav_header_profile"-->
+        <!--app:menu="@menu/activity_profile_drawer" />-->
 
 </android.support.v4.widget.DrawerLayout>
