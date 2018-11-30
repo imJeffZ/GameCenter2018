@@ -42,9 +42,7 @@ public class GameFinishActivity extends AppCompatActivity {
         returnToScreen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: Add helper switchToGameCentre()
-                Intent returnToMainScreen = new Intent(getApplicationContext(), GameCentreActivity.class);
-                startActivity(returnToMainScreen);
+                switchToGameCentre();
             }
         });
     }
@@ -67,6 +65,10 @@ public class GameFinishActivity extends AppCompatActivity {
         mController.updateCurrAccount();
     }
 
+    public void switchToGameCentre() {
+        Intent returnToMainScreen = new Intent(getApplicationContext(), GameCentreActivity.class);
+        startActivity(returnToMainScreen);
+    }
 //    public void saveToFile(String fileName) {
 //        try {
 //            ObjectOutputStream outputStream = new ObjectOutputStream(

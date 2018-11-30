@@ -26,7 +26,6 @@ import java.io.ObjectOutputStream;
 /***
  *  the login activity for app.
  */
-//TODO: fix the code smell after 3 pm.
 public class LoginActivity extends AppCompatActivity implements ValidateFormActivity {
 
     private FirebaseAuth firebaseAuth;

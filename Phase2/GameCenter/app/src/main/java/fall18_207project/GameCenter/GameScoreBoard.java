@@ -4,12 +4,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 interface GameScoreBoard extends Serializable{
-//    TODO: GlobalScoreBoard and UserScoreBoard does not share the same update Method
-//    But this interface theoretically should contain an updateScore() method.
-
-//    void updateScore(Game completedGame);
-//    void updateScore(String userName, Game completedGame);
-
     /***
      *
      * Function to get a ArrayList of ranked game for scoreBoard.

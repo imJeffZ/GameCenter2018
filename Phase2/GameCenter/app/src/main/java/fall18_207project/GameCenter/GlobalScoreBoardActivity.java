@@ -89,7 +89,6 @@ public class GlobalScoreBoardActivity extends Activity {
 
             }
 
-            // TODO: Might want to delete this onNothingSelected
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 // Another interface callback
@@ -117,17 +116,5 @@ public class GlobalScoreBoardActivity extends Activity {
     }
 
     // TODO: Marvel if you want to Implement play back functionality here please notify Jeff
-
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-////        readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
-//    }
-//
-//    @Override
-//    protected void onRestart() {
-//        super.onRestart();
-////        readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
-//    }
 
 }

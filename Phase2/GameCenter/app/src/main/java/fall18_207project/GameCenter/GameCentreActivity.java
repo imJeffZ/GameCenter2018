@@ -217,7 +217,6 @@ public class GameCentreActivity extends AppCompatActivity implements  Navigation
         imageDialog.show();
     }
 
-    // TODO: Change to showProfile()
     private void showProfile(){
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
