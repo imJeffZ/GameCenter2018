@@ -43,14 +43,12 @@ class MovementController {
         if (this.game.isSolved()) {
 //            addScoreOnFinish();
             createDialog(context);
-        } else if (this.game.isValidTap(dirction)) {
+        } else{
             this.game.touchMove(dirction);
             if (this.game.isSolved()) {
 //                addScoreOnFinish();
                 createDialog(context);
             }
-        } else {
-            Toast.makeText(context, "Invalid Tap", Toast.LENGTH_SHORT).show();
         }
     }
 

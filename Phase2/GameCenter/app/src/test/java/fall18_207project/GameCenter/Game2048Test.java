@@ -14,20 +14,20 @@ public class Game2048Test {
     /**
      *       _________________________________
      *      |   8     16     512     1024   |
-     *     |   16    32     64       0     |
-     *    |    32    64     128     1024  |
-     *   |    64    128     256     512  |
+     *     |   32     64     128      0    |
+     *    |    64    128     256    1024  |
+     *   |    128    256    512     256  |
      *   --------------------------------
      *   # if you scroll up or down, win the game!
      *   # if you scroll right, dead game!
      * @return a list of tiles looks like the order above
      */
     private List<Tile> makeTiles() {
-        List<Integer> temp = new ArrayList<>(Arrays.asList
-                (7, 15, 511, 1023,
-                        15, 31, 63, 24,
-                        31, 63, 127, 1023,
-                        63, 127, 255, 511));
+        List<Integer> temp = new ArrayList<>(Arrays.asList(
+                        7, 15, 511, 1023,
+                        31, 63, 127, 24,
+                        63, 127, 255, 1023,
+                        127, 255, 511, 255));
         List<Tile> tiles = new ArrayList<>();
         for (int i = 0; i < 16; i++) {
             tiles.add(new Tile(temp.get(i)));
