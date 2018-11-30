@@ -8,14 +8,10 @@ import java.util.List;
 import java.util.Map;
 
 public class UserHistoryController {
-//    public static String userEmail;
-//    private AccountManager accountManager;
     private List<Map<String, Object>> list;
     private ArrayList<Game> playGame;
     private Context mContext;
     UserHistoryController(Context context){
-//         this.accountManager = accManager;
-//         this.userEmail = user;
         mContext = context;
     }
 
@@ -34,7 +30,6 @@ public class UserHistoryController {
             this.list = list;
             this.playGame = playGame;
         }
-
     }
 
     public void addAutoSaveGame(Game selectedGame){

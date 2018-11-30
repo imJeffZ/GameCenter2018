@@ -11,19 +11,15 @@ public class SlidingTileBoard extends Board {
     /**
      * The number of rows.
      */
-    private int NUM_ROWS = 4;
-
+    private int NUM_ROWS;
     /**
      * The number of rows.
      */
-    private int NUM_COLS = 4;
-
-
+    private int NUM_COLS;
     /**
      * The tiles on the board in row-major order.
      */
     private SlidingTilesTile[][] tiles;
-
 
     /**
      * A new board of tiles in row-major order.
@@ -45,6 +41,4 @@ public class SlidingTileBoard extends Board {
             }
         }
     }
-
-
 }

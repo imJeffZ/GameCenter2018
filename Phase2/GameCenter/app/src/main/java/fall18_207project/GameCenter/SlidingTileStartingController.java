@@ -3,11 +3,6 @@ package fall18_207project.GameCenter;
 import android.content.Context;
 
 public class SlidingTileStartingController extends GameStartController {
-
-//    SlidingTileStartingController(AccountManager accManager, String User){
-//        super(accManager, User);
-//    }
-
     SlidingTileStartingController(Context context){
         super(context);
     }
@@ -19,7 +14,5 @@ public class SlidingTileStartingController extends GameStartController {
     void userSignOut(){
         firebaseAuth.signOut();
     }
-
-
 }
 
