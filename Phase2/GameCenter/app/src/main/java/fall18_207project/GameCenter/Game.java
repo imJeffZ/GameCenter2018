@@ -1,6 +1,9 @@
 package fall18_207project.GameCenter;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Stack;
 import java.util.UUID;
 
@@ -20,6 +23,7 @@ public abstract class Game implements Serializable, GameFeature {
     // Record how long the game takes to finish
     // This endTime is not generalized into abstract Game class because the Timer awaits further modification.
     protected long endTime;
+    protected Date date;
 
     Game() {
         this.countMove = 0;
@@ -27,6 +31,7 @@ public abstract class Game implements Serializable, GameFeature {
         this.saveMove = new Stack<>();
         // Creates a universal unique id
         this.saveId = UUID.randomUUID().toString();
+        this.date = new Date();
     }
 
     int getCountMove() {
@@ -69,6 +74,11 @@ public abstract class Game implements Serializable, GameFeature {
     @Override
     public String toString() {
         return "Generic Game";
+    }
+    public String gettime(){
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
+        String strDate = dateFormat.format(date);
+        return strDate;
     }
 
     @Override
