@@ -3,8 +3,9 @@ package fall18_207project.GameCenter;
 import android.support.annotation.NonNull;
 
 import java.io.Serializable;
-/*
-The card in matching card game
+
+/**
+ * The card in matching card game
  */
 public class Card implements Comparable<Card>, Serializable {
     /**
@@ -23,18 +24,14 @@ public class Card implements Comparable<Card>, Serializable {
     public int getId() {
         return id;
     }
-
-   public int getBackground(){
+    public int getBackground(){
         return background;
    }
-
-   public boolean isUp(){
+    public boolean isUp(){
         return up;
    }
-
-   public boolean isUsed(){ return used; }
-
-   public boolean isBomb(){return bomb;}
+    public boolean isUsed(){ return used; }
+    public boolean isBomb(){return bomb;}
 
     Card(int position){
         id = position + 1;
@@ -130,9 +127,6 @@ public class Card implements Comparable<Card>, Serializable {
                 background = R.drawable.bomb;
                 bomb = true;
         }
-
-
-
     }
 
     public void turn(boolean face){
