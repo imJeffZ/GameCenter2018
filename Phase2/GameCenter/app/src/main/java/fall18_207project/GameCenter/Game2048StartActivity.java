@@ -5,18 +5,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-
-import com.google.firebase.auth.FirebaseAuth;
-
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 
 public class Game2048StartActivity extends AppCompatActivity implements
         MultiLoadStartActivity, GameStartingActivity{
@@ -38,7 +29,7 @@ public class Game2048StartActivity extends AppCompatActivity implements
     }
 
     private void setUserTextView(){
-        TextView account = findViewById(R.id.Hiuser);
+        TextView account = findViewById(R.id.Hi_User);
         account.setText(mController.setUserTextViewTest());
     }
 
