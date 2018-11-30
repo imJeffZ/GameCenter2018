@@ -23,7 +23,11 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-public class LoginActivity extends AppCompatActivity {
+/***
+ *  the login activity for app.
+ */
+//TODO: fix the codesmell after 3 pm.
+public class LoginActivity extends AppCompatActivity implements ValidateFormActivity {
 
     private FirebaseAuth firebaseAuth;
     private String emailValue;
@@ -122,7 +126,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void userLogin(final String email, String password) {
-        if (!validateForm()) {
+        if (validateForm()) {
             return;
         }
 
@@ -157,7 +161,7 @@ public class LoginActivity extends AppCompatActivity {
                 });
     }
 
-    private boolean validateForm() {
+    public boolean validateForm() {
         boolean valid = true;
         EditText emailValue = findViewById(R.id.EmailLogin);
         String email = emailValue.getText().toString();
@@ -177,6 +181,6 @@ public class LoginActivity extends AppCompatActivity {
             passwordValue.setError(null);
         }
 
-        return valid;
+        return !valid;
     }
 }
