@@ -18,7 +18,6 @@ class SlidingTiles extends Game implements Cloneable, GameFeature {
      * Manage a new shuffled board.
      */
     protected SlidingTileBoard board;
-    protected Board initialBoard;
     protected List<SlidingTilesTile> tiles;
 
     SlidingTiles(int num) {
@@ -32,7 +31,6 @@ class SlidingTiles extends Game implements Cloneable, GameFeature {
         tiles.add(new SlidingTilesTile(24));
         shuffleBoard(tiles, num);
         board =  new SlidingTileBoard(tiles, num);
-        this.initialBoard = new Board(tiles, num);
         this.endTime = 0;
     }
 
@@ -90,10 +88,6 @@ class SlidingTiles extends Game implements Cloneable, GameFeature {
     void reset() {
     }
 
-
-    public Board getInitialBoard(){
-        return this.initialBoard;
-    }
     /**
      * Return whether any of the four surrounding tiles is the blank tile.
      *
