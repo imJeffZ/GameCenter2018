@@ -20,121 +20,26 @@ import java.io.ObjectOutputStream;
 
 public class Game2048StartActivity extends AppCompatActivity implements
         MultiLoadStartActivity, GameStartingActivity{
-    private FirebaseAuth firebaseAuth;
     public static String userEmail = "";
     private AccountManager accountManager;
-//    private String userEmail;
-    /**
-     * The main save file.
-     */
-    public static final String SAVE_FILENAME = "save_2048_file.ser";
-    /**
-     * A temporary save file.
-     */
-    public static final String TEMP_SAVE_FILENAME = "save_2048_file_tmp.ser";
-    public static final String AUTO_SAVE_FILENAME = "auto_save_2048.ser";
-    /**
-     * The board manager.
-     */
-//    private Game2048 game2048;
+    private Game2048StartController mController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
-        //saveToFile(TEMP_SAVE_FILENAME);
         setContentView(R.layout.activity_game2048_starting);
-        firebaseAuth = FirebaseAuth.getInstance();
-   //     addAutoSaveButtonListener();
- //       addLoadButtonListener();
-//        addSaveButtonListener();
         addLoadGameButtonListener();
         addNewGameButtonListener();
         addLogOutButtonListener();
         addReturnToGameCenterListener();
+        setUserTextView();
+    }
+    private void setUserTextView(){
         TextView account = findViewById(R.id.Hiuser);
-        account.setText("Hi, " + accountManager.getAccount(userEmail).getUserName());
+        account.setText(mController.setUserTextViewTest());
     }
 
-    /**
-     * Activate the autoSave button.
-     */
-//    private void addAutoSaveButtonListener() {
-//        Button startButton = findViewById(R.id.StartButton);
-//        startButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent goToSavedGames = new Intent(getApplicationContext(), SavedGamesActivity.class);
-//                goToSavedGames.putExtra("saveType", "autoSave");
-//                goToSavedGames.putExtra("gameType", "game2048");
-//                startActivity(goToSavedGames);
-//                loadFromFile(userEmail + AUTO_SAVE_FILENAME);
-//                saveToFile(TEMP_SAVE_FILENAME);
-//                if (game2048 == null) {
-//                    makeAnotherToastCurrentMessage();
-//                    return;
-//                }
-//                makeToastLoadedText();
-//                switchToGame();
-//            }
-//        });
-//    }
-
-    /**
-     * Activate the load button.
-     */
-//    private void addLoadButtonListener() {
-//        Button loadButton = findViewById(R.id.LoadButton);
-//        loadButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent goToSavedGames = new Intent(getApplicationContext(), SavedGamesActivity.class);
-//                goToSavedGames.putExtra("saveType", "userSave");
-//                goToSavedGames.putExtra("gameType", "game2048");
-//                startActivity(goToSavedGames);
-//                loadFromFile(userEmail + SAVE_FILENAME);
-//                saveToFile(TEMP_SAVE_FILENAME);
-//                if (game2048 == null) {
-//                    makeToastForLoadGame();
-//                    return;
-//                }
-//                loadFromFile(userEmail + SAVE_FILENAME);
-//                saveToFile(TEMP_SAVE_FILENAME);
-//                makeToastLoadedText();
-//                switchToGame();
-//            }
-//        });
-//    }
-
-//    private void makeToastForLoadGame() {
-//        Toast.makeText(this, "No Saved Game", Toast.LENGTH_SHORT).show();
-//    }
-//
-//    /**
-//     * Display that a game was loaded successfully.
-//     */
-//    private void makeToastLoadedText() {
-//        Toast.makeText(this, "Loaded Game", Toast.LENGTH_SHORT).show();
-//    }
-//
-//    private void makeAnotherToastCurrentMessage() {
-//        Toast.makeText(this, "No current Game", Toast.LENGTH_SHORT).show();
-//    }
-
-    /**
-     * Activate the save button.
-     */
-//    private void addSaveButtonListener() {
-//        Button saveButton = findViewById(R.id.SaveButton);
-//        saveButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                saveToFile(userEmail + SAVE_FILENAME);
-//                saveToFile(TEMP_SAVE_FILENAME);
-//                makeToastSavedText();
-//            }
-//        });
-//    }
 
     /**
      * Activate new 2048 game.
@@ -144,11 +49,8 @@ public class Game2048StartActivity extends AppCompatActivity implements
         Button4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Game2048 game2048 = new Game2048();
                 readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
-                accountManager.getAccount(userEmail).getAutoSavedGames().addGame(game2048);
-                saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
-                switchToGame(game2048.getSaveId());
+                switchToGame( mController.addGameInAcc(mController.createGame()).getSaveId());
             }
         });
     }
@@ -212,16 +114,6 @@ public class Game2048StartActivity extends AppCompatActivity implements
         loadDialog.show();
     }
 
-    /**
-     * Display that a game was saved successfully.
-     */
-//    private void makeToastSavedText() {
-//        Toast.makeText(this, "Game Saved", Toast.LENGTH_SHORT).show();
-//    }
-
-    /**
-     * Read the temporary board from disk.
-     */
     @Override
     protected void onResume() {
         super.onResume();
@@ -240,10 +132,10 @@ public class Game2048StartActivity extends AppCompatActivity implements
      * Switch to the Game2048Activity view to play the game.
      */
     public void switchToGame(String saveId) {
+        saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
         Intent tmp = new Intent(this, Game2048Activity.class);
         tmp.putExtra("saveId", saveId);
         tmp.putExtra("saveType", "autoSave");
-//        saveToFile(Game2048StartActivity.TEMP_SAVE_FILENAME);
         startActivity(tmp);
     }
 
@@ -265,35 +157,12 @@ public class Game2048StartActivity extends AppCompatActivity implements
     }
 
     public void switchToLogin() {
-        firebaseAuth.signOut();
+        mController.userSignOut();
         Intent tmp = new Intent(this, LoginActivity.class);
         tmp.putExtra("userEmail", userEmail);
         startActivity(tmp);
 
     }
-
-    /**
-     * Load the board manager from fileName.
-     *
-     * @param fileName the name of the file
-     */
-//    private void loadFromFile(String fileName) {
-//
-////        try {
-////            InputStream inputStream = this.openFileInput(fileName);
-////            if (inputStream != null) {
-////                ObjectInputStream input = new ObjectInputStream(inputStream);
-////                game2048 = (Game2048) input.readObject();
-////                inputStream.close();
-////            }
-////        } catch (FileNotFoundException e) {
-////            Log.e("Game2048 activity", "File not found: " + e.toString());
-////        } catch (IOException e) {
-////            Log.e("Game2048t activity", "Can not read file: " + e.toString());
-////        } catch (ClassNotFoundException e) {
-////            Log.e("Game2048 activity", "File contained unexpected data type: " + e.toString());
-////        }
-////    }
 
     private void readFromSer(String fileName) {
         try {
@@ -301,6 +170,7 @@ public class Game2048StartActivity extends AppCompatActivity implements
             if (inputStream != null) {
                 ObjectInputStream in = new ObjectInputStream(inputStream);
                 accountManager = (AccountManager) in.readObject();
+                mController = new Game2048StartController(accountManager, userEmail);
             }
             inputStream.close();
         } catch (FileNotFoundException e) {
@@ -313,7 +183,7 @@ public class Game2048StartActivity extends AppCompatActivity implements
     }
 
     /**
-     * Save the board manager to fileName.
+     * Save the accountmanager to fileName.
      *
      * @param fileName the name of the file
      */

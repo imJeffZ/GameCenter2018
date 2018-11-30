@@ -9,9 +9,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-
-import com.google.firebase.auth.FirebaseAuth;
-
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -25,30 +22,24 @@ public class SlidingTileStartingActivity extends AppCompatActivity implements
         MultiLoadStartActivity, MultiComplexityStartActivity, GameStartingActivity{
 
     public static String userEmail = "";
-    private FirebaseAuth firebaseAuth;
     private AccountManager accountManager;
+    private SlidingTileStartingController mController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
-//        saveToFile(TEMP_SAVE_FILENAME);
         setContentView(R.layout.activity_starting_);
-        firebaseAuth = FirebaseAuth.getInstance();
- //       addLoadAutoSaveButtonListener();
-        //      addLoadButtonListener();
-//        addSaveButtonListener();
- //       add3ButtonListener();
- //       add4ButtonListener();
- //       add5ButtonListener();
         addLoadGameButtonListener();
         addNewGameButtonListener();
         addLogOutButtonListener();
         addReturnToGameCenterListener();
+        setUserTextView();
+    }
+
+    private void setUserTextView(){
         TextView account = findViewById(R.id.Hiuser);
-        if (accountManager.getAccount(userEmail) != null) {
-            account.setText("Hi, " + accountManager.getAccount(userEmail).getUserName());
-        }
+            account.setText(mController.setUserTextViewTest());
     }
     public void showLoadDialog(){
         AlertDialog.Builder loadDialog =
@@ -98,28 +89,6 @@ public class SlidingTileStartingActivity extends AppCompatActivity implements
         newGameDialog.show();
     }
 
-    /**
-     * Activate the load auto save button.
-     */
-//    private void addLoadAutoSaveButtonListener() {
-//        Button startButton = findViewById(R.id.StartButton);
-//        startButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent goToSavedGames = new Intent(getApplicationContext(), SavedGamesActivity.class);
-//                goToSavedGames.putExtra("saveType", "autoSave");
-//                goToSavedGames.putExtra("gameType", "slidingTiles");
-//                startActivity(goToSavedGames);
-//                loadFromFile(userEmail + AUTO_SAVE_FILENAME);
-//                saveToFile(TEMP_SAVE_FILENAME);
-//                if (slidingTiles == null) {
-//                    makeAnotherToastCurrentMessage();
-//                    return;
-//                }
-//                makeToastLoadedText();
-//            }
-//        });
-//    }
 
     private void addNewGameButtonListener(){
         Button startButton = findViewById(R.id.StartButton);
@@ -141,113 +110,6 @@ public class SlidingTileStartingActivity extends AppCompatActivity implements
         });
     }
 
-    /**
-     * Activate the load button.
-     */
-//    private void addLoadButtonListener() {
-//        Button loadButton = findViewById(R.id.LoadButton);
-//        loadButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent goToSavedGames = new Intent(getApplicationContext(), SavedGamesActivity.class);
-//                goToSavedGames.putExtra("saveType", "userSave");
-//                goToSavedGames.putExtra("gameType", "slidingTiles");
-//                startActivity(goToSavedGames);
-//                loadFromFile(userEmail + SAVE_FILENAME);
-//                saveToFile(TEMP_SAVE_FILENAME);
-//                if (slidingTiles == null) {
-//                    makeToastForLoadGame();
-//                    return;
-//                }
-//                loadFromFile(userEmail + SAVE_FILENAME);
-//                saveToFile(TEMP_SAVE_FILENAME);
-//                makeToastLoadedText();
-//                switchToGame();
-//            }
-//        });
-//    }
-
-//    private void makeToastForLoadGame() {
-//        Toast.makeText(this, "No Saved Game", Toast.LENGTH_SHORT).show();
-//    }
-//
-//    /**
-//     * Display that a game was loaded successfully.
-//     */
-//    private void makeToastLoadedText() {
-//        Toast.makeText(this, "Loaded Game", Toast.LENGTH_SHORT).show();
-//    }
-//
-//    private void makeAnotherToastCurrentMessage() {
-//        Toast.makeText(this, "No current Game", Toast.LENGTH_SHORT).show();
-//    }
-//
-//    /**
-//     * Activate the save button.
-//     */
-//    private void addSaveButtonListener() {
-//        Button saveButton = findViewById(R.id.SaveButton);
-//        saveButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                saveToFile(userEmail + SAVE_FILENAME);
-//                saveToFile(TEMP_SAVE_FILENAME);
-//                makeToastSavedText();
-//            }
-//        });
-//    }
-
-    /**
-     * Activate the 3x3 new game Board.
-     */
-//    private void add3ButtonListener() {
-//        Button Button3 = findViewById(R.id.Button3);
-//        Button3.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Game slidingTiles = new SlidingTiles(3);
-//                readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
-//                accountManager.getAccount(userEmail).getAutoSavedGames().addGame(slidingTiles);
-//                saveToSer(LoginActivity.ACCOUNT_MANAGER_DATA);
-//                switchToGame(slidingTiles.getSaveId());
-//            }
-//        });
-//    }
-
-
-    /**
-     * Activate the 4x4 new game board.
-     */
-//    private void add4ButtonListener() {
-//        Button Button4 = findViewById(R.id.Button4);
-//        Button4.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Game slidingTiles = new SlidingTiles(4);
-//                readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
-//                accountManager.getAccount(userEmail).getAutoSavedGames().addGame(slidingTiles);
-//                saveToSer(LoginActivity.ACCOUNT_MANAGER_DATA);
-//                switchToGame(slidingTiles.getSaveId());
-//            }
-//        });
-//    }
-
-    /**
-     * Activate the 5x5 new game board.
-     */
-//    private void add5ButtonListener() {
-//        Button Button5 = findViewById(R.id.Button5);
-//        Button5.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Game slidingTiles = new SlidingTiles(5);
-//                readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
-//                accountManager.getAccount(userEmail).getAutoSavedGames().addGame(slidingTiles);
-//                saveToSer(LoginActivity.ACCOUNT_MANAGER_DATA);
-//                switchToGame(slidingTiles.getSaveId());
-//            }
-//        });
-//    }
 
     /**
      * Log out of the current Account.
@@ -274,22 +136,6 @@ public class SlidingTileStartingActivity extends AppCompatActivity implements
         });
     }
 
-//    /**
-//     * Display that a game was saved successfully.
-//     */
-//    private void makeToastSavedText() {
-//        Toast.makeText(this, "Game Saved", Toast.LENGTH_SHORT).show();
-//    }
-//
-//    /**
-//     * Read the temporary board from disk.
-//     */
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//        loadFromFile(TEMP_SAVE_FILENAME);
-//    }
-
     /**
      * Switch to the SlidingTileGameActivity view to play the game.
      */
@@ -312,23 +158,19 @@ public class SlidingTileStartingActivity extends AppCompatActivity implements
     }
 
     public void switchGameByComplexity(int num){
-        Game slidingTiles = new SlidingTiles(num);
         readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
-        accountManager.getAccount(userEmail).getAutoSavedGames().addGame(slidingTiles);
-        saveToSer(LoginActivity.ACCOUNT_MANAGER_DATA);
-        switchToGame(slidingTiles.getSaveId());
-
+        switchToGame( mController.addGameInAcc(mController.createGame(num)).getSaveId());
     }
     public void switchToGame(String saveId) {
+        saveToSer(LoginActivity.ACCOUNT_MANAGER_DATA);
         Intent tmp = new Intent(this, SlidingTileGameActivity.class);
         tmp.putExtra("saveId", saveId);
         tmp.putExtra("saveType", "autoSave");
-//        saveToFile(SlidingTileStartingActivity.TEMP_SAVE_FILENAME);
         startActivity(tmp);
     }
 
     public void switchToLogin() {
-        firebaseAuth.signOut();
+        mController.userSignOut();
         Intent tmp = new Intent(this, LoginActivity.class);
         startActivity(tmp);
 
@@ -348,6 +190,7 @@ public class SlidingTileStartingActivity extends AppCompatActivity implements
             if (inputStream != null) {
                 ObjectInputStream in = new ObjectInputStream(inputStream);
                 accountManager = (AccountManager) in.readObject();
+                mController = new SlidingTileStartingController(accountManager, userEmail);
             }
             inputStream.close();
         } catch (FileNotFoundException e) {

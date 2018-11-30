@@ -52,7 +52,6 @@ public abstract class Game implements Serializable, GameFeature {
         return this.saveId;
     }
 
-    // TODO: Implement reset
     abstract void reset();
     abstract int calculateScore();
 
