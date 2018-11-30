@@ -14,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -29,6 +30,7 @@ public class UserHistoryActivity extends Activity {
 
     public static String userEmail = "";
     private AccountManager accountManager;
+    private UserHistoryController mController;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -54,9 +56,6 @@ public class UserHistoryActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         readAccountManagerFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
-
-
-        // TODO: Make this only show specific type of games by utilizing the getUserScoreBoard().getSortedGames(Game id) method
         setContentView(R.layout.activity_user_history);
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
@@ -69,7 +68,7 @@ public class UserHistoryActivity extends Activity {
         scoreBoardView = findViewById(R.id.historyView);
         final List<Map<String, Object>> list = new ArrayList<>();
         final ArrayList<Game> finalGameList = new ArrayList<>();
-        getData(list, finalGameList,0);
+        mController.getData(list, finalGameList,0);
         final SimpleAdapter adapter = new SimpleAdapter(this, list,
                 R.layout.user_history_item, new String[]{"gameId", "score"},
                 new int[]{R.id.user, R.id.score});
@@ -88,7 +87,7 @@ public class UserHistoryActivity extends Activity {
                                        int pos, long id) {
                 list.clear();
                 finalGameList.clear();
-                getData(list, finalGameList,pos+1);
+                mController.getData(list, finalGameList,pos+1);
                 adapter.notifyDataSetChanged();
 
 
@@ -127,19 +126,6 @@ public class UserHistoryActivity extends Activity {
         readAccountManagerFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
     }
 
-    private void getData(List<Map<String, Object>> list,  ArrayList<Game> playGame, int id) {
-        ArrayList<Game> gameList = accountManager.getAccount(userEmail).getUserScoreBoard().getAllGameList();
-        for (int i = 0; i < gameList.size(); i++) {
-            Map<String, Object> map = new HashMap<>();
-            if (gameList.get(i).gameId ==id){
-                playGame.add(gameList.get(i));
-                map.put("gameId", gameList.get(i).getTime());
-                map.put("score",  gameList.get(i).calculateScore());
-                list.add(map);
-            }
-        }
-    }
-
     private void goToDifferentGames(int id, Game selectedGame){
 
         Intent goToGame = id <= 3? new Intent(getApplicationContext(), SlidingTileGameActivity.class):
@@ -157,6 +143,7 @@ public class UserHistoryActivity extends Activity {
             if (inputStream != null) {
                 ObjectInputStream input = new ObjectInputStream(inputStream);
                 accountManager = (AccountManager) input.readObject();
+                mController = new UserHistoryController(accountManager, userEmail);
                 inputStream.close();
             }
         } catch (FileNotFoundException e) {
