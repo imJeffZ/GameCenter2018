@@ -77,6 +77,11 @@ public abstract class Game implements Serializable, GameFeature {
     public String toString() {
         return "Generic Game";
     }
+
+    /**
+     * convert the date to standard format and return it.
+     * @return return created time in standard format.
+     */
     public String getTime(){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         String formatDateTime = this.date.format(formatter);

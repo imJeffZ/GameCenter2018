@@ -123,6 +123,11 @@ public class LoginActivity extends AppCompatActivity implements ValidateFormActi
         }
     }
 
+    /** Log the user in and get their account information.
+     *
+     * @param email input email;
+     * @param password input password;
+     */
     private void userLogin(final String email, String password) {
         if (validateForm()) {
             return;
@@ -159,6 +164,10 @@ public class LoginActivity extends AppCompatActivity implements ValidateFormActi
                 });
     }
 
+    /**
+     * Check if the input information is not empty.
+     * @return whether the form is validate
+     */
     public boolean validateForm() {
         boolean valid = true;
         EditText emailValue = findViewById(R.id.EmailLogin);

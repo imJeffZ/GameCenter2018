@@ -18,8 +18,6 @@ public class Game2048 extends Game implements GameFeature, Cloneable {
 
     private Stack<Game2048Board> boardStack;
     protected Game2048Board board;
-
-    protected Board initialBoard;
     protected List<Game2048Tile> tiles;
 
     public Game2048() {
@@ -41,7 +39,6 @@ public class Game2048 extends Game implements GameFeature, Cloneable {
         Collections.shuffle(tiles);
 
         board = new Game2048Board(tiles, 4);
-        this.initialBoard = new Board(tiles, 4);
 
         this.endTime = 0;
         this.score = 0;
