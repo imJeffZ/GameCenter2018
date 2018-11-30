@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-public  class AccessDataBase {
+public class AccessDataBase {
 
     private Account currentAccount;
 
@@ -26,7 +26,7 @@ public  class AccessDataBase {
     }
 
 
-    public Account getAccountFromDataBase(){
+    public Account getAccountFromDataBase() {
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = firebaseAuth.getCurrentUser();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -41,7 +41,7 @@ public  class AccessDataBase {
         return currentAccount;
     }
 
-    public void saveToDataBase(Account account){
+    public void saveToDataBase(Account account) {
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = firebaseAuth.getCurrentUser();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -49,7 +49,6 @@ public  class AccessDataBase {
         DocumentReference docRef = db.collection("users").document(uid);
         docRef.set(account);
     }
-
 
 
 }

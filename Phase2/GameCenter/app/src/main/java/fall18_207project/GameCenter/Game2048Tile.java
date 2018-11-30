@@ -44,7 +44,7 @@ public class Game2048Tile extends Tile {
     Game2048Tile(int backgroundId) {
         super(backgroundId);
         id = backgroundId + 1;
-        // This looks so ugly.
+
         switch (backgroundId + 1) {
 
             case 2:

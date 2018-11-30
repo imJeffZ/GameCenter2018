@@ -48,7 +48,7 @@ public class GameTest {
         List<Card> cards = makeCards();
         matchingCards = new MatchingCards(4);
         slidingTiles = new SlidingTiles(4);
-        slidingTiles.board = new Board(tiles, 4);
+        slidingTiles.board = (SlidingTileBoard) new Board(tiles, 4);
         matchingCards.matchingBoard = new MatchingBoard(cards, 4);
     }
 
@@ -103,7 +103,7 @@ public class GameTest {
     public void testHasValidMove() {
         setUpCorrect();
 
-        assertTrue(slidingTiles.hasVaildMove());
+        assertTrue(slidingTiles.hasValidMove());
         assertTrue(matchingCards.hasVaildMove());
 
         for (int i = 0; i < 16; i++) {

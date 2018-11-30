@@ -42,7 +42,7 @@ public class Game2048Test {
     private void setUpCorrect() {
         game2048 = new Game2048();
         List<Tile> tiles = makeTiles();
-        game2048.board = new Board(tiles, 4);
+        game2048.board = (Game2048Board) new Board(tiles, 4);
     }
 
     /**
@@ -72,10 +72,10 @@ public class Game2048Test {
     public void testHasValidMove() {
         setUpCorrect();
 
-        assertTrue(game2048.hasVaildMove());
+        assertTrue(game2048.hasValidMove());
 
         game2048.touchMove(Game2048.RIGHT);
-        assertFalse(game2048.hasVaildMove());
+        assertFalse(game2048.hasValidMove());
     }
 
     /**
@@ -86,7 +86,7 @@ public class Game2048Test {
         setUpCorrect();
         Board boardCopy = new Board(makeTiles(), 4);
         Game2048 gm2048Copy = new Game2048();
-        gm2048Copy.board = boardCopy;
+        gm2048Copy.board = (Game2048Board) boardCopy;
 
         game2048.touchMove(Game2048.RIGHT);
         assertNotEquals(gm2048Copy.getBoardStack(), game2048.getBoardStack());
