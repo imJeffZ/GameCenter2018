@@ -352,6 +352,14 @@ public void switchGameByComplexity(int num){
 
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent goToCenter = new Intent(getApplicationContext(), GameCentreActivity.class);
+        saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
+        startActivity(goToCenter);
+    }
+
     /**
      * Load the board manager from fileName.
      *
@@ -402,7 +410,7 @@ public void switchGameByComplexity(int num){
         try {
             ObjectOutputStream outputStream = new ObjectOutputStream(
                     this.openFileOutput(fileName, MODE_PRIVATE));
-            outputStream.writeObject(matchingCards);
+            outputStream.writeObject(accountManager);
             outputStream.close();
         } catch (IOException e) {
             Log.e("Exception", "File write failed: " + e.toString());
