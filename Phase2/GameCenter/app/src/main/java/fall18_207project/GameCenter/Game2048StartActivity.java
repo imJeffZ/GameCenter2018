@@ -89,9 +89,7 @@ public class Game2048StartActivity extends AppCompatActivity implements
         returnToGameCenter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: Use helper switchToGameCentre()
-                Intent backToGameCenter = new Intent(getApplicationContext(), GameCentreActivity.class);
-                startActivity(backToGameCenter);
+                switchToGameCentre();
             }
         });
     }
@@ -128,6 +126,11 @@ public class Game2048StartActivity extends AppCompatActivity implements
         startActivity(tmp);
     }
 
+    public void switchToGameCentre() {
+        Intent backToGameCenter = new Intent(getApplicationContext(), GameCentreActivity.class);
+        startActivity(backToGameCenter);
+    }
+
     public void switchToSaveGames(){
 
         Intent goToSavedGames = new Intent(getApplicationContext(), SavedGamesActivity.class);
@@ -155,11 +158,8 @@ public class Game2048StartActivity extends AppCompatActivity implements
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        // TODO: Use switchToGameCentre
         updateCurrAccount();
-        Intent goToCenter = new Intent(getApplicationContext(), GameCentreActivity.class);
-//        saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
-        startActivity(goToCenter);
+        switchToGameCentre();
     }
 
     @Override
