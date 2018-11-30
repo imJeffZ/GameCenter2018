@@ -1,13 +1,9 @@
 package fall18_207project.GameCenter;
 
 import android.content.Context;
-import android.os.Handler;
-import android.os.Message;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-
-import java.util.concurrent.CopyOnWriteArrayList;
 
 public class GameCentreController {
 
@@ -26,7 +22,7 @@ public class GameCentreController {
             if (id == R.id.nav_reset){
                 CurrentAccountController.getCurrAccount().setUserName(update);
             } else if (id == R.id.nav_intro){
-                CurrentAccountController.getCurrAccount().getProf().setIntro(update);
+                CurrentAccountController.getCurrAccount().getProfile().setIntro(update);
             } else if (id == R.id.nav_password){
                 CurrentAccountController.getCurrAccount().setPassword(update);
                 FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -38,7 +34,7 @@ public class GameCentreController {
 
     void updateImage(int id){
         if (CurrentAccountController.getCurrAccount() != null) {
-            CurrentAccountController.getCurrAccount().getProf().setAvatarId(id);
+            CurrentAccountController.getCurrAccount().getProfile().setAvatarId(id);
             updateCurrAccount();
         }
     }

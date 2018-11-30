@@ -15,7 +15,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -27,12 +26,6 @@ import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 
 /*** the main view gamecentre activity. Show all games and the user profie, connect to scoreboards.
  *
@@ -237,14 +230,14 @@ public class GameCentreActivity extends AppCompatActivity implements  Navigation
             textUser.setText(CurrentAccountController.getCurrAccount().getUserName());
 
             TextView textIntro = navHeader.findViewById(R.id.profileIntro);
-            textIntro.setText(CurrentAccountController.getCurrAccount().getProf().getIntro());
+            textIntro.setText(CurrentAccountController.getCurrAccount().getProfile().getIntro());
 
             ImageView userImg = navHeader.findViewById(R.id.profileImg);
-            userImg.setImageResource(CurrentAccountController.getCurrAccount().getProf().getAvatarId());
+            userImg.setImageResource(CurrentAccountController.getCurrAccount().getProfile().getAvatarId());
 
             TextView textPlayTime = navHeader.findViewById(R.id.profileTime);
             textPlayTime.setText("Play Time in Total: " +
-                    CurrentAccountController.getCurrAccount().getProf().getTotalPlayTime());
+                    CurrentAccountController.getCurrAccount().getProfile().getTotalPlayTime());
         }
 
     }

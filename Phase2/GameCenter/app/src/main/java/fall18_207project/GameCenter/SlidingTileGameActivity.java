@@ -4,18 +4,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
@@ -164,7 +158,7 @@ public class SlidingTileGameActivity extends AppCompatActivity implements Observ
             public void onClick(View view) {
                 slidingTiles.updateElapsedTime(mChrono.getElapsedTime());
                 CurrentAccountController.getCurrAccount().getUserSavedGames().addGame(slidingTiles);
-                CurrentAccountController.getCurrAccount().getProf().updateTotalPlayTime(mChrono.getActualElapsedTime());
+                CurrentAccountController.getCurrAccount().getProfile().updateTotalPlayTime(mChrono.getActualElapsedTime());
                 mChrono.updateSavedTime();
 //                saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
                 makeSavedMessage();
@@ -236,7 +230,7 @@ public class SlidingTileGameActivity extends AppCompatActivity implements Observ
         slidingTiles.updateElapsedTime(mChrono.getElapsedTime());
         mChrono.stop();
         CurrentAccountController.getCurrAccount().getAutoSavedGames().addGame(slidingTiles);
-        CurrentAccountController.getCurrAccount().getProf().updateTotalPlayTime(mChrono.getActualElapsedTime());
+        CurrentAccountController.getCurrAccount().getProfile().updateTotalPlayTime(mChrono.getActualElapsedTime());
         mChrono.updateSavedTime();
 //        saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
         updateCurrAccount();
@@ -248,7 +242,7 @@ public class SlidingTileGameActivity extends AppCompatActivity implements Observ
         slidingTiles.updateElapsedTime(mChrono.getElapsedTime());
         mChrono.stop();
         CurrentAccountController.getCurrAccount().getAutoSavedGames().addGame(slidingTiles);
-        CurrentAccountController.getCurrAccount().getProf().updateTotalPlayTime(mChrono.getActualElapsedTime());
+        CurrentAccountController.getCurrAccount().getProfile().updateTotalPlayTime(mChrono.getActualElapsedTime());
         mChrono.updateSavedTime();
 //        saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
         updateCurrAccount();

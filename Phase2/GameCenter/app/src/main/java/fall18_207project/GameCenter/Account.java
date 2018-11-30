@@ -12,7 +12,7 @@ public class Account implements Serializable {
     private String password;
     private GameManager userSavedGames;
     private GameManager autoSavedGames;
-    private Profile prof;
+    private Profile profile;
 
     private GameManager userScoreBoard;
 
@@ -25,10 +25,7 @@ public class Account implements Serializable {
         this.email = email;
         this.userName = userName;
         this.password = password;
-
-        // TODO: Rename prof to profile
-        this.prof = new Profile();
-
+        this.profile = new Profile();
         this.userSavedGames = new NonDuplicateGameManager();
         this.autoSavedGames = new NonDuplicateGameManager();
         this.userScoreBoard = new SortingNonDuplicateGameManager();
@@ -73,8 +70,8 @@ public class Account implements Serializable {
         this.password = newPass;
     }
 
-    public Profile getProf() {
-        return prof;
+    public Profile getProfile() {
+        return profile;
     }
 
 
