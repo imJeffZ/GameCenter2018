@@ -28,8 +28,6 @@ import java.util.Map;
 
 
 public class GlobalScoreBoardActivity extends Activity {
-//    public static String userEmail = "";
-//    private AccountManager accountManager;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -54,10 +52,8 @@ public class GlobalScoreBoardActivity extends Activity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
         setContentView(R.layout.activity_scoreboard);
-        //String accountEmail = Objects.requireNonNull(getIntent().getExtras()).getString("accountEmail");
-        //currentAccount = accountEmail;
+
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         Menu menu = navigation.getMenu();
@@ -97,7 +93,6 @@ public class GlobalScoreBoardActivity extends Activity {
     }
 
     private void getData(List<Map<String, Object>> list, int gameId) {
-//        readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
         AccountManager currAccountManager = CurrentAccountController.getAccountManager();
         GlobalScoreBoard globalScoreBoard = currAccountManager.getGlobalScoreBoard();
 
@@ -112,9 +107,5 @@ public class GlobalScoreBoardActivity extends Activity {
                 map.put("score", games.get(i).calculateScore());
                 list.add(map);
             }
-//        }
     }
-
-    // TODO: Marvel if you want to Implement play back functionality here please notify Jeff
-
 }

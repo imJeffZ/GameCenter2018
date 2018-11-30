@@ -122,13 +122,15 @@ public class SlidingTileStartingActivity extends AppCompatActivity implements
         returnToGameCenter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: Implement helper function switchToGameCentre
-                Intent backToGameCenter = new Intent(getApplicationContext(), GameCentreActivity.class);
-                startActivity(backToGameCenter);
+                switchToGameCentre();
             }
         });
     }
 
+    public void switchToGameCentre() {
+        Intent backToGameCenter = new Intent(getApplicationContext(), GameCentreActivity.class);
+        startActivity(backToGameCenter);
+    }
     /**
      * Switch to the SlidingTileGameActivity view to play the game.
      */
