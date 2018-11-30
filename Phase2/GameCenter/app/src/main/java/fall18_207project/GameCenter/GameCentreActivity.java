@@ -49,7 +49,7 @@ public class GameCentreActivity extends AppCompatActivity implements  Navigation
         addSlidingTilesGameButtonListener();
         addMatchingCardsGameButtonListener();
         addGame2048ButtonListener();
-        updateProfileShow();
+        showProfile();
     }
 
 
@@ -133,7 +133,7 @@ public class GameCentreActivity extends AppCompatActivity implements  Navigation
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             if (msg.what ==0){
-                updateProfileShow();
+                showProfile();
             }
             sendEmptyMessageDelayed(0, 1000);
         }
@@ -218,7 +218,7 @@ public class GameCentreActivity extends AppCompatActivity implements  Navigation
     }
 
     // TODO: Change to showProfile()
-    private void updateProfileShow(){
+    private void showProfile(){
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
