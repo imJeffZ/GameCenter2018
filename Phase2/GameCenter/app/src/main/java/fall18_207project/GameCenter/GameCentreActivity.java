@@ -200,8 +200,7 @@ public class GameCentreActivity extends AppCompatActivity implements  Navigation
 //                        saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
                     }
                 });
-        // TODO: Change to lindsey
-        imageDialog.setNegativeButton("lidsney",
+        imageDialog.setNegativeButton("lindsey",
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

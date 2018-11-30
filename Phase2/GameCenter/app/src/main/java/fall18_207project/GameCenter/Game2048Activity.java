@@ -91,7 +91,6 @@ public class Game2048Activity extends AppCompatActivity implements Observer, Gam
     }
 
     public void setTimerText(){
-        // TODO: This is easy code repeat, pls fix
         if (game2048.getElapsedTime() != 0) {
             mContext = this;
             mChrono = new GameChronometer(mContext,
