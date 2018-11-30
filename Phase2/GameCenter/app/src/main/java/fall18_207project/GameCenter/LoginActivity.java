@@ -67,8 +67,6 @@ public class LoginActivity extends AppCompatActivity implements ValidateFormActi
             UserHistoryActivity.userEmail = emailValue;
 
             firebaseAuth.signOut();
-//            Intent goToCenter = new Intent(getApplicationContext(), GameCentreActivity.class);
-//            startActivity(goToCenter);
         }
     }
 
