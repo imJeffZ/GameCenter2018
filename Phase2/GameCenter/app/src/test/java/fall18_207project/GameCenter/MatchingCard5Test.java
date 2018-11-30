@@ -59,6 +59,37 @@ public class MatchingCard5Test {
         assertTrue(matchCards.isSolved());
     }
 
+    /**
+     * test if touchMove() method works fine
+     */
+    @Test
+    public void testTouchMove() {
+        setUpCorrect();
+
+        matchCards.touchMove(23);
+        // position 23 is on row:4, col:3
+        assertTrue(matchCards.getMatchingBoard().getCard(4, 3).isUp());
+        assertFalse(matchCards.isMatched(3, 0)); // position: 15
+        assertFalse(matchCards.isMatched(4, 3)); // position: 23
+        assertTrue(matchCards.isMatched(4, 2)); // position: 22
+
+        matchCards.touchMove(21);
+        assertEquals(-1, matchCards.getPrePos()); // not matching => prepos becomes -1
+        assertFalse(matchCards.getMatchingBoard().getCard(4, 3).isUp()); // turns back
+
+        matchCards.touchMove(23);
+        matchCards.touchMove(22);
+        assertTrue(matchCards.getMatchingBoard().getCard(4, 3).isUp()); // position: 23
+        assertTrue(matchCards.getMatchingBoard().getCard(4, 2).isUp()); // position: 22
+        assertFalse(matchCards.getMatchingBoard().getCard(4, 1).isUp()); // position: 21
+
+
+        matchCards.touchMove(24); // the bomb
+        assertTrue(matchCards.isSolved());
+        assertTrue(matchCards.isMatchBomb());
+
+    }
+
     @Test
     public void testIsSolvedWithBomb() {
         setUpCorrect();
@@ -199,5 +230,25 @@ public class MatchingCard5Test {
         assertEquals(8, matchCards.calculateScore());
         matchCards.touchMove(24);
         assertEquals(0, matchCards.calculateScore());
+    }
+
+    /**
+     * Test reset method
+     */
+    @Test
+    public void testReset() {
+        setUpCorrect();
+        List<Card> newCards = makeCards();
+
+        matchCards.reset();
+        List<Card> cards = new ArrayList<>();
+        for (int row=0; row < matchCards.getMatchingBoard().getNumOfRows(); row++) {
+            for (int col=0; col < matchCards.getMatchingBoard().getNumOfColumns(); col++) {
+                cards.add(new Card(matchCards.getMatchingBoard().getCard(row, col).getId()-1));
+            }
+        }
+        assertNotEquals(newCards.toString(), cards.toString());
+        // normally it won't be equal.
+        // but there will be extremely small probability that these 2 will be equal
     }
 }
