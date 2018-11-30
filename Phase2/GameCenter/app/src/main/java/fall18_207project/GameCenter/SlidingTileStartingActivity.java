@@ -5,15 +5,9 @@ import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 
 /**
  * The initial activity for the sliding puzzle tile game.
@@ -21,14 +15,11 @@ import java.io.ObjectOutputStream;
 public class SlidingTileStartingActivity extends AppCompatActivity implements
         MultiLoadStartActivity, MultiComplexityStartActivity, GameStartingActivity{
 
-//    public static String userEmail = "";
-//    private AccountManager accountManager;
     private SlidingTileStartingController mController = new SlidingTileStartingController(SlidingTileStartingActivity.this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
         setContentView(R.layout.activity_starting_);
 
         addLoadGameButtonListener();
@@ -39,7 +30,7 @@ public class SlidingTileStartingActivity extends AppCompatActivity implements
     }
 
     private void setUserTextView(){
-        TextView account = findViewById(R.id.Hiuser);
+        TextView account = findViewById(R.id.Hi_User);
             account.setText(mController.setUserTextViewTest());
     }
 
@@ -131,13 +122,15 @@ public class SlidingTileStartingActivity extends AppCompatActivity implements
         returnToGameCenter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: Implement helper function switchToGameCentre
-                Intent backToGameCenter = new Intent(getApplicationContext(), GameCentreActivity.class);
-                startActivity(backToGameCenter);
+                switchToGameCentre();
             }
         });
     }
 
+    public void switchToGameCentre() {
+        Intent backToGameCenter = new Intent(getApplicationContext(), GameCentreActivity.class);
+        startActivity(backToGameCenter);
+    }
     /**
      * Switch to the SlidingTileGameActivity view to play the game.
      */

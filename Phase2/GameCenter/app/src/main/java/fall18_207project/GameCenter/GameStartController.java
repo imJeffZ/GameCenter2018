@@ -33,7 +33,9 @@ public abstract class GameStartController {
     }
 
     Game addGameInAcc(Game game){
-        CurrentAccountController.getCurrAccount().getAutoSavedGames().addGame(game);
+        if (CurrentAccountController.getCurrAccount() != null) {
+            CurrentAccountController.getCurrAccount().getAutoSavedGames().addGame(game);
+        }
         updateCurrAccount();
         return game;
     }

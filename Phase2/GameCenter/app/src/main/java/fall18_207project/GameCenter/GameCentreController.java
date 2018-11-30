@@ -7,13 +7,9 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class GameCentreController {
 
-//    private AccountManager accountManager;
-//    public String userEmail;
     private Context mContext;
 
     GameCentreController(Context context){
-//        this.accountManager = accManager;
-//        this.userEmail = User;
         mContext = context;
     }
 
@@ -26,7 +22,9 @@ public class GameCentreController {
             } else if (id == R.id.nav_password){
                 CurrentAccountController.getCurrAccount().setPassword(update);
                 FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-                currentUser.updatePassword(update);
+                if (currentUser != null) {
+                    currentUser.updatePassword(update);
+                }
             }
             updateCurrAccount();
         }
@@ -42,5 +40,4 @@ public class GameCentreController {
     void updateCurrAccount() {
         CurrentAccountController.writeData(mContext);
     }
-
 }

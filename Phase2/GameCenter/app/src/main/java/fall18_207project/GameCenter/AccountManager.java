@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-/***
+/**
  * Manages all accounts. Emails are unique, but userNames are not.
  */
 public class AccountManager implements Serializable {

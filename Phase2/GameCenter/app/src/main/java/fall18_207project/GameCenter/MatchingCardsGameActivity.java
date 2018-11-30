@@ -70,7 +70,7 @@ public class MatchingCardsGameActivity extends AppCompatActivity implements Obse
         setGameView();
         if(matchingCards.isStartMode())
             addStartButtonListener();
-        else setStartButtonUnclickable();
+        else setStartButtonUnClickable();
         addSaveButtonListener();
         addResetButtonListener();
     }
@@ -101,7 +101,6 @@ public class MatchingCardsGameActivity extends AppCompatActivity implements Obse
             mContext = this;
             mChrono = new GameChronometer(mContext,
                     System.currentTimeMillis() - matchingCards.getElapsedTime());
-            // TODO：This is easy repetitive code, please fix
             mThreadChrono = new Thread(mChrono);
             mThreadChrono.start();
             mChrono.start();
@@ -141,8 +140,7 @@ public class MatchingCardsGameActivity extends AppCompatActivity implements Obse
         });
     }
 
-    // TODO: Check naming for Unclickable
-    private void setStartButtonUnclickable(){
+    private void setStartButtonUnClickable(){
         Button startButton = findViewById(R.id.StartMatchButton);
         startButton.setClickable(false);
         startButton.setText("Started");
@@ -284,9 +282,11 @@ public class MatchingCardsGameActivity extends AppCompatActivity implements Obse
     public void onBackPressed() {
         super.onBackPressed();
         updateCurrAccount();
-        // TODO: Implement switchToGameCentre() method
+        switchToGameCentre();
+    }
+
+    public void switchToGameCentre() {
         Intent goToStart = new Intent(getApplicationContext(), MatchingCardStartActivity.class);
-//        saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
         startActivity(goToStart);
     }
 
@@ -294,40 +294,6 @@ public class MatchingCardsGameActivity extends AppCompatActivity implements Obse
         CurrentAccountController.writeData(MatchingCardsGameActivity.this);
     }
 
-//    private void readFromSer(String fileName) {
-//
-//        try {
-//            InputStream inputStream = this.openFileInput(fileName);
-//            if (inputStream != null) {
-//                ObjectInputStream input = new ObjectInputStream(inputStream);
-//                accountManager = (AccountManager) input.readObject();
-//                inputStream.close();
-//            }
-//        } catch (FileNotFoundException e) {
-//            Log.e("MatchingCardsGame activity", "File not found: " + e.toString());
-//        } catch (IOException e) {
-//            Log.e("MatchingCardsGame activity", "Can not read file: " + e.toString());
-//        } catch (ClassNotFoundException e) {
-//            Log.e("MatchingCardsGame activity", "File contained unexpected data type: " + e.toString());
-//        }
-//    }
-//
-//
-//    /**
-//     * Save the matchingTile to fileName.
-//     *
-//     * @param fileName the name of the file
-//     */
-//    public void saveToFile(String fileName) {
-//        try {
-//            ObjectOutputStream outputStream = new ObjectOutputStream(
-//                    this.openFileOutput(fileName, MODE_PRIVATE));
-//            outputStream.writeObject(accountManager);
-//            outputStream.close();
-//        } catch (IOException e) {
-//            Log.e("Exception", "File write failed: " + e.toString());
-//        }
-//    }
     @Override
     public void update(Observable o, Object arg) {
         display();

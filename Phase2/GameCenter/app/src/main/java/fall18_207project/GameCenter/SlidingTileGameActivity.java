@@ -23,10 +23,9 @@ public class SlidingTileGameActivity extends AppCompatActivity implements Observ
      * The board manager.
      */
     private SlidingTiles slidingTiles;
-//    private AccountManager accountManager;
     private GameManager gameManager;
     private String saveType;
-//    public static String userEmail = "";
+
     /**
      * The buttons to display.
      */
@@ -60,7 +59,6 @@ public class SlidingTileGameActivity extends AppCompatActivity implements Observ
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
         initial();
         createGameTileButtons(this);
         setContentView(R.layout.activity_slidingtiles);
@@ -160,7 +158,6 @@ public class SlidingTileGameActivity extends AppCompatActivity implements Observ
                 CurrentAccountController.getCurrAccount().getUserSavedGames().addGame(slidingTiles);
                 CurrentAccountController.getCurrAccount().getProfile().updateTotalPlayTime(mChrono.getActualElapsedTime());
                 mChrono.updateSavedTime();
-//                saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
                 makeSavedMessage();
             }
         }));
@@ -182,9 +179,7 @@ public class SlidingTileGameActivity extends AppCompatActivity implements Observ
                 newSlidingTiles.board = new SlidingTileBoard(slidingTiles.tiles, size);
                 restart.putExtra("saveId", newSlidingTiles.getSaveId());
                 restart.putExtra("saveType", "autoSave");
-//                readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
                 CurrentAccountController.getCurrAccount().getAutoSavedGames().addGame(newSlidingTiles);
-//                saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
                 startActivity(restart);
             }
         });
@@ -232,7 +227,6 @@ public class SlidingTileGameActivity extends AppCompatActivity implements Observ
         CurrentAccountController.getCurrAccount().getAutoSavedGames().addGame(slidingTiles);
         CurrentAccountController.getCurrAccount().getProfile().updateTotalPlayTime(mChrono.getActualElapsedTime());
         mChrono.updateSavedTime();
-//        saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
         updateCurrAccount();
     }
 
@@ -244,21 +238,17 @@ public class SlidingTileGameActivity extends AppCompatActivity implements Observ
         CurrentAccountController.getCurrAccount().getAutoSavedGames().addGame(slidingTiles);
         CurrentAccountController.getCurrAccount().getProfile().updateTotalPlayTime(mChrono.getActualElapsedTime());
         mChrono.updateSavedTime();
-//        saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
         updateCurrAccount();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-//        readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
     }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
         updateCurrAccount();
-        // TODO: Implement helper function switchToStartingActivity
+        switchToStartingActivity();
+    }
+
+    public void switchToStartingActivity() {
         Intent gotoStarting = new Intent(getApplicationContext(), SlidingTileStartingActivity.class);
         startActivity(gotoStarting);
     }
@@ -266,42 +256,6 @@ public class SlidingTileGameActivity extends AppCompatActivity implements Observ
     private void updateCurrAccount() {
         CurrentAccountController.writeData(SlidingTileGameActivity.this);
     }
-
-//
-//    /**
-//     * Save the board manager to fileName.
-//     *
-//     * @param fileName the name of the file
-//     */
-//    public void saveToFile(String fileName) {
-//        try {
-//            ObjectOutputStream outputStream = new ObjectOutputStream(
-//                    this.openFileOutput(fileName, MODE_PRIVATE));
-//            outputStream.writeObject(accountManager);
-//            outputStream.close();
-//        } catch (IOException e) {
-//            Log.e("Exception", "File write failed: " + e.toString());
-//        }
-//    }
-//
-//    private void readFromSer(String fileName) {
-//
-//        try {
-//            InputStream inputStream = this.openFileInput(fileName);
-//            if (inputStream != null) {
-//                ObjectInputStream input = new ObjectInputStream(inputStream);
-//                accountManager = (AccountManager) input.readObject();
-//                inputStream.close();
-//            }
-//        } catch (FileNotFoundException e) {
-//            Log.e("Game activity", "File not found: " + e.toString());
-//        } catch (IOException e) {
-//            Log.e("Game activity", "Can not read file: " + e.toString());
-//        } catch (ClassNotFoundException e) {
-//            Log.e("Game activity", "File contained unexpected data type: " + e.toString());
-//        }
-//    }
-//
 
     @Override
     public void update(Observable o, Object arg) {

@@ -9,10 +9,8 @@ import java.util.Random;
 /**
  * Manage a board, including swapping tiles, checking for a win, and managing taps.
  *
- * TODO: ? Make SlidingTiles Cloneable.
  */
 class SlidingTiles extends Game implements Cloneable, GameFeature {
-// If parent class is serializable, subclass is automatically serializable, thus we don't need to implement serializable for SlidingTiles
 
     /**
      * Manage a new shuffled board.
@@ -21,7 +19,6 @@ class SlidingTiles extends Game implements Cloneable, GameFeature {
     protected List<SlidingTilesTile> tiles;
 
     SlidingTiles(int num) {
-        super(); // Explicitly put here
         this.gameId = num-2;
         tiles = new ArrayList<>();
         final int numTiles = num * num;
@@ -39,6 +36,7 @@ class SlidingTiles extends Game implements Cloneable, GameFeature {
         Random r = new Random();
         int moveWay = r.nextInt(4);
         int boundStep = 40 - r.nextInt(20);
+
         int move;
         int i = 0;
         while (i < boundStep) {

@@ -53,13 +53,8 @@ public class CurrentAccountController implements Serializable {
             if (inputStream != null) {
                 ObjectInputStream input = new ObjectInputStream(inputStream);
                 accountManager = (AccountManager) input.readObject();
-//                    Account newAccount = (Account) input.readObject();
-//                    if (newAccount.getEmail() != null) {
-//                        account = new Account(newAccount.getEmail());
-//                    }
                 inputStream.close();
             }
-
         } catch (FileNotFoundException e) {
             Log.e("CurrentAccountController", "File not found: " + e.toString());
         } catch (IOException e) {
@@ -68,6 +63,7 @@ public class CurrentAccountController implements Serializable {
             Log.e("CurrentAccountController", "File contained unexpected data type: " + e.toString());
         }
     }
+
     // might need synchronized
     static void writeData(Context context) {
         try {
@@ -79,5 +75,4 @@ public class CurrentAccountController implements Serializable {
             Log.e("Exception", "File write failed: " + e.toString());
         }
     }
-
 }

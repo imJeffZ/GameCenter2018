@@ -17,19 +17,17 @@ public class Board extends Observable implements Cloneable, Serializable, Iterab
     /**
      * The number of rows.
      */
-    private int numOfRows = 4;
+    private int numOfRows;
 
     /**
      * The number of rows.
      */
-    private int numOfColumns = 4;
-
+    private int numOfColumns;
 
     /**
      * The tiles on the board in row-major order.
      */
     private Tile[][] tiles;
-
 
     /**
      * A new board of tiles in row-major order.
@@ -37,20 +35,16 @@ public class Board extends Observable implements Cloneable, Serializable, Iterab
      *
      * @param tiles the tiles for the board
      */
-
     public Board(List<? extends Tile> tiles, int size) {
         this.numOfColumns = size;
         this.numOfRows = size;
 
         this.tiles = new Tile[size][size];
-
         Iterator<?> iter = tiles.iterator();
-
 
         for (int row = 0; row != this.getNumOfColumns(); row++) {
             for (int col = 0; col != this.getNumOfColumns(); col++) {
                 this.tiles[row][col] = (Tile) iter.next();
-
             }
         }
     }
@@ -86,6 +80,7 @@ public class Board extends Observable implements Cloneable, Serializable, Iterab
     Tile[][] getTiles(){
         return this.tiles;
     }
+
     /**
      * Swap the tiles at (row1, col1) and (row2, col2)
      *
@@ -94,7 +89,6 @@ public class Board extends Observable implements Cloneable, Serializable, Iterab
      * @param row2 the second tile row
      * @param col2 the second tile col
      */
-
     void swapTiles(int row1, int col1, int row2, int col2) {
         Tile t1 = tiles[row1][col1];
         tiles[row1][col1] = tiles[row2][col2];
@@ -123,6 +117,7 @@ public class Board extends Observable implements Cloneable, Serializable, Iterab
         return new BoardIterator();
     }
 
+
     /**
      * The iterator class for Board's iterator.
      */
@@ -146,6 +141,4 @@ public class Board extends Observable implements Cloneable, Serializable, Iterab
             return nextTile;
         }
     }
-
-
 }
