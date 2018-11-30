@@ -22,15 +22,15 @@ public class Game2048Test {
      *   # if you scroll right, dead game!
      * @return a list of tiles looks like the order above
      */
-    private List<Tile> makeTiles() {
+    private List<Game2048Tile> makeTiles() {
         List<Integer> temp = new ArrayList<>(Arrays.asList(
                         7, 15, 511, 1023,
                         31, 63, 127, 24,
                         63, 127, 255, 1023,
                         127, 255, 511, 255));
-        List<Tile> tiles = new ArrayList<>();
+        List<Game2048Tile> tiles = new ArrayList<>();
         for (int i = 0; i < 16; i++) {
-            tiles.add(new Tile(temp.get(i)));
+            tiles.add(new Game2048Tile(temp.get(i)));
         }
         return tiles;
     }
@@ -41,8 +41,8 @@ public class Game2048Test {
      */
     private void setUpCorrect() {
         game2048 = new Game2048();
-        List<Tile> tiles = makeTiles();
-        game2048.board = (Game2048Board) new Board(tiles, 4);
+        List<Game2048Tile> tiles = makeTiles();
+        game2048.board = new Game2048Board(tiles, 4);
     }
 
     /**
@@ -84,9 +84,9 @@ public class Game2048Test {
     @Test
     public void testUndo() {
         setUpCorrect();
-        Board boardCopy = new Board(makeTiles(), 4);
+        Game2048Board boardCopy = new Game2048Board(makeTiles(), 4);
         Game2048 gm2048Copy = new Game2048();
-        gm2048Copy.board = (Game2048Board) boardCopy;
+        gm2048Copy.board = boardCopy;
 
         game2048.touchMove(Game2048.RIGHT);
         assertNotEquals(gm2048Copy.getBoardStack(), game2048.getBoardStack());
