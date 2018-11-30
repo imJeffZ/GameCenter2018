@@ -16,12 +16,6 @@ public class SlidingTileStartingController extends GameStartController {
         return new SlidingTiles(num);
     }
 
-    Game addGameInAcc(Game game){
-        CurrentAccountController.getCurrAccount().getAutoSavedGames().addGame((SlidingTiles) game);
-        CurrentAccountController.writeData(mContext);
-        return game;
-    }
-
     void userSignOut(){
         firebaseAuth.signOut();
     }

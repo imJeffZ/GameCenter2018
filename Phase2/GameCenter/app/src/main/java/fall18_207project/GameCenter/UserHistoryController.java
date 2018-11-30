@@ -20,18 +20,21 @@ public class UserHistoryController {
     }
 
     public void getData(List<Map<String, Object>> list, ArrayList<Game> playGame, int id) {
-        ArrayList<Game> gameList = CurrentAccountController.getCurrAccount().getUserScoreBoard().getAllGameList();
-        for (int i = 0; i < gameList.size(); i++) {
-            Map<String, Object> map = new HashMap<>();
-            if (gameList.get(i).gameId ==id){
-                playGame.add(gameList.get(i));
-                map.put("gameId", gameList.get(i).getTime());
-                map.put("score",  gameList.get(i).calculateScore());
-                list.add(map);
+        if (CurrentAccountController.getCurrAccount() != null) {
+            ArrayList<Game> gameList = CurrentAccountController.getCurrAccount().getUserScoreBoard().getAllGameList();
+            for (int i = 0; i < gameList.size(); i++) {
+                Map<String, Object> map = new HashMap<>();
+                if (gameList.get(i).gameId ==id){
+                    playGame.add(gameList.get(i));
+                    map.put("gameId", gameList.get(i).getTime());
+                    map.put("score",  gameList.get(i).calculateScore());
+                    list.add(map);
+                }
             }
+            this.list = list;
+            this.playGame = playGame;
         }
-        this.list = list;
-        this.playGame = playGame;
+
     }
 
     public void addAutoSaveGame(Game selectedGame){

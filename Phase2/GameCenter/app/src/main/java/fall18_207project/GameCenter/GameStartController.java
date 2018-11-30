@@ -24,14 +24,17 @@ public abstract class GameStartController {
         return "";
     }
 
-    // TODO: We can implement this here
-    abstract Game addGameInAcc(Game game);
-
     void userSignOut(){
         firebaseAuth.signOut();
     }
 
     void updateCurrAccount() {
         CurrentAccountController.writeData(mContext);
+    }
+
+    Game addGameInAcc(Game game){
+        CurrentAccountController.getCurrAccount().getAutoSavedGames().addGame(game);
+        updateCurrAccount();
+        return game;
     }
 }

@@ -14,11 +14,4 @@ public class MatchingCardStartController extends GameStartController{
     MatchingCards createGame(int num){
         return new MatchingCards(num);
     }
-
-    Game addGameInAcc( Game game){
-        CurrentAccountController.getCurrAccount().getAutoSavedGames().addGame((MatchingCards) game);
-        updateCurrAccount();
-        return game;
-    }
-
 }

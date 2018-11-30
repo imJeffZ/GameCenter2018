@@ -22,30 +22,35 @@ public class SavedGamesController {
    }
 
     public void getData(List<Map<String, Object>> list, String saveType, String gameType, ArrayList<Game> gameList ) {
-        if (saveType.equals("autoSave")) {
-            gameManager = CurrentAccountController.getCurrAccount().getAutoSavedGames();
-        } else {
-            gameManager = CurrentAccountController.getCurrAccount().getUserSavedGames();
-        }
+        Account currAccount = CurrentAccountController.getCurrAccount();
 
-        ArrayList<Game> allGameList = gameManager.getAllGameList();
+        if (currAccount != null) {
+            if (saveType.equals("autoSave")) {
+                gameManager = currAccount.getAutoSavedGames();
+            } else {
+                gameManager = currAccount.getUserSavedGames();
+            }
+
+            ArrayList<Game> allGameList = gameManager.getAllGameList();
             for(Game game : allGameList){
                 if("slidingTiles".equals(gameType)){
                     gameList.add(game);
                 }
-            else if("matchingCards".equals(gameType)){
+                else if("matchingCards".equals(gameType)){
                     gameList.add(game);
                 }
-            else if ("game2048".equals(gameType)){
+                else if ("game2048".equals(gameType)){
                     gameList.add(game);
                 }
             }
-        Collections.reverse(gameList);
-        for (Game g: gameList) {
-            Map<String, Object> map = new HashMap<>();
-            map.put("gameId", g.gameId);
-            map.put("time", g.getTime());
-            list.add(map);
+            Collections.reverse(gameList);
+            for (Game g: gameList) {
+                Map<String, Object> map = new HashMap<>();
+                map.put("gameId", g.gameId);
+                map.put("time", g.getTime());
+                list.add(map);
+            }
         }
+
     }
 }

@@ -18,10 +18,4 @@ public class Game2048StartController extends GameStartController{
     Game2048 createGame(){
         return new Game2048();
     }
-
-    Game addGameInAcc(Game game){
-        CurrentAccountController.getCurrAccount().getAutoSavedGames().addGame((Game2048) game);
-        updateCurrAccount();
-        return game;
-    }
 }

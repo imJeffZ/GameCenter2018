@@ -232,7 +232,7 @@ public class GameCentreActivity extends AppCompatActivity implements  Navigation
         navigationView.setNavigationItemSelectedListener(this);
         View navHeader = navigationView.getHeaderView(0);
         TextView textUser = navHeader.findViewById(R.id.profileUser);
-//        if (accountManager.getAccount(userEmail) != null) {
+        if (CurrentAccountController.getCurrAccount() != null) {
 
             textUser.setText(CurrentAccountController.getCurrAccount().getUserName());
 
@@ -245,7 +245,7 @@ public class GameCentreActivity extends AppCompatActivity implements  Navigation
             TextView textPlayTime = navHeader.findViewById(R.id.profileTime);
             textPlayTime.setText("Play Time in Total: " +
                     CurrentAccountController.getCurrAccount().getProf().getTotalPlayTime());
-//        }
+        }
 
     }
 
