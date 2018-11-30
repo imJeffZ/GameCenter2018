@@ -6,36 +6,23 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+/*** the activity for launching our app.
+ *
+ */
+
 public class LauncherActivity extends AppCompatActivity {
 
 
-    /***git log --author="__Your_Name_" --pretty=tformat: --numstat | awk '{ add += $1; subs += $2; loc += $1 -
-     *  $2 } END { printf "added lines: %s, removed lines: %s, total lines: %s\n", add, subs, loc }'
-     *
-     * @param savedInstanceState
+    /***
+     * @param savedInstanceState a previous state bundle from super class.
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        //addBeginAppButtonListener();
         Intent goToLogin = new Intent(getApplicationContext(), LoginActivity.class);
         startActivity(goToLogin);
     }
 
-       // addBeginAppButtonListener();
     }
 
-//>>>>>>> e769dd18b26fafd72610a1a708373766bc73065a
-////    private void addBeginAppButtonListener() {
-////        Button beginAppBtn = findViewById(R.id.beginApp);
-////        beginAppBtn.setOnClickListener(new View.OnClickListener() {
-////            @Override
-////            public void onClick(View v) {
-////                Intent goToLogin = new Intent(getApplicationContext(), LoginActivity.class);
-////                startActivity(goToLogin);
-////            }
-////        });
-////    }
-//}
