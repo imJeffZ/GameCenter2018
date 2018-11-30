@@ -334,6 +334,14 @@ public class SlidingTileStartingActivity extends AppCompatActivity implements
 
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent goToCenter = new Intent(getApplicationContext(), GameCentreActivity.class);
+        saveToSer(LoginActivity.ACCOUNT_MANAGER_DATA);
+        startActivity(goToCenter);
+    }
+
     private void readFromSer(String fileName) {
         try {
             InputStream inputStream = this.openFileInput(fileName);

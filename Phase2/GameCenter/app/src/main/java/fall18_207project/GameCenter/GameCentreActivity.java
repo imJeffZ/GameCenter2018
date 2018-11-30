@@ -223,7 +223,6 @@ public class GameCentreActivity extends AppCompatActivity implements  Navigation
         });
         imageDialog.show();
     }
-
     private void updateProfileShow(){
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);

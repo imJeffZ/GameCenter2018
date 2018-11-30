@@ -228,6 +228,14 @@ public class Game2048StartActivity extends AppCompatActivity implements
         readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent goToCenter = new Intent(getApplicationContext(), GameCentreActivity.class);
+        saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
+        startActivity(goToCenter);
+    }
+
     /**
      * Switch to the Game2048Activity view to play the game.
      */

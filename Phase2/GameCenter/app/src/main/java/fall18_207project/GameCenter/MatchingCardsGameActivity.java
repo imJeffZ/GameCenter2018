@@ -182,7 +182,6 @@ public class MatchingCardsGameActivity extends AppCompatActivity implements Obse
                 MatchingCards newMatchingCards = new MatchingCards(size);
                 newMatchingCards.initialList = matchingCards.cloneCards(matchingCards.initialList);
                 newMatchingCards.matchingBoard = new MatchingBoard(matchingCards.cloneCards(matchingCards.initialList), size);
-                newMatchingCards.initialBoard = new MatchingBoard(matchingCards.cloneCards(matchingCards.initialList), size);
                 restart.putExtra("saveId", newMatchingCards.getSaveId());
                 restart.putExtra("saveType", "autoSave");
                 readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);

@@ -186,6 +186,9 @@ public class Game2048Activity extends AppCompatActivity implements Observer, Gam
 
     }
 
+    /**
+     * restart a new game with new save Id, as initial state of current game.
+     */
     private void addResetButtonListener() {
         Button resetButton = findViewById(R.id.resetButton);
         resetButton.setOnClickListener(new View.OnClickListener() {
@@ -195,7 +198,6 @@ public class Game2048Activity extends AppCompatActivity implements Observer, Gam
                 Game2048 newGame2048 = new Game2048();
                 newGame2048.tiles = game2048.cloneTiles();
                 newGame2048.board = new Game2048Board(game2048.tiles, 4);
-                newGame2048.initialBoard = new Board(game2048.tiles, 4);
                 restart.putExtra("saveId", newGame2048.getSaveId());
                 restart.putExtra("saveType", "autoSave");
                 readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
