@@ -39,8 +39,8 @@ public class SlidingTileBoard extends Board {
 
         Iterator<SlidingTilesTile> iter = tiles.iterator();
 
-        for (int row = 0; row != this.getNUM_COLS(); row++) {
-            for (int col = 0; col != this.getNUM_COLS(); col++) {
+        for (int row = 0; row != this.getNumOfRows(); row++) {
+            for (int col = 0; col != this.getNumOfColumns(); col++) {
                 this.tiles[row][col] = iter.next();
             }
         }

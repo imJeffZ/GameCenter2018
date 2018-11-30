@@ -183,9 +183,9 @@ public class MatchingCard5Test {
     public void testBackId() {
         setUpCorrect();
 
-        assertEquals(R.drawable.p1, matchCards.getMatchingBoard().getCard(0, 0).getBackId());
-        assertEquals(R.drawable.p24, matchCards.getMatchingBoard().getCard(4, 3).getBackId());
-        assertEquals(R.drawable.bomb, matchCards.getMatchingBoard().getCard(4, 4).getBackId());
+        assertEquals(R.drawable.p1, matchCards.getMatchingBoard().getCard(0, 0).getBackground());
+        assertEquals(R.drawable.p24, matchCards.getMatchingBoard().getCard(4, 3).getBackground());
+        assertEquals(R.drawable.bomb, matchCards.getMatchingBoard().getCard(4, 4).getBackground());
     }
 
     /**

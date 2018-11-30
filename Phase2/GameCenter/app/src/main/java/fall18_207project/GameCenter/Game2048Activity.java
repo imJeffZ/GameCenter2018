@@ -69,7 +69,7 @@ public class Game2048Activity extends AppCompatActivity implements Observer, Gam
      */
     // Display
     public void display() {
-        updateTileButtons();
+        updateGameTileButtons();
         gridView.setAdapter(new CustomAdapter(tileButtons, columnWidth, columnHeight));
 
         int counter = game2048.getCountMove();
@@ -107,7 +107,7 @@ public class Game2048Activity extends AppCompatActivity implements Observer, Gam
             mThreadChrono.start();
             mChrono.start();
         }
-        createTileButtons(this);
+        createGameTileButtons(this);
         setContentView(R.layout.activity_game2048);
 
         mContext = this;
@@ -119,7 +119,7 @@ public class Game2048Activity extends AppCompatActivity implements Observer, Gam
 
         // Add View to activity
         gridView = findViewById(R.id.grid);
-        gridView.setNumColumns(game2048.getBoard().getNUM_COLS());
+        gridView.setNumColumns(game2048.getBoard().getNumOfColumns());
         gridView.setGame(game2048);
         game2048.getBoard().addObserver(this);
         // Observer sets up desired dimensions as well as calls our display function
@@ -133,8 +133,8 @@ public class Game2048Activity extends AppCompatActivity implements Observer, Gam
                         int displayHeight = gridView.getMeasuredHeight();
 
 
-                        columnWidth = displayWidth / game2048.getBoard().getNUM_COLS();
-                        columnHeight = displayHeight / game2048.getBoard().getNUM_ROWS();
+                        columnWidth = displayWidth / game2048.getBoard().getNumOfColumns();
+                        columnHeight = displayHeight / game2048.getBoard().getNumOfRows();
 
                         display();
                     }
@@ -251,11 +251,12 @@ public class Game2048Activity extends AppCompatActivity implements Observer, Gam
      *
      * @param context the context
      */
-    public void createTileButtons(Context context) {
+    public void createGameTileButtons(Context context) {
         Game2048Board board = game2048.getBoard();
+
         tileButtons = new ArrayList<>();
-        for (int row = 0; row != game2048.getBoard().getNUM_ROWS(); row++) {
-            for (int col = 0; col != game2048.getBoard().getNUM_COLS(); col++) {
+        for (int row = 0; row != game2048.getBoard().getNumOfRows(); row++) {
+            for (int col = 0; col != game2048.getBoard().getNumOfColumns(); col++) {
                 Button tmp = new Button(context);
                 tmp.setBackgroundResource(board.getTile(row, col).getBackground());
                 this.tileButtons.add(tmp);
@@ -266,12 +267,12 @@ public class Game2048Activity extends AppCompatActivity implements Observer, Gam
     /**
      * Update the backgrounds on the buttons to match the tiles.
      */
-    public void updateTileButtons() {
+    public void updateGameTileButtons() {
         Board board = game2048.getBoard();
         int nextPos = 0;
         for (Button b : tileButtons) {
-            int row = nextPos / game2048.getBoard().getNUM_ROWS();
-            int col = nextPos % game2048.getBoard().getNUM_COLS();
+            int row = nextPos / game2048.getBoard().getNumOfRows();
+            int col = nextPos % game2048.getBoard().getNumOfColumns();
             b.setBackgroundResource(board.getTile(row, col).getBackground());
             nextPos++;
         }
