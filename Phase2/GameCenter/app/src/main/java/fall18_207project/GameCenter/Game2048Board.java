@@ -45,6 +45,7 @@ public class Game2048Board extends Board implements Cloneable {
     int getNUM_COLS() {
         return NUM_COLS;
     }
+
     int getNUM_ROWS() {
         return NUM_ROWS;
     }
@@ -69,7 +70,7 @@ public class Game2048Board extends Board implements Cloneable {
         return tiles[row][col];
     }
 
-    Tile[][] getTiles(){
+    Tile[][] getTiles() {
         return this.tiles;
     }
 

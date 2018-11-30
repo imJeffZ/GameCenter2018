@@ -8,7 +8,6 @@ import java.util.Random;
 
 /**
  * Manage a board, including swapping tiles, checking for a win, and managing taps.
- *
  */
 class SlidingTiles extends Game implements Cloneable, GameFeature {
 
@@ -51,7 +50,6 @@ class SlidingTiles extends Game implements Cloneable, GameFeature {
         }
     }
 
-
     public List<SlidingTilesTile> cloneTiles(){
         List<SlidingTilesTile> returnTile = new ArrayList<>();
             for (SlidingTilesTile tile : tiles){
@@ -59,6 +57,7 @@ class SlidingTiles extends Game implements Cloneable, GameFeature {
         }
         return returnTile;
     }
+
     /**
      * Return whether the tiles are in row-major order.
      *
@@ -67,7 +66,7 @@ class SlidingTiles extends Game implements Cloneable, GameFeature {
     public boolean isSolved() {
         boolean solved = true;
         Iterator<Tile> it = board.iterator();
-        int correctId = 1; /* the correct id of tile in the position of winning condition*/
+        int correctId = 1; // the correct id of tile in the position of winning condition*/
         while (it.hasNext()) {
             int curId = it.next().getId();
             if (correctId != board.numTiles()) {
@@ -80,12 +79,10 @@ class SlidingTiles extends Game implements Cloneable, GameFeature {
         return solved;
     }
 
-
     @Override
     SlidingTiles reset() {
         return new SlidingTiles(this.getBoard().getNumOfRows());
     }
-
 
     /**
      * Return whether any of the four surrounding tiles is the blank tile.

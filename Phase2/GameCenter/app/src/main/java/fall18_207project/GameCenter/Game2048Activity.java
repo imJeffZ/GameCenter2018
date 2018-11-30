@@ -2,8 +2,8 @@ package fall18_207project.GameCenter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
@@ -24,7 +24,7 @@ public class Game2048Activity extends AppCompatActivity implements Observer, Gam
      * The board manager.
      */
     private Game2048 game2048;
-    private  GameManager gameManager;
+    private GameManager gameManager;
     private String saveType;
 
     /**
@@ -42,7 +42,6 @@ public class Game2048Activity extends AppCompatActivity implements Observer, Gam
     GameChronometer mChrono;
     //Thread for chronometer
     Thread mThreadChrono;
-    //Reference to the MainActivity (this class!)
     Context mContext;
 
     // Grid View and calculated column height and width based on device size
@@ -76,17 +75,17 @@ public class Game2048Activity extends AppCompatActivity implements Observer, Gam
         addResetButtonListener();
     }
 
-    void initial(){
+    void initial() {
         saveType = getIntent().getStringExtra("saveType");
-        gameManager = saveType.equals("autoSave") ? CurrentAccountController.getCurrAccount().getAutoSavedGames():
-                saveType.equals("userSave") ? CurrentAccountController.getCurrAccount().getUserSavedGames():
+        gameManager = saveType.equals("autoSave") ? CurrentAccountController.getCurrAccount().getAutoSavedGames() :
+                saveType.equals("userSave") ? CurrentAccountController.getCurrAccount().getUserSavedGames() :
                         CurrentAccountController.getCurrAccount().getUserScoreBoard();
         String saveId = getIntent().getStringExtra("saveId");
-        game2048 = saveId == null? new Game2048():
+        game2048 = saveId == null ? new Game2048() :
                 (Game2048) gameManager.getGame(getIntent().getStringExtra("saveId"));
     }
 
-    public void setTimerText(){
+    public void setTimerText() {
         if (game2048.getElapsedTime() != 0) {
             mContext = this;
             mChrono = new GameChronometer(mContext,
@@ -106,7 +105,7 @@ public class Game2048Activity extends AppCompatActivity implements Observer, Gam
         }
     }
 
-    public void setGameView(){
+    public void setGameView() {
         gridView = findViewById(R.id.grid);
         gridView.setNumColumns(game2048.getBoard().getNumOfColumns());
         gridView.setGame(game2048);
@@ -144,8 +143,8 @@ public class Game2048Activity extends AppCompatActivity implements Observer, Gam
             public void onClick(View view) {
                 game2048.undo();
                 setObserver(game2048.getBoard());
-                game2048.getBoard().swapTiles(1,2,2,1);
-                game2048.getBoard().swapTiles(1,2,2,1);
+                game2048.getBoard().swapTiles(1, 2, 2, 1);
+                game2048.getBoard().swapTiles(1, 2, 2, 1);
             }
         }));
 

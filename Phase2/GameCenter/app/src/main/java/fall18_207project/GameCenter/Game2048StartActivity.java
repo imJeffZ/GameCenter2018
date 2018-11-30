@@ -10,7 +10,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 public class Game2048StartActivity extends AppCompatActivity implements
-        MultiLoadStartActivity, GameStartingActivity{
+        MultiLoadStartActivity, GameStartingActivity {
     private Game2048StartController mController = new Game2048StartController(Game2048StartActivity.this);
 
     @Override
@@ -25,7 +25,7 @@ public class Game2048StartActivity extends AppCompatActivity implements
         setUserTextView();
     }
 
-    private void setUserTextView(){
+    private void setUserTextView() {
         TextView account = findViewById(R.id.Hi_User);
         account.setText(mController.setUserTextViewTest());
     }
@@ -38,7 +38,7 @@ public class Game2048StartActivity extends AppCompatActivity implements
         Button4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switchToGame( mController.addGameInAcc(mController.createGame()).getSaveId());
+                switchToGame(mController.addGameInAcc(mController.createGame()).getSaveId());
             }
         });
     }
@@ -46,7 +46,7 @@ public class Game2048StartActivity extends AppCompatActivity implements
     /**
      * Activate the 4x4 new game board.
      */
-    private void addLoadGameButtonListener(){
+    private void addLoadGameButtonListener() {
         Button Button4 = findViewById(R.id.loadGameButton);
         Button4.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,7 +79,7 @@ public class Game2048StartActivity extends AppCompatActivity implements
         });
     }
 
-    public void showLoadDialog(){
+    public void showLoadDialog() {
         AlertDialog.Builder loadDialog =
                 new AlertDialog.Builder(Game2048StartActivity.this);
         loadDialog.setTitle("Load Game ").setMessage("Load From...");
@@ -115,14 +115,14 @@ public class Game2048StartActivity extends AppCompatActivity implements
         startActivity(backToGameCenter);
     }
 
-    public void switchToSaveGames(){
+    public void switchToSaveGames() {
         Intent goToSavedGames = new Intent(getApplicationContext(), SavedGamesActivity.class);
         goToSavedGames.putExtra("saveType", "userSave");
         goToSavedGames.putExtra("gameType", "game2048");
         startActivity(goToSavedGames);
     }
 
-    public void switchToAutoSaveGames(){
+    public void switchToAutoSaveGames() {
         Intent goToSavedGames = new Intent(getApplicationContext(), SavedGamesActivity.class);
         goToSavedGames.putExtra("saveType", "autoSave");
         goToSavedGames.putExtra("gameType", "game2048");

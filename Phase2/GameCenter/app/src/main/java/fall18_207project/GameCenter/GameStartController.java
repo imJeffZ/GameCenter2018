@@ -5,26 +5,22 @@ import android.content.Context;
 import com.google.firebase.auth.FirebaseAuth;
 
 public abstract class GameStartController {
-//    String userEmail;
-//    AccountManager accountManager;
     FirebaseAuth firebaseAuth;
     protected Context mContext;
 
-    GameStartController(Context context){
-//        this.accountManager = accManager;
-//        this.userEmail = User;
+    GameStartController(Context context) {
         this.mContext = context;
         firebaseAuth = FirebaseAuth.getInstance();
     }
 
-    String setUserTextViewTest(){
+    String setUserTextViewTest() {
         if (CurrentAccountController.getCurrAccount() != null) {
             return "Hi, " + CurrentAccountController.getCurrAccount().getUserName();
         }
         return "";
     }
 
-    void userSignOut(){
+    void userSignOut() {
         firebaseAuth.signOut();
     }
 
@@ -32,7 +28,7 @@ public abstract class GameStartController {
         CurrentAccountController.writeData(mContext);
     }
 
-    Game addGameInAcc(Game game){
+    Game addGameInAcc(Game game) {
         if (CurrentAccountController.getCurrAccount() != null) {
             CurrentAccountController.getCurrAccount().getAutoSavedGames().addGame(game);
         }

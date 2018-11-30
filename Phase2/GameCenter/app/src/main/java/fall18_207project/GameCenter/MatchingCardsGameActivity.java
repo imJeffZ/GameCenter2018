@@ -19,10 +19,8 @@ public class MatchingCardsGameActivity extends AppCompatActivity implements Obse
      * The matchingGame.
      */
     private MatchingCards matchingCards;
-//    private AccountManager accountManager;
     private GameManager gameManager;
     private String saveType;
-//    public static String userEmail = "";
 
     /**
      * The buttons to display.
@@ -35,7 +33,6 @@ public class MatchingCardsGameActivity extends AppCompatActivity implements Obse
     GameChronometer mChrono;
     //Thread for chronometer
     Thread mThreadChrono;
-    //Reference to the Activity (this class!)
     Context mContext;
 
 
@@ -172,9 +169,7 @@ public class MatchingCardsGameActivity extends AppCompatActivity implements Obse
                 newMatchingCards.matchingBoard = new MatchingBoard(matchingCards.cloneCards(matchingCards.initialList), size);
                 restart.putExtra("saveId", newMatchingCards.getSaveId());
                 restart.putExtra("saveType", "autoSave");
-//                readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
                 CurrentAccountController.getCurrAccount().getAutoSavedGames().addGame(newMatchingCards);
-//                saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
                 startActivity(restart);
             }
         });
@@ -236,7 +231,6 @@ public class MatchingCardsGameActivity extends AppCompatActivity implements Obse
                 CurrentAccountController.getCurrAccount().getUserSavedGames().addGame(matchingCards);
                 CurrentAccountController.getCurrAccount().getProfile().updateTotalPlayTime(mChrono.getActualElapsedTime());
                 mChrono.updateSavedTime();
-//                saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
                 makeSavedMessage();
             }
         }));
@@ -256,7 +250,6 @@ public class MatchingCardsGameActivity extends AppCompatActivity implements Obse
         CurrentAccountController.getCurrAccount().getProfile().updateTotalPlayTime(mChrono.getActualElapsedTime());
         mChrono.updateSavedTime();
         updateCurrAccount();
-//        saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
     }
 
 
@@ -269,14 +262,8 @@ public class MatchingCardsGameActivity extends AppCompatActivity implements Obse
         CurrentAccountController.getCurrAccount().getProfile().updateTotalPlayTime(mChrono.getActualElapsedTime());
         mChrono.updateSavedTime();
         updateCurrAccount();
-//        saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
     }
 
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-////        readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
-//    }
 
     @Override
     public void onBackPressed() {

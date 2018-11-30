@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import java.util.Stack;
+
 /**
  * The 2048 Game
  */
@@ -49,7 +50,7 @@ public class Game2048 extends Game implements GameFeature, Cloneable {
     protected List<Game2048Tile> tiles;
 
     /**
-     *  Initialize the 2048 game  with gameid and Game 2048 Tiles
+     * Initialize the 2048 game  with gameid and Game 2048 Tiles
      */
     public Game2048() {
         this.gameId = 7;
@@ -77,6 +78,7 @@ public class Game2048 extends Game implements GameFeature, Cloneable {
 
     /**
      * a reset method
+     *
      * @return a new game with brand new board
      */
     @Override
@@ -104,6 +106,7 @@ public class Game2048 extends Game implements GameFeature, Cloneable {
 
     /**
      * return the whole stack used for storing all the boards
+     *
      * @return the boardStack that used for storing all the boards
      */
     public Stack<Game2048Board> getBoardStack() {
@@ -235,7 +238,7 @@ public class Game2048 extends Game implements GameFeature, Cloneable {
         boolean check = false;
         boardStack.push((Game2048Board) board.clone());
         countMove++;
-        int  value;
+        int value;
 
         if (direction == LEFT) {
             for (int row = 0; row < board.getNumOfRows(); ++row) {
@@ -331,20 +334,21 @@ public class Game2048 extends Game implements GameFeature, Cloneable {
             boardStack.pop();
         }
         if (!boardStack.isEmpty()) {
-            board =  boardStack.pop();
+            board = boardStack.pop();
         }
     }
 
     /**
      * the method that check if the game is solved/over.
+     *
      * @return whether the game is over
      */
     @Override
     public boolean isSolved() {
         boolean check = false;
-        for (int i = 0; i < board.getNUM_COLS(); i++){
-            for (int j = 0; j < board.getNUM_ROWS(); j++){
-                if (board.getTile(i, j).getId() == 2048){
+        for (int i = 0; i < board.getNUM_COLS(); i++) {
+            for (int j = 0; j < board.getNUM_ROWS(); j++) {
+                if (board.getTile(i, j).getId() == 2048) {
                     check = true;
                 }
             }

@@ -40,7 +40,7 @@ public class LoginActivity extends AppCompatActivity implements ValidateFormatAc
         FirebaseUser currentUser = firebaseAuth.getCurrentUser();
         if (currentUser != null) {
             String emailValue = currentUser.getEmail();
-            CurrentAccountController.readSavedFata(this, emailValue);
+            CurrentAccountController.readSavedData(this, emailValue);
             firebaseAuth.signOut();
         }
     }
@@ -89,7 +89,7 @@ public class LoginActivity extends AppCompatActivity implements ValidateFormatAc
                             Log.d("LoginActivity", "sign in successful!");
                             Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
 
-                            CurrentAccountController.readSavedFata(LoginActivity.this, email);
+                            CurrentAccountController.readSavedData(LoginActivity.this, email);
                             switchToGameCentre();
                         } else {
                             Log.d("LoginActivity", "sign in failed");

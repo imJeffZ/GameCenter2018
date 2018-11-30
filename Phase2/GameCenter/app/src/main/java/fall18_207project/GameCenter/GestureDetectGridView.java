@@ -80,8 +80,7 @@ public class GestureDetectGridView extends GridView {
                             }
                             result = true;
                         }
-                    }
-                    else if (Math.abs(diffY) > SWIPE_THRESHOLD && Math.abs(velocityY) > SWIPE_VELOCITY_THRESHOLD) {
+                    } else if (Math.abs(diffY) > SWIPE_THRESHOLD && Math.abs(velocityY) > SWIPE_VELOCITY_THRESHOLD) {
                         if (diffY > 0) {
                             onSwipeBottom();
                         } else {
@@ -104,19 +103,19 @@ public class GestureDetectGridView extends GridView {
     }
 
     public void onSwipeRight() {
-        mController.processSwipeMovement(getContext(),Game2048.RIGHT,true);
+        mController.processSwipeMovement(getContext(), Game2048.RIGHT, true);
     }
 
     public void onSwipeLeft() {
-        mController.processSwipeMovement(getContext(),Game2048.LEFT,true);
+        mController.processSwipeMovement(getContext(), Game2048.LEFT, true);
     }
 
     public void onSwipeTop() {
-        mController.processSwipeMovement(getContext(),Game2048.UP,true);
+        mController.processSwipeMovement(getContext(), Game2048.UP, true);
     }
 
     public void onSwipeBottom() {
-        mController.processSwipeMovement(getContext(),Game2048.DOWN,true);
+        mController.processSwipeMovement(getContext(), Game2048.DOWN, true);
     }
 
     @Override

@@ -1,7 +1,6 @@
 package fall18_207project.GameCenter;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,7 +9,7 @@ import java.util.Map;
  */
 public class AccountManager implements Serializable {
 
-    private Map<String, Account> accountMap ;
+    private Map<String, Account> accountMap;
     private GlobalScoreBoard globalScoreBoard;
 
     public AccountManager() {

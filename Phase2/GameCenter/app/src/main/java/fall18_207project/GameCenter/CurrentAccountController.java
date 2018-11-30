@@ -1,10 +1,6 @@
 package fall18_207project.GameCenter;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.app.Application;
 import android.content.Context;
-import android.os.Bundle;
 import android.util.Log;
 
 import java.io.FileNotFoundException;
@@ -13,9 +9,6 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-
-import fall18_207project.GameCenter.Account;
-import fall18_207project.GameCenter.AccountManager;
 
 /***
  * Singleton controller for Current Account.
@@ -45,8 +38,7 @@ public class CurrentAccountController implements Serializable {
         userEmail = email;
     }
 
-    // might need synchronized
-    static void readSavedFata(Context context, String userEmail) {
+    static void readSavedData(Context context, String userEmail) {
         initUserEmail(userEmail);
         try {
             InputStream inputStream = context.openFileInput("account_manager.ser");
@@ -64,7 +56,6 @@ public class CurrentAccountController implements Serializable {
         }
     }
 
-    // might need synchronized
     static void writeData(Context context) {
         try {
             ObjectOutputStream outputStream = new ObjectOutputStream(

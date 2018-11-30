@@ -16,7 +16,10 @@ This Class is a Timer that counts up by 1 per second.
  * A simple Runnable class to generate time difference since a starting time in milliseconds
  */
 public class GameChronometer implements Runnable {
-    //Some constants for milliseconds to hours, minutes, and seconds conversion
+    /***
+     *  Some constants for milliseconds to hours, minutes, and seconds conversion
+     */
+
     private static final long MILLIS_TO_MINUTES = 1000 * 60;
     private static final long MILLS_TO_HOURS = 1000 * 60 * 60;
 
@@ -70,13 +73,14 @@ public class GameChronometer implements Runnable {
         return System.currentTimeMillis() - mStartTime;
     }
 
-    public long getActualElapsedTime(){
+    public long getActualElapsedTime() {
         return System.currentTimeMillis() - savedTime;
     }
 
-    public void updateSavedTime(){
+    public void updateSavedTime() {
         this.savedTime = System.currentTimeMillis();
     }
+
     @Override
     public void run() {
         while (mIsRunning) {

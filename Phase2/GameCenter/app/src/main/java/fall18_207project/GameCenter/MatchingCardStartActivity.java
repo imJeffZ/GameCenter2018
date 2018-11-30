@@ -11,14 +11,11 @@ import android.widget.TextView;
 
 public class MatchingCardStartActivity extends AppCompatActivity implements
         MultiLoadStartActivity, GameStartingActivity {
-    //    private AccountManager accountManager;
-//    public static String userEmail = "";
     private MatchingCardStartController mController = new MatchingCardStartController(MatchingCardStartActivity.this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
         setContentView(R.layout.activity_matching_card_starting);
 
         addLoadGameButtonListener();
@@ -134,7 +131,6 @@ public class MatchingCardStartActivity extends AppCompatActivity implements
     }
 
     public void switchGameByComplexity(int num) {
-//    readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
         switchToGame(mController.addGameInAcc(mController.createGame(num)).getSaveId());
 
     }
@@ -148,9 +144,7 @@ public class MatchingCardStartActivity extends AppCompatActivity implements
      * Switch to the MatchingCardsGameActivity view to play the game.
      */
     public void switchToGame(String saveId) {
-//        saveToSer(LoginActivity.ACCOUNT_MANAGER_DATA);
         Intent tmp = new Intent(this, MatchingCardsGameActivity.class);
-//        tmp.putExtra("userEmail", userEmail);
         tmp.putExtra("saveId", saveId);
         tmp.putExtra("saveType", "autoSave");
         startActivity(tmp);
