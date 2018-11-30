@@ -16,13 +16,13 @@ public class GameTest {
      * Create a solved board, also means a list of tiles in order as their id.
      * @return a list of tiles in order
      */
-    private List<Tile> makeTiles() {
-        List<Tile> tiles = new ArrayList<>();
+    private List<SlidingTilesTile> makeTiles() {
+        List<SlidingTilesTile> tiles = new ArrayList<>();
         final int numTiles = 4 * 4;
         for (int tileNum = 0; tileNum != numTiles - 1; tileNum++) {
-            tiles.add(new Tile(tileNum + 1, tileNum));
+            tiles.add(new SlidingTilesTile(tileNum));
         }
-        tiles.add(new Tile(24));
+        tiles.add(new SlidingTilesTile(24));
         return tiles;
     }
 
@@ -44,11 +44,11 @@ public class GameTest {
      * set up with tiles and cards created above
      */
     private void setUpCorrect() {
-        List<Tile> tiles = makeTiles();
+        List<SlidingTilesTile> tiles = makeTiles();
         List<Card> cards = makeCards();
         matchingCards = new MatchingCards(4);
         slidingTiles = new SlidingTiles(4);
-        slidingTiles.board = (SlidingTileBoard) new Board(tiles, 4);
+        slidingTiles.board = new SlidingTileBoard(tiles, 4);
         matchingCards.matchingBoard = new MatchingBoard(cards, 4);
     }
 
@@ -104,12 +104,12 @@ public class GameTest {
         setUpCorrect();
 
         assertTrue(slidingTiles.hasValidMove());
-        assertTrue(matchingCards.hasVaildMove());
+        assertTrue(matchingCards.hasValidMove());
 
         for (int i = 0; i < 16; i++) {
             matchingCards.touchMove(i);
         }
         assertTrue(matchingCards.isSolved());
-        assertFalse(matchingCards.hasVaildMove());
+        assertFalse(matchingCards.hasValidMove());
     }
 }

@@ -175,17 +175,18 @@ class SlidingTiles extends Game implements Cloneable, GameFeature {
         return (tile != null && tile.getId() == blankId);
     }
 
-    Board getBoard() {
+    SlidingTileBoard getBoard() {
         return this.board;
     }
 
     @Override
     public String toString() {
-        return board.getNumOfColumns() + " X " + board.getNumOfRows() + " SlidingTiles";
+        return board.getNumOfColumns() + " x " + board.getNumOfRows() + " SlidingTiles";
     }
 
     @Override
     public boolean hasValidMove() {
-        return !isSolved();
+        // Since it is always possible to slide some tiles, so it's always true
+        return true;
     }
 }
