@@ -16,7 +16,6 @@ public class MatchingCards extends Game implements Cloneable, Serializable {
     private boolean startMode;
     private boolean matchBomb;
     protected List<Card> cardList;
-    protected MatchingBoard initialBoard;
     protected List<Card> initialList;
 
 //    public int getMatch() {
@@ -52,7 +51,6 @@ public class MatchingCards extends Game implements Cloneable, Serializable {
         }
         Collections.shuffle(cardList);
         matchingBoard = new MatchingBoard(cardList, num);
-        this.initialBoard = new MatchingBoard(cardList, num);
         this.initialList = cloneCards(cardList);
         this.endTime = 0;
         this.prePos = -1;

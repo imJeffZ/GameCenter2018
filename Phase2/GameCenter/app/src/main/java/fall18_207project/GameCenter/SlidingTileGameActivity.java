@@ -196,23 +196,6 @@ public class SlidingTileGameActivity extends AppCompatActivity implements Observ
         Toast.makeText(this, "Game Saved", Toast.LENGTH_SHORT).show();
     }
 
-//    private void addResetButtonListener() {
-//        Button resetButton = findViewById(R.id.restartButton);
-//        resetButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                TextView count = findViewById(R.id.steps_id);
-//                slidingTiles.reset();
-//                count.setText("Step: " + 0);
-//                mChrono.stop();
-//                mChrono = new GameChronometer(mContext);
-//                mThreadChrono = new Thread(mChrono);
-//                mThreadChrono.start();
-//                mChrono.start();
-//            }
-//        });
-//    }
-
     private void addResetButtonListener() {
         Button resetButton = findViewById(R.id.resetButton);
         resetButton.setOnClickListener(new View.OnClickListener() {

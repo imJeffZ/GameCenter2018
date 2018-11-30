@@ -23,7 +23,11 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-public class LoginActivity extends AppCompatActivity {
+/***
+ *  the login activity for app.
+ */
+//TODO: fix the codesmell after 3 pm.
+public class LoginActivity extends AppCompatActivity implements ValidateFormActivity {
 
     private FirebaseAuth firebaseAuth;
     private String emailValue;
@@ -63,8 +67,6 @@ public class LoginActivity extends AppCompatActivity {
             UserHistoryActivity.userEmail = emailValue;
 
             firebaseAuth.signOut();
-//            Intent goToCenter = new Intent(getApplicationContext(), GameCentreActivity.class);
-//            startActivity(goToCenter);
         }
     }
 
@@ -121,8 +123,13 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+    /** Log the user in and get their account information.
+     *
+     * @param email input email;
+     * @param password input password;
+     */
     private void userLogin(final String email, String password) {
-        if (!validateForm()) {
+        if (validateForm()) {
             return;
         }
 
@@ -157,7 +164,11 @@ public class LoginActivity extends AppCompatActivity {
                 });
     }
 
-    private boolean validateForm() {
+    /**
+     * Check if the input information is not empty.
+     * @return whether the form is validate
+     */
+    public boolean validateForm() {
         boolean valid = true;
         EditText emailValue = findViewById(R.id.EmailLogin);
         String email = emailValue.getText().toString();
@@ -177,6 +188,6 @@ public class LoginActivity extends AppCompatActivity {
             passwordValue.setError(null);
         }
 
-        return valid;
+        return !valid;
     }
 }
