@@ -6,10 +6,10 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_image"
-            android:title="Import Image" />
+            android:title="Image" />
         <item
             android:id="@+id/nav_intro"
-            android:title="Change Introduction" />
+            android:title="Self Introduction" />
     </group>
 
     <item android:title="Account Setting">

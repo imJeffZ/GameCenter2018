@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@drawable/text_img"
+    android:background="@drawable/game_start1"
     tools:context="fall18_207project.GameCenter.Game2048Activity">
 
     <fall18_207project.GameCenter.GestureDetectGridView xmlns:android="http://schemas.android.com/apk/res/android"
