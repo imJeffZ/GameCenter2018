@@ -260,6 +260,8 @@ public class GameCentreActivity extends AppCompatActivity implements  Navigation
                 accountManager.getAccount(userEmail).getProf().setIntro(update);
             } else if (id == R.id.nav_password){
                 accountManager.getAccount(userEmail).setPassword(update);
+                FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+                currentUser.updatePassword(update);
             }
             saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
         }
