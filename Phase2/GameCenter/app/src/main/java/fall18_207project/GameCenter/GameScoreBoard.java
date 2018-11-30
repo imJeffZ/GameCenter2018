@@ -3,7 +3,7 @@ package fall18_207project.GameCenter;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-interface GameScoreBoard extends Serializable{
+interface GameScoreBoard extends Serializable {
     /***
      *
      * Function to get a ArrayList of ranked game for scoreBoard.

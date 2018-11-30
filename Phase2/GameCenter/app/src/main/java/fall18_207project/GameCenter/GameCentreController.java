@@ -9,17 +9,17 @@ public class GameCentreController {
 
     private Context mContext;
 
-    GameCentreController(Context context){
+    GameCentreController(Context context) {
         mContext = context;
     }
 
-    void  updateProfile(int id, String update){
+    void updateProfile(int id, String update) {
         if (CurrentAccountController.getCurrAccount() != null) {
-            if (id == R.id.nav_reset){
+            if (id == R.id.nav_reset) {
                 CurrentAccountController.getCurrAccount().setUserName(update);
-            } else if (id == R.id.nav_intro){
+            } else if (id == R.id.nav_intro) {
                 CurrentAccountController.getCurrAccount().getProfile().setIntro(update);
-            } else if (id == R.id.nav_password){
+            } else if (id == R.id.nav_password) {
                 CurrentAccountController.getCurrAccount().setPassword(update);
                 FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
                 if (currentUser != null) {
@@ -30,7 +30,7 @@ public class GameCentreController {
         }
     }
 
-    void updateImage(int id){
+    void updateImage(int id) {
         if (CurrentAccountController.getCurrAccount() != null) {
             CurrentAccountController.getCurrAccount().getProfile().setAvatarId(id);
             updateCurrAccount();

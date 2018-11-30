@@ -4,34 +4,32 @@ import android.content.Context;
 
 public class GameFinishController {
     private Context mContext;
-     GameFinishController(Context context){
-         this.mContext = context;
-//         this.accountManager = accManager;
-//         this.userEmail = user;
-     }
 
-     String updateFinishedGame(String saveId){
-         String result;
-         Game finishedGame = CurrentAccountController.getCurrAccount()
-                 .getAutoSavedGames().getGame(saveId);
-         result = Integer.toString(finishedGame.calculateScore());
-         processFinishedGame(finishedGame, saveId);
-         return result;
-     }
+    GameFinishController(Context context) {
+        this.mContext = context;
+    }
 
-     private void processFinishedGame(Game finishedGame, String saveId) {
-         String currEmail = CurrentAccountController.getCurrAccount().getEmail();
-         // Update global score board
-         CurrentAccountController.getAccountManager().getGlobalScoreBoard().updateScore(currEmail, finishedGame);
-         // Update user score board
-         CurrentAccountController.getCurrAccount().getUserScoreBoard().addGame(finishedGame);
-         // Delete game from user's autoSavedGameList
-         CurrentAccountController.getCurrAccount().getAutoSavedGames().deleteGame(saveId);
-//         updateCurrAccount();
-     }
+    String updateFinishedGame(String saveId) {
+        String result;
+        Game finishedGame = CurrentAccountController.getCurrAccount()
+                .getAutoSavedGames().getGame(saveId);
+        result = Integer.toString(finishedGame.calculateScore());
+        processFinishedGame(finishedGame, saveId);
+        return result;
+    }
 
-     void updateCurrAccount() {
-         CurrentAccountController.writeData(mContext);
-     }
+    private void processFinishedGame(Game finishedGame, String saveId) {
+        String currEmail = CurrentAccountController.getCurrAccount().getEmail();
+        // Update global score board
+        CurrentAccountController.getAccountManager().getGlobalScoreBoard().updateScore(currEmail, finishedGame);
+        // Update user score board
+        CurrentAccountController.getCurrAccount().getUserScoreBoard().addGame(finishedGame);
+        // Delete game from user's autoSavedGameList
+        CurrentAccountController.getCurrAccount().getAutoSavedGames().deleteGame(saveId);
+    }
+
+    void updateCurrAccount() {
+        CurrentAccountController.writeData(mContext);
+    }
 
 }

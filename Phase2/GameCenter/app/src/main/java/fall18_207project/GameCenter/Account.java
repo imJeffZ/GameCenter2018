@@ -14,13 +14,6 @@ public class Account implements Serializable {
     private Profile profile;
     private GameManager userScoreBoard;
 
-    /**
-     * default constructor
-     */
-    public Account(){
-
-    }
-
     public Account(String email, String userName, String password) {
         this.email = email;
         this.userName = userName;

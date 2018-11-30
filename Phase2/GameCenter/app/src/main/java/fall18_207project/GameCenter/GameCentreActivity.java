@@ -28,9 +28,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 /**
- *  the main view gamecentre activity. Show all games and the user profie, connect to scoreboards.
+ * the main view gamecentre activity. Show all games and the user profie, connect to scoreboards.
  */
-public class GameCentreActivity extends AppCompatActivity implements  NavigationView.OnNavigationItemSelectedListener{
+public class GameCentreActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private FirebaseAuth firebaseAuth;
     private GameCentreController mController = new GameCentreController(GameCentreActivity.this);
@@ -53,7 +53,7 @@ public class GameCentreActivity extends AppCompatActivity implements  Navigation
     public void onStart() {
         super.onStart();
         FirebaseUser currentUser = firebaseAuth.getCurrentUser();
-        if (currentUser == null){
+        if (currentUser == null) {
             Intent gotoLogin = new Intent(getApplicationContext(), LoginActivity.class);
             startActivity(gotoLogin);
         }
@@ -69,7 +69,7 @@ public class GameCentreActivity extends AppCompatActivity implements  Navigation
         }
     }
 
-    public void setNavigationView(){
+    public void setNavigationView() {
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         Menu menu = navigation.getMenu();
@@ -98,7 +98,7 @@ public class GameCentreActivity extends AppCompatActivity implements  Navigation
         }
     };
 
-    private void setViewProfile(){
+    private void setViewProfile() {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -108,13 +108,12 @@ public class GameCentreActivity extends AppCompatActivity implements  Navigation
         toggle.syncState();
     }
 
-    private Handler myHand = new Handler()
-    {
+    private Handler myHand = new Handler() {
 
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            if (msg.what ==0){
+            if (msg.what == 0) {
                 showProfile();
             }
             sendEmptyMessageDelayed(0, 1000);
@@ -126,14 +125,14 @@ public class GameCentreActivity extends AppCompatActivity implements  Navigation
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-        if (id == R.id.nav_image){
+        if (id == R.id.nav_image) {
             showImageChooseDialog();
         } else if (id == R.id.nav_intro) {
-            showEditProfileByDialog(id,"Editing Information" );
+            showEditProfileByDialog(id, "Editing Information");
         } else if (id == R.id.nav_reset) {
             showEditProfileByDialog(id, "Editing User Name");
         } else if (id == R.id.nav_password) {
-            showEditProfileByDialog(id,"Editing Password" );
+            showEditProfileByDialog(id, "Editing Password");
         } else if (id == R.id.nav_logout) {
             switchToLogin();
         }
@@ -143,7 +142,7 @@ public class GameCentreActivity extends AppCompatActivity implements  Navigation
         return true;
     }
 
-    private void showEditProfileByDialog(int id, String profTitle){
+    private void showEditProfileByDialog(int id, String profTitle) {
         final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(GameCentreActivity.this);
         dialogBuilder.setTitle(profTitle);
         final int i = id;
@@ -151,17 +150,17 @@ public class GameCentreActivity extends AppCompatActivity implements  Navigation
                 inflate(R.layout.profile_dialog, null);
         dialogBuilder.setView(profView);
         dialogBuilder.setPositiveButton("Yes",
-                new DialogInterface.OnClickListener(){
-            @Override
-                  public void onClick(DialogInterface dialogNeeded, int buttonId){
-                EditText update = profView.findViewById(R.id.update);
-                mController.updateProfile( i, update.getText().toString());
-            }
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogNeeded, int buttonId) {
+                        EditText update = profView.findViewById(R.id.update);
+                        mController.updateProfile(i, update.getText().toString());
+                    }
                 });
         dialogBuilder.setNegativeButton("Cancel",
-                new DialogInterface.OnClickListener(){
+                new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialogNeeded, int buttonId){
+                    public void onClick(DialogInterface dialogNeeded, int buttonId) {
                         dialogNeeded.dismiss();
                     }
                 });
@@ -169,7 +168,7 @@ public class GameCentreActivity extends AppCompatActivity implements  Navigation
 
     }
 
-    public void showImageChooseDialog(){
+    public void showImageChooseDialog() {
         AlertDialog.Builder imageDialog =
                 new AlertDialog.Builder(GameCentreActivity.this);
         imageDialog.setTitle("Choose Image ").setMessage("Choose the image you want:");
@@ -196,7 +195,7 @@ public class GameCentreActivity extends AppCompatActivity implements  Navigation
         imageDialog.show();
     }
 
-    private void showProfile(){
+    private void showProfile() {
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
@@ -253,12 +252,12 @@ public class GameCentreActivity extends AppCompatActivity implements  Navigation
         startActivity(tmp);
     }
 
-    private  void switchToMatchingCardsStartingAct(){
+    private void switchToMatchingCardsStartingAct() {
         Intent tmp = new Intent(this, MatchingCardStartActivity.class);
         startActivity(tmp);
     }
 
-    private void switchToGame2048StartingAct(){
+    private void switchToGame2048StartingAct() {
         Intent tmp = new Intent(this, Game2048StartActivity.class);
         startActivity(tmp);
     }

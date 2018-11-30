@@ -2,12 +2,10 @@ package fall18_207project.GameCenter;
 
 import android.support.annotation.NonNull;
 
-import java.util.ArrayList;
-import java.util.Observable;
-
 import java.io.Serializable;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Observable;
 
 /**
  * The sliding tiles board.
@@ -77,7 +75,7 @@ public class Board extends Observable implements Cloneable, Serializable, Iterab
         return tiles[row][col];
     }
 
-    Tile[][] getTiles(){
+    Tile[][] getTiles() {
         return this.tiles;
     }
 

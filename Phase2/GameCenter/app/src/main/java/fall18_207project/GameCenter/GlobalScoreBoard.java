@@ -4,7 +4,6 @@ import android.support.annotation.NonNull;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -20,7 +19,6 @@ class GlobalScoreBoard implements GameScoreBoard, Serializable {
 
     GlobalScoreBoard() {
         scoreMap = new HashMap<Integer, ArrayList<ScoreRecord>>();
-//        initScoreMap(accountManager);
     }
 
     public void updateScore(String email, Game completedGame) {
@@ -37,20 +35,6 @@ class GlobalScoreBoard implements GameScoreBoard, Serializable {
         scoreMap.get(gameId).add(new ScoreRecord(email, completedGame));
     }
 
-//    void initScoreMap(AccountManager accountManager) {
-//        for (Account someAccount : accountManager.getAccountList()) {
-//            ArrayList<Game> finishedGameList = new ArrayList<Game>();
-//            for (Game g : someAccount.getAutoSavedGames().getAllGameList()) {
-//                if (g.isSolved()) {
-//                    finishedGameList.add(g);
-//                }
-//            }
-//
-//            for (Game finishedGame : finishedGameList) {
-//                updateScore(someAccount.getUserName(), finishedGame);
-//            }
-//        }
-//    }
     /***
      * Helper function to extract a list of ScoreRecords from scoreMap.
      *
@@ -91,9 +75,10 @@ class GlobalScoreBoard implements GameScoreBoard, Serializable {
         return gameList;
     }
 
-    private class ScoreRecord implements Comparable<ScoreRecord>, Serializable{
+    private class ScoreRecord implements Comparable<ScoreRecord>, Serializable {
         private String email;
         private Game game;
+
         ScoreRecord(String userName, Game game) {
             this.email = userName;
             this.game = game;

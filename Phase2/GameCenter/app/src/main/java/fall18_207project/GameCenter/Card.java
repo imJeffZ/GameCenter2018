@@ -11,11 +11,11 @@ public class Card implements Comparable<Card>, Serializable {
     /**
      * The id of the card
      */
-    private  int id;
+    private int id;
     /**
      * The background of the card
      */
-    private  int background;
+    private int background;
 
     private boolean up;
     private boolean used;
@@ -24,21 +24,29 @@ public class Card implements Comparable<Card>, Serializable {
     public int getId() {
         return id;
     }
-    public int getBackground(){
-        return background;
-   }
-    public boolean isUp(){
-        return up;
-   }
-    public boolean isUsed(){ return used; }
-    public boolean isBomb(){return bomb;}
 
-    Card(int position){
+    public int getBackground() {
+        return background;
+    }
+
+    public boolean isUp() {
+        return up;
+    }
+
+    public boolean isUsed() {
+        return used;
+    }
+
+    public boolean isBomb() {
+        return bomb;
+    }
+
+    Card(int position) {
         id = position + 1;
         up = false;
         used = false;
         bomb = false;
-        switch(position + 1){
+        switch (position + 1) {
             case 1:
                 background = R.drawable.p1;
                 break;
@@ -129,7 +137,7 @@ public class Card implements Comparable<Card>, Serializable {
         }
     }
 
-    public void turn(boolean face){
+    public void turn(boolean face) {
         up = face;
     }
 

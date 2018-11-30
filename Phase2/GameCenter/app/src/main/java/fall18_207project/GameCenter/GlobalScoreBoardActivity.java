@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,11 +14,6 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -44,7 +38,7 @@ public class GlobalScoreBoardActivity extends Activity {
                     startActivity(tmp2);
                     break;
                 case R.id.navigation_global_scoreboard:
-                   break;
+                    break;
             }
             return false;
         }
@@ -79,9 +73,9 @@ public class GlobalScoreBoardActivity extends Activity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view,
                                        int pos, long id) {
-                    list.clear();
-                    getData(list, pos+1);
-                    adapter.notifyDataSetChanged();
+                list.clear();
+                getData(list, pos + 1);
+                adapter.notifyDataSetChanged();
 
             }
 
@@ -101,11 +95,11 @@ public class GlobalScoreBoardActivity extends Activity {
 
         Collections.reverse(games);
         Collections.reverse(emails);
-            for (int i = 0; i < emails.size(); i++) {
-                Map<String, Object> map = new HashMap<>();
-                map.put("user", currAccountManager.getAccount(emails.get(i)).getUserName());
-                map.put("score", games.get(i).calculateScore());
-                list.add(map);
-            }
+        for (int i = 0; i < emails.size(); i++) {
+            Map<String, Object> map = new HashMap<>();
+            map.put("user", currAccountManager.getAccount(emails.get(i)).getUserName());
+            map.put("score", games.get(i).calculateScore());
+            list.add(map);
+        }
     }
 }

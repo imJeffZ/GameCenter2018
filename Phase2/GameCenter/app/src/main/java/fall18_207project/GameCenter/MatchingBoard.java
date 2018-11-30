@@ -11,18 +11,18 @@ import java.util.Observable;
 public class MatchingBoard extends Observable implements Cloneable, Serializable, Iterable<Card> {
 
     private int numOfColumns;
-    private  int numOfRows;
-    private  Card[][] cards;
+    private int numOfRows;
+    private Card[][] cards;
 
-    public MatchingBoard(List<Card> cardList, int size){
+    public MatchingBoard(List<Card> cardList, int size) {
         this.numOfColumns = size;
         this.numOfRows = size;
         this.cards = new Card[numOfRows][numOfColumns];
 
         Iterator<Card> iter = cardList.iterator();
 
-        for(int row = 0; row < this.getNumOfRows(); row++){
-            for(int col = 0; col < this.getNumOfColumns(); col++)
+        for (int row = 0; row < this.getNumOfRows(); row++) {
+            for (int col = 0; col < this.getNumOfColumns(); col++)
                 this.cards[row][col] = iter.next();
         }
 
@@ -36,16 +36,16 @@ public class MatchingBoard extends Observable implements Cloneable, Serializable
         return numOfRows;
     }
 
-    Card getCard(int row, int col){
+    Card getCard(int row, int col) {
         return cards[row][col];
     }
 
 
-    int getNumOfCards(){
-        return numOfColumns*numOfRows;
+    int getNumOfCards() {
+        return numOfColumns * numOfRows;
     }
 
-    void turnCard(int row, int col, boolean up){
+    void turnCard(int row, int col, boolean up) {
         cards[row][col].turn(up);
         setChanged();
         notifyObservers();
