@@ -28,9 +28,9 @@ import java.util.Map;
 
 public class UserHistoryActivity extends Activity {
 
-    public static String userEmail = "";
-    private AccountManager accountManager;
-    private UserHistoryController mController;
+//    public static String userEmail = "";
+//    private AccountManager accountManager;
+    private UserHistoryController mController = new UserHistoryController(UserHistoryActivity.this);
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -55,7 +55,7 @@ public class UserHistoryActivity extends Activity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        readAccountManagerFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
+//        readAccountManagerFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
         setContentView(R.layout.activity_user_history);
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
@@ -103,8 +103,8 @@ public class UserHistoryActivity extends Activity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Game selectedGame = finalGameList.get(position);
                 selectedGame.reset();
-                accountManager.getAccount(userEmail).getAutoSavedGames().addGame(selectedGame);
-                saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
+                CurrentAccountController.getCurrAccount().getAutoSavedGames().addGame(selectedGame);
+//                saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
                 int i = selectedGame.getGameId();
                 goToDifferentGames(i, selectedGame);
 
@@ -113,18 +113,18 @@ public class UserHistoryActivity extends Activity {
 
 
     }
-
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        readAccountManagerFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        readAccountManagerFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
-    }
+//
+//    @Override
+//    protected void onRestart() {
+//        super.onRestart();
+////        readAccountManagerFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
+//    }
+//
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+////        readAccountManagerFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
+//    }
 
     private void goToDifferentGames(int id, Game selectedGame){
 
@@ -136,34 +136,50 @@ public class UserHistoryActivity extends Activity {
         startActivity(goToGame);
     }
 
-    private void readAccountManagerFromSer(String fileName) {
-
-        try {
-            InputStream inputStream = this.openFileInput(fileName);
-            if (inputStream != null) {
-                ObjectInputStream input = new ObjectInputStream(inputStream);
-                accountManager = (AccountManager) input.readObject();
-                mController = new UserHistoryController(accountManager, userEmail);
-                inputStream.close();
-            }
-        } catch (FileNotFoundException e) {
-            Log.e("UserHistory activity", "File not found: " + e.toString());
-        } catch (IOException e) {
-            Log.e("UserHistory activity", "Can not read file: " + e.toString());
-        } catch (ClassNotFoundException e) {
-            Log.e("UserHistory activity", "File contained unexpected data type: " + e.toString());
-        }
+    @Override
+    protected void onStop() {
+        super.onStop();
+        updateCurrAccount();
     }
 
-    public void saveToFile(String fileName) {
-        try {
-            ObjectOutputStream outputStream = new ObjectOutputStream(
-                    this.openFileOutput(fileName, MODE_PRIVATE));
-            outputStream.writeObject(accountManager);
-            outputStream.close();
-        } catch (IOException e) {
-            Log.e("Exception", "File write failed: " + e.toString());
-        }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        updateCurrAccount();
     }
+
+    private void updateCurrAccount() {
+        mController.updateCurrAccount();
+    }
+
+    //    private void readAccountManagerFromSer(String fileName) {
+//
+//        try {
+//            InputStream inputStream = this.openFileInput(fileName);
+//            if (inputStream != null) {
+//                ObjectInputStream input = new ObjectInputStream(inputStream);
+//                accountManager = (AccountManager) input.readObject();
+//                mController = new UserHistoryController(accountManager, userEmail);
+//                inputStream.close();
+//            }
+//        } catch (FileNotFoundException e) {
+//            Log.e("UserHistory activity", "File not found: " + e.toString());
+//        } catch (IOException e) {
+//            Log.e("UserHistory activity", "Can not read file: " + e.toString());
+//        } catch (ClassNotFoundException e) {
+//            Log.e("UserHistory activity", "File contained unexpected data type: " + e.toString());
+//        }
+//    }
+//
+//    public void saveToFile(String fileName) {
+//        try {
+//            ObjectOutputStream outputStream = new ObjectOutputStream(
+//                    this.openFileOutput(fileName, MODE_PRIVATE));
+//            outputStream.writeObject(accountManager);
+//            outputStream.close();
+//        } catch (IOException e) {
+//            Log.e("Exception", "File write failed: " + e.toString());
+//        }
+//    }
 
 }

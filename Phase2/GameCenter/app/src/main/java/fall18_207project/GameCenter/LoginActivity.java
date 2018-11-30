@@ -31,20 +31,14 @@ public class LoginActivity extends AppCompatActivity implements ValidateFormActi
 
     private FirebaseAuth firebaseAuth;
     private String emailValue;
-    public final static String ACCOUNT_MANAGER_DATA = "accountManager.ser";
-    private AccountManager accountManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        accountManager = new AccountManager();
-        readFromSer(ACCOUNT_MANAGER_DATA);
-        saveToFile(ACCOUNT_MANAGER_DATA);
         firebaseAuth = FirebaseAuth.getInstance();
         addLoginButtonListener();
         addRegisterButtonListener();
-
     }
 
     @Override
@@ -54,18 +48,18 @@ public class LoginActivity extends AppCompatActivity implements ValidateFormActi
         if (currentUser != null) {
             String emailValue = currentUser.getEmail();
 
-            GlobalScoreBoardActivity.userEmail = emailValue;
-            GameCentreActivity.userEmail = emailValue;
-            SavedGamesActivity.userEmail = emailValue;
-            Game2048StartActivity.userEmail = emailValue;
-            Game2048Activity.userEmail = emailValue;
-            SlidingTileStartingActivity.userEmail = emailValue;
-            SlidingTileGameActivity.userEmail = emailValue;
-            MatchingCardStartActivity.userEmail = emailValue;
-            MatchingCardsGameActivity.userEmail = emailValue;
-            GameFinishActivity.userEmail = emailValue;
-            UserHistoryActivity.userEmail = emailValue;
-
+            CurrentAccountController.readSavedFata(this, emailValue);
+//                            GlobalScoreBoardActivity.userEmail = emailValue;
+//                            GameCentreActivity.userEmail = emailValue;
+//                            SavedGamesActivity.userEmail = emailValue;
+//                            Game2048StartActivity.userEmail = emailValue;
+//                            Game2048Activity.userEmail = emailValue;
+//                            SlidingTileStartingActivity.userEmail = emailValue;
+//                            SlidingTileGameActivity.userEmail = emailValue;
+//                            MatchingCardStartActivity.userEmail = emailValue;
+//                            MatchingCardsGameActivity.userEmail = emailValue;
+//                            GameFinishActivity.userEmail = emailValue;
+//                            UserHistoryActivity.userEmail = emailValue;
             firebaseAuth.signOut();
         }
     }
@@ -95,34 +89,6 @@ public class LoginActivity extends AppCompatActivity implements ValidateFormActi
         });
     }
 
-    private void readFromSer(String fileName) {
-        try {
-            InputStream inputStream = this.openFileInput(fileName);
-            if (inputStream != null) {
-                ObjectInputStream in = new ObjectInputStream(inputStream);
-                accountManager = (AccountManager) in.readObject();
-            }
-            inputStream.close();
-        } catch (FileNotFoundException e) {
-            Log.e("Login activity", "File not found: " + e.toString());
-        } catch (IOException e) {
-            Log.e("Login activity", "Can not read file: " + e.toString());
-        } catch (ClassNotFoundException e) {
-            Log.e("Login activity", "File contained unexpected data type: " + e.toString());
-        }
-    }
-
-    public void saveToFile(String fileName) {
-        try {
-            ObjectOutputStream outputStream = new ObjectOutputStream(
-                    this.openFileOutput(fileName, MODE_PRIVATE));
-            outputStream.writeObject(accountManager);
-            outputStream.close();
-        } catch (IOException e) {
-            Log.e("Exception", "File write failed: " + e.toString());
-        }
-    }
-
     /** Log the user in and get their account information.
      *
      * @param email input email;
@@ -141,17 +107,19 @@ public class LoginActivity extends AppCompatActivity implements ValidateFormActi
                             Log.d("LoginActivity", "sign in successful!");
                             Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
 
-                            GlobalScoreBoardActivity.userEmail = email;
-                            GameCentreActivity.userEmail = email;
-                            SavedGamesActivity.userEmail = email;
-                            Game2048StartActivity.userEmail = email;
-                            Game2048Activity.userEmail = email;
-                            SlidingTileStartingActivity.userEmail = email;
-                            SlidingTileGameActivity.userEmail = email;
-                            MatchingCardStartActivity.userEmail = email;
-                            MatchingCardsGameActivity.userEmail = email;
-                            GameFinishActivity.userEmail = email;
-                            UserHistoryActivity.userEmail = email;
+                            CurrentAccountController.readSavedFata(LoginActivity.this, email);
+
+//                            GlobalScoreBoardActivity.userEmail = email;
+//                            GameCentreActivity.userEmail = email;
+//                            SavedGamesActivity.userEmail = email;
+//                            Game2048StartActivity.userEmail = email;
+//                            Game2048Activity.userEmail = email;
+//                            SlidingTileStartingActivity.userEmail = email;
+//                            SlidingTileGameActivity.userEmail = email;
+//                            MatchingCardStartActivity.userEmail = email;
+//                            MatchingCardsGameActivity.userEmail = email;
+//                            GameFinishActivity.userEmail = email;
+//                            UserHistoryActivity.userEmail = email;
 
                             Intent goToCenter = new Intent(getApplicationContext(), GameCentreActivity.class);
 //                    goToCenter.putExtra("userEmail", accountManager.getAccount(emailValue).getUserName());

@@ -28,6 +28,12 @@ class GlobalScoreBoard implements GameScoreBoard, Serializable {
         if (!scoreMap.containsKey(gameId)) {
             scoreMap.put(gameId, new ArrayList<ScoreRecord>());
         }
+        // You cannot play the same finished game twice!!!
+        for (ScoreRecord scoreRecord : scoreMap.get(gameId)) {
+            if (scoreRecord.getGame().getSaveId().equals(completedGame.getSaveId())) {
+                return;
+            }
+        }
         scoreMap.get(gameId).add(new ScoreRecord(email, completedGame));
     }
 

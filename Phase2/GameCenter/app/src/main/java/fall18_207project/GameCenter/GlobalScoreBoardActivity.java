@@ -28,8 +28,8 @@ import java.util.Map;
 
 
 public class GlobalScoreBoardActivity extends Activity {
-    public static String userEmail = "";
-    private AccountManager accountManager;
+//    public static String userEmail = "";
+//    private AccountManager accountManager;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -54,7 +54,7 @@ public class GlobalScoreBoardActivity extends Activity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
+//        readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
         setContentView(R.layout.activity_scoreboard);
         //String accountEmail = Objects.requireNonNull(getIntent().getExtras()).getString("accountEmail");
         //currentAccount = accountEmail;
@@ -87,9 +87,9 @@ public class GlobalScoreBoardActivity extends Activity {
                     getData(list, pos+1);
                     adapter.notifyDataSetChanged();
 
-
             }
 
+            // TODO: Might want to delete this onNothingSelected
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 // Another interface callback
@@ -98,8 +98,9 @@ public class GlobalScoreBoardActivity extends Activity {
     }
 
     private void getData(List<Map<String, Object>> list, int gameId) {
-        readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
-        GlobalScoreBoard globalScoreBoard = accountManager.getGlobalScoreBoard();
+//        readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
+        AccountManager currAccountManager = CurrentAccountController.getAccountManager();
+        GlobalScoreBoard globalScoreBoard = currAccountManager.getGlobalScoreBoard();
 
         ArrayList<Game> games = globalScoreBoard.getSortedGames(gameId);
         ArrayList<String> emails = globalScoreBoard.getSortedEmails(gameId);
@@ -108,40 +109,25 @@ public class GlobalScoreBoardActivity extends Activity {
         Collections.reverse(emails);
             for (int i = 0; i < emails.size(); i++) {
                 Map<String, Object> map = new HashMap<>();
-                map.put("user", accountManager.getAccount(emails.get(i)).getUserName());
+                map.put("user", currAccountManager.getAccount(emails.get(i)).getUserName());
                 map.put("score", games.get(i).calculateScore());
                 list.add(map);
             }
 //        }
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
-    }
+    // TODO: Marvel if you want to Implement play back functionality here please notify Jeff
 
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
-    }
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+////        readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
+//    }
+//
+//    @Override
+//    protected void onRestart() {
+//        super.onRestart();
+////        readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
+//    }
 
-    private void readFromSer(String fileName) {
-
-        try {
-            InputStream inputStream = this.openFileInput(fileName);
-            if (inputStream != null) {
-                ObjectInputStream input = new ObjectInputStream(inputStream);
-                accountManager = (AccountManager) input.readObject();
-                inputStream.close();
-            }
-        } catch (FileNotFoundException e) {
-            Log.e("GlobalScoreBoard activity", "File not found: " + e.toString());
-        } catch (IOException e) {
-            Log.e("GlobalScoreBoard activity", "Can not read file: " + e.toString());
-        } catch (ClassNotFoundException e) {
-            Log.e("GlobalScoreBoard activity", "File contained unexpected data type: " + e.toString());
-        }
-    }
 }

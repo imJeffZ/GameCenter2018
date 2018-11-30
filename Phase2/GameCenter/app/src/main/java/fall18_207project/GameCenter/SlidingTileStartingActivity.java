@@ -21,15 +21,16 @@ import java.io.ObjectOutputStream;
 public class SlidingTileStartingActivity extends AppCompatActivity implements
         MultiLoadStartActivity, MultiComplexityStartActivity, GameStartingActivity{
 
-    public static String userEmail = "";
-    private AccountManager accountManager;
-    private SlidingTileStartingController mController;
+//    public static String userEmail = "";
+//    private AccountManager accountManager;
+    private SlidingTileStartingController mController = new SlidingTileStartingController(SlidingTileStartingActivity.this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
+//        readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
         setContentView(R.layout.activity_starting_);
+
         addLoadGameButtonListener();
         addNewGameButtonListener();
         addLogOutButtonListener();
@@ -41,6 +42,7 @@ public class SlidingTileStartingActivity extends AppCompatActivity implements
         TextView account = findViewById(R.id.Hiuser);
             account.setText(mController.setUserTextViewTest());
     }
+
     public void showLoadDialog(){
         AlertDialog.Builder loadDialog =
                 new AlertDialog.Builder(SlidingTileStartingActivity.this);
@@ -122,7 +124,6 @@ public class SlidingTileStartingActivity extends AppCompatActivity implements
                 switchToLogin();
             }
         });
-
     }
 
     private void addReturnToGameCenterListener() {
@@ -130,6 +131,7 @@ public class SlidingTileStartingActivity extends AppCompatActivity implements
         returnToGameCenter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // TODO: Implement helper function switchToGameCentre
                 Intent backToGameCenter = new Intent(getApplicationContext(), GameCentreActivity.class);
                 startActivity(backToGameCenter);
             }
@@ -139,7 +141,6 @@ public class SlidingTileStartingActivity extends AppCompatActivity implements
     /**
      * Switch to the SlidingTileGameActivity view to play the game.
      */
-
     public void switchToSaveGames(){
 
         Intent goToSavedGames = new Intent(getApplicationContext(), SavedGamesActivity.class);
@@ -158,11 +159,12 @@ public class SlidingTileStartingActivity extends AppCompatActivity implements
     }
 
     public void switchGameByComplexity(int num){
-        readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
+//        readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
         switchToGame( mController.addGameInAcc(mController.createGame(num)).getSaveId());
     }
+
     public void switchToGame(String saveId) {
-        saveToSer(LoginActivity.ACCOUNT_MANAGER_DATA);
+//        saveToSer(LoginActivity.ACCOUNT_MANAGER_DATA);
         Intent tmp = new Intent(this, SlidingTileGameActivity.class);
         tmp.putExtra("saveId", saveId);
         tmp.putExtra("saveType", "autoSave");
@@ -179,37 +181,56 @@ public class SlidingTileStartingActivity extends AppCompatActivity implements
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        updateCurrAccount();
+        // Use switchTOGameCentre()
         Intent goToCenter = new Intent(getApplicationContext(), GameCentreActivity.class);
-        saveToSer(LoginActivity.ACCOUNT_MANAGER_DATA);
+//        saveToSer(LoginActivity.ACCOUNT_MANAGER_DATA);
         startActivity(goToCenter);
     }
 
-    private void readFromSer(String fileName) {
-        try {
-            InputStream inputStream = this.openFileInput(fileName);
-            if (inputStream != null) {
-                ObjectInputStream in = new ObjectInputStream(inputStream);
-                accountManager = (AccountManager) in.readObject();
-                mController = new SlidingTileStartingController(accountManager, userEmail);
-            }
-            inputStream.close();
-        } catch (FileNotFoundException e) {
-            Log.e("Starting activity", "File not found: " + e.toString());
-        } catch (IOException e) {
-            Log.e("Starting activity", "Can not read file: " + e.toString());
-        } catch (ClassNotFoundException e) {
-            Log.e("Starting activity", "File contained unexpected data type: " + e.toString());
-        }
+    @Override
+    protected void onStop() {
+        super.onStop();
+        updateCurrAccount();
     }
 
-    public void saveToSer(String fileName) {
-        try {
-            ObjectOutputStream outputStream = new ObjectOutputStream(
-                    this.openFileOutput(fileName, MODE_PRIVATE));
-            outputStream.writeObject(accountManager);
-            outputStream.close();
-        } catch (IOException e) {
-            Log.e("Exception", "File write failed: " + e.toString());
-        }
+    @Override
+    protected void onStart() {
+        super.onStart();
+        updateCurrAccount();
     }
+
+    private void updateCurrAccount() {
+        mController.updateCurrAccount();
+    }
+
+    //
+//    private void readFromSer(String fileName) {
+//        try {
+//            InputStream inputStream = this.openFileInput(fileName);
+//            if (inputStream != null) {
+//                ObjectInputStream in = new ObjectInputStream(inputStream);
+//                accountManager = (AccountManager) in.readObject();
+//                mController = new SlidingTileStartingController(accountManager, userEmail);
+//            }
+//            inputStream.close();
+//        } catch (FileNotFoundException e) {
+//            Log.e("Starting activity", "File not found: " + e.toString());
+//        } catch (IOException e) {
+//            Log.e("Starting activity", "Can not read file: " + e.toString());
+//        } catch (ClassNotFoundException e) {
+//            Log.e("Starting activity", "File contained unexpected data type: " + e.toString());
+//        }
+//    }
+//
+//    public void saveToSer(String fileName) {
+//        try {
+//            ObjectOutputStream outputStream = new ObjectOutputStream(
+//                    this.openFileOutput(fileName, MODE_PRIVATE));
+//            outputStream.writeObject(accountManager);
+//            outputStream.close();
+//        } catch (IOException e) {
+//            Log.e("Exception", "File write failed: " + e.toString());
+//        }
+//    }
 }

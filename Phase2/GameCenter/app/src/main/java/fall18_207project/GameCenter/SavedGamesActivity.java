@@ -23,15 +23,15 @@ import java.util.Map;
 
 public class SavedGamesActivity extends Activity {
 
-    public static String userEmail = "";
-    private AccountManager accountManager;
-    private String gameType = null;
-    private  SavedGamesController mController;
+//    public static String userEmail = "";
+//    private AccountManager accountManager;
+    private String gameType;
+    private  SavedGamesController mController = new SavedGamesController(SavedGamesActivity.this);
 
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        readAccountManagerFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
+//        readAccountManagerFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
         if (getIntent().getStringExtra("gameType") != null) {
             gameType = getIntent().getStringExtra("gameType");
         }
@@ -66,17 +66,17 @@ public class SavedGamesActivity extends Activity {
             }
         });
     }
-    @Override
-    protected void onResume() {
-        super.onResume();
-        readAccountManagerFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
-    }
-
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        readAccountManagerFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
-    }
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        readAccountManagerFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
+//    }
+//
+//    @Override
+//    protected void onRestart() {
+//        super.onRestart();
+//        readAccountManagerFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
+//    }
 
    private void switchToGame(Intent goToGame, ArrayList<Game> gameList, int position){
        goToGame.putExtra("saveType", getIntent().getStringExtra("saveType"));
@@ -85,23 +85,24 @@ public class SavedGamesActivity extends Activity {
    }
 
 
-    private void readAccountManagerFromSer(String fileName) {
 
-        try {
-            InputStream inputStream = this.openFileInput(fileName);
-            if (inputStream != null) {
-                ObjectInputStream input = new ObjectInputStream(inputStream);
-                accountManager = (AccountManager) input.readObject();
-                mController = new SavedGamesController(accountManager, userEmail);
-                inputStream.close();
-            }
-        } catch (FileNotFoundException e) {
-            Log.e("SavedGames activity", "File not found: " + e.toString());
-        } catch (IOException e) {
-            Log.e("SavedGames activity", "Can not read file: " + e.toString());
-        } catch (ClassNotFoundException e) {
-            Log.e("SavedGames activity", "File contained unexpected data type: " + e.toString());
-        }
-    }
+//    private void readAccountManagerFromSer(String fileName) {
+//
+//        try {
+//            InputStream inputStream = this.openFileInput(fileName);
+//            if (inputStream != null) {
+//                ObjectInputStream input = new ObjectInputStream(inputStream);
+//                accountManager = (AccountManager) input.readObject();
+//                mController = new SavedGamesController(accountManager, userEmail);
+//                inputStream.close();
+//            }
+//        } catch (FileNotFoundException e) {
+//            Log.e("SavedGames activity", "File not found: " + e.toString());
+//        } catch (IOException e) {
+//            Log.e("SavedGames activity", "Can not read file: " + e.toString());
+//        } catch (ClassNotFoundException e) {
+//            Log.e("SavedGames activity", "File contained unexpected data type: " + e.toString());
+//        }
+//    }
 
 }

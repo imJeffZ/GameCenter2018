@@ -30,11 +30,11 @@ public class CurrentAccountController implements Serializable {
         return instance;
     }
 
-    static AccountManager getAccountManager(Context context) {
+    static AccountManager getAccountManager() {
         return accountManager;
     }
 
-    static Account getAccount(Context context) {
+    static Account getCurrAccount() {
         if (accountManager.getAccount(userEmail) == null) {
             accountManager.addAccount(new Account("null", "null", "null"));
         }

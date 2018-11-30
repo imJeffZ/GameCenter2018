@@ -15,7 +15,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -28,28 +27,22 @@ import android.widget.TextView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-
 /*** the main view gamecentre activity. Show all games and the user profie, connect to scoreboards.
  *
  */
 
 public class GameCentreActivity extends AppCompatActivity implements  NavigationView.OnNavigationItemSelectedListener{
 
-    public static String userEmail = "";
+//    public static String userEmail = "";
     private FirebaseAuth firebaseAuth;
-    private AccountManager accountManager;
-    private GameCentreController mController;
+//    private AccountManager accountManager;
+    private GameCentreController mController = new GameCentreController(GameCentreActivity.this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_centre);
-        readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
+
         firebaseAuth = FirebaseAuth.getInstance();
         setViewProfile();
         setNavigationView();
@@ -70,17 +63,17 @@ public class GameCentreActivity extends AppCompatActivity implements  Navigation
         }
     }
 
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
-    }
+//    @Override
+//    protected void onRestart() {
+//        super.onRestart();
+//        readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
+//    }
+//
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
+//    }
 
     @Override
     public void onBackPressed() {
@@ -181,7 +174,7 @@ public class GameCentreActivity extends AppCompatActivity implements  Navigation
                   public void onClick(DialogInterface dialogNeeded, int buttonId){
                 EditText update = (EditText)profView.findViewById(R.id.update);
                 mController.updateProfile( i, update.getText().toString());
-                saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
+//                saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
             }
                 });
         dialogBuilder.setNegativeButton("Cancel",
@@ -204,15 +197,16 @@ public class GameCentreActivity extends AppCompatActivity implements  Navigation
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         mController.updateImage(R.drawable.paulorange1);
-                        saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
+//                        saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
                     }
                 });
+        // TODO: Change to lindsey
         imageDialog.setNegativeButton("lidsney",
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         mController.updateImage(R.drawable.lindsey);
-                        saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
+//                        saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
                     }
                 });
         imageDialog.setPositiveButton("david", new DialogInterface.OnClickListener() {
@@ -223,23 +217,27 @@ public class GameCentreActivity extends AppCompatActivity implements  Navigation
         });
         imageDialog.show();
     }
+
+    // TODO: Change to showProfile()
     private void updateProfileShow(){
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         View navHeader = navigationView.getHeaderView(0);
         TextView textUser = navHeader.findViewById(R.id.profileUser);
-        if (accountManager.getAccount(userEmail) != null) {
-            textUser.setText(accountManager.getAccount(userEmail).getUserName());
+        if (CurrentAccountController.getCurrAccount() != null) {
+
+            textUser.setText(CurrentAccountController.getCurrAccount().getUserName());
 
             TextView textIntro = navHeader.findViewById(R.id.profileIntro);
-            textIntro.setText(accountManager.getAccount(userEmail).getProf().getIntro());
+            textIntro.setText(CurrentAccountController.getCurrAccount().getProfile().getIntro());
+
             ImageView userImg = navHeader.findViewById(R.id.profileImg);
-            userImg.setImageResource(accountManager.getAccount(userEmail).getProf().getAvatarId());
+            userImg.setImageResource(CurrentAccountController.getCurrAccount().getProfile().getAvatarId());
 
             TextView textPlayTime = navHeader.findViewById(R.id.profileTime);
             textPlayTime.setText("Play Time in Total: " +
-                    accountManager.getAccount(userEmail).getProf().getTotalPlayTime());
+                    CurrentAccountController.getCurrAccount().getProfile().getTotalPlayTime());
         }
 
     }
@@ -279,19 +277,19 @@ public class GameCentreActivity extends AppCompatActivity implements  Navigation
 
     private void switchToSlidingTilesStartingAct() {
         Intent tmp = new Intent(this, SlidingTileStartingActivity.class);
-        tmp.putExtra("userEmail", userEmail);
+//        tmp.putExtra("userEmail", userEmail);
         startActivity(tmp);
     }
 
     private  void switchToMatchingCardsStartingAct(){
         Intent tmp = new Intent(this, MatchingCardStartActivity.class);
-        tmp.putExtra("userEmail", userEmail);
+//        tmp.putExtra("userEmail", userEmail);
         startActivity(tmp);
     }
 
     private void switchToGame2048StartingAct(){
         Intent tmp = new Intent(this, Game2048StartActivity.class);
-        tmp.putExtra("userEmail", userEmail);
+//        tmp.putExtra("userEmail", userEmail);
         startActivity(tmp);
     }
 
@@ -301,33 +299,33 @@ public class GameCentreActivity extends AppCompatActivity implements  Navigation
         startActivity(tmp);
     }
 
-    private void readFromSer(String fileName) {
-        try {
-            InputStream inputStream = this.openFileInput(fileName);
-            if (inputStream != null) {
-                ObjectInputStream in = new ObjectInputStream(inputStream);
-                accountManager = (AccountManager) in.readObject();
-                mController = new GameCentreController(accountManager, userEmail);
-            }
-            inputStream.close();
-        } catch (FileNotFoundException e) {
-            Log.e("GameCentre activity", "File not found: " + e.toString());
-        } catch (IOException e) {
-            Log.e("GameCentre activity", "Can not read file: " + e.toString());
-        } catch (ClassNotFoundException e) {
-            Log.e("GameCentre activity", "File contained unexpected data type: " + e.toString());
-        }
-    }
-
-    public void saveToFile(String fileName) {
-        try {
-            ObjectOutputStream outputStream = new ObjectOutputStream(
-                    this.openFileOutput(fileName, MODE_PRIVATE));
-            outputStream.writeObject(accountManager);
-            outputStream.close();
-        } catch (IOException e) {
-            Log.e("Exception", "File write failed: " + e.toString());
-        }
-    }
+//    private void readFromSer(String fileName) {
+//        try {
+//            InputStream inputStream = this.openFileInput(fileName);
+//            if (inputStream != null) {
+//                ObjectInputStream in = new ObjectInputStream(inputStream);
+//                accountManager = (AccountManager) in.readObject();
+//                mController = new GameCentreController(accountManager, userEmail);
+//            }
+//            inputStream.close();
+//        } catch (FileNotFoundException e) {
+//            Log.e("GameCentre activity", "File not found: " + e.toString());
+//        } catch (IOException e) {
+//            Log.e("GameCentre activity", "Can not read file: " + e.toString());
+//        } catch (ClassNotFoundException e) {
+//            Log.e("GameCentre activity", "File contained unexpected data type: " + e.toString());
+//        }
+//    }
+//
+//    public void saveToFile(String fileName) {
+//        try {
+//            ObjectOutputStream outputStream = new ObjectOutputStream(
+//                    this.openFileOutput(fileName, MODE_PRIVATE));
+//            outputStream.writeObject(accountManager);
+//            outputStream.close();
+//        } catch (IOException e) {
+//            Log.e("Exception", "File write failed: " + e.toString());
+//        }
+//    }
 
 }

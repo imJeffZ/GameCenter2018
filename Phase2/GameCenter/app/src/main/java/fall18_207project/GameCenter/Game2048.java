@@ -79,10 +79,9 @@ public class Game2048 extends Game implements GameFeature, Cloneable {
     }
 
 
-    // TODO: Implement reset
     @Override
-    void reset() {
-        return;
+    Game2048 reset() {
+        return new Game2048();
     }
     /*
     The Clone method of Game2048 Tile for reset method
@@ -132,29 +131,30 @@ public class Game2048 extends Game implements GameFeature, Cloneable {
     public boolean hasValidMove() {
 
         boolean valid = false;
-        int blankid = 25;
+        // TODO: Rename this to blankId
+        int blankId = 25;
         for (int i = 0; i < board.getNumOfColumns(); i++) {
             for (int j = 0; j < board.getNumOfRows(); j++) {
                 if (i + 1 < board.getNumOfColumns()) {
-                    if (board.getTile(i + 1, j).getId() == blankid || board.getTile(i + 1, j).getId() == board.getTile(i, j).getId()) {
+                    if (board.getTile(i + 1, j).getId() == blankId || board.getTile(i + 1, j).getId() == board.getTile(i, j).getId()) {
                         valid = true;
                     }
                 }
 
                 if (i - 1 >= 0) {
-                    if (board.getTile(i - 1, j).getId() == blankid || board.getTile(i - 1, j).getId() == board.getTile(i, j).getId()) {
+                    if (board.getTile(i - 1, j).getId() == blankId || board.getTile(i - 1, j).getId() == board.getTile(i, j).getId()) {
                         valid = true;
                     }
                 }
 
                 if (j + 1 < board.getNumOfColumns()) {
-                    if (board.getTile(i, j + 1).getId() == blankid || board.getTile(i, j + 1).getId() == board.getTile(i, j).getId()) {
+                    if (board.getTile(i, j + 1).getId() == blankId || board.getTile(i, j + 1).getId() == board.getTile(i, j).getId()) {
                         valid = true;
                     }
                 }
 
                 if (j - 1 >= 0) {
-                    if (board.getTile(i, j - 1).getId() == blankid || board.getTile(i, j - 1).getId() == board.getTile(i, j).getId()) {
+                    if (board.getTile(i, j - 1).getId() == blankId || board.getTile(i, j - 1).getId() == board.getTile(i, j).getId()) {
                         valid = true;
                     }
                 }

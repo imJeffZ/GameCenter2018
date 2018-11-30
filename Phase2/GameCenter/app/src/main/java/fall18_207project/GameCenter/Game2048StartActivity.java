@@ -20,21 +20,23 @@ import java.io.ObjectOutputStream;
 
 public class Game2048StartActivity extends AppCompatActivity implements
         MultiLoadStartActivity, GameStartingActivity{
-    public static String userEmail = "";
-    private AccountManager accountManager;
-    private Game2048StartController mController;
+//    public static String userEmail = "";
+//    private AccountManager accountManager;
+    private Game2048StartController mController = new Game2048StartController(Game2048StartActivity.this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
+//        readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
         setContentView(R.layout.activity_game2048_starting);
+
         addLoadGameButtonListener();
         addNewGameButtonListener();
         addLogOutButtonListener();
         addReturnToGameCenterListener();
         setUserTextView();
     }
+
     private void setUserTextView(){
         TextView account = findViewById(R.id.Hiuser);
         account.setText(mController.setUserTextViewTest());
@@ -49,7 +51,7 @@ public class Game2048StartActivity extends AppCompatActivity implements
         Button4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
+//                readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
                 switchToGame( mController.addGameInAcc(mController.createGame()).getSaveId());
             }
         });
@@ -57,7 +59,7 @@ public class Game2048StartActivity extends AppCompatActivity implements
 
     /**
      * Activate the 4x4 new game board.
-     //     */
+     */
     private void addLoadGameButtonListener(){
         Button Button4 = findViewById(R.id.loadGameButton);
         Button4.setOnClickListener(new View.OnClickListener() {
@@ -87,6 +89,7 @@ public class Game2048StartActivity extends AppCompatActivity implements
         returnToGameCenter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // TODO: Use helper switchToGameCentre()
                 Intent backToGameCenter = new Intent(getApplicationContext(), GameCentreActivity.class);
                 startActivity(backToGameCenter);
             }
@@ -114,25 +117,11 @@ public class Game2048StartActivity extends AppCompatActivity implements
         loadDialog.show();
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        Intent goToCenter = new Intent(getApplicationContext(), GameCentreActivity.class);
-        saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
-        startActivity(goToCenter);
-    }
-
     /**
      * Switch to the Game2048Activity view to play the game.
      */
     public void switchToGame(String saveId) {
-        saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
+//        saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
         Intent tmp = new Intent(this, Game2048Activity.class);
         tmp.putExtra("saveId", saveId);
         tmp.putExtra("saveType", "autoSave");
@@ -159,42 +148,68 @@ public class Game2048StartActivity extends AppCompatActivity implements
     public void switchToLogin() {
         mController.userSignOut();
         Intent tmp = new Intent(this, LoginActivity.class);
-        tmp.putExtra("userEmail", userEmail);
+//        tmp.putExtra("userEmail", userEmail);
         startActivity(tmp);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        // TODO: Use switchToGameCentre
+        updateCurrAccount();
+        Intent goToCenter = new Intent(getApplicationContext(), GameCentreActivity.class);
+//        saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
+        startActivity(goToCenter);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        updateCurrAccount();
 
     }
 
-    private void readFromSer(String fileName) {
-        try {
-            InputStream inputStream = this.openFileInput(fileName);
-            if (inputStream != null) {
-                ObjectInputStream in = new ObjectInputStream(inputStream);
-                accountManager = (AccountManager) in.readObject();
-                mController = new Game2048StartController(accountManager, userEmail);
-            }
-            inputStream.close();
-        } catch (FileNotFoundException e) {
-            Log.e("Game2048Start activity", "File not found: " + e.toString());
-        } catch (IOException e) {
-            Log.e("Game2048Start activity", "Can not read file: " + e.toString());
-        } catch (ClassNotFoundException e) {
-            Log.e("Game2048Start activity", "File contained unexpected data type: " + e.toString());
-        }
+    @Override
+    protected void onStop() {
+        super.onStop();
+        updateCurrAccount();
     }
 
-    /**
-     * Save the accountmanager to fileName.
-     *
-     * @param fileName the name of the file
-     */
-    public void saveToFile(String fileName) {
-        try {
-            ObjectOutputStream outputStream = new ObjectOutputStream(
-                    this.openFileOutput(fileName, MODE_PRIVATE));
-            outputStream.writeObject(accountManager);
-            outputStream.close();
-        } catch (IOException e) {
-            Log.e("Exception", "File write failed: " + e.toString());
-        }
+    private void updateCurrAccount() {
+        mController.updateCurrAccount();
     }
+
+//    private void readFromSer(String fileName) {
+//        try {
+//            InputStream inputStream = this.openFileInput(fileName);
+//            if (inputStream != null) {
+//                ObjectInputStream in = new ObjectInputStream(inputStream);
+//                accountManager = (AccountManager) in.readObject();
+//                mController = new Game2048StartController(accountManager, userEmail);
+//            }
+//            inputStream.close();
+//        } catch (FileNotFoundException e) {
+//            Log.e("Game2048Start activity", "File not found: " + e.toString());
+//        } catch (IOException e) {
+//            Log.e("Game2048Start activity", "Can not read file: " + e.toString());
+//        } catch (ClassNotFoundException e) {
+//            Log.e("Game2048Start activity", "File contained unexpected data type: " + e.toString());
+//        }
+//    }
+//
+//    /**
+//     * Save the accountmanager to fileName.
+//     *
+//     * @param fileName the name of the file
+//     */
+//    public void saveToFile(String fileName) {
+//        try {
+//            ObjectOutputStream outputStream = new ObjectOutputStream(
+//                    this.openFileOutput(fileName, MODE_PRIVATE));
+//            outputStream.writeObject(accountManager);
+//            outputStream.close();
+//        } catch (IOException e) {
+//            Log.e("Exception", "File write failed: " + e.toString());
+//        }
+//    }
 }
