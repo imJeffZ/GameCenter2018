@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/back_image"
+    android:background="@drawable/finish"
     tools:context="fall18_207project.GameCenter.GameFinishActivity">
 
     <TextView
@@ -17,7 +17,7 @@
         android:textSize="30dp"
         android:gravity="center"
         android:text="Click anywhere and return to GameCentre."
-        android:textColor="#daeda828" />
+        android:textColor="#daed6028" />
 
     <Button
         android:id="@+id/backToGamebtn"

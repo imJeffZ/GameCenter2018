@@ -237,7 +237,7 @@ public class GameCentreActivity extends AppCompatActivity implements  Navigation
 
             TextView textPlayTime = navHeader.findViewById(R.id.profileTime);
             textPlayTime.setText("Play Time in Total: " +
-                    CurrentAccountController.getCurrAccount().getProfile().getTotalPlayTime());
+                    CurrentAccountController.getCurrAccount().getProfile().getDisplayTime());
         }
 
     }
