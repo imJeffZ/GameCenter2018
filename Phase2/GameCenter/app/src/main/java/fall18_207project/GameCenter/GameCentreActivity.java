@@ -43,73 +43,20 @@ public class GameCentreActivity extends AppCompatActivity implements  Navigation
     public static String userEmail = "";
     private FirebaseAuth firebaseAuth;
     private AccountManager accountManager;
-
-    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-            = new BottomNavigationView.OnNavigationItemSelectedListener() {
-
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            switch (item.getItemId()) {
-                case R.id.navigation_game_center:
-                    break;
-                case R.id.navigation_user_history:
-                    Intent tmp2 = new Intent(GameCentreActivity.this, UserHistoryActivity.class);
-//                    tmp2.putExtra("userEmail", userEmail);
-                    startActivity(tmp2);
-
-                    break;
-                case R.id.navigation_global_scoreboard:
-                    Intent tmp3 = new Intent(GameCentreActivity.this, GlobalScoreBoardActivity.class);
-//                    tmp3.putExtra("userEmail", userEmail);
-                    startActivity(tmp3);
-                    break;
-            }
-            return false;
-        }
-    };
-
-    private Handler myHand = new Handler(){
-
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            if (msg.what ==0){
-                updateProfileShow();
-            }
-            sendEmptyMessageDelayed(0, 1000);
-        }
-    };
+    private GameCentreController mController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_centre);
-        // Serialization
         readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
-//        if (getIntent().hasExtra("userEmail")) {
-//            userEmail = getIntent().getStringExtra("userEmail");
-//        }
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        //set up fireBaseAuth
         firebaseAuth = FirebaseAuth.getInstance();
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
-        updateProfileShow();
-
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        Menu menu = navigation.getMenu();
-        MenuItem menuItem = menu.getItem(0);
-        menuItem.setChecked(true);
+        setViewProfile();
+        setNavigationView();
         addSlidingTilesGameButtonListener();
         addMatchingCardsGameButtonListener();
         addGame2048ButtonListener();
+        updateProfileShow();
     }
 
 
@@ -145,77 +92,96 @@ public class GameCentreActivity extends AppCompatActivity implements  Navigation
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.profile, menu);
-        return true;
+    public void setNavigationView(){
+        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        Menu menu = navigation.getMenu();
+        MenuItem menuItem = menu.getItem(0);
+        menuItem.setChecked(true);
+
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+            = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.navigation_game_center:
+                    break;
+                case R.id.navigation_user_history:
+                    Intent tmp2 = new Intent(GameCentreActivity.this, UserHistoryActivity.class);
+                    startActivity(tmp2);
+
+                    break;
+                case R.id.navigation_global_scoreboard:
+                    Intent tmp3 = new Intent(GameCentreActivity.this, GlobalScoreBoardActivity.class);
+                    startActivity(tmp3);
+                    break;
+            }
+            return false;
         }
+    };
 
-        return super.onOptionsItemSelected(item);
+    private void setViewProfile(){
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
     }
+
+    private Handler myHand = new Handler()
+    {
+
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if (msg.what ==0){
+                updateProfileShow();
+            }
+            sendEmptyMessageDelayed(0, 1000);
+        }
+    };
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-        String editTitle;
-
-        if (id == R.id.nav_image) {
+        if (id == R.id.nav_image)
             showImageChooseDialog();
-            myHand.sendEmptyMessageDelayed(0, 1000);
-        } else if (id == R.id.nav_intro) {
-            editTitle = "Editing Information";
-            editProfileByDialog(id, editTitle);
-            myHand.sendEmptyMessageDelayed(0, 1000);
-
-
-        } else if (id == R.id.nav_reset) {
-            editTitle = "Editing User Name";
-            editProfileByDialog(id, editTitle);
-            myHand.sendEmptyMessageDelayed(0, 1000);
-
-        }else if (id == R.id.nav_password){
-            editTitle = "Editing Password";
-            editProfileByDialog(id, editTitle);
-
-        } else if (id == R.id.nav_logout) {
+         else if (id == R.id.nav_intro)
+            showEditProfileByDialog(id,"Editing Information" );
+        else if (id == R.id.nav_reset)
+            showEditProfileByDialog(id, "Editing User Name");
+        else if (id == R.id.nav_password)
+            showEditProfileByDialog(id,"Editing Password" );
+        else if (id == R.id.nav_logout)
             switchToLogin();
-
-        }
-
-
+        myHand.sendEmptyMessageDelayed(0, 1000);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
-    private void editProfileByDialog(int id, String profTitle){
+    private void showEditProfileByDialog(int id, String profTitle){
 
         final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(GameCentreActivity.this);
         dialogBuilder.setTitle(profTitle);
         final int i = id;
-        @SuppressLint("InflateParams") final View profView = LayoutInflater.from(GameCentreActivity.this).inflate(R.layout.profile_dialog, null);
+        @SuppressLint("InflateParams") final View profView = LayoutInflater.from(GameCentreActivity.this).
+                inflate(R.layout.profile_dialog, null);
         dialogBuilder.setView(profView);
         dialogBuilder.setPositiveButton("Yes",
                 new DialogInterface.OnClickListener(){
             @Override
                   public void onClick(DialogInterface dialogNeeded, int buttonId){
                 EditText update = (EditText)profView.findViewById(R.id.update);
-                updateProfile( i, update.getText().toString());
+                mController.updateProfile( i, update.getText().toString());
+                saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
             }
                 });
         dialogBuilder.setNegativeButton("Cancel",
@@ -237,42 +203,25 @@ public class GameCentreActivity extends AppCompatActivity implements  Navigation
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        updateImage(R.drawable.paulorange1);
+                        mController.updateImage(R.drawable.paulorange1);
+                        saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
                     }
                 });
         imageDialog.setNegativeButton("lidsney",
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        updateImage(R.drawable.lindsey);
+                        mController.updateImage(R.drawable.lindsey);
+                        saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
                     }
                 });
         imageDialog.setPositiveButton("david", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                updateImage(R.drawable.david);
+                mController.updateImage(R.drawable.david);
             }
         });
         imageDialog.show();
-    }
-
-    private  void  updateProfile(int id, String update){
-        if (accountManager.getAccount(userEmail) != null) {
-            if (id == R.id.nav_reset){
-                accountManager.getAccount(userEmail).setUserName(update);
-            } else if (id == R.id.nav_intro){
-                accountManager.getAccount(userEmail).getProf().setIntro(update);
-            } else if (id == R.id.nav_password){
-                accountManager.getAccount(userEmail).setPassword(update);
-            }
-            saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
-        }
-    }
-
-    private void updateImage(int id){
-        if (accountManager.getAccount(userEmail) != null) {
-        accountManager.getAccount(userEmail).getProf().setAvatarId(id);
-        }
     }
 
     private void updateProfileShow(){
@@ -359,6 +308,7 @@ public class GameCentreActivity extends AppCompatActivity implements  Navigation
             if (inputStream != null) {
                 ObjectInputStream in = new ObjectInputStream(inputStream);
                 accountManager = (AccountManager) in.readObject();
+                mController = new GameCentreController(accountManager, userEmail);
             }
             inputStream.close();
         } catch (FileNotFoundException e) {
