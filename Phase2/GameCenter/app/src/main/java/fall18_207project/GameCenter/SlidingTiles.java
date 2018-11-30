@@ -85,7 +85,8 @@ class SlidingTiles extends Game implements Cloneable, GameFeature {
 
 
     @Override
-    void reset() {
+    SlidingTiles reset() {
+        return new SlidingTiles(this.getBoard().getNumOfRows());
     }
 
 

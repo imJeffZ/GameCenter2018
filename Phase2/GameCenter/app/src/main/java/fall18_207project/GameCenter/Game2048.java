@@ -81,8 +81,8 @@ public class Game2048 extends Game implements GameFeature, Cloneable {
 
     // TODO: Implement reset
     @Override
-    void reset() {
-        return;
+    Game2048 reset() {
+        return new Game2048();
     }
     /*
     The Clone method of Game2048 Tile for reset method

@@ -1,11 +1,8 @@
 package fall18_207project.GameCenter;
 
 import java.io.Serializable;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.Stack;
 import java.util.UUID;
 
@@ -52,7 +49,7 @@ public abstract class Game implements Serializable, GameFeature {
         return this.saveId;
     }
 
-    abstract void reset();
+    abstract Game reset();
     abstract int calculateScore();
 
     void updateElapsedTime(long newElapsedTime) {
