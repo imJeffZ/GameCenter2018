@@ -25,7 +25,7 @@ public class NonDuplicateGameManager extends GameManager implements GameScoreBoa
     }
 
     public ArrayList<Game> getSortedGames(int gameId) {
-        //TODO: After making UserHistoryAct and SavedGamesAct show a specific type of game, sort this.gameList
+        // Default sorting by oldest to newest
         return getSavedGames(gameId);
     }
 

@@ -28,7 +28,7 @@ public class Account implements Serializable {
         this.profile = new Profile();
         this.userSavedGames = new NonDuplicateGameManager();
         this.autoSavedGames = new NonDuplicateGameManager();
-        this.userScoreBoard = new SortingNonDuplicateGameManager();
+        this.userScoreBoard = new NonDuplicateGameManager();
     }
 
     public GameManager getUserSavedGames() {

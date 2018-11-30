@@ -10,7 +10,6 @@ public class MatchingCardStartController extends GameStartController{
         super(context);
     }
 
-    // TODO: Maybe we can generalize createGame
     MatchingCards createGame(int num){
         return new MatchingCards(num);
     }
