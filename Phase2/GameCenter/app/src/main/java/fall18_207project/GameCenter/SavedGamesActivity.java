@@ -119,7 +119,7 @@ public class SavedGamesActivity extends Activity {
         for (Game g: gameArrayList) {
             Map<String, Object> map = new HashMap<>();
             map.put("gameId", g.gameId);
-            map.put("saveId", g.gettime());
+            map.put("saveId", g.getTime());
             list.add(map);
         }
     }
