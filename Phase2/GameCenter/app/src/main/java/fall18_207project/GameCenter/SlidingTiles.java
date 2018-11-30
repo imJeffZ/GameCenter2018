@@ -17,9 +17,9 @@ class SlidingTiles extends Game implements Cloneable, GameFeature {
     /**
      * Manage a new shuffled board.
      */
-    protected Board board;
+    protected SlidingTileBoard board;
     protected Board initialBoard;
-    protected List<Tile> tiles;
+    protected List<SlidingTilesTile> tiles;
 
     SlidingTiles(int num) {
         super(); // Explicitly put here
@@ -27,16 +27,16 @@ class SlidingTiles extends Game implements Cloneable, GameFeature {
         tiles = new ArrayList<>();
         final int numTiles = num * num;
         for (int tileNum = 0; tileNum < numTiles - 1; tileNum++) {
-            tiles.add(new Tile(tileNum));
+            tiles.add(new SlidingTilesTile(tileNum));
         }
-        tiles.add(new Tile(24));
+        tiles.add(new SlidingTilesTile(24));
         shuffleBoard(tiles, num);
-        board = new Board(tiles, num);
+        board =  new SlidingTileBoard(tiles, num);
         this.initialBoard = new Board(tiles, num);
         this.endTime = 0;
     }
 
-    private void shuffleBoard(List<Tile> winBoard, int num) {
+    private void shuffleBoard(List<SlidingTilesTile> winBoard, int num) {
         int blank = winBoard.size() - 1;
         Random r = new Random();
         int moveWay = r.nextInt(4);
@@ -56,9 +56,9 @@ class SlidingTiles extends Game implements Cloneable, GameFeature {
     }
 
 
-    public List<Tile> cloneTiles(){
-        List<Tile> returnTile = new ArrayList<>();
-        for (Tile tile : tiles){
+    public List<SlidingTilesTile> cloneTiles(){
+        List<SlidingTilesTile> returnTile = new ArrayList<>();
+            for (SlidingTilesTile tile : tiles){
             returnTile.add(tile);
         }
         return returnTile;

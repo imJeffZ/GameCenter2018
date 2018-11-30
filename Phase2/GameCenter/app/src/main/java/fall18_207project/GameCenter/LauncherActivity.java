@@ -18,19 +18,24 @@ public class LauncherActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //addBeginAppButtonListener();
         Intent goToLogin = new Intent(getApplicationContext(), LoginActivity.class);
-                startActivity(goToLogin);
+        startActivity(goToLogin);
+    }
+
        // addBeginAppButtonListener();
     }
 
-//    private void addBeginAppButtonListener() {
-//        Button beginAppBtn = findViewById(R.id.beginApp);
-//        beginAppBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent goToLogin = new Intent(getApplicationContext(), LoginActivity.class);
-//                startActivity(goToLogin);
-//            }
-//        });
-//    }
-}
+//>>>>>>> e769dd18b26fafd72610a1a708373766bc73065a
+////    private void addBeginAppButtonListener() {
+////        Button beginAppBtn = findViewById(R.id.beginApp);
+////        beginAppBtn.setOnClickListener(new View.OnClickListener() {
+////            @Override
+////            public void onClick(View v) {
+////                Intent goToLogin = new Intent(getApplicationContext(), LoginActivity.class);
+////                startActivity(goToLogin);
+////            }
+////        });
+////    }
+//}
