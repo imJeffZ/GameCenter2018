@@ -26,7 +26,7 @@ public class SavedGamesActivity extends Activity {
 //    public static String userEmail = "";
 //    private AccountManager accountManager;
     private String gameType;
-    private  SavedGamesController mController = new SavedGamesController(SavedGamesActivity.this);
+    private  SavedGamesController mController = new SavedGamesController();
 
 
     protected void onCreate(Bundle savedInstanceState) {
