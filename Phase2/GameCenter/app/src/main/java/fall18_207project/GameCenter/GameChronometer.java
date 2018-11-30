@@ -24,6 +24,7 @@ public class GameChronometer implements Runnable {
 
     private Context mContext;
     private long mStartTime;
+    private long savedTime;
     private boolean mIsRunning;
 
     /**
@@ -34,6 +35,7 @@ public class GameChronometer implements Runnable {
     GameChronometer(Context context) {
         mContext = context;
         mStartTime = System.currentTimeMillis();
+        savedTime = System.currentTimeMillis();
     }
 
     /**
@@ -46,6 +48,7 @@ public class GameChronometer implements Runnable {
     GameChronometer(Context context, long startTime) {
         this(context);
         mStartTime = startTime;
+        savedTime = System.currentTimeMillis();
     }
 
     /**
@@ -69,7 +72,13 @@ public class GameChronometer implements Runnable {
         return System.currentTimeMillis() - mStartTime;
     }
 
+    public long getActualElapsedTime(){
+        return System.currentTimeMillis() - savedTime;
+    }
 
+    public void updateSavedTime(){
+        this.savedTime = System.currentTimeMillis();
+    }
     @Override
     public void run() {
         while (mIsRunning) {
