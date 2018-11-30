@@ -5,49 +5,47 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import java.util.Stack;
-/*
-The 2048 Game
+/**
+ * The 2048 Game
  */
 public class Game2048 extends Game implements GameFeature, Cloneable {
-    /*
-    The direction of the swipe is left
+    /**
+     * The direction of the swipe is left
      */
     public final static int LEFT = 1;
-    /*
-    The direction of the swipe is right
+    /**
+     * The direction of the swipe is right
      */
     public final static int RIGHT = 2;
-    /*
-    The direction of the swipe is up
+    /**
+     * The direction of the swipe is up
      */
     public final static int UP = 3;
-    /*
-    The direction of the swipe is Down
+    /**
+     * The direction of the swipe is Down
      */
     public final static int DOWN = 4;
-    /*
-    The ID to find blank_id
+
+    /**
+     * The ID to find blank_id
      */
     private final static int BLANK_ID = 25;
-    /*
-    The score of the 2048 game
+    /**
+     * The score of the 2048 game
      */
     private int score;
-    /*
-    A  stack of boards for saving
+    /**
+     * A  stack of boards for saving
      */
     private Stack<Game2048Board> boardStack;
-    /*
-    A board of game 2048
+    /**
+     * A board of game 2048
      */
     protected Game2048Board board;
-
-
     protected Board initialBoard;
-    /*
-    The list of Game2048 Tiles
+    /**
+     * The list of Game2048 Tiles
      */
-
     protected List<Game2048Tile> tiles;
 
     /**
@@ -78,13 +76,17 @@ public class Game2048 extends Game implements GameFeature, Cloneable {
         this.boardStack = new Stack<>();
     }
 
-
+    /**
+     * a reset method
+     * @return a new game with brand new board
+     */
     @Override
     Game2048 reset() {
         return new Game2048();
     }
-    /*
-    The Clone method of Game2048 Tile for reset method
+
+    /**
+     * The Clone method of Game2048 Tile for reset method
      */
     public List<Game2048Tile> cloneTiles() {
         List<Game2048Tile> returnTile = new ArrayList<>();
@@ -94,20 +96,31 @@ public class Game2048 extends Game implements GameFeature, Cloneable {
         return returnTile;
     }
 
-
-
+    /**
+     * return the score.
+     */
     public int getScore() {
         return score;
     }
 
+    /**
+     * return the whole stack used for storing all the boards
+     * @return the boardStack that used for storing all the boards
+     */
     public Stack<Game2048Board> getBoardStack() {
         return boardStack;
     }
 
+    /**
+     * @return the current board
+     */
     public Game2048Board getBoard() {
         return board;
     }
 
+    /**
+     * @return the score under some certain algorithm
+     */
     @Override
     int calculateScore() {
         if (!hasValidMove()) {
@@ -119,17 +132,17 @@ public class Game2048 extends Game implements GameFeature, Cloneable {
 
     /**
      * @param direction
-     * @return
+     * @return if this direction is valid tap
      */
     @Override
     public boolean isValidTap(int direction) {
         return false;
     }
-    /*
-    Method to check whether it is  a dead board
+
+    /**
+     * Method to check whether it is a dead board
      */
     public boolean hasValidMove() {
-
         boolean valid = false;
         int blankId = 25;
         for (int i = 0; i < board.getNumOfColumns(); i++) {
@@ -139,19 +152,16 @@ public class Game2048 extends Game implements GameFeature, Cloneable {
                         valid = true;
                     }
                 }
-
                 if (i - 1 >= 0) {
                     if (board.getTile(i - 1, j).getId() == blankId || board.getTile(i - 1, j).getId() == board.getTile(i, j).getId()) {
                         valid = true;
                     }
                 }
-
                 if (j + 1 < board.getNumOfColumns()) {
                     if (board.getTile(i, j + 1).getId() == blankId || board.getTile(i, j + 1).getId() == board.getTile(i, j).getId()) {
                         valid = true;
                     }
                 }
-
                 if (j - 1 >= 0) {
                     if (board.getTile(i, j - 1).getId() == blankId || board.getTile(i, j - 1).getId() == board.getTile(i, j).getId()) {
                         valid = true;
@@ -161,8 +171,9 @@ public class Game2048 extends Game implements GameFeature, Cloneable {
         }
         return valid;
     }
-    /*
-    Left shift algorithm
+
+    /**
+     * Left shift algorithm
      */
     private boolean leftShift(int row) {
         boolean check = false;
@@ -174,8 +185,9 @@ public class Game2048 extends Game implements GameFeature, Cloneable {
         }
         return check;
     }
-    /*
-    Right shift has the same algorithm with left
+
+    /**
+     * Right shift has the same algorithm with left
      */
     private boolean rightShift(int row) {
         boolean check = false;
@@ -187,8 +199,9 @@ public class Game2048 extends Game implements GameFeature, Cloneable {
         }
         return check;
     }
-    /*
-    Down shift has the same algorithm with left
+
+    /**
+     * Down shift has the same algorithm with left
      */
     private boolean downShift(int col) {
         boolean check = false;
@@ -200,8 +213,9 @@ public class Game2048 extends Game implements GameFeature, Cloneable {
         }
         return check;
     }
-    /*
-    upShift has the same algorithm with left
+
+    /**
+     * upShift has the same algorithm with left
      */
     private boolean upShift(int col) {
         boolean check = false;
@@ -213,15 +227,15 @@ public class Game2048 extends Game implements GameFeature, Cloneable {
         }
         return check;
     }
-    /*
 
+    /**
+     * touch move method. return nothing but will do some changes to this game
      */
     @Override
     public void touchMove(int direction) {
         boolean check = false;
         boardStack.push((Game2048Board) board.clone());
         countMove++;
-
         int  value;
 
         if (direction == LEFT) {
@@ -246,7 +260,6 @@ public class Game2048 extends Game implements GameFeature, Cloneable {
             for (int row = 0; row < board.getNumOfRows(); ++row) {
                 check = check | rightShift(row);
                 check = check | rightShift(row);
-
                 for (int col = board.getNumOfColumns() - 1; col > 0; --col) {
                     if ((value = board.getTile(row, col).getId()) != BLANK_ID && board.getTile(row, col).getId() == board.getTile(row, col - 1).getId()) {
                         board.getTiles()[row][col] = new Game2048Tile(value * 2 - 1);
@@ -311,32 +324,32 @@ public class Game2048 extends Game implements GameFeature, Cloneable {
         boardStack.push(board.clone());
     }
 
+    /**
+     * undo() method will take you to the last board/state.
+     */
     public void undo() {
         if (!boardStack.isEmpty()) {
             boardStack.pop();
         }
-
         if (!boardStack.isEmpty()) {
-
             board =  boardStack.pop();
         }
     }
 
+    /**
+     * the method that check if the game is solved/over.
+     * @return whether the game is over
+     */
     @Override
     public boolean isSolved() {
         boolean check = false;
         for (int i = 0; i < board.getNUM_COLS(); i++){
-            for (int j = 0; j< board.getNUM_ROWS(); j++){
-                if (board.getTile(i,j).getId() == 2048){
-                    return true;
+            for (int j = 0; j < board.getNUM_ROWS(); j++){
+                if (board.getTile(i, j).getId() == 2048){
+                    check = true;
                 }
             }
         }
         return check;
     }
-
-
-
-
-
 }
