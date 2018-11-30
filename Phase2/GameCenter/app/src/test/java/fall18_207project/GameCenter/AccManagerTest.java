@@ -16,7 +16,7 @@ public class AccManagerTest {
         String password = "abc123";
         myAcc = new Account(email, userName, password);
         manager = new AccountManager();
-        manager.addAccount(email, userName, password);
+        manager.addAccount(new Account(email, userName, password));
     }
 
     /**
@@ -106,9 +106,9 @@ public class AccManagerTest {
         String password = "abc123";
 
         // this one is already there, returns false
-        assertFalse(manager.addAccount(email, userName, password));
+        assertFalse(manager.addAccount(new Account(email, userName, password)));
 
-        assertTrue(manager.addAccount("1", "1", "1"));
+        assertTrue(manager.addAccount(new Account("1", "1", "1")));
         assertEquals("1", manager.getAccount("1").getEmail());
     }
 }

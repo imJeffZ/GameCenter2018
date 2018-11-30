@@ -71,7 +71,7 @@ public class RegisterActivity extends AppCompatActivity implements ValidateFormA
                 if(task.isSuccessful()){
                     Log.d("RegisterActivity", "Successful!");
                     Toast.makeText(RegisterActivity.this, "Sign up successful", Toast.LENGTH_SHORT).show();
-                    accountManager.addAccount(emailValue, userNameValue, passwordValue);
+                    accountManager.addAccount(new Account(emailValue, userNameValue, passwordValue));
                     saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
                     Intent gotoLogin = new Intent(getApplicationContext(), LoginActivity.class);
                     startActivity(gotoLogin);
