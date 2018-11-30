@@ -221,7 +221,6 @@ public class SlidingTileGameActivity extends AppCompatActivity implements Observ
                 SlidingTiles newSlidingTiles = new SlidingTiles(size);
                 newSlidingTiles.tiles = slidingTiles.cloneTiles();
                 newSlidingTiles.board = new SlidingTileBoard(slidingTiles.tiles, size);
-                newSlidingTiles.initialBoard = new Board(slidingTiles.tiles, size);
                 restart.putExtra("saveId", newSlidingTiles.getSaveId());
                 restart.putExtra("saveType", "autoSave");
                 readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
