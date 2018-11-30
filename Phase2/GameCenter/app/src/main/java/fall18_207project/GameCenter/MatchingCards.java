@@ -2,25 +2,18 @@ package fall18_207project.GameCenter;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
 public class MatchingCards extends Game implements Cloneable, Serializable {
 
     protected MatchingBoard matchingBoard;
-//    private int match;
     private int prePos;
     private int numOfBombs = 0;
     private boolean startMode;
     private boolean matchBomb;
     protected List<Card> cardList;
     protected List<Card> initialList;
-
-//    public int getMatch() {
-//        return match;
-//    }
 
     public int getPrePos() {
         return prePos;
@@ -49,20 +42,19 @@ public class MatchingCards extends Game implements Cloneable, Serializable {
             if (c.isBomb())
                 this.numOfBombs++;
         }
+
         Collections.shuffle(cardList);
         matchingBoard = new MatchingBoard(cardList, num);
         this.initialList = cloneCards(cardList);
         this.endTime = 0;
         this.prePos = -1;
-//        this.match = 0;
         this.startMode = true;
         this.matchBomb = false;
     }
-    // TODO: Implement reset
 
     @Override
-    void reset() {
-        return;
+    MatchingCards reset() {
+        return new MatchingCards(this.matchingBoard.getNumOfRows());
     }
 
     public List<Card> cloneCards(List<Card> cardList) {
@@ -94,7 +86,9 @@ public class MatchingCards extends Game implements Cloneable, Serializable {
     public boolean isValidTap(int position) {
         int row = position / matchingBoard.getNumOfRows();
         int col = position % matchingBoard.getNumOfColumns();
-        return (!this.startMode) && position < matchingBoard.getNumOfCards() && !(this.isCardUsed(row, col));
+        return (!this.startMode) &&
+                position < matchingBoard.getNumOfCards() &&
+                !(this.isCardUsed(row, col));
     }
 
     @Override
@@ -108,7 +102,6 @@ public class MatchingCards extends Game implements Cloneable, Serializable {
             matchingBoard.turnCard(row, col, true);
             matchBomb = true;
         } else if (this.isMatched(row, col)) {
-//            match++;
             matchingBoard.turnCard(row, col, true);
             matchingBoard.useCards(row, col, row1, col1);
             prePos = -1;
