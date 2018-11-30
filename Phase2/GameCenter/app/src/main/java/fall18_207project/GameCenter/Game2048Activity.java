@@ -96,6 +96,7 @@ public class Game2048Activity extends AppCompatActivity implements Observer, Gam
             game2048 = new Game2048();
         } else {
             game2048 = (Game2048) gameManager.getGame(getIntent().getStringExtra("saveId"));
+            System.out.println("HERE");
         }
 
 //        loadFromFile(Game2048StartActivity.TEMP_SAVE_FILENAME);
@@ -193,7 +194,7 @@ public class Game2048Activity extends AppCompatActivity implements Observer, Gam
                 Intent restart = new Intent(getApplicationContext(), Game2048Activity.class);
                 Game2048 newGame2048 = new Game2048();
                 newGame2048.tiles = game2048.cloneTiles();
-                newGame2048.board = new Board(game2048.tiles, 4);
+                newGame2048.board = new Game2048Board(game2048.tiles, 4);
                 newGame2048.initialBoard = new Board(game2048.tiles, 4);
                 restart.putExtra("saveId", newGame2048.getSaveId());
                 restart.putExtra("saveType", "autoSave");
@@ -251,7 +252,8 @@ public class Game2048Activity extends AppCompatActivity implements Observer, Gam
      * @param context the context
      */
     public void createGameTileButtons(Context context) {
-        Board board = game2048.getBoard();
+        Game2048Board board = game2048.getBoard();
+
         tileButtons = new ArrayList<>();
         for (int row = 0; row != game2048.getBoard().getNumOfRows(); row++) {
             for (int col = 0; col != game2048.getBoard().getNumOfColumns(); col++) {

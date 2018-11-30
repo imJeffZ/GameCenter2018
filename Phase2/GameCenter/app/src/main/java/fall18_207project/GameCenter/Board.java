@@ -37,16 +37,20 @@ public class Board extends Observable implements Cloneable, Serializable, Iterab
      *
      * @param tiles the tiles for the board
      */
-    public Board(List<Tile> tiles, int size) {
+
+    public Board(List<? extends Tile> tiles, int size) {
         this.numOfColumns = size;
         this.numOfRows = size;
+
         this.tiles = new Tile[size][size];
 
-        Iterator<Tile> iter = tiles.iterator();
+        Iterator<?> iter = tiles.iterator();
+
 
         for (int row = 0; row != this.getNumOfColumns(); row++) {
             for (int col = 0; col != this.getNumOfColumns(); col++) {
-                this.tiles[row][col] = iter.next();
+                this.tiles[row][col] = (Tile) iter.next();
+
             }
         }
     }
@@ -143,20 +147,39 @@ public class Board extends Observable implements Cloneable, Serializable, Iterab
         }
     }
 
-    public Board clone() {
-        try {
-            super.clone();
-        } catch (CloneNotSupportedException e) {
-            e.printStackTrace();
-        }
-        List<Tile> tiles = new ArrayList<>();
-        for (int i = 0; i < this.getNumOfColumns(); i++) {
-            for (int j = 0; j < this.getNumOfRows(); j++) {
-                tiles.add(this.getTile(i, j));
-            }
-        }
 
-        return new Board(tiles, this.getNumOfRows());
-
-    }
+//    public Board clone() {
+//        try {
+//            super.clone();
+//        } catch (CloneNotSupportedException e) {
+//            e.printStackTrace();
+//        }
+//        List<Tile> tiles = new ArrayList<>();
+//        for (int i = 0; i < this.getNUM_COLS(); i++) {
+//            for (int j = 0; j < this.getNUM_ROWS(); j++) {
+//                tiles.add(this.getTile(i, j));
+//            }
+//        }
+//
+//        return new Board(tiles, this.getNUM_ROWS());
+//
+//    }
+//=======
+//    public Board clone() {
+//        try {
+//            super.clone();
+//        } catch (CloneNotSupportedException e) {
+//            e.printStackTrace();
+//        }
+//        List<Tile> tiles = new ArrayList<>();
+//        for (int i = 0; i < this.getNumOfColumns(); i++) {
+//            for (int j = 0; j < this.getNumOfRows(); j++) {
+//                tiles.add(this.getTile(i, j));
+//            }
+//        }
+//
+//        return new Board(tiles, this.getNumOfRows());
+//
+//    }
+//>>>>>>> e769dd18b26fafd72610a1a708373766bc73065a
 }
