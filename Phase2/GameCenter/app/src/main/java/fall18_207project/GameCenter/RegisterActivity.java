@@ -25,7 +25,6 @@ import java.io.ObjectOutputStream;
 public class RegisterActivity extends AppCompatActivity implements ValidateFormActivity{
     private AccountManager accountManager;
     private FirebaseAuth firebaseAuth;
-    private AccessDataBase accessDataBase;
     private String emailValue;
     private String passwordValue;
     private  String userNameValue;
@@ -35,7 +34,6 @@ public class RegisterActivity extends AppCompatActivity implements ValidateFormA
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         firebaseAuth = FirebaseAuth.getInstance();
-        accessDataBase = new AccessDataBase();
         accountManager = new AccountManager();
         loadFromFile(LoginActivity.ACCOUNT_MANAGER_DATA);
         addRegisterButtonListener();
@@ -73,8 +71,6 @@ public class RegisterActivity extends AppCompatActivity implements ValidateFormA
                 if(task.isSuccessful()){
                     Log.d("RegisterActivity", "Successful!");
                     Toast.makeText(RegisterActivity.this, "Sign up successful", Toast.LENGTH_SHORT).show();
-                    Account account = new Account(emailValue, userNameValue, passwordValue);
-                    accessDataBase.saveToDataBase(account);
                     accountManager.addAccount(emailValue, userNameValue, passwordValue);
                     saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
                     Intent gotoLogin = new Intent(getApplicationContext(), LoginActivity.class);
@@ -117,6 +113,10 @@ public class RegisterActivity extends AppCompatActivity implements ValidateFormA
         }
     }
 
+    /**
+     * partially cited from https://firebase.google.com/docs/auth/android/password-auth
+     * @return return whether the form is validated
+     */
     public boolean validateForm() {
         boolean valid = true;
         EditText emailValue = findViewById(R.id.EmailRegister);
