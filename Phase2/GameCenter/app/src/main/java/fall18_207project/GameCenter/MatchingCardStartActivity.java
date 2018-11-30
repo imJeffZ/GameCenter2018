@@ -21,15 +21,16 @@ import java.io.ObjectOutputStream;
 
 public class MatchingCardStartActivity extends AppCompatActivity implements
         MultiLoadStartActivity, GameStartingActivity {
-    private AccountManager accountManager;
-    public static String userEmail = "";
-    private MatchingCardStartController mController;
+//    private AccountManager accountManager;
+//    public static String userEmail = "";
+    private MatchingCardStartController mController = new MatchingCardStartController(MatchingCardStartActivity.this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
+//        readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
         setContentView(R.layout.activity_matching_card_starting);
+
         addLoadGameButtonListener();
         addNewGameButtonListener();
         addLogOutButtonListener();
@@ -37,16 +38,16 @@ public class MatchingCardStartActivity extends AppCompatActivity implements
         setUserTextView();
     }
 
+    // TODO: Rename Hiuser to hi_User
+    // TODO: Generalize this
     private void setUserTextView(){
         TextView account = findViewById(R.id.Hiuser);
         account.setText(mController.setUserTextViewTest());
     }
 
     /**
-     * Activate the start button.
+     * Activate the Start button.
      */
-
-
     private void addNewGameButtonListener(){
         Button startButton = findViewById(R.id.StartButton);
         startButton.setOnClickListener(new View.OnClickListener() {
@@ -60,7 +61,6 @@ public class MatchingCardStartActivity extends AppCompatActivity implements
     /**
      * Activate the load button.
      */
-
     private void addLoadGameButtonListener(){
         Button Button4 = findViewById(R.id.loadGameButton);
         Button4.setOnClickListener(new View.OnClickListener() {
@@ -90,6 +90,7 @@ public class MatchingCardStartActivity extends AppCompatActivity implements
         returnToGameCenter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // TODO: Implement helper function switchToGameCentre()
                 Intent backToGameCenter = new Intent(getApplicationContext(), GameCentreActivity.class);
                 startActivity(backToGameCenter);
             }
@@ -147,7 +148,7 @@ public class MatchingCardStartActivity extends AppCompatActivity implements
     }
 
 public void switchGameByComplexity(int num){
-    readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
+//    readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
     switchToGame( mController.addGameInAcc(mController.createGame(num)).getSaveId());
 
 }
@@ -156,9 +157,9 @@ public void switchGameByComplexity(int num){
      * Switch to the MatchingCardsGameActivity view to play the game.
      */
     public void switchToGame(String saveId) {
-        saveToSer(LoginActivity.ACCOUNT_MANAGER_DATA);
+//        saveToSer(LoginActivity.ACCOUNT_MANAGER_DATA);
         Intent tmp = new Intent(this, MatchingCardsGameActivity.class);
-        tmp.putExtra("userEmail", userEmail);
+//        tmp.putExtra("userEmail", userEmail);
         tmp.putExtra("saveId", saveId);
         tmp.putExtra("saveType", "autoSave");
         startActivity(tmp);
@@ -191,65 +192,84 @@ public void switchGameByComplexity(int num){
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        updateCurrAccount();
+        // TODO: Implement switchToGameCentre()
         Intent goToCenter = new Intent(getApplicationContext(), GameCentreActivity.class);
-        saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
+//        saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
         startActivity(goToCenter);
     }
 
-    /**
-     * Load the accountmanager from fileName.
-     *
-     * @param fileName the name of the file
-     */
-
-    private void readFromSer(String fileName) {
-
-        try {
-            InputStream inputStream = this.openFileInput(fileName);
-            if (inputStream != null) {
-                ObjectInputStream input = new ObjectInputStream(inputStream);
-                accountManager = (AccountManager) input.readObject();
-                mController = new MatchingCardStartController(accountManager, userEmail);
-                inputStream.close();
-            }
-        } catch (FileNotFoundException e) {
-            Log.e("MatchingCardsStart activity", "File not found: " + e.toString());
-        } catch (IOException e) {
-            Log.e("MatchingCardsStart activity", "Can not read file: " + e.toString());
-        } catch (ClassNotFoundException e) {
-            Log.e("MatchingCardsStart activity", "File contained unexpected data type: " + e.toString());
-        }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        updateCurrAccount();
     }
 
-    /**
-     * Save the accountmanager to fileName.
-     *
-     * @param fileName the name of the file
-     */
-    public void saveToFile(String fileName) {
-        try {
-            ObjectOutputStream outputStream = new ObjectOutputStream(
-                    this.openFileOutput(fileName, MODE_PRIVATE));
-            outputStream.writeObject(accountManager);
-            outputStream.close();
-        } catch (IOException e) {
-            Log.e("Exception", "File write failed: " + e.toString());
-        }
+    @Override
+    protected void onStop() {
+        super.onStop();
+        updateCurrAccount();
     }
 
-    /**
-     * Save the accountmanager fileName.
-     *
-     * @param fileName the name of the file
-     */
-    public void saveToSer(String fileName) {
-        try {
-            ObjectOutputStream outputStream = new ObjectOutputStream(
-                    this.openFileOutput(fileName, MODE_PRIVATE));
-            outputStream.writeObject(accountManager);
-            outputStream.close();
-        } catch (IOException e) {
-            Log.e("Exception", "File write failed: " + e.toString());
-        }
+    private void updateCurrAccount() {
+        mController.updateCurrAccount();
     }
+
+//
+//    /**
+//     * Load the accountmanager from fileName.
+//     *
+//     * @param fileName the name of the file
+//     */
+//
+//    private void readFromSer(String fileName) {
+//
+//        try {
+//            InputStream inputStream = this.openFileInput(fileName);
+//            if (inputStream != null) {
+//                ObjectInputStream input = new ObjectInputStream(inputStream);
+//                accountManager = (AccountManager) input.readObject();
+//                mController = new MatchingCardStartController(accountManager, userEmail);
+//                inputStream.close();
+//            }
+//        } catch (FileNotFoundException e) {
+//            Log.e("MatchingCardsStart activity", "File not found: " + e.toString());
+//        } catch (IOException e) {
+//            Log.e("MatchingCardsStart activity", "Can not read file: " + e.toString());
+//        } catch (ClassNotFoundException e) {
+//            Log.e("MatchingCardsStart activity", "File contained unexpected data type: " + e.toString());
+//        }
+//    }
+//
+//    /**
+//     * Save the accountmanager to fileName.
+//     *
+//     * @param fileName the name of the file
+//     */
+//    public void saveToFile(String fileName) {
+//        try {
+//            ObjectOutputStream outputStream = new ObjectOutputStream(
+//                    this.openFileOutput(fileName, MODE_PRIVATE));
+//            outputStream.writeObject(accountManager);
+//            outputStream.close();
+//        } catch (IOException e) {
+//            Log.e("Exception", "File write failed: " + e.toString());
+//        }
+//    }
+//
+//    /**
+//     * Save the accountmanager fileName.
+//     *
+//     * @param fileName the name of the file
+//     */
+//    public void saveToSer(String fileName) {
+//        try {
+//            ObjectOutputStream outputStream = new ObjectOutputStream(
+//                    this.openFileOutput(fileName, MODE_PRIVATE));
+//            outputStream.writeObject(accountManager);
+//            outputStream.close();
+//        } catch (IOException e) {
+//            Log.e("Exception", "File write failed: " + e.toString());
+//        }
+//    }
 }

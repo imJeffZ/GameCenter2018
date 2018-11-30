@@ -132,6 +132,7 @@ public class Game2048 extends Game implements GameFeature, Cloneable {
     public boolean hasValidMove() {
 
         boolean valid = false;
+        // TODO: Rename this to blankId
         int blankid = 25;
         for (int i = 0; i < board.getNumOfColumns(); i++) {
             for (int j = 0; j < board.getNumOfRows(); j++) {

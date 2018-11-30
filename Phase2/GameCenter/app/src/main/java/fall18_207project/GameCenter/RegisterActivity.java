@@ -23,7 +23,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 public class RegisterActivity extends AppCompatActivity implements ValidateFormActivity{
-    private AccountManager accountManager;
     private FirebaseAuth firebaseAuth;
     private String emailValue;
     private String passwordValue;
@@ -34,8 +33,6 @@ public class RegisterActivity extends AppCompatActivity implements ValidateFormA
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         firebaseAuth = FirebaseAuth.getInstance();
-        accountManager = new AccountManager();
-        loadFromFile(LoginActivity.ACCOUNT_MANAGER_DATA);
         addRegisterButtonListener();
     }
 
@@ -71,8 +68,10 @@ public class RegisterActivity extends AppCompatActivity implements ValidateFormA
                 if(task.isSuccessful()){
                     Log.d("RegisterActivity", "Successful!");
                     Toast.makeText(RegisterActivity.this, "Sign up successful", Toast.LENGTH_SHORT).show();
-                    accountManager.addAccount(new Account(emailValue, userNameValue, passwordValue));
-                    saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
+
+                    CurrentAccountController.getAccountManager().addAccount(new Account(emailValue, userNameValue, passwordValue));
+                    CurrentAccountController.writeData(RegisterActivity.this);
+
                     Intent gotoLogin = new Intent(getApplicationContext(), LoginActivity.class);
                     startActivity(gotoLogin);
                 }
@@ -84,34 +83,34 @@ public class RegisterActivity extends AppCompatActivity implements ValidateFormA
         });
     }
 
-    private void loadFromFile(String fileName) {
-
-        try {
-            InputStream inputStream = this.openFileInput(fileName);
-            if (inputStream != null) {
-                ObjectInputStream input = new ObjectInputStream(inputStream);
-                accountManager = (AccountManager) input.readObject();
-                inputStream.close();
-            }
-        } catch (FileNotFoundException e) {
-            Log.e("Register activity", "File not found: " + e.toString());
-        } catch (IOException e) {
-            Log.e("Register activity", "Can not read file: " + e.toString());
-        } catch (ClassNotFoundException e) {
-            Log.e("Register activity", "File contained unexpected data type: " + e.toString());
-        }
-    }
-
-    public void saveToFile(String fileName) {
-        try {
-            ObjectOutputStream outputStream = new ObjectOutputStream(
-                    this.openFileOutput(fileName, MODE_PRIVATE));
-            outputStream.writeObject(accountManager);
-            outputStream.close();
-        } catch (IOException e) {
-            Log.e("Exception", "File write failed: " + e.toString());
-        }
-    }
+//    private void loadFromFile(String fileName) {
+//
+//        try {
+//            InputStream inputStream = this.openFileInput(fileName);
+//            if (inputStream != null) {
+//                ObjectInputStream input = new ObjectInputStream(inputStream);
+//                accountManager = (AccountManager) input.readObject();
+//                inputStream.close();
+//            }
+//        } catch (FileNotFoundException e) {
+//            Log.e("Register activity", "File not found: " + e.toString());
+//        } catch (IOException e) {
+//            Log.e("Register activity", "Can not read file: " + e.toString());
+//        } catch (ClassNotFoundException e) {
+//            Log.e("Register activity", "File contained unexpected data type: " + e.toString());
+//        }
+//    }
+//
+//    public void saveToFile(String fileName) {
+//        try {
+//            ObjectOutputStream outputStream = new ObjectOutputStream(
+//                    this.openFileOutput(fileName, MODE_PRIVATE));
+//            outputStream.writeObject(accountManager);
+//            outputStream.close();
+//        } catch (IOException e) {
+//            Log.e("Exception", "File write failed: " + e.toString());
+//        }
+//    }
 
     /**
      * partially cited from https://firebase.google.com/docs/auth/android/password-auth

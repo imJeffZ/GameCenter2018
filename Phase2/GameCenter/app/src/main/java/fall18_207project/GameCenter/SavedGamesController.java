@@ -1,5 +1,7 @@
 package fall18_207project.GameCenter;
 
+import android.content.Context;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -7,21 +9,25 @@ import java.util.List;
 import java.util.Map;
 
 public class SavedGamesController {
-    public static String userEmail = "";
-    private AccountManager accountManager;
+//    public static String userEmail = "";
+//    private AccountManager accountManager;
+    // TODO: Maybe we don't need context
+    private Context mContext;
     private GameManager gameManager;
 
-   SavedGamesController(AccountManager acManager, String user){
-       this.accountManager = acManager;
-       this.userEmail = user;
+   SavedGamesController(Context context){
+//       this.accountManager = acManager;
+//       this.userEmail = user;
+       this.mContext = context;
    }
 
     public void getData(List<Map<String, Object>> list, String saveType, String gameType, ArrayList<Game> gameList ) {
         if (saveType.equals("autoSave")) {
-            gameManager = accountManager.getAccount(userEmail).getAutoSavedGames();
+            gameManager = CurrentAccountController.getCurrAccount().getAutoSavedGames();
         } else {
-            gameManager = accountManager.getAccount(userEmail).getUserSavedGames();
+            gameManager = CurrentAccountController.getCurrAccount().getUserSavedGames();
         }
+
         ArrayList<Game> allGameList = gameManager.getAllGameList();
             for(Game game : allGameList){
                 if("slidingTiles".equals(gameType)){
@@ -30,7 +36,7 @@ public class SavedGamesController {
             else if("matchingCards".equals(gameType)){
                     gameList.add(game);
                 }
-           else if ("game2048".equals(gameType)){
+            else if ("game2048".equals(gameType)){
                     gameList.add(game);
                 }
             }
@@ -38,7 +44,7 @@ public class SavedGamesController {
         for (Game g: gameList) {
             Map<String, Object> map = new HashMap<>();
             map.put("gameId", g.gameId);
-            map.put("saveId", g.getTime());
+            map.put("time", g.getTime());
             list.add(map);
         }
     }
