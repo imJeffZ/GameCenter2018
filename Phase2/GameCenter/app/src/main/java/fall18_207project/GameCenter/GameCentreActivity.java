@@ -27,15 +27,12 @@ import android.widget.TextView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-/*** the main view gamecentre activity. Show all games and the user profie, connect to scoreboards.
- *
+/**
+ *  the main view gamecentre activity. Show all games and the user profie, connect to scoreboards.
  */
-
 public class GameCentreActivity extends AppCompatActivity implements  NavigationView.OnNavigationItemSelectedListener{
 
-//    public static String userEmail = "";
     private FirebaseAuth firebaseAuth;
-//    private AccountManager accountManager;
     private GameCentreController mController = new GameCentreController(GameCentreActivity.this);
 
     @Override
@@ -52,7 +49,6 @@ public class GameCentreActivity extends AppCompatActivity implements  Navigation
         showProfile();
     }
 
-
     @Override
     public void onStart() {
         super.onStart();
@@ -63,21 +59,9 @@ public class GameCentreActivity extends AppCompatActivity implements  Navigation
         }
     }
 
-//    @Override
-//    protected void onRestart() {
-//        super.onRestart();
-//        readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
-//    }
-//
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//        readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
-//    }
-
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -86,12 +70,11 @@ public class GameCentreActivity extends AppCompatActivity implements  Navigation
     }
 
     public void setNavigationView(){
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         Menu menu = navigation.getMenu();
         MenuItem menuItem = menu.getItem(0);
         menuItem.setChecked(true);
-
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -105,7 +88,6 @@ public class GameCentreActivity extends AppCompatActivity implements  Navigation
                 case R.id.navigation_user_history:
                     Intent tmp2 = new Intent(GameCentreActivity.this, UserHistoryActivity.class);
                     startActivity(tmp2);
-
                     break;
                 case R.id.navigation_global_scoreboard:
                     Intent tmp3 = new Intent(GameCentreActivity.this, GlobalScoreBoardActivity.class);
@@ -117,9 +99,9 @@ public class GameCentreActivity extends AppCompatActivity implements  Navigation
     };
 
     private void setViewProfile(){
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
@@ -144,24 +126,24 @@ public class GameCentreActivity extends AppCompatActivity implements  Navigation
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-        if (id == R.id.nav_image)
+        if (id == R.id.nav_image){
             showImageChooseDialog();
-         else if (id == R.id.nav_intro)
+        } else if (id == R.id.nav_intro) {
             showEditProfileByDialog(id,"Editing Information" );
-        else if (id == R.id.nav_reset)
+        } else if (id == R.id.nav_reset) {
             showEditProfileByDialog(id, "Editing User Name");
-        else if (id == R.id.nav_password)
+        } else if (id == R.id.nav_password) {
             showEditProfileByDialog(id,"Editing Password" );
-        else if (id == R.id.nav_logout)
+        } else if (id == R.id.nav_logout) {
             switchToLogin();
+        }
         myHand.sendEmptyMessageDelayed(0, 1000);
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
     private void showEditProfileByDialog(int id, String profTitle){
-
         final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(GameCentreActivity.this);
         dialogBuilder.setTitle(profTitle);
         final int i = id;
@@ -172,9 +154,8 @@ public class GameCentreActivity extends AppCompatActivity implements  Navigation
                 new DialogInterface.OnClickListener(){
             @Override
                   public void onClick(DialogInterface dialogNeeded, int buttonId){
-                EditText update = (EditText)profView.findViewById(R.id.update);
+                EditText update = profView.findViewById(R.id.update);
                 mController.updateProfile( i, update.getText().toString());
-//                saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
             }
                 });
         dialogBuilder.setNegativeButton("Cancel",
@@ -197,7 +178,6 @@ public class GameCentreActivity extends AppCompatActivity implements  Navigation
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         mController.updateImage(R.drawable.paulorange1);
-//                        saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
                     }
                 });
         imageDialog.setNegativeButton("lindsey",
@@ -205,7 +185,6 @@ public class GameCentreActivity extends AppCompatActivity implements  Navigation
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         mController.updateImage(R.drawable.lindsey);
-//                        saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
                     }
                 });
         imageDialog.setPositiveButton("david", new DialogInterface.OnClickListener() {
@@ -219,7 +198,7 @@ public class GameCentreActivity extends AppCompatActivity implements  Navigation
 
     private void showProfile(){
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         View navHeader = navigationView.getHeaderView(0);
         TextView textUser = navHeader.findViewById(R.id.profileUser);
@@ -237,11 +216,9 @@ public class GameCentreActivity extends AppCompatActivity implements  Navigation
             textPlayTime.setText("Play Time in Total: " +
                     CurrentAccountController.getCurrAccount().getProfile().getDisplayTime());
         }
-
     }
 
     private void addSlidingTilesGameButtonListener() {
-
         ImageButton ButtonGame = findViewById(R.id.SlidingTileGame);
         ButtonGame.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -252,7 +229,6 @@ public class GameCentreActivity extends AppCompatActivity implements  Navigation
     }
 
     private void addMatchingCardsGameButtonListener() {
-
         ImageButton ButtonGame = findViewById(R.id.MatchingCardsGame);
         ButtonGame.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -263,7 +239,6 @@ public class GameCentreActivity extends AppCompatActivity implements  Navigation
     }
 
     private void addGame2048ButtonListener() {
-
         ImageButton ButtonGame = findViewById(R.id.Game2048);
         ButtonGame.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -275,19 +250,16 @@ public class GameCentreActivity extends AppCompatActivity implements  Navigation
 
     private void switchToSlidingTilesStartingAct() {
         Intent tmp = new Intent(this, SlidingTileStartingActivity.class);
-//        tmp.putExtra("userEmail", userEmail);
         startActivity(tmp);
     }
 
     private  void switchToMatchingCardsStartingAct(){
         Intent tmp = new Intent(this, MatchingCardStartActivity.class);
-//        tmp.putExtra("userEmail", userEmail);
         startActivity(tmp);
     }
 
     private void switchToGame2048StartingAct(){
         Intent tmp = new Intent(this, Game2048StartActivity.class);
-//        tmp.putExtra("userEmail", userEmail);
         startActivity(tmp);
     }
 
@@ -296,34 +268,4 @@ public class GameCentreActivity extends AppCompatActivity implements  Navigation
         Intent tmp = new Intent(this, LoginActivity.class);
         startActivity(tmp);
     }
-
-//    private void readFromSer(String fileName) {
-//        try {
-//            InputStream inputStream = this.openFileInput(fileName);
-//            if (inputStream != null) {
-//                ObjectInputStream in = new ObjectInputStream(inputStream);
-//                accountManager = (AccountManager) in.readObject();
-//                mController = new GameCentreController(accountManager, userEmail);
-//            }
-//            inputStream.close();
-//        } catch (FileNotFoundException e) {
-//            Log.e("GameCentre activity", "File not found: " + e.toString());
-//        } catch (IOException e) {
-//            Log.e("GameCentre activity", "Can not read file: " + e.toString());
-//        } catch (ClassNotFoundException e) {
-//            Log.e("GameCentre activity", "File contained unexpected data type: " + e.toString());
-//        }
-//    }
-//
-//    public void saveToFile(String fileName) {
-//        try {
-//            ObjectOutputStream outputStream = new ObjectOutputStream(
-//                    this.openFileOutput(fileName, MODE_PRIVATE));
-//            outputStream.writeObject(accountManager);
-//            outputStream.close();
-//        } catch (IOException e) {
-//            Log.e("Exception", "File write failed: " + e.toString());
-//        }
-//    }
-
 }

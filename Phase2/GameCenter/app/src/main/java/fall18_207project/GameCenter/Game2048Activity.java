@@ -24,10 +24,8 @@ public class Game2048Activity extends AppCompatActivity implements Observer, Gam
      * The board manager.
      */
     private Game2048 game2048;
-//    private AccountManager accountManager;
     private  GameManager gameManager;
     private String saveType;
-//    public static String userEmail = "";
 
     /**
      * The buttons to display.
@@ -46,7 +44,6 @@ public class Game2048Activity extends AppCompatActivity implements Observer, Gam
     Thread mThreadChrono;
     //Reference to the MainActivity (this class!)
     Context mContext;
-
 
     // Grid View and calculated column height and width based on device size
     private GestureDetectGridView gridView;
@@ -69,7 +66,6 @@ public class Game2048Activity extends AppCompatActivity implements Observer, Gam
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
         initial();
         createGameTileButtons(Game2048Activity.this);
         setContentView(R.layout.activity_game2048);
@@ -125,10 +121,8 @@ public class Game2048Activity extends AppCompatActivity implements Observer, Gam
                         int displayWidth = gridView.getMeasuredWidth();
                         int displayHeight = gridView.getMeasuredHeight();
 
-
                         columnWidth = displayWidth / game2048.getBoard().getNumOfColumns();
                         columnHeight = displayHeight / game2048.getBoard().getNumOfRows();
-
                         display();
                     }
                 });
@@ -171,9 +165,7 @@ public class Game2048Activity extends AppCompatActivity implements Observer, Gam
                 newGame2048.board = new Game2048Board(game2048.tiles, 4);
                 restart.putExtra("saveId", newGame2048.getSaveId());
                 restart.putExtra("saveType", "autoSave");
-//                readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
                 CurrentAccountController.getCurrAccount().getAutoSavedGames().addGame(newGame2048);
-//                saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
                 startActivity(restart);
             }
         });
@@ -188,11 +180,11 @@ public class Game2048Activity extends AppCompatActivity implements Observer, Gam
                 CurrentAccountController.getCurrAccount().getUserSavedGames().addGame(game2048);
                 CurrentAccountController.getCurrAccount().getProfile().updateTotalPlayTime(mChrono.getActualElapsedTime());
                 mChrono.updateSavedTime();
-//                saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
                 makeSavedMessage();
             }
         }));
     }
+
     private void makeSavedMessage() {
         Toast.makeText(this, "Game Saved", Toast.LENGTH_SHORT).show();
     }
@@ -237,7 +229,6 @@ public class Game2048Activity extends AppCompatActivity implements Observer, Gam
         super.onBackPressed();
         updateCurrAccount();
         Intent gotoStarting = new Intent(getApplicationContext(), Game2048StartActivity.class);
-//        saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
         startActivity(gotoStarting);
     }
 
@@ -252,7 +243,6 @@ public class Game2048Activity extends AppCompatActivity implements Observer, Gam
         CurrentAccountController.getCurrAccount().getAutoSavedGames().addGame(game2048);
         CurrentAccountController.getCurrAccount().getProfile().updateTotalPlayTime(mChrono.getActualElapsedTime());
         mChrono.updateSavedTime();
-//        saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
         updateCurrAccount();
     }
 
@@ -264,7 +254,6 @@ public class Game2048Activity extends AppCompatActivity implements Observer, Gam
         CurrentAccountController.getCurrAccount().getAutoSavedGames().addGame(game2048);
         CurrentAccountController.getCurrAccount().getProfile().updateTotalPlayTime(mChrono.getActualElapsedTime());
         mChrono.updateSavedTime();
-//        saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
         updateCurrAccount();
     }
 
@@ -276,66 +265,4 @@ public class Game2048Activity extends AppCompatActivity implements Observer, Gam
     public void update(Observable o, Object arg) {
         display();
     }
-
-//    /**
-//     * Load the board manager from fileName.
-//     *
-//     * @param fileName the name of the file
-//     */
-//    private void loadFromFile(String fileName) {
-//
-//        try {
-//            InputStream inputStream = this.openFileInput(fileName);
-//            if (inputStream != null) {
-//                ObjectInputStream input = new ObjectInputStream(inputStream);
-//                game2048 = (Game2048) input.readObject();
-//                if (game2048.getElapsedTime() != 0) {
-//                    mContext = this;
-//                }
-//                inputStream.close();
-//            }
-//        } catch (FileNotFoundException e) {
-//            Log.e("Game2048 activity", "File not found: " + e.toString());
-//        } catch (IOException e) {
-//            Log.e("Game2048 activity", "Can not read file: " + e.toString());
-//        } catch (ClassNotFoundException e) {
-//            Log.e("Game2048 activity", "File contained unexpected data type: " + e.toString());
-//        }
-//    }
-//
-//    private void readFromSer(String fileName) {
-//        try {
-//            InputStream inputStream = this.openFileInput(fileName);
-//            if (inputStream != null) {
-//                ObjectInputStream in = new ObjectInputStream(inputStream);
-//                accountManager = (AccountManager) in.readObject();
-//            }
-//            inputStream.close();
-//        } catch (FileNotFoundException e) {
-//            Log.e("Game2048 activity", "File not found: " + e.toString());
-//        } catch (IOException e) {
-//            Log.e("Game2048 activity", "Can not read file: " + e.toString());
-//        } catch (ClassNotFoundException e) {
-//            Log.e("Game2048 activity", "File contained unexpected data type: " + e.toString());
-//        }
-//    }
-//
-//    /**
-//     * Save the board manager to fileName.
-//     *
-//     * @param fileName the name of the file
-//     */
-//    public void saveToFile(String fileName) {
-//        try {
-//            ObjectOutputStream outputStream = new ObjectOutputStream(
-//                    this.openFileOutput(fileName, MODE_PRIVATE));
-//            outputStream.writeObject(accountManager);
-//            outputStream.close();
-//        } catch (IOException e) {
-//            Log.e("Exception", "File write failed: " + e.toString());
-//        }
-//    }
-//
-//
-
 }

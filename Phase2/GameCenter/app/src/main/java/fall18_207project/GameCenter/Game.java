@@ -82,8 +82,7 @@ public abstract class Game implements Serializable, GameFeature {
      */
     public String getTime(){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        String formatDateTime = this.date.format(formatter);
-        return formatDateTime;
+        return formatter.format(this.date);
     }
 
     /**

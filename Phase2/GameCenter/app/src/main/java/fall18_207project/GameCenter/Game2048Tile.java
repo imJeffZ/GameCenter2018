@@ -1,15 +1,11 @@
 package fall18_207project.GameCenter;
 
-import android.support.annotation.NonNull;
-
 public class Game2048Tile extends Tile {
-
 
     /**
      * The background id to find the tile image.
      */
     private int background;
-
     /**
      * The unique id.
      */
@@ -33,9 +29,6 @@ public class Game2048Tile extends Tile {
         return id;
     }
 
-
-
-
     /**
      * A tile with a background id; look up and set the id.
      *
@@ -46,25 +39,18 @@ public class Game2048Tile extends Tile {
         id = backgroundId + 1;
 
         switch (backgroundId + 1) {
-
             case 2:
                 background = R.drawable.tile_2_2048;
                 break;
-
-
             case 4:
                 background = R.drawable.tile_4_2048;
                 break;
-
             case 8:
                 background = R.drawable.tile_8_2048;
                 break;
-
             case 16:
                 background = R.drawable.tile_16_2048;
                 break;
-
-
             case 32:
                 background = R.drawable.tile_32_2048;
                 break;
@@ -90,6 +76,4 @@ public class Game2048Tile extends Tile {
                 background = R.drawable.tile_blank_2048;
         }
     }
-
-
 }

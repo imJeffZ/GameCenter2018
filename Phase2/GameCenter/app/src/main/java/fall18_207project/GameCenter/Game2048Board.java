@@ -11,19 +11,15 @@ public class Game2048Board extends Board implements Cloneable {
     /**
      * The number of rows.
      */
-    private int NUM_ROWS = 4;
-
+    private int NUM_ROWS;
     /**
      * The number of rows.
      */
-    private int NUM_COLS = 4;
-
-
+    private int NUM_COLS;
     /**
      * The tiles on the board in row-major order.
      */
     private Game2048Tile[][] tiles;
-
 
     /**
      * A new board of tiles in row-major order.
@@ -49,7 +45,6 @@ public class Game2048Board extends Board implements Cloneable {
     int getNUM_COLS() {
         return NUM_COLS;
     }
-
     int getNUM_ROWS() {
         return NUM_ROWS;
     }
@@ -71,12 +66,13 @@ public class Game2048Board extends Board implements Cloneable {
      * @return the tile at (row, col)
      */
     Game2048Tile getTile(int row, int col) {
-        return (Game2048Tile) tiles[row][col];
+        return tiles[row][col];
     }
 
     Tile[][] getTiles(){
         return this.tiles;
     }
+
     /**
      * Swap the tiles at (row1, col1) and (row2, col2)
      *
@@ -85,7 +81,6 @@ public class Game2048Board extends Board implements Cloneable {
      * @param row2 the second tile row
      * @param col2 the second tile col
      */
-
     void swapTiles(int row1, int col1, int row2, int col2) {
         Game2048Tile t1 = tiles[row1][col1];
         tiles[row1][col1] = tiles[row2][col2];
@@ -108,36 +103,6 @@ public class Game2048Board extends Board implements Cloneable {
                 " ]" + " }";
     }
 
-//    @NonNull
-//    @Override
-//    public Iterator<Game2048Tile> iterator() {
-//        return new BoardIterator();
-//    }
-//
-//    /**
-//     * The iterator class for Board's iterator.
-//     */
-//    private class BoardIterator implements Iterator<Game2048Tile> {
-//        /**
-//         * The position
-//         */
-//        private int position = 0;
-//
-//        @Override
-//        public boolean hasNext() {
-//            return position != NUM_ROWS * NUM_COLS;
-//        }
-//
-//        @Override
-//        public Game2048Tile next() {
-//            int row = position / NUM_ROWS;
-//            int col = position % NUM_COLS;
-//            Game2048Tile nextTile = tiles[row][col];
-//            position++;
-//            return nextTile;
-//        }
-//    }
-
     public Game2048Board clone() {
         try {
             super.clone();
@@ -150,9 +115,7 @@ public class Game2048Board extends Board implements Cloneable {
                 tiles.add(this.getTile(i, j));
             }
         }
-
         return new Game2048Board(tiles, this.getNUM_ROWS());
-
     }
 }
 

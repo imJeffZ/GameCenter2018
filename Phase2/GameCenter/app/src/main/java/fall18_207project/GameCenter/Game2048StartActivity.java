@@ -11,14 +11,11 @@ import android.widget.TextView;
 
 public class Game2048StartActivity extends AppCompatActivity implements
         MultiLoadStartActivity, GameStartingActivity{
-//    public static String userEmail = "";
-//    private AccountManager accountManager;
     private Game2048StartController mController = new Game2048StartController(Game2048StartActivity.this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
         setContentView(R.layout.activity_game2048_starting);
 
         addLoadGameButtonListener();
@@ -33,7 +30,6 @@ public class Game2048StartActivity extends AppCompatActivity implements
         account.setText(mController.setUserTextViewTest());
     }
 
-
     /**
      * Activate new 2048 game.
      */
@@ -42,7 +38,6 @@ public class Game2048StartActivity extends AppCompatActivity implements
         Button4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                readFromSer(LoginActivity.ACCOUNT_MANAGER_DATA);
                 switchToGame( mController.addGameInAcc(mController.createGame()).getSaveId());
             }
         });
@@ -72,7 +67,6 @@ public class Game2048StartActivity extends AppCompatActivity implements
                 switchToLogin();
             }
         });
-
     }
 
     private void addReturnToGameCenterListener() {
@@ -110,7 +104,6 @@ public class Game2048StartActivity extends AppCompatActivity implements
      * Switch to the Game2048Activity view to play the game.
      */
     public void switchToGame(String saveId) {
-//        saveToFile(LoginActivity.ACCOUNT_MANAGER_DATA);
         Intent tmp = new Intent(this, Game2048Activity.class);
         tmp.putExtra("saveId", saveId);
         tmp.putExtra("saveType", "autoSave");
@@ -123,7 +116,6 @@ public class Game2048StartActivity extends AppCompatActivity implements
     }
 
     public void switchToSaveGames(){
-
         Intent goToSavedGames = new Intent(getApplicationContext(), SavedGamesActivity.class);
         goToSavedGames.putExtra("saveType", "userSave");
         goToSavedGames.putExtra("gameType", "game2048");
@@ -131,18 +123,15 @@ public class Game2048StartActivity extends AppCompatActivity implements
     }
 
     public void switchToAutoSaveGames(){
-
         Intent goToSavedGames = new Intent(getApplicationContext(), SavedGamesActivity.class);
         goToSavedGames.putExtra("saveType", "autoSave");
         goToSavedGames.putExtra("gameType", "game2048");
         startActivity(goToSavedGames);
-
     }
 
     public void switchToLogin() {
         mController.userSignOut();
         Intent tmp = new Intent(this, LoginActivity.class);
-//        tmp.putExtra("userEmail", userEmail);
         startActivity(tmp);
     }
 
@@ -157,7 +146,6 @@ public class Game2048StartActivity extends AppCompatActivity implements
     protected void onPause() {
         super.onPause();
         updateCurrAccount();
-
     }
 
     @Override
@@ -169,38 +157,4 @@ public class Game2048StartActivity extends AppCompatActivity implements
     private void updateCurrAccount() {
         mController.updateCurrAccount();
     }
-
-//    private void readFromSer(String fileName) {
-//        try {
-//            InputStream inputStream = this.openFileInput(fileName);
-//            if (inputStream != null) {
-//                ObjectInputStream in = new ObjectInputStream(inputStream);
-//                accountManager = (AccountManager) in.readObject();
-//                mController = new Game2048StartController(accountManager, userEmail);
-//            }
-//            inputStream.close();
-//        } catch (FileNotFoundException e) {
-//            Log.e("Game2048Start activity", "File not found: " + e.toString());
-//        } catch (IOException e) {
-//            Log.e("Game2048Start activity", "Can not read file: " + e.toString());
-//        } catch (ClassNotFoundException e) {
-//            Log.e("Game2048Start activity", "File contained unexpected data type: " + e.toString());
-//        }
-//    }
-//
-//    /**
-//     * Save the accountmanager to fileName.
-//     *
-//     * @param fileName the name of the file
-//     */
-//    public void saveToFile(String fileName) {
-//        try {
-//            ObjectOutputStream outputStream = new ObjectOutputStream(
-//                    this.openFileOutput(fileName, MODE_PRIVATE));
-//            outputStream.writeObject(accountManager);
-//            outputStream.close();
-//        } catch (IOException e) {
-//            Log.e("Exception", "File write failed: " + e.toString());
-//        }
-//    }
 }
