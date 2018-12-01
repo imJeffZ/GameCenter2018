@@ -22,16 +22,19 @@ public class SavedGamesController {
             }
 
             ArrayList<Game> allGameList = gameManager.getAllGameList();
-            for(Game game : allGameList){
                 if("slidingTiles".equals(gameType)){
-                    gameList.add(game);
+                    for(Game game : allGameList)
+                        if(game.getGameId()<=3)
+                            gameList.add(game);
                 } else if("matchingCards".equals(gameType)){
-                    gameList.add(game);
+                    for(Game game : allGameList)
+                        if(game.getGameId()>3 | game.getGameId()<=6)
+                            gameList.add(game);
                 } else if ("game2048".equals(gameType)){
-                    gameList.add(game);
+                    for(Game game : allGameList)
+                        if(game.getGameId()==7)
+                            gameList.add(game);
                 }
-            }
-
             Collections.reverse(gameList);
             for (Game g: gameList) {
                 Map<String, Object> map = new HashMap<>();
