@@ -28,7 +28,7 @@ public class SlidingTileBoard extends Board {
      * @param tiles the tiles for the board
      */
     public SlidingTileBoard(List<SlidingTilesTile> tiles, int size) {
-        super( tiles, size);
+        super(tiles, size);
         this.NUM_COLS = size;
         this.NUM_ROWS = size;
         this.tiles = new SlidingTilesTile[size][size];

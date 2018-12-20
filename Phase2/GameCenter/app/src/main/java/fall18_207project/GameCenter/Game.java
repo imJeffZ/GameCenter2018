@@ -11,7 +11,7 @@ import java.util.UUID;
  */
 public abstract class Game implements Serializable, GameFeature {
 
-
+    // TODO: Make Game cloneable
     /***
      *  Represents different game. 3x3 slidingTiles has different gameId than 4x4 slidingTile.
      */
