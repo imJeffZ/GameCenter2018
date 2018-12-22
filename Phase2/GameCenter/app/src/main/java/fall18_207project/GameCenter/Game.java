@@ -46,13 +46,6 @@ public abstract class Game implements Serializable, GameFeature {
         return countMove;
     }
 
-    /**
-     * reset CountMove to be 0
-     */
-    void resetCountMove() {
-        this.countMove = 0;
-    }
-
     public int getGameId() {
         return this.gameId;
     }
@@ -61,29 +54,8 @@ public abstract class Game implements Serializable, GameFeature {
         return this.saveId;
     }
 
-    abstract Game reset();
-
-    abstract int calculateScore();
-
-    void updateElapsedTime(long newElapsedTime) {
-        elapsedTime = newElapsedTime;
-        endTime = newElapsedTime;
-    }
-
-    void resetElapsedTime() {
-        elapsedTime = 0;
-    }
-
     public long getElapsedTime() {
         return elapsedTime;
-    }
-
-    /**
-     * @return a string that represents current game
-     */
-    @Override
-    public String toString() {
-        return "Generic Game";
     }
 
     /**
@@ -96,16 +68,18 @@ public abstract class Game implements Serializable, GameFeature {
         return formatter.format(this.beginTime);
     }
 
-    /**
-     * check if 2 games are the same game and if its same game by checking saveID.
-     *
-     * @param obj
-     * @return whether 2 games are the same game
-     */
-    @Override
-    public boolean equals(Object obj) {
-        return obj instanceof Game && ((Game) obj).saveId.equals(this.saveId);
+    abstract Game reset();
+    void resetElapsedTime() {
+        elapsedTime = 0;
     }
+    /**
+     * reset CountMove to be 0
+     */
+    void resetCountMove() {
+        this.countMove = 0;
+    }
+
+    abstract int calculateScore();
 
     /**
      * check if one position/move is valid
@@ -129,5 +103,29 @@ public abstract class Game implements Serializable, GameFeature {
      */
     public boolean hasValidMove() {
         return false;
+    }
+
+    void updateElapsedTime(long newElapsedTime) {
+        elapsedTime = newElapsedTime;
+        endTime = newElapsedTime;
+    }
+
+    /**
+     * @return a string that represents current game
+     */
+    @Override
+    public String toString() {
+        return "Generic Game";
+    }
+
+    /**
+     * check if 2 games are the same game and if its same game by checking saveID.
+     *
+     * @param obj
+     * @return whether 2 games are the same game
+     */
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof Game && ((Game) obj).saveId.equals(this.saveId);
     }
 }
