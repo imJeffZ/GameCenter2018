@@ -123,16 +123,16 @@ class SlidingTiles extends Game implements Cloneable, GameFeature {
         Tile right = col == board.getNumOfColumns() - 1 ? null : board.getTile(row, col + 1);
         if (checkBlankTile(below, blankId)) {
             board.swapTiles(row, col, row + 1, col);
-            saveMove.push(position + board.getNumOfRows());
+            savedMove.push(position + board.getNumOfRows());
         } else if (checkBlankTile(above, blankId)) {
             board.swapTiles(row, col, row - 1, col);
-            saveMove.push(position - board.getNumOfRows());
+            savedMove.push(position - board.getNumOfRows());
         } else if (checkBlankTile(left, blankId)) {
             board.swapTiles(row, col, row, col - 1);
-            saveMove.push(position - 1);
+            savedMove.push(position - 1);
         } else if (checkBlankTile(right, blankId)) {
             board.swapTiles(row, col, row, col + 1);
-            saveMove.push(position + 1);
+            savedMove.push(position + 1);
         }
     }
 
@@ -141,10 +141,10 @@ class SlidingTiles extends Game implements Cloneable, GameFeature {
      * board get back to start of the game.
      */
     public boolean undo() {
-        if (!saveMove.isEmpty()) {
-            int position = saveMove.pop();
+        if (!savedMove.isEmpty()) {
+            int position = savedMove.pop();
             touchMove(position);
-            saveMove.pop();
+            savedMove.pop();
             return true;
         }
         return false;

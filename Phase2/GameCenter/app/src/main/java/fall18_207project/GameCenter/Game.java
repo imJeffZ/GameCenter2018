@@ -22,7 +22,7 @@ public abstract class Game implements Serializable, GameFeature {
      */
     protected final String saveId;
     protected int countMove;
-    protected Stack<Integer> saveMove;
+    protected Stack<Integer> savedMove;
     /***
      * Record how long the timer has run for the game
      */
@@ -31,15 +31,15 @@ public abstract class Game implements Serializable, GameFeature {
      *  Record how long the game takes to finish
      */
     protected long endTime;
-    protected LocalDateTime date;
+    protected LocalDateTime beginTime;
 
     Game() {
         this.countMove = 0;
         this.elapsedTime = 0;
-        this.saveMove = new Stack<>();
+        this.savedMove = new Stack<>();
         // Creates a universal unique id
         this.saveId = UUID.randomUUID().toString();
-        this.date = LocalDateTime.now();
+        this.beginTime = LocalDateTime.now();
     }
 
     int getCountMove() {
@@ -87,13 +87,13 @@ public abstract class Game implements Serializable, GameFeature {
     }
 
     /**
-     * convert the date to standard format and return it.
+     * convert the beginTime to standard format and return it.
      *
      * @return return created time in standard format.
      */
     public String getTime() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        return formatter.format(this.date);
+        return formatter.format(this.beginTime);
     }
 
     /**
