@@ -83,13 +83,7 @@ public abstract class Game implements Serializable, GameFeature, GameTimer {
 
     abstract Game reset();
 
-
-    /**
-     * reset CountMove to be 0
-     */
-    void resetCountMove() {
-        this.countMove = 0;
-    }
+    abstract boolean isSolved();
 
     abstract int calculateScore();
 
@@ -108,6 +102,13 @@ public abstract class Game implements Serializable, GameFeature, GameTimer {
      */
     public boolean hasValidMove() {
         return false;
+    }
+
+    /**
+     * reset CountMove to be 0
+     */
+    void resetCountMove() {
+        this.countMove = 0;
     }
 
     /**
