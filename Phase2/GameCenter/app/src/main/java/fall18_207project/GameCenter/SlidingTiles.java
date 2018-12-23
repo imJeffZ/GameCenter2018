@@ -9,7 +9,7 @@ import java.util.Random;
 /**
  * Manage a board, including swapping tiles, checking for a win, and managing taps.
  */
-class SlidingTiles extends Game implements Cloneable, GameFeature {
+class SlidingTiles extends Game {
 
     /**
      * Manage a new shuffled board.

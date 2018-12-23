@@ -9,7 +9,7 @@ import java.util.UUID;
 /**
  * A Generic BoardGame class.
  */
-public abstract class Game implements Serializable, GameFeature {
+public abstract class Game implements Serializable, GameFeature, GameTimer {
 
     // TODO: Make Game cloneable
     /***
@@ -64,17 +64,20 @@ public abstract class Game implements Serializable, GameFeature {
      *
      * @return return created time in standard format.
      */
+    @Override
     public String getBeginTime() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         return formatter.format(this.beginTime);
     }
 
-    void updateElapsedTime(long newElapsedTime) {
+    @Override
+    public void updateElapsedTime(long newElapsedTime) {
         elapsedTime = newElapsedTime;
         endTime = newElapsedTime;
     }
 
-    void resetElapsedTime() {
+    @Override
+    public void resetElapsedTime() {
         elapsedTime = 0;
     }
 

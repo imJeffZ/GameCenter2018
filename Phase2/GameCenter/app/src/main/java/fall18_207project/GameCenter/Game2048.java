@@ -9,7 +9,7 @@ import java.util.Stack;
 /**
  * The 2048 Game
  */
-public class Game2048 extends Game implements GameFeature, Cloneable {
+public class Game2048 extends Game {
     /**
      * The direction of the swipe is left
      */

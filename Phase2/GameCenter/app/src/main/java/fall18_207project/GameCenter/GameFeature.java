@@ -7,6 +7,4 @@ public interface GameFeature {
     boolean isValidTap(int position);
 
     void touchMove(int position);
-
-    long getElapsedTime();
 }
