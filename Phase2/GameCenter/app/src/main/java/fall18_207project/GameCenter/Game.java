@@ -23,6 +23,8 @@ public abstract class Game implements Serializable, GameFeature {
     protected final String saveId;
     protected int countMove;
     protected Stack<Integer> savedMove;
+
+    protected LocalDateTime beginTime;
     /***
      * Record how long the timer has run for the game
      */
@@ -31,19 +33,14 @@ public abstract class Game implements Serializable, GameFeature {
      *  Record how long the game takes to finish
      */
     protected long endTime;
-    protected LocalDateTime beginTime;
 
     Game() {
-        this.countMove = 0;
-        this.elapsedTime = 0;
-        this.savedMove = new Stack<>();
         // Creates a universal unique id
         this.saveId = UUID.randomUUID().toString();
+        this.countMove = 0;
+        this.savedMove = new Stack<>();
         this.beginTime = LocalDateTime.now();
-    }
-
-    int getCountMove() {
-        return countMove;
+        this.elapsedTime = 0;
     }
 
     public int getGameId() {
@@ -52,6 +49,10 @@ public abstract class Game implements Serializable, GameFeature {
 
     public String getSaveId() {
         return this.saveId;
+    }
+
+    int getCountMove() {
+        return countMove;
     }
 
     public long getElapsedTime() {
@@ -68,10 +69,18 @@ public abstract class Game implements Serializable, GameFeature {
         return formatter.format(this.beginTime);
     }
 
-    abstract Game reset();
+    void updateElapsedTime(long newElapsedTime) {
+        elapsedTime = newElapsedTime;
+        endTime = newElapsedTime;
+    }
+
     void resetElapsedTime() {
         elapsedTime = 0;
     }
+
+    abstract Game reset();
+
+
     /**
      * reset CountMove to be 0
      */
@@ -90,13 +99,6 @@ public abstract class Game implements Serializable, GameFeature {
     public abstract boolean isValidTap(int position);
 
     /**
-     * change current state based on the position input
-     *
-     * @param position
-     */
-    public abstract void touchMove(int position);
-
-    /**
      * check if this game still has other valid moves
      *
      * @return if there are more valid moves
@@ -105,10 +107,12 @@ public abstract class Game implements Serializable, GameFeature {
         return false;
     }
 
-    void updateElapsedTime(long newElapsedTime) {
-        elapsedTime = newElapsedTime;
-        endTime = newElapsedTime;
-    }
+    /**
+     * change current state based on the position input
+     *
+     * @param position
+     */
+    public abstract void touchMove(int position);
 
     /**
      * @return a string that represents current game
