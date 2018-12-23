@@ -38,11 +38,11 @@ public class Board extends Observable implements Cloneable, Serializable, Iterab
         this.numOfRows = size;
 
         this.tiles = new Tile[size][size];
-        Iterator<?> iter = tiles.iterator();
+        Iterator<?> tileIterator = tiles.iterator();
 
         for (int row = 0; row != this.getNumOfColumns(); row++) {
             for (int col = 0; col != this.getNumOfColumns(); col++) {
-                this.tiles[row][col] = (Tile) iter.next();
+                this.tiles[row][col] = (Tile) tileIterator.next();
             }
         }
     }
