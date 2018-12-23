@@ -1,7 +1,5 @@
 package fall18_207project.GameCenter;
 
-import android.content.Context;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -35,7 +33,7 @@ public class SavedGamesController {
             for (Game g: gameList) {
                 Map<String, Object> map = new HashMap<>();
                 map.put("gameId", g.gameId);
-                map.put("saveId", g.getTime());
+                map.put("saveId", g.getBeginTime());
                 list.add(map);
             }
         }
