@@ -9,7 +9,7 @@ import java.util.UUID;
 /**
  * A Generic BoardGame class.
  */
-public abstract class Game implements Serializable, GameFeature, GameTimer {
+public abstract class Game implements Serializable, GameController, GameTimer {
 
     // TODO: Make Game cloneable
     /***
@@ -55,19 +55,15 @@ public abstract class Game implements Serializable, GameFeature, GameTimer {
         return countMove;
     }
 
-    public long getElapsedTime() {
-        return elapsedTime;
+    /**
+     * reset CountMove to be 0
+     */
+    void resetCountMove() {
+        this.countMove = 0;
     }
 
-    /**
-     * convert the beginTime to standard format and return it.
-     *
-     * @return return created time in standard format.
-     */
-    @Override
-    public String getBeginTime() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        return formatter.format(this.beginTime);
+    public long getElapsedTime() {
+        return elapsedTime;
     }
 
     @Override
@@ -81,11 +77,22 @@ public abstract class Game implements Serializable, GameFeature, GameTimer {
         elapsedTime = 0;
     }
 
-    abstract Game reset();
+    /**
+     * convert the beginTime to standard format and return it.
+     *
+     * @return return created time in standard format.
+     */
+    @Override
+    public String getBeginTime() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        return formatter.format(this.beginTime);
+    }
 
-    abstract boolean isSolved();
+    public abstract Game reset();
 
-    abstract int calculateScore();
+    public abstract boolean isSolved();
+
+    public abstract int calculateScore();
 
     /**
      * check if one position/move is valid
@@ -100,15 +107,9 @@ public abstract class Game implements Serializable, GameFeature, GameTimer {
      *
      * @return if there are more valid moves
      */
+    @Override
     public boolean hasValidMove() {
         return false;
-    }
-
-    /**
-     * reset CountMove to be 0
-     */
-    void resetCountMove() {
-        this.countMove = 0;
     }
 
     /**
