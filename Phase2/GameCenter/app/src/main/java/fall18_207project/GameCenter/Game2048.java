@@ -82,7 +82,7 @@ public class Game2048 extends Game {
      * @return a new game with brand new board
      */
     @Override
-    Game2048 reset() {
+    public Game2048 reset() {
         return new Game2048();
     }
 
@@ -124,7 +124,7 @@ public class Game2048 extends Game {
      * @return the score under some certain algorithm
      */
     @Override
-    int calculateScore() {
+    public int calculateScore() {
         if (!hasValidMove()) {
             return 0;
         } else {

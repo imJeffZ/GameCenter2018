@@ -80,7 +80,7 @@ class SlidingTiles extends Game {
     }
 
     @Override
-    SlidingTiles reset() {
+    public SlidingTiles reset() {
         return new SlidingTiles(this.getBoard().getNumOfRows());
     }
 
