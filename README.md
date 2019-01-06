@@ -99,11 +99,11 @@ This is an android application that allows an registered user to play three inte
 
   + On the main window of Android Studio, click on the green triangular button.
 
-    ![run_button](https://raw.githubusercontent.com/imJeffZ/GameCenter2018Public/master/readme_resources\run_button.png)
+    ![run_button](https://raw.githubusercontent.com/imJeffZ/GameCenter2018Public/master/readme_resources/setup_screenshots/run_button.png)
 
   + Select `Pixel 2 API 27`. Click `OK`.
 
-    ![select_run_device](https://raw.githubusercontent.com/imJeffZ/GameCenter2018Public/master/readme_resources\select_run_device.png)
+    ![select_run_device](https://raw.githubusercontent.com/imJeffZ/GameCenter2018Public/master/readme_resources/setup_screenshots/select_run_device.png)
 
   + The virtual Pixel 2 device would be running. Wait until the application is successfully built.
 
@@ -111,7 +111,7 @@ This is an android application that allows an registered user to play three inte
 
   + When finished, the login screen of the application would open up in the virtual device.
 
-    ![login_screen](https://raw.githubusercontent.com/imJeffZ/GameCenter2018Public/master/readme_resources\login_screen.png)
+    ![login_screen](https://raw.githubusercontent.com/imJeffZ/GameCenter2018Public/master/readme_resources/application_screenshots/login.png)
 
   + Proceed to the next section **Brief Walkthrough**.
 
