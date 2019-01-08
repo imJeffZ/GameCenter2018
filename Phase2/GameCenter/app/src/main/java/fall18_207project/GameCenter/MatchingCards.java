@@ -53,7 +53,7 @@ public class MatchingCards extends Game implements Cloneable, Serializable {
     }
 
     @Override
-    MatchingCards reset() {
+    public MatchingCards reset() {
         return new MatchingCards(this.matchingBoard.getNumOfRows());
     }
 
@@ -65,6 +65,7 @@ public class MatchingCards extends Game implements Cloneable, Serializable {
         }
         return returnCard;
     }
+
     @Override
     public boolean isSolved() {
         return matchBomb || !(this.hasValidMove());
@@ -105,16 +106,16 @@ public class MatchingCards extends Game implements Cloneable, Serializable {
             matchingBoard.turnCard(row, col, true);
             matchingBoard.useCards(row, col, row1, col1);
             prePos = -1;
-            saveMove.push(position);
+            savedMove.push(position);
         } else {
             if (this.prePos == -1) {
                 matchingBoard.turnCard(row, col, true);
                 prePos = position;
-                saveMove.push(position);
+                savedMove.push(position);
             } else {
                 matchingBoard.turnCard(row1, col1, false);
                 prePos = -1;
-                saveMove.pop();
+                savedMove.pop();
             }
         }
     }

@@ -1,12 +1,12 @@
 package fall18_207project.GameCenter;
 
-public interface GameFeature {
-
-    boolean isSolved();
+public interface GameController {
 
     boolean isValidTap(int position);
 
     void touchMove(int position);
 
-    long getElapsedTime();
+    boolean hasValidMove();
+
+    boolean isSolved();
 }

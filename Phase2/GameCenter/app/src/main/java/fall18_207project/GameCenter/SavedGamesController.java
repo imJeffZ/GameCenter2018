@@ -1,7 +1,5 @@
 package fall18_207project.GameCenter;
 
-import android.content.Context;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -21,25 +19,21 @@ public class SavedGamesController {
                 gameManager = currAccount.getUserSavedGames();
             }
 
-            ArrayList<Game> allGameList = gameManager.getAllGameList();
                 if("slidingTiles".equals(gameType)){
-                    for(Game game : allGameList)
-                        if(game.getGameId()<=3)
-                            gameList.add(game);
+                    for(int i = 1; i <= 3; i++)
+                        gameList.addAll(gameManager.getSavedGames(i));
                 } else if("matchingCards".equals(gameType)){
-                    for(Game game : allGameList)
-                        if(game.getGameId()>3 | game.getGameId()<=6)
-                            gameList.add(game);
+                    for(int i = 4; i <= 6; i++)
+                        gameList.addAll(gameManager.getSavedGames(i));
                 } else if ("game2048".equals(gameType)){
-                    for(Game game : allGameList)
-                        if(game.getGameId()==7)
-                            gameList.add(game);
+                        gameList.addAll(gameManager.getSavedGames(7));
                 }
+
             Collections.reverse(gameList);
             for (Game g: gameList) {
                 Map<String, Object> map = new HashMap<>();
                 map.put("gameId", g.gameId);
-                map.put("saveId", g.getTime());
+                map.put("saveId", g.getBeginTime());
                 list.add(map);
             }
         }
