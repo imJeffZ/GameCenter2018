@@ -29,35 +29,35 @@ This is an android application that allows an registered user to play three inte
 
   + Open Android Studio, select `Check out project from Version Control -> Git`.
 
-    ![android_studio_start](https://raw.githubusercontent.com/imJeffZ/GameCenter2018Public/master/readme_resources/setup_screenshots/android_studio_start.png)
+    ![android_studio_start](https://raw.githubusercontent.com/imJeffZ/GameCenter2018/master/readme_resources/setup_screenshots/android_studio_start.png)
 
-  + Type https://github.com/imJeffZ/GameCenter2018Public in the `URL` box. Then click `Clone`.
+  + Type https://github.com/imJeffZ/GameCenter2018 in the `URL` box. Then click `Clone`.
 
-    ![git_clone](https://raw.githubusercontent.com/imJeffZ/GameCenter2018Public/master/readme_resources/setup_screenshots/git_clone.png)
+    ![git_clone](https://raw.githubusercontent.com/imJeffZ/GameCenter2018/master/readme_resources/setup_screenshots/git_clone.png)
 
   + A prompt to create new project would be shown, select `yes`.
 
-    ![create_new_project](https://raw.githubusercontent.com/imJeffZ/GameCenter2018Public/master/readme_resources/setup_screenshots/create_new_project.png)
+    ![create_new_project](https://raw.githubusercontent.com/imJeffZ/GameCenter2018/master/readme_resources/setup_screenshots/create_new_project.png)
 
   + Select `Import project from external model`, then select `Gradle`.
 
     Click `Next`.
 
-    ![import_gradle](https://raw.githubusercontent.com/imJeffZ/GameCenter2018Public/master/readme_resources/setup_screenshots/import_gradle.png)
+    ![import_gradle](https://raw.githubusercontent.com/imJeffZ/GameCenter2018/master/readme_resources/setup_screenshots/import_gradle.png)
 
   + On the next page, select `···` next to the `Gradle Project` box.
 
-    ![gradle_setup_1](https://raw.githubusercontent.com/imJeffZ/GameCenter2018Public/master/readme_resources/setup_screenshots/gradle_setup_1.png)
+    ![gradle_setup_1](https://raw.githubusercontent.com/imJeffZ/GameCenter2018/master/readme_resources/setup_screenshots/gradle_setup_1.png)
 
-  + Select `GameCenter2018Public -> Phase2 -> GameCenter/` to open the cloned application.
+  + Select `GameCenter2018 -> Phase2 -> GameCenter/` to open the cloned application.
 
     Then click `OK`.
 
-    ![gradle_location](https://raw.githubusercontent.com/imJeffZ/GameCenter2018Public/master/readme_resources/setup_screenshots/gradle_location.png)
+    ![gradle_location](https://raw.githubusercontent.com/imJeffZ/GameCenter2018/master/readme_resources/setup_screenshots/gradle_location.png)
 
   + Click `Finish`.
 
-    ![gradle_finish](C:\Users\46138\Documents\GitHub\GameCenter2018Public\readme_resources/setup_screenshots/gradle_finish.png)
+    ![gradle_finish](C:\Users\46138\Documents\GitHub\GameCenter2018\readme_resources/setup_screenshots/gradle_finish.png)
 
 + Step 3: Configure Android Studio.
 
@@ -67,17 +67,17 @@ This is an android application that allows an registered user to play three inte
 
     If prompt to upgrade Gradle, select `Don't remind me again for this project`.
 
-    ![android_studio_prompt_gradle](https://raw.githubusercontent.com/imJeffZ/GameCenter2018Public/master/readme_resources/setup_screenshots/android_studio_prompt_gradle.png)
+    ![android_studio_prompt_gradle](https://raw.githubusercontent.com/imJeffZ/GameCenter2018/master/readme_resources/setup_screenshots/android_studio_prompt_gradle.png)
 
   + Download the required Android 8.1 (Oreo) API level 27.
 
     On the top navigation panel, select `Tools -> SDK Manager`.
 
-    ![android_studio_tools](https://raw.githubusercontent.com/imJeffZ/GameCenter2018Public/master/readme_resources/setup_screenshots/android_studio_tools.png)
+    ![android_studio_tools](https://raw.githubusercontent.com/imJeffZ/GameCenter2018/master/readme_resources/setup_screenshots/android_studio_tools.png)
 
   + Select `Android 8.1 (Oreo)` . Click `OK`.
 
-    ![android_sdk](https://raw.githubusercontent.com/imJeffZ/GameCenter2018Public/master/readme_resources/setup_screenshots/android_sdk.png)
+    ![android_sdk](https://raw.githubusercontent.com/imJeffZ/GameCenter2018/master/readme_resources/setup_screenshots/android_sdk.png)
 
   + When the installation is complete, click `Finish`.
 
@@ -85,13 +85,13 @@ This is an android application that allows an registered user to play three inte
 
   + On the navigation panel, select `Tools -> AVD Manager`.
 
-    ![android_studio_tools](https://raw.githubusercontent.com/imJeffZ/GameCenter2018Public/master/readme_resources/setup_screenshots/android_studio_tools.png)
+    ![android_studio_tools](https://raw.githubusercontent.com/imJeffZ/GameCenter2018/master/readme_resources/setup_screenshots/android_studio_tools.png)
 
   + Click `Create New Virtual Device`.
 
   + Select `Pixel 2`. Click `Next`.
 
-    ![select_pixel2](https://raw.githubusercontent.com/imJeffZ/GameCenter2018Public/master/readme_resources/setup_screenshots/select_pixel2.png)
+    ![select_pixel2](https://raw.githubusercontent.com/imJeffZ/GameCenter2018/master/readme_resources/setup_screenshots/select_pixel2.png)
 
   + Select `Oreo`. Click `Next`. Click `Finish`.
 
@@ -99,11 +99,11 @@ This is an android application that allows an registered user to play three inte
 
   + On the main window of Android Studio, click on the green triangular button.
 
-    ![run_button](https://raw.githubusercontent.com/imJeffZ/GameCenter2018Public/master/readme_resources/setup_screenshots/run_button.png)
+    ![run_button](https://raw.githubusercontent.com/imJeffZ/GameCenter2018/master/readme_resources/setup_screenshots/run_button.png)
 
   + Select `Pixel 2 API 27`. Click `OK`.
 
-    ![select_run_device](https://raw.githubusercontent.com/imJeffZ/GameCenter2018Public/master/readme_resources/setup_screenshots/select_run_device.png)
+    ![select_run_device](https://raw.githubusercontent.com/imJeffZ/GameCenter2018/master/readme_resources/setup_screenshots/select_run_device.png)
 
   + The virtual Pixel 2 device would be running. Wait until the application is successfully built.
 
@@ -111,9 +111,10 @@ This is an android application that allows an registered user to play three inte
 
   + When finished, the login screen of the application would open up in the virtual device.
 
-    ![login_screen](https://raw.githubusercontent.com/imJeffZ/GameCenter2018Public/master/readme_resources/application_screenshots/login.png)
+    ![login_screen](https://raw.githubusercontent.com/imJeffZ/GameCenter2018/master/readme_resources/application_screenshots/login.png)
 
-  + Proceed to the next section **Brief Walkthrough**.
+    
+
 
 #### Brief Walkthrough
 
@@ -122,34 +123,34 @@ First, sign up with a username and password to get an account.
 
 **There are several restrictions here:**
 
-+ None of the email, username, and password can be empty.
++ None of email, username, or password can be empty.
 + Email must be properly formatted in the form akin to abc123@mail.com, such limitation exist because we are utilizing FireBase to store registration information. 
 
 *If this is your first time signing up for this application, there might be a prompt for you to update Google Play Service. Please click on the prompt and proceed to update Google Play Service. **Our application requires updated Google Play Service to run**. Please re-run the application after Google Play Service has been updated.*
 
-![registration](https://raw.githubusercontent.com/imJeffZ/GameCenter2018Public/master/readme_resources/application_screenshots/registration.png)
+![registration](https://raw.githubusercontent.com/imJeffZ/GameCenter2018/master/readme_resources/application_screenshots/registration.png)
 
 ##### Login
 
 After registration, you will be redirected back to login screen, login with your account credentials to proceed.
-![login](https://raw.githubusercontent.com/imJeffZ/GameCenter2018Public/master/readme_resources/application_screenshots/login.png)
+![login](https://raw.githubusercontent.com/imJeffZ/GameCenter2018/master/readme_resources/application_screenshots/login.png)
 
 ##### Game Center
 Once you logged in, you will be redirected to the Game Center of games.
 
 You can view your profile or select one of the three games to play.
 
-![gamecenter](https://raw.githubusercontent.com/imJeffZ/GameCenter2018Public/master/readme_resources/application_screenshots/gamecenter.png)
+![gamecenter](https://raw.githubusercontent.com/imJeffZ/GameCenter2018/master/readme_resources/application_screenshots/gamecenter.png)
 
 ###### Profile 
 
-![profile](https://raw.githubusercontent.com/imJeffZ/GameCenter2018Public/master/readme_resources/application_screenshots/profile.png)
+![profile](https://raw.githubusercontent.com/imJeffZ/GameCenter2018/master/readme_resources/application_screenshots/profile.png)
 
 ##### Start Game
 
 We would take *SlidingTiles* in the *Game Center* as an example.
 
-![slidingtiles_start](https://raw.githubusercontent.com/imJeffZ/GameCenter2018Public/master/readme_resources/application_screenshots/slidingtiles_start.png)
+![slidingtiles_start](https://raw.githubusercontent.com/imJeffZ/GameCenter2018/master/readme_resources/application_screenshots/slidingtiles_start.png)
 
 + To play the game:
 
@@ -157,7 +158,7 @@ We would take *SlidingTiles* in the *Game Center* as an example.
   We have 3 complexities to choose from: *3x3*, *4x4*, *5x5*.
   Select anyone of them.
 
-  ![st_complexity](https://raw.githubusercontent.com/imJeffZ/GameCenter2018Public/master/readme_resources/application_screenshots/st_complexity.png)
+  ![st_complexity](https://raw.githubusercontent.com/imJeffZ/GameCenter2018/master/readme_resources/application_screenshots/st_complexity.png)
 
 + To view saved games:
 
@@ -175,7 +176,7 @@ The timer tells time elapsed in the game, and the `STEPS` shows how many steps y
 
 *There is an `SAVE` button, for which would be discussed later.*
 
-![st_game](https://raw.githubusercontent.com/imJeffZ/GameCenter2018Public/master/readme_resources/application_screenshots/st_game.png)
+![st_game](https://raw.githubusercontent.com/imJeffZ/GameCenter2018/master/readme_resources/application_screenshots/st_game.png)
 
 The winning condition is to arrange all tiles with increasing order.
 E.g. The winning condition for *3x3 SlidingTiles* would be to have the tiles arranged like the following:
@@ -189,11 +190,11 @@ E.g. The winning condition for *3x3 SlidingTiles* would be to have the tiles arr
 ##### Finishing Game
 Once you have win/lose a game, a message box would pop out to notify you. Follow the prompt to proceed to the *Score Page*.
 
-![gamefinish](https://raw.githubusercontent.com/imJeffZ/GameCenter2018Public/master/readme_resources/application_screenshots/gamefinish.png)
+![gamefinish](https://raw.githubusercontent.com/imJeffZ/GameCenter2018/master/readme_resources/application_screenshots/gamefinish.png)
 
 In the score page, you will be shown a score calculated based on two factors: **how many moves you've taken** and **how much time you spend**.
 
-![gamescore](https://raw.githubusercontent.com/imJeffZ/GameCenter2018Public/master/readme_resources/application_screenshots/gamescore.png)
+![gamescore](https://raw.githubusercontent.com/imJeffZ/GameCenter2018/master/readme_resources/application_screenshots/gamescore.png)
 
 Click anywhere to go back to game center.
 
@@ -201,19 +202,19 @@ Click anywhere to go back to game center.
 
 You can view your personal scoreboard in *User History*, for which can be accessed through the bottom navigation panel.
 
-![userhistory_button](https://raw.githubusercontent.com/imJeffZ/GameCenter2018Public/master/readme_resources/application_screenshots/userhistory_button.png)
+![userhistory_button](https://raw.githubusercontent.com/imJeffZ/GameCenter2018/master/readme_resources/application_screenshots/userhistory_button.png)
 
 Select the type of game that you want to see completed games from.
 
-![userhistory_drawer](https://raw.githubusercontent.com/imJeffZ/GameCenter2018Public/master/readme_resources/application_screenshots/userhistory_drawer.png)
+![userhistory_drawer](https://raw.githubusercontent.com/imJeffZ/GameCenter2018/master/readme_resources/application_screenshots/userhistory_drawer.png)
 
 
 
-![userhistory_dropdown](https://raw.githubusercontent.com/imJeffZ/GameCenter2018Public/master/readme_resources/application_screenshots/userhistory_dropdown.png)
+![userhistory_dropdown](https://raw.githubusercontent.com/imJeffZ/GameCenter2018/master/readme_resources/application_screenshots/userhistory_dropdown.png)
 
 
 
-![userhistory_record](https://raw.githubusercontent.com/imJeffZ/GameCenter2018Public/master/readme_resources/application_screenshots/userhistory_record.png)
+![userhistory_record](https://raw.githubusercontent.com/imJeffZ/GameCenter2018/master/readme_resources/application_screenshots/userhistory_record.png)
 
 **You can select one of the record to replay the completed game.**
 
@@ -221,21 +222,21 @@ After the completed game is relaunched, you can actually use the undo button to 
 
 Also, you can restart the game to try to score higher, **and the restarted game is considered to be a new game.**
 
-![replay](https://raw.githubusercontent.com/imJeffZ/GameCenter2018Public/master/readme_resources/application_screenshots/replay.png)
+![replay](https://raw.githubusercontent.com/imJeffZ/GameCenter2018/master/readme_resources/application_screenshots/replay.png)
 
 ##### Global Scoreboard
 
 There is also a `Global ScoreBoard` that records the scores and player email of every completed game.
 
-![globalscoreboard_button](https://raw.githubusercontent.com/imJeffZ/GameCenter2018Public/master/readme_resources/application_screenshots/globalscoreboard_button.png)
+![globalscoreboard_button](https://raw.githubusercontent.com/imJeffZ/GameCenter2018/master/readme_resources/application_screenshots/globalscoreboard_button.png)
 
-![globalscoreboard_record](https://raw.githubusercontent.com/imJeffZ/GameCenter2018Public/master/readme_resources/application_screenshots/globalscoreboard_record.png)
+![globalscoreboard_record](https://raw.githubusercontent.com/imJeffZ/GameCenter2018/master/readme_resources/application_screenshots/globalscoreboard_record.png)
 
 ##### Saved Games
 
 Users can view all saved games by clicking the `LOAD GAME` button in a game's welcome page.
 
-![load_games](https://raw.githubusercontent.com/imJeffZ/GameCenter2018Public/master/readme_resources/application_screenshots/load_games.png)
+![load_games](https://raw.githubusercontent.com/imJeffZ/GameCenter2018/master/readme_resources/application_screenshots/load_games.png)
 
 There are two types of save:
 
@@ -245,6 +246,6 @@ There are two types of save:
 
 Click `LOAD AUTOSAVE GAME` or `LOAD SAVED GAME` to proceed to the *Saved Games* page.
 
-![savedgames](https://raw.githubusercontent.com/imJeffZ/GameCenter2018Public/master/readme_resources/application_screenshots/savedgames.png)
+![savedgames](https://raw.githubusercontent.com/imJeffZ/GameCenter2018/master/readme_resources/application_screenshots/savedgames.png)
 
 You can click on any record to go back to your saved game.
